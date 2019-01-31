@@ -1,0 +1,27 @@
+{
+  "name": "slate",
+  "version": "0.0.1-SNAPSHOT",
+  "description": "Free online tutorials on STEM topics.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brandongit2/slate.git"
+  },
+  "author": "Brandon Tsang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brandongit2/slate/issues"
+  },
+  "homepage": "https://github.com/brandongit2/slate#readme",
+  "dependencies": {
+    "next": "^7.0.2",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
+  }
+}
