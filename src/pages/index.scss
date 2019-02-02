@@ -1,0 +1,26 @@
+.layout {
+    #container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        width: 80vw;
+        max-width: 100em;
+        height: 80%;
+
+        display: flex;
+        align-items: center;
+
+        #info-box {
+            flex-basis: 0;
+            flex-grow: 3;
+            height: fit-content;
+        }
+
+        #courses {
+            flex-basis: 0;
+            flex-grow: 2;
+        }
+    }
+}
