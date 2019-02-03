@@ -1,5 +1,14 @@
+import axios from 'axios';
+
 import {actionTypes} from '../constants';
 
-export const getCourses = () => ({
-    type: actionTypes.GET_COURSES
-});
+const apiPrefix = '/api';
+
+export const getCourses = () => dispatch => {
+    axios.get(apiPrefix + '/courses')
+        .then(res => dispatch({
+            type: actionTypes.GET_COURSES,
+            data: res.data
+        }))
+        .catch(err => console.log(err));
+};

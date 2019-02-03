@@ -1,17 +1,20 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
+import {getCourses} from '../actions';
 import {Layout} from '../components';
 import {CourseCard} from '../components/landingPage';
 import {colors} from '../config.json';
 import css from './landing.scss';
 
-export default class Landing extends React.Component {
+class Landing extends React.Component {
     state = {
         currentSubject: 'math'
     };
 
     componentDidMount() {
         history.replaceState({}, '', '/');
+        this.props.getCourses();
     }
 
     render() {
@@ -33,3 +36,9 @@ export default class Landing extends React.Component {
         );
     }
 }
+
+const mapDispatchToProps = dispatch => ({
+    getCourses: () => dispatch(getCourses())
+});
+
+export default connect(null, mapDispatchToProps)(Landing);

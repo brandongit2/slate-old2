@@ -4,9 +4,6 @@
 
 import Head from 'next/head';
 import React from 'react';
-import {Provider} from 'react-redux';
-
-import store from '../store';
 
 const layoutStyles = {
     width:  '100vw',
@@ -14,26 +11,24 @@ const layoutStyles = {
 };
 
 const Layout = props => (
-    <Provider store={store}>
-        <div className={props.className} style={Object.assign(layoutStyles, props.style)}>
-            <Head>
-                <title>{props.title}</title>
-                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-            </Head>
-            <style jsx global>{`
-                @import url('https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900');
+    <div className={props.className} style={Object.assign(layoutStyles, props.style)}>
+        <Head>
+            <title>{props.title}</title>
+            <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        </Head>
+        <style jsx global>{`
+            @import url('https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900');
 
-                body {
-                    margin: 0;
-                }
+            body {
+                margin: 0;
+            }
 
-                p, span, h1, h2, h3, h4, h5, h6, input, textarea, button, div {
-                    font-family: 'Lato', sans-serif;
-                }
-            `}</style> {/* eslint-disable-line react/jsx-closing-tag-location */}
-            {props.children}
-        </div>
-    </Provider>
+            p, span, h1, h2, h3, h4, h5, h6, input, textarea, button, div {
+                font-family: 'Lato', sans-serif;
+            }
+        `}</style> {/* eslint-disable-line react/jsx-closing-tag-location */}
+        {props.children}
+    </div>
 );
 
 Layout.defaultProps = {
