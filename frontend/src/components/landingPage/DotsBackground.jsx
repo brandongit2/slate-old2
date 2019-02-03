@@ -77,7 +77,7 @@ export default class DotsBackground extends React.Component {
                     } catch {}
                 } while (++x <= i && --y >= 0);
                 if (++i > Math.max(dotArray.length, dotArray[0].length) * 2) clearInterval(interval);
-            }, 10);
+            }, 25);
         } else {
             for (let x = 0; x < dotArray.length; x++) {
                 for (let y = 0; y < dotArray[0].length; y++) {

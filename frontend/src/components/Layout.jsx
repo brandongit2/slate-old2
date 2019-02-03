@@ -25,6 +25,7 @@ const Layout = props => (
 
             p, span, h1, h2, h3, h4, h5, h6, input, textarea, button, div {
                 font-family: 'Lato', sans-serif;
+                margin: 0;
             }
         `}</style> {/* eslint-disable-line react/jsx-closing-tag-location */}
         {props.children}

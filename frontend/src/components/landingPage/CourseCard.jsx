@@ -17,8 +17,7 @@ class CourseCard extends React.Component {
             <div className={css['course-card']}
                  onMouseEnter={this.handleMouseEnter}
                  onMouseLeave={this.handleMouseLeave}>
-                <span>{props.name}</span>
-                <span>{props.description}</span>
+                <span className={css.title}>{props.name.toUpperCase()}</span>
             </div>
         );
     }

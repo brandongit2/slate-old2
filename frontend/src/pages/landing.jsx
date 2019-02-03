@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {generate} from 'shortid';
 
 import {getCourses} from '../actions';
 import {Layout} from '../components';
@@ -31,19 +30,30 @@ class Landing extends React.Component {
     }
 
     render() {
+        const currentCourse = this.props.courses.filter(course => course.name === this.state.currentCourse)[0];
         return (
             <Layout title="Slate"
-                    className={css.layout}
-                    style={{
-                        color: '#ddd'
-                    }}>
+                    className={css.layout}>
                 <div id={css.container}>
                     <div id={css['info-box']}>
-                        <span>What would you like to learn today?</span>
+                        <div id={css['prompt-container']}>
+                            <span id={css.prompt}>What would you like to learn today?</span>
+                        </div>
+                        <div id={css.info} className={this.state.currentCourse === 'none' ? css.hidden : ''}>
+                            {this.state.currentCourse !== 'none'
+                                ? (
+                                    <React.Fragment>
+                                        <span id={css.title}>{currentCourse.name}</span>
+                                        <p id={css.description}>{currentCourse.description}</p>
+                                    </React.Fragment>
+                                ) : null
+                            }
+
+                        </div>
                     </div>
                     <div id={css.courses}>
                         {this.props.courses.map(course => (
-                            <CourseCard key={generate()}
+                            <CourseCard key={course.name}
                                         name={course.name}
                                         description={course.description}
                                         onHover={this.handleHover}
