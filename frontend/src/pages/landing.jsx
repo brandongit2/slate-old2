@@ -1,8 +1,9 @@
 import React from 'react';
 
 import {Layout} from '../components';
+import {CourseCard} from '../components/landingPage';
 import {colors} from '../config.json';
-import css from './index.scss';
+import css from './landing.scss';
 
 export default class Landing extends React.Component {
     state = {

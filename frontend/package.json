@@ -1,9 +1,11 @@
 {
-  "name": "slate",
+  "name": "slate-frontend",
   "version": "0.0.1-SNAPSHOT",
-  "description": "Free online tutorials on STEM topics.",
-  "main": "index.js",
+  "description": "The frontend for Slate.",
   "scripts": {
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "next start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,9 +19,15 @@
   },
   "homepage": "https://github.com/brandongit2/slate#readme",
   "dependencies": {
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.13.0",
-    "eslint-plugin-react": "^7.12.4",
-    "stylelint": "^9.10.1"
+    "@zeit/next-sass": "^1.0.1",
+    "acorn": "^6.0.6",
+    "express": "^4.16.4",
+    "next": "^7.0.2",
+    "node-sass": "^4.11.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-redux": "^6.0.0",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
   }
 }
