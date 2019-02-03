@@ -1,9 +1,13 @@
 {
     "colors": {
+        "none": {
+            "main": "#555555"
+        },
         "math": {
-            "bg1": "#4073d9",
-            "bg2": "#1e3565",
-            "text": "#ffffff"
+            "main": "#4073d9"
+        },
+        "biology": {
+            "main": "#d13692"
         }
     }
 }
