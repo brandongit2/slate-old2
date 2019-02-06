@@ -4,11 +4,12 @@ import {actionTypes} from '../constants';
 
 const apiPrefix = '/api';
 
-export const getCourses = () => dispatch => {
-    axios.get(apiPrefix + '/courses')
-        .then(res => dispatch({
-            type: actionTypes.GET_COURSES,
-            data: res.data
-        }))
-        .catch(err => console.log(err));
+export const getCourses = () => async dispatch => {
+    let subjects = await axios.get(apiPrefix + '/subjects');
+    let courses = await axios.get(apiPrefix + '/courses');
+
+    dispatch({
+        type: actionTypes.GET_COURSES,
+        subjects, courses
+    });
 };

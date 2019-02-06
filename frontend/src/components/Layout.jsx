@@ -5,6 +5,8 @@
 import Head from 'next/head';
 import React from 'react';
 
+import {Header} from './';
+
 const layoutStyles = {
     width:  '100vw',
     height: '100vh'
@@ -19,6 +21,10 @@ const Layout = props => (
         <style jsx global>{`
             @import url('https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900');
 
+            :root {
+                --text-color: ${props.textColor}
+            }
+
             body {
                 margin: 0;
             }
@@ -28,14 +34,17 @@ const Layout = props => (
                 margin: 0;
             }
         `}</style> {/* eslint-disable-line react/jsx-closing-tag-location */}
+        <Header float={props.headerFloat} />
         {props.children}
     </div>
 );
 
 Layout.defaultProps = {
-    className: '',
-    style:     {},
-    title:     'Slate'
+    className:   '',
+    headerFloat: false,
+    style:       {},
+    textColor:   '#000000',
+    title:       'Slate'
 };
 
 export default Layout;

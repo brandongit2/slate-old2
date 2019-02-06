@@ -1,0 +1,15 @@
+.subject {
+    width: 20em;
+    border-left: 2px solid var(--color);
+    padding-left: 10px;
+
+    .title {
+        font-size: 18pt;
+        color: var(--color);
+    }
+
+    .course {
+        font-size: 12pt;
+        margin: 5px 0px;
+    }
+}
