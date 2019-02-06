@@ -1,33 +1,48 @@
+import Link from 'next/link';
+
 import {Button} from './';
 import css from './Header.scss';
 
-const leftEntries = [
-    'courses',
-    'about',
-    'blog',
-    'donate'
-];
-
-const rightEntries = [
-    'sign in',
-    'register'
-];
+// Keys are the text shown in the header, entries are the URL they lead to.
+// example: 'blog' would link to slate.brandontsang.net/blog
+const leftEntries = {
+    courses: 'courses',
+    about:   'about',
+    blog:    'blog',
+    donate:  'donate'
+};
+const rightEntries = {
+    'log in': 'login',
+    register: 'register'
+};
 
 const Header = props => (
     <div id={css.header} className={props.float ? css.float : ''}>
-        <img src="/static/slate-logo.svg" alt="Slate logo" />
+        <Link href="/courses">
+            <a id={css.logo}>
+                <img src="/static/slate-logo.svg" alt="Slate logo" style={{height: '100%'}} />
+            </a>
+        </Link>
         <nav>
             <ul id={css.links}>
-                {leftEntries.map(entry => (
+                {Object.keys(leftEntries).map(entry => (
                     <li key={entry} className={props.currentPage === entry ? css.bold : ''}>
-                        <Button>{entry.toUpperCase()}</Button>
+                        <Link href={'/' + leftEntries[entry]} prefetch>
+                            <a>
+                                <Button>{entry.toUpperCase()}</Button>
+                            </a>
+                        </Link>
                     </li>
                 ))}
             </ul>
             <ul id={css.actions}>
-                {rightEntries.map(entry => (
+                {Object.keys(rightEntries).map(entry => (
                     <li key={entry} className={props.currentPage === entry ? css.bold : ''}>
-                        <Button>{entry.toUpperCase()}</Button>
+                        <Link href={'/' + rightEntries[entry]} prefetch>
+                            <a>
+                                <Button>{entry.toUpperCase()}</Button>
+                            </a>
+                        </Link>
                     </li>
                 ))}
             </ul>
@@ -36,7 +51,7 @@ const Header = props => (
 );
 
 Header.defaultProps = {
-    currentPage: 'courses',
+    currentPage: '',
     float:       false
 };
 

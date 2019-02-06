@@ -34,7 +34,7 @@ const Layout = props => (
                 margin: 0;
             }
         `}</style> {/* eslint-disable-line react/jsx-closing-tag-location */}
-        <Header float={props.headerFloat} />
+        <Header currentPage={props.currentPage} float={props.headerFloat} />
         {props.children}
     </div>
 );

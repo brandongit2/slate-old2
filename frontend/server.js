@@ -1,13 +1,21 @@
 const express = require('express');
 const next = require('next');
 
-const dev = process.env.NODE_ENV !== 'production';
-const app = next({dev, dir: './src'});
+const app = next({
+    dev: process.env.NODE_ENV !== 'production',
+    dir: './src'
+});
 const handle = app.getRequestHandler();
 
 app.prepare()
     .then(() => {
         const server = express();
+
+        server.get('/subject/:subject', (req, res) => {
+            const actualPage = '/subject';
+            const queryParams = {subject: req.params.subject};
+            app.render(req, res, actualPage, queryParams);
+        });
 
         server.get('*', (req, res) => {
             return handle(req, res);

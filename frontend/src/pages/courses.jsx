@@ -6,15 +6,17 @@ import {Layout} from '../components';
 import {Subject} from '../components/landingPage';
 import css from './courses.scss';
 
-class Landing extends React.Component {
-    componentDidMount() {
-        this.props.getCourses();
+class Courses extends React.Component {
+    static getInitialProps({store}) {
+        return store.dispatch(getCourses());
     }
 
     render() {
         const {props} = this;
         return (
-            <Layout title="Courses - Slate" className={css.layout}>
+            <Layout currentPage="courses"
+                    title="Courses - Slate"
+                    className={css.layout}>
                 <div id={css.container}>
                     <span id={css.prompt}>What would you like to learn today?</span>
                     <div id={css.courses}>
@@ -38,8 +40,4 @@ const mapStateToProps = state => ({
     subjects: state.subjects
 });
 
-const mapDispatchToProps = dispatch => ({
-    getCourses: () => dispatch(getCourses())
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Landing);
+export default connect(mapStateToProps)(Courses);
