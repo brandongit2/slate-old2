@@ -362,7 +362,7 @@
             "error",
             "after-props"
         ],
-        "react/jsx-closing-tag-location": "error",
+        "react/jsx-closing-tag-location": "warn",
         "react/jsx-curly-spacing": "error",
         "react/jsx-equals-spacing": "error",
         "react/jsx-indent": "error",

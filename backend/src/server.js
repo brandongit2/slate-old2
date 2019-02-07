@@ -1,7 +1,7 @@
 import express from 'express';
 import mysql from 'promise-mysql';
 
-import * as mysqlCreds from './mysqlCreds.json';
+import * as mysqlCreds from '../../mysqlCreds.json';
 
 const app = express();
 const pool = mysql.createPool({
@@ -52,8 +52,9 @@ app.get(apiUrl + '/subjects', async (req, srvRes) => {
 
 // <URL>/api/courses[?subject=<subject_id>]
 app.get(apiUrl + '/courses', async (req, srvRes) => {
-    const query = req.query.subject
-        ? /* Select all courses within a subject */ `
+    let query;
+    if (req.query.subject) { // Select all courses within a subject
+        query = `
             SELECT
                 courses.id,
                 courses.name,
@@ -61,9 +62,11 @@ app.get(apiUrl + '/courses', async (req, srvRes) => {
                 GROUP_CONCAT(units.id) AS units
             FROM courses
             LEFT JOIN units ON units.course_id=courses.id
-            WHERE courses.subject_id=${req.params.subject}
+            WHERE courses.subject_id=${req.query.subject}
             GROUP BY courses.id
-        ` : /* Select all courses */ `
+        `;
+    } else { // Select all courses
+        query = `
             SELECT
                 courses.id,
                 courses.name,
@@ -73,6 +76,7 @@ app.get(apiUrl + '/courses', async (req, srvRes) => {
             LEFT JOIN units ON units.course_id=courses.id
             GROUP BY courses.id
         `;
+    }
 
     let courses = await pool.query(query);
 
@@ -94,7 +98,7 @@ app.get(apiUrl + '/courses', async (req, srvRes) => {
 // <URL>/api/units[?course=<course_id> | ?subject=<subject_id>]
 app.get(apiUrl + '/units', async (req, srvRes) => {
     let query;
-    if (req.params.course) { // Select all units within a course
+    if (req.query.course) { // Select all units within a course
         query = `
             SELECT
                 units.id
@@ -104,10 +108,10 @@ app.get(apiUrl + '/units', async (req, srvRes) => {
             FROM units
             LEFT JOIN articles ON units.id=articles.unit_id
             LEFT JOIN courses ON courses.id=units.course_id
-            WHERE courses.name=${req.params.course}
+            WHERE courses.name=${req.query.course}
             GROUP BY units.id
         `;
-    } else if (req.params.subject) { // Select all units within a subject
+    } else if (req.query.subject) { // Select all units within a subject
         query = `
             SELECT
                 units.id,
@@ -118,7 +122,7 @@ app.get(apiUrl + '/units', async (req, srvRes) => {
             LEFT JOIN articles ON units.id=articles.unit_id
             LEFT JOIN courses ON courses.id=units.course_id
             LEFT JOIN subjects ON subjects.id=courses.subject_id
-            WHERE subjects.id=${req.params.subject}
+            WHERE subjects.id=${req.query.subject}
             GROUP BY units.id
         `;
     } else { // Select all units
@@ -153,7 +157,7 @@ app.get(apiUrl + '/units', async (req, srvRes) => {
 // <URL>/api/articles[?unit=<unit_id> | ?course=<course_id> | ?subject=<subject_id>]
 app.get(apiUrl + '/articles', async (req, srvRes) => {
     let query;
-    if (req.params.unit) { // Get all articles within a unit
+    if (req.query.unit) { // Get all articles within a unit
         query = `
             SELECT
                 articles.id,
@@ -165,7 +169,7 @@ app.get(apiUrl + '/articles', async (req, srvRes) => {
             LEFT JOIN units ON articles.unit_id=units.id
             WHERE units.id=${req.query.unit}
         `;
-    } else if (req.params.course) { // Get all articles within a course
+    } else if (req.query.course) { // Get all articles within a course
         query = `
             SELECT
                 articles.id,
@@ -178,7 +182,7 @@ app.get(apiUrl + '/articles', async (req, srvRes) => {
             LEFT JOIN courses ON units.course_id=courses.id
             WHERE courses.id=${req.query.course}
         `;
-    } else if (req.params.subject) { // Get all articles within a subject
+    } else if (req.query.subject) { // Get all articles within a subject
         query = `
             SELECT
                 articles.id,

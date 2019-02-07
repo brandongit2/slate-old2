@@ -1,27 +1,45 @@
 import {withRouter} from 'next/router';
+import React from 'react';
 import {connect} from 'react-redux';
 
+import {changeSubject, getCoursesBySubject} from '../actions';
 import {Layout} from '../components';
 import {kebabToProper} from '../util';
 import css from './subject.scss';
 
-const Subject = withRouter(props => (
-    <Layout currentPage=""
-            title={kebabToProper(props.router.query.subject) + ' - Slate'}>
-        <style jsx>{`
-            --color: red;
-        `}</style> {/* eslint-disable-line react/jsx-closing-tag-location */}
-        <div id={css.container}>
-            <header>
-                <p id={css['label-courses']}>SUBJECT</p>
-                <p id={css.title}>{kebabToProper(props.router.query.subject)}</p>
-            </header>
-        </div>
-    </Layout>
-));
+class Subject extends React.Component {
+    static async getInitialProps({store, query}) {
+        await store.dispatch(changeSubject(query.subject));
+        await store.dispatch(getCoursesBySubject(query.subject));
+    }
+
+    render() {
+        const {props} = this;
+        return (
+            <Layout currentPage=""
+                    title={kebabToProper(props.subject.name) + ' - Slate'}>
+                <style jsx>{`
+                    --color: #${props.subject.color};
+                `}</style> {/* eslint-disable-line react/jsx-closing-tag-location */}
+                <div id={css.container}>
+                    <div id={css.info}>
+                        <p id={css['label-courses']}>SUBJECT</p>
+                        <p id={css.title}>{kebabToProper(props.subject.name)}</p>
+                    </div>
+                    <div id={css['course-list']}>
+                        {Object.entries(props.courses).map(([id, course]) => (
+                            <p key={id}>{kebabToProper(course.name)}</p>
+                        ))}
+                    </div>
+                </div>
+            </Layout>
+        );
+    }
+}
 
 const mapStateToProps = state => ({
-    currentSubject: state.currentSubject
+    subject: state.subjects[state.currentSubject],
+    courses: state.currentCourses
 });
 
-export default connect(mapStateToProps)(Subject);
+export default withRouter(connect(mapStateToProps)(Subject));

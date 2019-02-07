@@ -6,14 +6,9 @@ const apiPrefix1 = '/api';
 const apiPrefix2 = 'http://localhost:8080/api';
 
 export const getCourses = () => async dispatch => {
-    let subjects, courses;
-    if (!process.env) {
-        subjects = await axios.get(apiPrefix1 + '/subjects');
-        courses = await axios.get(apiPrefix1 + '/courses');
-    } else {
-        subjects = await axios.get(apiPrefix2 + '/subjects');
-        courses = await axios.get(apiPrefix2 + '/courses');
-    }
+    const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
+    const subjects = await axios.get(apiPrefix + '/subjects');
+    const courses = await axios.get(apiPrefix + '/courses');
 
     dispatch({
         type: actionTypes.GET_COURSES,
@@ -21,15 +16,20 @@ export const getCourses = () => async dispatch => {
     });
 };
 
+export const getCoursesBySubject = subjectId => async dispatch => {
+    const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
+    const courses = await axios.get(apiPrefix + '/courses?subject=' + subjectId);
+
+    dispatch({
+        type: actionTypes.GET_COURSES_BY_SUBJECT,
+        courses
+    });
+};
+
 export const getArticlesByCourse = courseId => async dispatch => {
-    let units, articles;
-    if (!process.env) {
-        units = await axios.get(apiPrefix1 + '/units?course=' + courseId);
-        articles = await axios.get(apiPrefix1 + '/articles?course=' + courseId);
-    } else {
-        units = await axios.get(apiPrefix2 + '/units?course=' + courseId);
-        articles = await axios.get(apiPrefix2 + '/articles?course=' + courseId);
-    }
+    const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
+    const units = await axios.get(apiPrefix + '/units?course=' + courseId);
+    const articles = await axios.get(apiPrefix + '/articles?course=' + courseId);
 
     dispatch({
         type: actionTypes.GET_ARTICLES_BY_COURSE,

@@ -1,15 +1,41 @@
 import {withRouter} from 'next/router';
+import React from 'react';
+import {connect} from 'react-redux';
 
+import {changeCourse} from '../actions';
 import {Layout} from '../components';
 import {kebabToProper} from '../util';
 
-const Course = withRouter(props => (
-    <Layout title={`${kebabToProper(props.router.query.course)} - Slate`}>
-        <header>
-            <p>COURSE</p>
-            {props.router.query.course}
-        </header>
-    </Layout>
-));
+import css from './course.scss';
 
-export default Course;
+class Course extends React.Component {
+    static getInitialProps({store, query}) {
+        return store.dispatch(changeCourse(query.course));
+    }
+
+    render() {
+        const {props} = this;
+        const currentCourse = this.props.courses[props.router.query.course];
+        return (
+            <Layout currentPage=""
+                    title={`${kebabToProper(currentCourse.name)} - Slate`}>
+                <style jsx>{`
+                    --color: #${currentCourse.color};
+                `}</style> {/* eslint-disable-line react/jsx-closing-tag-location */}
+                <div id={css.container}>
+                    <header>
+                        <p id={css['label-courses']}>COURSE</p>
+                        <p id={css.title}>{kebabToProper(currentCourse.name)}</p>
+                    </header>
+                </div>
+            </Layout>
+        );
+    }
+}
+
+const mapStateToProps = state => ({
+    currentCourse: state.currentCourse,
+    courses:       state.courses
+});
+
+export default withRouter(connect(mapStateToProps)(Course));

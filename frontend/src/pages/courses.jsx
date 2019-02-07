@@ -21,12 +21,13 @@ class Courses extends React.Component {
                 <div id={css.container}>
                     <span id={css.prompt}>What would you like to learn today?</span>
                     <div id={css.courses}>
-                        {Object.values(props.subjects).map(subject => (
-                            <Subject key={subject.name}
-                                     name={subject.name}
-                                     color={subject.color}
-                                     courses={subject.courses.map(
-                                         courseId => props.courses[courseId]
+                        {Object.entries(props.subjects).map(entry => (
+                            <Subject key={entry[1].name}
+                                     id={entry[0]}
+                                     name={entry[1].name}
+                                     color={entry[1].color}
+                                     courses={entry[1].courses.map(
+                                         courseId => ({id: courseId, ...props.courses[courseId]})
                                      )} />
                              ))}
                     </div>

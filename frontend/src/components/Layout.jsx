@@ -6,6 +6,7 @@ import Head from 'next/head';
 import React from 'react';
 
 import {Header} from './';
+import css from './Layout.scss';
 
 const layoutStyles = {
     width:  '100vw',
@@ -13,7 +14,9 @@ const layoutStyles = {
 };
 
 const Layout = props => (
-    <div className={props.className} style={Object.assign(layoutStyles, props.style)}>
+    <div className={props.className}
+         id={css.layout}
+         style={Object.assign(layoutStyles, props.style)}>
         <Head>
             <title>{props.title}</title>
             <meta name="viewport" content="initial-scale=1.0, width=device-width" />

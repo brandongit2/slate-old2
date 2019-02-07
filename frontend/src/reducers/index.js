@@ -19,5 +19,11 @@ export default combineReducers({
             return action.newCourse;
         }
         return state;
+    },
+    currentCourses: (state = null, action) => {
+        if (action.type === actionTypes.GET_COURSES_BY_SUBJECT) {
+            return action.courses.data;
+        }
+        return state;
     }
 });

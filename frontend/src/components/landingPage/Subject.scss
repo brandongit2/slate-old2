@@ -7,8 +7,21 @@
         font-size: 18pt;
         color: var(--color);
         display: inline-block;
-        margin-bottom: 10px;
         text-decoration: none;
+
+        &::after {
+            content: '';
+            display: block;
+            background: var(--color);
+            width: 0px;
+            height: 2px;
+            margin: 0px auto;
+            transition: width 0.2s;
+        }
+
+        &:hover::after {
+            width: 100%;
+        }
     }
 
     .course {

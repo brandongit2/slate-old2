@@ -1,5 +1,8 @@
 const express = require('express');
+const mysql = require('promise-mysql');
 const next = require('next');
+
+const mysqlCreds = require('../mysqlCreds.json');
 
 const app = next({
     dev: process.env.NODE_ENV !== 'production',
@@ -7,19 +10,31 @@ const app = next({
 });
 const handle = app.getRequestHandler();
 
+const pool = mysql.createPool({
+    connectionLimit: 10,
+    user:            mysqlCreds.user,
+    password:        mysqlCreds.pass,
+    host:            mysqlCreds.host,
+    database:        'slate'
+});
+
 app.prepare()
     .then(() => {
         const server = express();
 
-        server.get('/subject/:subject', (req, res) => {
+        server.get('/subject/:subject', async (req, res) => {
             const actualPage = '/subject';
-            const queryParams = {subject: req.params.subject};
+            const subjectId = (await pool.query(`SELECT id FROM subjects WHERE name='${req.params.subject}'`))[0].id;
+
+            const queryParams = {subject: subjectId};
             app.render(req, res, actualPage, queryParams);
         });
 
-        server.get('/subject/*/:course', (req, res) => {
+        server.get('/subject/*/:course', async (req, res) => {
             const actualPage = '/course';
-            const queryParams = {course: req.params.course};
+            const courseId = (await pool.query(`SELECT id FROM courses WHERE name='${req.params.course}'`))[0].id;
+
+            const queryParams = {course: courseId};
             app.render(req, res, actualPage, queryParams);
         });
 
