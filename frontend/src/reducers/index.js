@@ -1,8 +1,23 @@
 import {combineReducers} from 'redux';
 
-import courses from './coursesReducers';
 import subjects from './subjectsReducers';
+import courses from './coursesReducers';
+import units from './unitsReducers';
+import articles from './articlesReducers';
+import {actionTypes} from '../constants';
 
 export default combineReducers({
-    courses, subjects
+    subjects, courses, units, articles,
+    currentSubject: (state = null, action) => {
+        if (action.type === actionTypes.CHANGE_SUBJECT) {
+            return action.newSubject;
+        }
+        return state;
+    },
+    currentCourse: (state = null, action) => {
+        if (action.type === actionTypes.CHANGE_COURSE) {
+            return action.newCourse;
+        }
+        return state;
+    }
 });

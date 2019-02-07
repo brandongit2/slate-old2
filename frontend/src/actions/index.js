@@ -1,22 +1,13 @@
-import axios from 'axios';
-
 import {actionTypes} from '../constants';
 
-const apiPrefix1 = '/api';
-const apiPrefix2 = 'http://localhost:3001/api'; // For local dev environment (SSR)
+export * from './api';
 
-export const getCourses = () => async dispatch => {
-    let subjects, courses;
-    try {
-        subjects = await axios.get(apiPrefix1 + '/subjects');
-        courses = await axios.get(apiPrefix1 + '/courses');
-    } catch {
-        subjects = await axios.get(apiPrefix2 + '/subjects');
-        courses = await axios.get(apiPrefix2 + '/courses');
-    }
+export const changeSubject = newSubject => ({
+    type: actionTypes.CHANGE_SUBJECT,
+    newSubject
+});
 
-    dispatch({
-        type: actionTypes.GET_COURSES,
-        subjects, courses
-    });
-};
+export const changeCourse = newCourse => ({
+    type: actionTypes.CHANGE_COURSE,
+    newCourse
+});

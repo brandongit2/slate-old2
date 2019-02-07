@@ -1,14 +1,15 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {getCourses} from '../actions';
+import {changeSubject, changeCourse} from '../actions';
 import {Layout} from '../components';
 import {Subject} from '../components/landingPage';
 import css from './courses.scss';
 
 class Courses extends React.Component {
-    static getInitialProps({store}) {
-        return store.dispatch(getCourses());
+    componentDidMount() {
+        this.props.changeSubject(null);
+        this.props.changeCourse(null);
     }
 
     render() {
@@ -20,7 +21,7 @@ class Courses extends React.Component {
                 <div id={css.container}>
                     <span id={css.prompt}>What would you like to learn today?</span>
                     <div id={css.courses}>
-                        {props.subjects.map(subject => (
+                        {Object.values(props.subjects).map(subject => (
                             <Subject key={subject.name}
                                      name={subject.name}
                                      color={subject.color}
@@ -40,4 +41,9 @@ const mapStateToProps = state => ({
     subjects: state.subjects
 });
 
-export default connect(mapStateToProps)(Courses);
+const mapDispatchToProps = dispatch => ({
+    changeSubject: newSubject => dispatch(changeSubject(newSubject)),
+    changeCourse:  newCourse => dispatch(changeCourse(newCourse))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Courses);

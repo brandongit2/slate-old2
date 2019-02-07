@@ -1,5 +1,5 @@
 .subject {
-    width: 20em;
+    width: max-content;
     border-left: 2px solid var(--color);
     padding-left: 10px;
 
@@ -14,5 +14,13 @@
     .course {
         font-size: 12pt;
         margin: 5px 0px;
+        color: var(--secondary-text-color);
+        text-decoration: none;
+        display: block;
+        transition: color 0.3s;
+
+        &:hover {
+            color: var(--color);
+        }
     }
 }

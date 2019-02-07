@@ -7,7 +7,7 @@ export default class Index extends React.Component {
             res.writeHead(302, {Location: '/courses'});
             res.end();
         } else { // If being run on client
-            Router.push('/couses');
+            Router.push('/courses');
         }
     }
 }

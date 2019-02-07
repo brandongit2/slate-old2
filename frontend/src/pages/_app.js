@@ -15,9 +15,8 @@ const makeStore = initialState => createStore(
 );
 
 export default withRedux(makeStore)(class Slate extends App {
-    static async getInitialProps({Component, ctx}) {
-        const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
-        return {pageProps};
+    static async getInitialProps({ctx}) {
+        return {pageProps: await ctx.store.dispatch(getCourses())};
     }
 
     render() {

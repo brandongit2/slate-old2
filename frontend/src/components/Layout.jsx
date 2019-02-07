@@ -22,16 +22,22 @@ const Layout = props => (
             @import url('https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900');
 
             :root {
-                --text-color: ${props.textColor}
+                --text-color: #000;
+                --secondary-text-color: #444;
+                --tertiary-text-color: #999;
             }
 
             body {
                 margin: 0;
             }
 
-            p, span, h1, h2, h3, h4, h5, h6, input, textarea, button, div {
+            p, a, span, h1, h2, h3, h4, h5, h6, input, textarea, button, div {
                 font-family: 'Lato', sans-serif;
                 margin: 0;
+            }
+
+            a {
+                cursor: pointer;
             }
         `}</style> {/* eslint-disable-line react/jsx-closing-tag-location */}
         <Header currentPage={props.currentPage} float={props.headerFloat} />
@@ -43,7 +49,6 @@ Layout.defaultProps = {
     className:   '',
     headerFloat: false,
     style:       {},
-    textColor:   '#000000',
     title:       'Slate'
 };
 

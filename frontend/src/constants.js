@@ -1,3 +1,6 @@
 export const actionTypes = {
-    GET_COURSES: Symbol('get courses')
+    CHANGE_SUBJECT:         Symbol('change subject'),
+    CHANGE_COURSE:          Symbol('change course'),
+    GET_ARTICLES_BY_COURSE: Symbol('get articles by course'),
+    GET_COURSES:            Symbol('get courses')
 };

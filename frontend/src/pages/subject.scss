@@ -1,0 +1,15 @@
+#container {
+    padding: 2em;
+    box-sizing: border-box;
+
+    #label-courses {
+        color: var(--tertiary-text-color);
+        font-weight: 700;
+        font-size: 14pt;
+    }
+
+    #title {
+        font-size: 32pt;
+        color: var(--color);
+    }
+}

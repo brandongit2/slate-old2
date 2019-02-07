@@ -17,6 +17,12 @@ app.prepare()
             app.render(req, res, actualPage, queryParams);
         });
 
+        server.get('/subject/*/:course', (req, res) => {
+            const actualPage = '/course';
+            const queryParams = {course: req.params.course};
+            app.render(req, res, actualPage, queryParams);
+        });
+
         server.get('*', (req, res) => {
             return handle(req, res);
         });
