@@ -3,14 +3,10 @@
     display: flex;
     align-items: stretch;
 
-    --subject-text-color: #fff;
-    --secondary-subject-text-color: rgba(255, 255, 255, 0.7);
-    --tertiary-subject-text-color: rgba(255, 255, 255, 0.5);
-
     p, a, span {
         &::selection {
             background: var(--color);
-            color: white;
+            color: var(--subject-text-color);
         }
     }
 
@@ -77,12 +73,16 @@
     #course-list {
         flex-basis: 0px;
         flex-grow: 2;
-        padding: 2em;
-        box-sizing: border-box;
+
+        & > div {
+            max-width: 40em;
+            padding: 2em;
+            box-sizing: border-box;
+        }
 
         #courses-title {
             font-size: 32pt;
-            color: var(--color);
+            color: var(--title-color);
             margin-bottom: 0.5em;
         }
 

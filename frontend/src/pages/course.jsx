@@ -7,7 +7,7 @@ import {
     changeCourse, getSubject, getCourse, getUnitsByCourse, getArticlesByCourse
 } from '../actions';
 import {ArticleList, Layout} from '../components';
-import {kebabToProper} from '../util';
+import {contrasts, kebabToProper} from '../util';
 import css from './course.scss';
 
 class Course extends React.Component {
@@ -21,11 +21,16 @@ class Course extends React.Component {
 
     render() {
         const {props} = this;
+        const brightText = contrasts('ffffff', props.subject.color);
         return (
             <Layout currentPage=""
                     title={kebabToProper(props.course.name) + ' - Slate'}>
                 <style jsx>{`
                     --color: #${props.subject.color};
+                    --subject-text-color: ${brightText ? '#ffffff' : '#000000'};
+                    --secondary-subject-text-color: ${brightText ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 1)'};
+                    --tertiary-subject-text-color: ${brightText ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'};
+                    --title-color: ${brightText ? '#' + props.subjectColor : 'black'}
                 `}</style> {/* eslint-disable-line react/jsx-closing-tag-location */}
 
                 <div id={css.container}>
@@ -47,6 +52,8 @@ class Course extends React.Component {
                         <p id={css['units-title']}>Units</p>
                         {Object.entries(props.units).map(([id, unit]) => (
                             <ArticleList key={id}
+                                         subject={props.subject}
+                                         course={props.course}
                                          unitId={id}
                                          unit={unit}
                                          articles={unit.articles.map(articleId => {

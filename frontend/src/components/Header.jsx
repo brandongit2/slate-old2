@@ -19,7 +19,7 @@ const rightEntries = {
 const Header = props => (
     <div id={css.header}
          className={props.float ? css.float : ''}>
-        <Link href="/courses">
+        <Link href="/subjects">
             <a id={css.logo}>
                 <img src="/static/slate-logo.svg" alt="Slate logo" style={{height: '100%'}} />
             </a>

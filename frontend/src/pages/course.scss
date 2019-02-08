@@ -26,6 +26,13 @@
         align-items: center;
         box-shadow: inset 0px 0px 30px 0px rgba(0, 0, 0, 0.2);
 
+        p, a, span {
+            &::selection {
+                background: var(--subject-text-color);
+                color: var(--color);
+            }
+        }
+
         #breadcrumbs {
             position: absolute;
             top: 2em;
@@ -75,7 +82,7 @@
 
         #units-title {
             font-size: 32pt;
-            color: var(--color);
+            color: var(--title-color);
             margin-bottom: 0.5em;
         }
 

@@ -19,7 +19,9 @@
         font-size: 12pt;
         border-left: 2px solid var(--tertiary-text-color);
 
-        & > p {
+        & > a {
+            display: block;
+            width: max-content;
             margin-bottom: 5px;
             color: var(--secondary-text-color);
             transition: color 0.3s;

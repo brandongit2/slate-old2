@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import css from './ArticleList.scss';
 
 const ArticleList = props => (
@@ -8,7 +10,11 @@ const ArticleList = props => (
         </div>
         <div id={css.list}>
             {props.articles.map(article => (
-                <p key={article.id}>{article.title}</p>
+                <Link key={article.id}
+                      href={`/article?subject=${props.subject.id}&course=${props.course.id}&article=${article.id}`}
+                      as={`/subject/${props.subject.name}/${props.course.name}/${article.id}`}>
+                    <a key={article.id}>{article.title}</a>
+                </Link>
             ))}
         </div>
     </div>
