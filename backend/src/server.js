@@ -12,6 +12,7 @@ const pool = mysql.createPool({
     database:        'slate'
 });
 const apiUrl = '/api';
+const port = 3001;
 
 app.get('/', (req, res) => {
     res.end('Slate API root');
@@ -32,6 +33,36 @@ app.get(apiUrl + '/subjects', async (req, srvRes) => {
             GROUP_CONCAT(courses.id) AS courses
         FROM subjects
         LEFT JOIN courses ON courses.subject_id=subjects.id
+        GROUP BY subjects.id
+    `);
+
+    for (let subject of subjects) {
+        subject.courses = JSON.parse('[' + (subject.courses || '') + ']');
+    }
+
+    let subjectsObj = {};
+    subjects.map(subject => {
+        // Remove the `id` key from `subject`
+        let newSubject = {};
+        Object.entries(subject).slice(1).map(entry => newSubject[entry[0]] = entry[1]);
+        subjectsObj[subject.id] = newSubject;
+    });
+
+    srvRes.json(subjectsObj);
+});
+
+// <URL>/api/subjects/<subject_id>
+app.get(apiUrl + '/subjects/:id', async (req, srvRes) => {
+    let subjects = await pool.query(`
+        SELECT
+            subjects.id,
+            subjects.name,
+            subjects.description,
+            subjects.color,
+            GROUP_CONCAT(courses.id) AS courses
+        FROM subjects
+        LEFT JOIN courses ON courses.subject_id=subjects.id
+        WHERE subjects.id=${req.params.id}
         GROUP BY subjects.id
     `);
 
@@ -221,4 +252,4 @@ app.get(apiUrl + '/articles', async (req, srvRes) => {
     srvRes.json(articlesObj);
 });
 
-app.listen(3001, () => console.log('Slate backend running on port 3001.'));
+app.listen(port, () => console.log(`Slate backend running on port ${port}.`));

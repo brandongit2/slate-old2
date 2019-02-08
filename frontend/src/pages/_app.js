@@ -5,7 +5,6 @@ import {createStore, applyMiddleware} from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 
-import {getCourses} from '../actions';
 import rootReducer from '../reducers';
 
 const makeStore = initialState => createStore(
@@ -16,7 +15,6 @@ const makeStore = initialState => createStore(
 
 export default withRedux(makeStore)(class Slate extends App {
     static async getInitialProps({Component, ctx}) {
-        await ctx.store.dispatch(getCourses());
         const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
         return {pageProps};
     }

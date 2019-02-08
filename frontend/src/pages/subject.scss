@@ -1,28 +1,50 @@
 #container {
-    padding: 2em;
-    box-sizing: border-box;
     flex-grow: 1;
     display: flex;
-    align-items: center;
+    align-items: stretch;
+
+    --text-color: #fff;
+    --secondary-text-color: rgba(255, 255, 255, 0.7);
+    --tertiary-text-color: rgba(255, 255, 255, 0.5);
 
     #info {
         flex-basis: 0px;
         flex-grow: 1;
+        max-width: 25em;
+        padding: 2em;
+        box-sizing: border-box;
+        background: var(--color);
+        display: flex;
+        align-items: center;
+        box-shadow: inset 0px 0px 30px 0px rgba(0, 0, 0, 0.2);
 
         #label-courses {
             color: var(--tertiary-text-color);
-            font-weight: 700;
+            font-weight: 900;
             font-size: 14pt;
         }
 
         #title {
             font-size: 32pt;
-            color: var(--color);
+            color: var(--text-color);
+            margin: 0.2em 0;
+        }
+
+        #description {
+            color: var(--secondary-text-color);
         }
     }
 
     #course-list {
         flex-basis: 0px;
         flex-grow: 2;
+        padding: 2em;
+        box-sizing: border-box;
+
+        #courses-title {
+            font-size: 32pt;
+            color: var(--color);
+            margin-bottom: 0.5em;
+        }
     }
 }

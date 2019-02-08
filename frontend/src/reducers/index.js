@@ -20,9 +20,9 @@ export default combineReducers({
         }
         return state;
     },
-    currentCourses: (state = null, action) => {
-        if (action.type === actionTypes.GET_COURSES_BY_SUBJECT) {
-            return action.courses.data;
+    currentUnit: (state = null, action) => {
+        if (action.type === actionTypes.CHANGE_UNIT) {
+            return action.newUnit;
         }
         return state;
     }

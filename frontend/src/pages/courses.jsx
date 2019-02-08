@@ -1,15 +1,17 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {changeSubject, changeCourse} from '../actions';
+import {changeSubject, changeCourse, getAllSubjects, getAllCourses} from '../actions';
 import {Layout} from '../components';
 import {Subject} from '../components/landingPage';
 import css from './courses.scss';
 
 class Courses extends React.Component {
-    componentDidMount() {
-        this.props.changeSubject(null);
-        this.props.changeCourse(null);
+    static async getInitialProps({store}) {
+        await store.dispatch(getAllSubjects());
+        await store.dispatch(getAllCourses());
+        await store.dispatch(changeSubject(null));
+        await store.dispatch(changeCourse(null));
     }
 
     render() {
@@ -21,12 +23,12 @@ class Courses extends React.Component {
                 <div id={css.container}>
                     <span id={css.prompt}>What would you like to learn today?</span>
                     <div id={css.courses}>
-                        {Object.entries(props.subjects).map(entry => (
-                            <Subject key={entry[1].name}
-                                     id={entry[0]}
-                                     name={entry[1].name}
-                                     color={entry[1].color}
-                                     courses={entry[1].courses.map(
+                        {Object.entries(props.subjects).map(([id, subject]) => (
+                            <Subject key={id}
+                                     id={id}
+                                     name={subject.name}
+                                     color={subject.color}
+                                     courses={subject.courses.map(
                                          courseId => ({id: courseId, ...props.courses[courseId]})
                                      )} />
                              ))}
@@ -42,9 +44,4 @@ const mapStateToProps = state => ({
     subjects: state.subjects
 });
 
-const mapDispatchToProps = dispatch => ({
-    changeSubject: newSubject => dispatch(changeSubject(newSubject)),
-    changeCourse:  newCourse => dispatch(changeCourse(newCourse))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Courses);
+export default connect(mapStateToProps)(Courses);

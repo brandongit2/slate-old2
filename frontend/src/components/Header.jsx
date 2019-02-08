@@ -17,7 +17,8 @@ const rightEntries = {
 };
 
 const Header = props => (
-    <div id={css.header} className={props.float ? css.float : ''}>
+    <div id={css.header}
+         className={props.float ? css.float : ''}>
         <Link href="/courses">
             <a id={css.logo}>
                 <img src="/static/slate-logo.svg" alt="Slate logo" style={{height: '100%'}} />
@@ -51,8 +52,10 @@ const Header = props => (
 );
 
 Header.defaultProps = {
-    currentPage: '',
-    float:       false
+    currentPage:     '',
+    backgroundColor: '#ffffff',
+    textColor:       '#000000',
+    float:           false
 };
 
 export default Header;

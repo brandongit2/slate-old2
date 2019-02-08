@@ -1,0 +1,24 @@
+#container {
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-top: 1em;
+    padding: 1em;
+    transition: all 0.3s;
+    box-shadow: 0px 0px 0px 0px var(--color);
+    cursor: pointer;
+
+    &:hover {
+        border: 1px solid var(--color);
+        box-shadow: 0px 0px 0px 2px var(--color);
+    }
+
+    #name {
+        font-size: 16pt;
+        font-weight: 700;
+        margin-bottom: 0.3em;
+    }
+
+    #description {
+        color: #444;
+    }
+}

@@ -43,7 +43,9 @@ const Layout = props => (
                 cursor: pointer;
             }
         `}</style> {/* eslint-disable-line react/jsx-closing-tag-location */}
-        <Header currentPage={props.currentPage} float={props.headerFloat} />
+        <Header currentPage={props.currentPage}
+                float={props.headerFloat}
+                backgroundColor={props.headerColor} />
         {props.children}
     </div>
 );
