@@ -3,11 +3,19 @@
     display: flex;
     align-items: stretch;
 
-    --text-color: #fff;
-    --secondary-text-color: rgba(255, 255, 255, 0.7);
-    --tertiary-text-color: rgba(255, 255, 255, 0.5);
+    --subject-text-color: #fff;
+    --secondary-subject-text-color: rgba(255, 255, 255, 0.7);
+    --tertiary-subject-text-color: rgba(255, 255, 255, 0.5);
+
+    p, a, span {
+        &::selection {
+            background: var(--color);
+            color: white;
+        }
+    }
 
     #info {
+        position: relative;
         flex-basis: 0px;
         flex-grow: 1;
         max-width: 25em;
@@ -18,20 +26,51 @@
         align-items: center;
         box-shadow: inset 0px 0px 30px 0px rgba(0, 0, 0, 0.2);
 
-        #label-courses {
-            color: var(--tertiary-text-color);
+        p, a, span {
+            &::selection {
+                background: var(--subject-text-color);
+                color: var(--color);
+            }
+        }
+
+        #breadcrumbs {
+            position: absolute;
+            top: 2em;
+            left: 2em;
+            font-size: 10pt;
+
+            a {
+                color: var(--secondary-subject-text-color);
+                transition: color 0.2s;
+
+                &:hover {
+                    color: var(--subject-text-color);
+                }
+            }
+
+            span {
+                color: var(--secondary-subject-text-color);
+            }
+
+            span.arrow {
+                margin: 0px 10px;
+            }
+        }
+
+        #label-subject {
+            color: var(--tertiary-subject-text-color);
             font-weight: 900;
             font-size: 14pt;
         }
 
         #title {
             font-size: 32pt;
-            color: var(--text-color);
+            color: var(--subject-text-color);
             margin: 0.2em 0;
         }
 
         #description {
-            color: var(--secondary-text-color);
+            color: var(--secondary-subject-text-color);
         }
     }
 
@@ -45,6 +84,10 @@
             font-size: 32pt;
             color: var(--color);
             margin-bottom: 0.5em;
+        }
+
+        a {
+            text-decoration: none;
         }
     }
 }

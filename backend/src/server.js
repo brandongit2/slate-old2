@@ -63,7 +63,6 @@ app.get(apiUrl + '/subjects/:id', async (req, srvRes) => {
         FROM subjects
         LEFT JOIN courses ON courses.subject_id=subjects.id
         WHERE subjects.id=${req.params.id}
-        GROUP BY subjects.id
     `);
 
     for (let subject of subjects) {
@@ -88,6 +87,7 @@ app.get(apiUrl + '/courses', async (req, srvRes) => {
         query = `
             SELECT
                 courses.id,
+                courses.order,
                 courses.name,
                 courses.description,
                 GROUP_CONCAT(units.id) AS units
@@ -100,6 +100,7 @@ app.get(apiUrl + '/courses', async (req, srvRes) => {
         query = `
             SELECT
                 courses.id,
+                courses.order,
                 courses.name,
                 courses.description,
                 GROUP_CONCAT(units.id) AS units
@@ -126,26 +127,57 @@ app.get(apiUrl + '/courses', async (req, srvRes) => {
     srvRes.json(coursesObj);
 });
 
+// <URL>/api/courses/<course_id>
+app.get(apiUrl + '/courses/:id', async (req, srvRes) => {
+    let courses = await pool.query(`
+        SELECT
+            courses.id,
+            courses.order,
+            courses.name,
+            courses.description,
+            GROUP_CONCAT(units.id) AS units
+        FROM courses
+        LEFT JOIN units ON units.course_id=courses.id
+        WHERE courses.id=${req.params.id}
+    `);
+
+    for (let course of courses) {
+        course.units = JSON.parse('[' + (course.units || '') + ']');
+    }
+
+    let coursesObj = {};
+    courses.map(course => {
+        // Remove the `id` key from `course`
+        let newCourse = {};
+        Object.entries(course).slice(1).map(entry => newCourse[entry[0]] = entry[1]);
+        coursesObj[course.id] = newCourse;
+    });
+
+    srvRes.json(coursesObj);
+});
+
 // <URL>/api/units[?course=<course_id> | ?subject=<subject_id>]
 app.get(apiUrl + '/units', async (req, srvRes) => {
     let query;
     if (req.query.course) { // Select all units within a course
         query = `
             SELECT
-                units.id
+                units.id,
+                units.order,
                 units.name,
                 units.description,
                 GROUP_CONCAT(articles.id) AS articles
             FROM units
             LEFT JOIN articles ON units.id=articles.unit_id
             LEFT JOIN courses ON courses.id=units.course_id
-            WHERE courses.name=${req.query.course}
+            WHERE courses.id=${req.query.course}
             GROUP BY units.id
         `;
     } else if (req.query.subject) { // Select all units within a subject
         query = `
             SELECT
                 units.id,
+                units.order,
                 units.name,
                 units.description,
                 GROUP_CONCAT(articles.id) AS articles
@@ -160,6 +192,7 @@ app.get(apiUrl + '/units', async (req, srvRes) => {
         query = `
             SELECT
                 units.id,
+                units.order,
                 units.name,
                 units.description,
                 GROUP_CONCAT(articles.id) AS articles
@@ -171,7 +204,7 @@ app.get(apiUrl + '/units', async (req, srvRes) => {
     let units = await pool.query(query);
 
     for (let unit of units) {
-        unit.units = JSON.parse('[' + (unit.articles || '') + ']');
+        unit.articles = JSON.parse('[' + (unit.articles || '') + ']');
     }
 
     let unitsObj = {};
@@ -192,6 +225,7 @@ app.get(apiUrl + '/articles', async (req, srvRes) => {
         query = `
             SELECT
                 articles.id,
+                articles.order,
                 articles.title,
                 articles.publish_date AS publishDate,
                 articles.update_date AS updateDate,
@@ -204,6 +238,7 @@ app.get(apiUrl + '/articles', async (req, srvRes) => {
         query = `
             SELECT
                 articles.id,
+                articles.order,
                 articles.title,
                 articles.publish_date AS publishDate,
                 articles.update_date AS updateDate,
@@ -217,6 +252,7 @@ app.get(apiUrl + '/articles', async (req, srvRes) => {
         query = `
             SELECT
                 articles.id,
+                articles.order,
                 articles.title,
                 articles.publish_date AS publishDate,
                 articles.update_date AS updateDate,
@@ -231,6 +267,7 @@ app.get(apiUrl + '/articles', async (req, srvRes) => {
         query = `
             SELECT
                 id,
+                order,
                 title,
                 publish_date AS publishDate,
                 update_date AS updateDate,

@@ -6,10 +6,10 @@ import css from './Header.scss';
 // Keys are the text shown in the header, entries are the URL they lead to.
 // example: 'blog' would link to slate.brandontsang.net/blog
 const leftEntries = {
-    courses: 'courses',
-    about:   'about',
-    blog:    'blog',
-    donate:  'donate'
+    subjects: 'subjects',
+    about:    'about',
+    blog:     'blog',
+    donate:   'donate'
 };
 const rightEntries = {
     'log in': 'login',

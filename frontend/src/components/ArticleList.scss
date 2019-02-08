@@ -1,0 +1,33 @@
+#article-list {
+    margin-bottom: 1em;
+
+    #unit-header {
+        font-size: 14pt;
+        font-weight: 400;
+        margin-bottom: 0.5em;
+
+        .unit-number {
+            color: var(--tertiary-text-color);
+            margin-right: 1em;
+        }
+    }
+
+    #list {
+        display: block;
+        margin-left: 1em;
+        padding-left: 1em;
+        font-size: 12pt;
+        border-left: 2px solid var(--tertiary-text-color);
+
+        & > p {
+            margin-bottom: 5px;
+            color: var(--secondary-text-color);
+            transition: color 0.3s;
+            cursor: pointer;
+
+            &:hover {
+                color: var(--color);
+            }
+        }
+    }
+}

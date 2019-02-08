@@ -22,19 +22,24 @@ app.prepare()
     .then(() => {
         const server = express();
 
+        server.get('/subject/:subject/:course', async (req, res) => {
+            const actualPage = '/course';
+            const subjectId = (await pool.query(`
+                SELECT subject_id AS id FROM courses WHERE name='${req.params.course}'
+            `))[0].id;
+            const courseId = (await pool.query(`
+                SELECT id FROM courses WHERE name='${req.params.course}'
+            `))[0].id;
+
+            const queryParams = {subject: subjectId, course: courseId};
+            app.render(req, res, actualPage, queryParams);
+        });
+
         server.get('/subject/:subject', async (req, res) => {
             const actualPage = '/subject';
             const subjectId = (await pool.query(`SELECT id FROM subjects WHERE name='${req.params.subject}'`))[0].id;
 
             const queryParams = {subject: subjectId};
-            app.render(req, res, actualPage, queryParams);
-        });
-
-        server.get('/subject/*/:course', async (req, res) => {
-            const actualPage = '/course';
-            const courseId = (await pool.query(`SELECT id FROM courses WHERE name='${req.params.course}'`))[0].id;
-
-            const queryParams = {course: courseId};
             app.render(req, res, actualPage, queryParams);
         });
 

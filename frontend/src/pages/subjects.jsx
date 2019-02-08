@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {changeSubject, changeCourse, getAllSubjects, getAllCourses} from '../actions';
 import {Layout} from '../components';
 import {Subject} from '../components/landingPage';
-import css from './courses.scss';
+import css from './subjects.scss';
 
 class Courses extends React.Component {
     static async getInitialProps({store}) {
@@ -17,8 +17,8 @@ class Courses extends React.Component {
     render() {
         const {props} = this;
         return (
-            <Layout currentPage="courses"
-                    title="Courses - Slate"
+            <Layout currentPage="subjects"
+                    title="Subjects - Slate"
                     className={css.layout}>
                 <div id={css.container}>
                     <span id={css.prompt}>What would you like to learn today?</span>
