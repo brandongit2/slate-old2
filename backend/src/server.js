@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import express from 'express';
 import mysql from 'promise-mysql';
 
@@ -13,6 +14,9 @@ const pool = mysql.createPool({
 });
 const apiUrl = '/api';
 const port = 3001;
+
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 app.get('/', (req, res) => {
     res.end('Slate API root');
@@ -288,11 +292,42 @@ app.use((req, res) => {
     res.status(404).end('Not found');
 });
 
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
     if (!res.headersSent) {
         res.status(500).end('Internal server error');
     }
     console.log(err);
+});
+
+app.post(apiUrl + '/addUser', (req, res) => {
+    bcrypt.hash(req.body.password, 10, (err, hash) => {
+        pool.query(`
+            INSERT INTO
+                users(
+                    first_name,
+                    last_name,
+                    email,
+                    password
+                )
+            VALUES (
+                '${req.body.firstName}',
+                '${req.body.lastName}',
+                '${req.body.email}',
+                '${hash}'
+            )
+        `).then(() => {
+            console.log('success');
+            res.json({
+                success: true
+            });
+        }).catch(error => {
+            console.log('failure');
+            res.json({
+                success: false,
+                error
+            });
+        });
+    });
 });
 
 app.listen(port, () => console.log(`Slate backend running on port ${port}.`));
