@@ -5,5 +5,6 @@ export const actionTypes = {
     GET_SUBJECTS:   Symbol('get units'),
     GET_COURSES:    Symbol('get courses'),
     GET_UNITS:      Symbol('get units'),
-    GET_ARTICLES:   Symbol('get articles')
+    GET_ARTICLES:   Symbol('get articles'),
+    SET_INFO:       Symbol('set info')
 };

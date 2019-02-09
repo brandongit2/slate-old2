@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
-    "start": "URL=localhost:8080 node server.js",
+    "start": "SLATE_VERSION=$(git describe --tags --exact-match HEAD 2>/dev/null || git rev-parse --verify HEAD --short=7 2>/dev/null) SLATE_PUBLISH_DATE=$(git show -s --format=%ct HEAD) node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,6 +25,7 @@
     "bcrypt": "^3.0.4",
     "email-validator": "^2.0.4",
     "express": "^4.16.4",
+    "moment": "^2.24.0",
     "next": "^7.0.2",
     "next-redux-wrapper": "^3.0.0-alpha.0",
     "node-sass": "^4.11.0",

@@ -25,5 +25,11 @@ export default combineReducers({
             return action.newUnit;
         }
         return state;
+    },
+    info: (state = {}, action) => {
+        if (action.type === actionTypes.SET_INFO) {
+            return action.info;
+        }
+        return state;
     }
 });

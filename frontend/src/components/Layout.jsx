@@ -20,6 +20,7 @@ const Layout = props => (
         <Head>
             <title>{props.title}</title>
             <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+            <link rel="shortcut icon" href="/static/favicon.png" />
         </Head>
         <style jsx global>{`
             @import url('https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900');

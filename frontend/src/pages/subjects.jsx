@@ -1,7 +1,8 @@
+import moment from 'moment';
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {changeSubject, changeCourse, getAllSubjects, getAllCourses} from '../actions';
+import {changeSubject, changeCourse, getAllSubjects, getAllCourses, setInfo} from '../actions';
 import {Layout} from '../components';
 import {Subject} from '../components/landingPage';
 import css from './subjects.scss';
@@ -12,6 +13,10 @@ class Courses extends React.Component {
         await store.dispatch(getAllCourses());
         await store.dispatch(changeSubject(null));
         await store.dispatch(changeCourse(null));
+        await store.dispatch(setInfo({
+            version:     process.env.SLATE_VERSION,
+            publishDate: process.env.SLATE_PUBLISH_DATE
+        }));
     }
 
     render() {
@@ -35,6 +40,15 @@ class Courses extends React.Component {
                              ))}
                     </div>
                 </div>
+                <div id={css.footer}>
+                    <span>{props.info.version && props.info.publishDate
+                        ? `Slate version ${props.info.version} published on ${moment.unix(props.info.publishDate).format('MMMM Do, YYYY')}.`
+                        : props.info.version
+                            ? `Slate version ${props.info.version}.`
+                            : ''
+                    }</span> {/* eslint-disable-line react/jsx-closing-tag-location */}
+                    <span style={{float: 'right'}}>Made by <a href="https://github.com/brandongit2">Brandon Tsang</a>.</span>
+                </div>
             </Layout>
         );
     }
@@ -42,7 +56,8 @@ class Courses extends React.Component {
 
 const mapStateToProps = state => ({
     courses:  state.courses,
-    subjects: state.subjects
+    subjects: state.subjects,
+    info:     state.info
 });
 
 export default connect(mapStateToProps)(Courses);

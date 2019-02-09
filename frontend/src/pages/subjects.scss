@@ -25,4 +25,19 @@
             }
         }
     }
+
+    #footer {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        padding: 5px;
+        box-sizing: border-box;
+        width: 100vw;
+        font-size: 10pt;
+        color: var(--tertiary-text-color);
+
+        a {
+            color: var(--tertiary-text-color);
+        }
+    }
 }
