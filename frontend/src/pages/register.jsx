@@ -1,17 +1,19 @@
+import axios from 'axios';
 import {validate as validateEmail} from 'email-validator';
 import React from 'react';
 import zxcvbn from 'zxcvbn';
 
 import {Layout} from '../components';
+import {apiPrefix1, apiPrefix2} from '../constants';
 import css from './register.scss';
 
 const PasswordStrength = props => (
-    <div className={`${css['password-strength']} ${css[`strength-${props.strength}`]}`}>
-        <div className={props.length > 0 ? css.filled : ''} />
-        <div className={props.strength >= 1 ? css.filled : ''} />
-        <div className={props.strength >= 2 ? css.filled : ''} />
-        <div className={props.strength >= 3 ? css.filled : ''} />
-        <div className={props.strength >= 4 ? css.filled : ''} />
+    <div className={`${css['password-strength']} ${css[`strength-${props.strength}`]} ${props.length === 0 ? css.empty : ''}`}>
+        <div />
+        <div />
+        <div />
+        <div />
+        <div />
     </div>
 );
 
@@ -19,7 +21,9 @@ export default function Register() {
     const [password, setPassword] = React.useState('');
     const [emailErr, setEmailErr] = React.useState('');
     const [fNameErr, setFNameErr] = React.useState('');
+    const [lNameErr, setLNameErr] = React.useState('');
     const [passwordErr, setPasswordErr] = React.useState('');
+    const [error, setError] = React.useState(''); // General form errors (e.g. account with e-mail already exists)
     const emailField = React.useRef();
     const fNameField = React.useRef();
     const lNameField = React.useRef();
@@ -34,11 +38,20 @@ export default function Register() {
 
         let valid = true;
 
-        if (emailField.current.value.length === 0) {
+        const email = emailField.current.value;
+        const fName = fNameField.current.value;
+        const lName = lNameField.current.value;
+        const password = passwordField.current.value;
+
+        if (email.length === 0) {
             valid = false;
             emailField.current.classList.add(css.invalid);
             setEmailErr('Required field.');
-        } else if (!validateEmail(emailField.current.value)) {
+        } else if (email.length > 254) {
+            valid = false;
+            emailField.current.classList.add(css.invalid);
+            setEmailErr('Maximum length of 254 characters.');
+        } else if (!validateEmail(email)) {
             valid = false;
             emailField.current.classList.add(css.invalid);
             setEmailErr('Invalid e-mail.');
@@ -47,20 +60,37 @@ export default function Register() {
             setEmailErr('');
         }
 
-        if (fNameField.current.value.length === 0) {
+        if (fName.length === 0) {
             valid = false;
             fNameField.current.classList.add(css.invalid);
             setFNameErr('Required field.');
+        } else if (fName.length > 50) {
+            valid = false;
+            fNameField.current.classList.add(css.invalid);
+            setFNameErr('Max 50 chars.');
         } else {
             fNameField.current.classList.remove(css.invalid);
             setFNameErr('');
         }
 
-        if (passwordField.current.value.length === 0) {
+        if (lName.length > 50) {
+            valid = false;
+            lNameField.current.classList.add(css.invalid);
+            setLNameErr('Max 50 chars.');
+        } else {
+            lNameField.current.classList.remove(css.invalid);
+            setLNameErr('');
+        }
+
+        if (password.length === 0) {
             valid = false;
             passwordField.current.classList.add(css.invalid);
             setPasswordErr('Required field.');
-        } else if (zxcvbn(passwordField.current.value).score < 2) {
+        } else if (password.length > 72) {
+            valid = false;
+            passwordField.current.classList.add(css.invalid);
+            setPasswordErr('Maximum of 72 characters.');
+        } else if (zxcvbn(password).score < 2) {
             valid = false;
             passwordField.current.classList.add(css.invalid);
             setPasswordErr('Password too weak.');
@@ -69,7 +99,26 @@ export default function Register() {
             setPasswordErr('');
         }
 
-        if (valid) console.log('post');
+        if (valid) {
+            const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
+            axios.post(apiPrefix + '/addUser', {
+                firstName: fName,
+                lastName:  lName,
+                email, password
+            }).then(res => {
+                if (res.data.success) {
+                    // success
+                } else {
+                    switch (res.data.error.errno) {
+                        case 1062:
+                            setError('An account already exists with that e-mail.');
+                            break;
+                        default:
+                            setError('Unknown error code ' + res.data.error.errno + '.');
+                    }
+                }
+            });
+        }
     };
 
     return (
@@ -77,7 +126,7 @@ export default function Register() {
             <div id={css.register}>
                 <div id={css.container}>
                     <div id={css.info}>
-                        <h1>Benefits of signing up for Slate</h1>
+                        <h1>Benefits of making an account</h1>
                         <ul>
                             <li>
                                 <h2>Save your progress (and earn points!)</h2>
@@ -104,9 +153,16 @@ export default function Register() {
                         </ul>
                     </div>
                     <form>
+                        <h1>Make an account</h1>
+
+                        <div id={css.error} className={error === '' ? '' : css.shown}>
+                            <p>{error}</p>
+                            <i className="material-icons" onClick={() => { setError(''); }}>close</i>
+                        </div>
+
                         <div className={css.input}>
                             <div className={css.label}>
-                                <label htmlFor="email" className={css.required}>E-MAIL ADDRESS</label>
+                                <label htmlFor="email" className={css.required}>E-MAIL</label>
                                 <span className={css['error-message']}>{emailErr}</span>
                             </div>
                             <input id="email" type="email" spellCheck="false" ref={emailField} />
@@ -124,6 +180,7 @@ export default function Register() {
                             <div className={css.input}>
                                 <div className={css.label}>
                                     <label htmlFor="last-name">LAST NAME</label>
+                                    <span className={css['error-message']}>{lNameErr}</span>
                                 </div>
                                 <input id="last-name" type="text" spellCheck="false" ref={lNameField} />
                             </div>
@@ -145,7 +202,7 @@ export default function Register() {
 
                         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                             <span><span style={{color: 'red'}}>*</span> required</span>
-                            <button style={{float: 'right'}} onClick={submitForm}>Submit</button>
+                            <button onClick={submitForm}>Submit</button>
                         </div>
                     </form>
                 </div>

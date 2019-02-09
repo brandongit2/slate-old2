@@ -45,6 +45,37 @@
             border-radius: 10px;
             padding: 2em;
 
+            h1 {
+                font-weight: 700;
+                font-size: 18pt;
+                margin-bottom: 0.5em;
+            }
+
+            #error {
+                font-size: 12pt;
+                background: #e25353;
+                height: 0px;
+                border-radius: 5px;
+                color: white;
+                padding: 0px 10px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                overflow: hidden;
+                transition: all 0.3s;
+
+                &.shown {
+                    height: auto;
+                    padding: 10px;
+                    margin-bottom: 1em;
+                }
+
+                i {
+                    font-size: 14pt;
+                    cursor: pointer;
+                }
+            }
+
             .label {
                 display: flex;
                 justify-content: space-between;
@@ -66,7 +97,7 @@
                 }
             }
 
-            input:not([type='submit']) {
+            input {
                 margin-top: 5px;
                 margin-bottom: 15px;
 
@@ -99,32 +130,55 @@
                 margin-bottom: 15px;
                 border-radius: 5px;
                 overflow: hidden;
+                clip-path: polygon(0 0, 0% 0, 0% 100%, 0% 100%);
+                transition: clip-path 0.2s;
 
                 div {
                     flex-grow: 1;
+                    transition: background 0.2s;
 
                     &:not(:last-child) {
                         margin-right: 2px;
                     }
                 }
 
-                &.strength-0 > div.filled {
+                &.strength-0:not(.empty) {
+                    clip-path: polygon(0 0, 20% 0, 20% 100%, 0% 100%);
+                }
+
+                &.strength-1 {
+                    clip-path: polygon(0 0, 40% 0, 40% 100%, 0% 100%);
+                }
+
+                &.strength-2 {
+                    clip-path: polygon(0 0, 60% 0, 60% 100%, 0% 100%);
+                }
+
+                &.strength-3 {
+                    clip-path: polygon(0 0, 80% 0, 80% 100%, 0% 100%);
+                }
+
+                &.strength-4 {
+                    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+                }
+
+                &.strength-0 div {
                     background: #e34c4c;
                 }
 
-                &.strength-1 > div.filled {
+                &.strength-1 div {
                     background: #e3a94c;
                 }
 
-                &.strength-2 > div.filled {
+                &.strength-2 div {
                     background: #e8ec1c;
                 }
 
-                &.strength-3 > div.filled {
+                &.strength-3 div {
                     background: #b9db23;
                 }
 
-                &.strength-4 > div.filled {
+                &.strength-4 div {
                     background: #69cb38;
                 }
             }
