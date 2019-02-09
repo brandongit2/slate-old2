@@ -43,9 +43,8 @@ app.get(apiUrl + '/subjects', async (req, srvRes) => {
     let subjectsObj = {};
     subjects.map(subject => {
         // Remove the `id` key from `subject`
-        let newSubject = {};
-        Object.entries(subject).slice(1).map(entry => newSubject[entry[0]] = entry[1]);
-        subjectsObj[subject.id] = newSubject;
+        subjectsObj[subject.id] = subject;
+        delete subject.id;
     });
 
     srvRes.json(subjectsObj);
@@ -72,9 +71,8 @@ app.get(apiUrl + '/subjects/:id', async (req, srvRes) => {
     let subjectsObj = {};
     subjects.map(subject => {
         // Remove the `id` key from `subject`
-        let newSubject = {};
-        Object.entries(subject).slice(1).map(entry => newSubject[entry[0]] = entry[1]);
-        subjectsObj[subject.id] = newSubject;
+        subjectsObj[subject.id] = subject;
+        delete subject.id;
     });
 
     srvRes.json(subjectsObj);
@@ -119,9 +117,8 @@ app.get(apiUrl + '/courses', async (req, srvRes) => {
     let coursesObj = {};
     courses.map(course => {
         // Remove the `id` key from `course`
-        let newCourse = {};
-        Object.entries(course).slice(1).map(entry => newCourse[entry[0]] = entry[1]);
-        coursesObj[course.id] = newCourse;
+        coursesObj[course.id] = course;
+        delete course.id;
     });
 
     srvRes.json(coursesObj);
@@ -148,9 +145,8 @@ app.get(apiUrl + '/courses/:id', async (req, srvRes) => {
     let coursesObj = {};
     courses.map(course => {
         // Remove the `id` key from `course`
-        let newCourse = {};
-        Object.entries(course).slice(1).map(entry => newCourse[entry[0]] = entry[1]);
-        coursesObj[course.id] = newCourse;
+        coursesObj[course.id] = course;
+        delete course.id;
     });
 
     srvRes.json(coursesObj);
@@ -209,10 +205,8 @@ app.get(apiUrl + '/units', async (req, srvRes) => {
 
     let unitsObj = {};
     units.map(unit => {
-        // Remove the `id` key from `unit`
-        let newUnit = {};
-        Object.entries(unit).slice(1).map(entry => newUnit[entry[0]] = entry[1]);
-        unitsObj[unit.id] = newUnit;
+        unitsObj[unit.id] = unit;
+        delete unit.id;
     });
 
     srvRes.json(unitsObj);
@@ -280,10 +274,8 @@ app.get(apiUrl + '/articles', async (req, srvRes) => {
 
     let articlesObj = {};
     articles.map(article => {
-        // Remove the `id` key from `article`
-        let newArticle = {};
-        Object.entries(article).slice(1).map(entry => newArticle[entry[0]] = entry[1]);
-        articlesObj[article.id] = newArticle;
+        articlesObj[article.id] = article;
+        delete article.id;
     });
 
     srvRes.json(articlesObj);
