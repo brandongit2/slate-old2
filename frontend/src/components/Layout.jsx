@@ -26,7 +26,7 @@ const Layout = props => (
 
             :root {
                 --text-color: #000;
-                --secondary-text-color: #444;
+                --secondary-text-color: #666;
                 --tertiary-text-color: #999;
             }
 
@@ -39,13 +39,41 @@ const Layout = props => (
                 margin: 0;
             }
 
+            p::selection, a::selection, span::selection, h1::selection, h2::selection, h3::selection, h4::selection,
+            h5::selection, h6::selection, input::selection, textarea::selection, div::selection {
+                background: var(--text-color);
+                color: white;
+            }
+
             a {
                 cursor: pointer;
+            }
+
+            input {
+                padding: 10px;
+                font-size: 12pt;
+                border: 1px solid grey;
+                border-radius: 5px;
+            }
+
+            button, input[type='submit'] {
+                padding: 10px 20px;
+                font-weight: 700;
+                font-size: 12pt;
+                background: #0478f1;
+                border: none;
+                color: white;
+                border-radius: 5px;
+            }
+
+            label {
+                cursor: text;
             }
         `}</style> {/* eslint-disable-line react/jsx-closing-tag-location */}
         <Header currentPage={props.currentPage}
                 float={props.headerFloat}
-                backgroundColor={props.headerColor} />
+                backgroundColor={props.headerColor}
+                noShadow={props.noShadow} />
         {props.children}
     </div>
 );

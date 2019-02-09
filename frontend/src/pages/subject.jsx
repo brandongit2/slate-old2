@@ -21,8 +21,7 @@ class Subject extends React.Component {
         const brightText = contrasts('ffffff', props.subject.color);
         return (
             <Layout currentPage=""
-                    title={kebabToProper(props.subject.name) + ' - Slate'}
-                    headerColor={'#' + props.subject.color}>
+                    title={kebabToProper(props.subject.name) + ' - Slate'}>
                 <style jsx>{`
                     --color: #${props.subject.color};
                     --subject-text-color: ${brightText ? '#ffffff' : '#000000'};

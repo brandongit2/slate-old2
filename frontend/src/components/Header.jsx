@@ -18,7 +18,11 @@ const rightEntries = {
 
 const Header = props => (
     <div id={css.header}
-         className={props.float ? css.float : ''}>
+         className={props.float ? css.float : ''}
+         style={{
+             boxShadow:    props.noShadow ? '' : '0px 0px 30px rgba(0, 0, 0, 0.1)',
+             borderBottom: props.noShadow ? '1px solid #ddd' : 'none'
+         }}>
         <Link href="/subjects">
             <a id={css.logo}>
                 <img src="/static/slate-logo.svg" alt="Slate logo" style={{height: '100%'}} />

@@ -22,6 +22,8 @@
     "@zeit/next-sass": "^1.0.1",
     "acorn": "^6.0.7",
     "axios": "^0.18.0",
+    "bcrypt": "^3.0.4",
+    "email-validator": "^2.0.4",
     "express": "^4.16.4",
     "next": "^7.0.2",
     "next-redux-wrapper": "^3.0.0-alpha.0",
@@ -33,7 +35,8 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "shortid": "^2.2.14",
-    "wcag-contrast": "^2.1.1"
+    "wcag-contrast": "^2.1.1",
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
     "redux-devtools-extension": "^2.13.8"

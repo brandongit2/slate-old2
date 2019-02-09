@@ -19,7 +19,8 @@ class Courses extends React.Component {
         return (
             <Layout currentPage="subjects"
                     title="Subjects - Slate"
-                    className={css.layout}>
+                    className={css.layout}
+                    noShadow>
                 <div id={css.container}>
                     <span id={css.prompt}>What would you like to learn today?</span>
                     <div id={css.courses}>
