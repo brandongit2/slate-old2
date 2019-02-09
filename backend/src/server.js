@@ -61,8 +61,8 @@ app.get(apiUrl + '/subjects/:id', async (req, srvRes) => {
             GROUP_CONCAT(courses.id) AS courses
         FROM subjects
         LEFT JOIN courses ON courses.subject_id=subjects.id
-        WHERE subjects.id=${req.params.id}
-    `);
+        WHERE subjects.id=?
+    `, [req.params.id]);
 
     for (let subject of subjects) {
         subject.courses = JSON.parse('[' + (subject.courses || '') + ']');
@@ -80,9 +80,9 @@ app.get(apiUrl + '/subjects/:id', async (req, srvRes) => {
 
 // <URL>/api/courses[?subject=<subject_id>]
 app.get(apiUrl + '/courses', async (req, srvRes) => {
-    let query;
+    let courses;
     if (req.query.subject) { // Select all courses within a subject
-        query = `
+        courses = await pool.query(`
             SELECT
                 courses.id,
                 courses.order,
@@ -91,11 +91,11 @@ app.get(apiUrl + '/courses', async (req, srvRes) => {
                 GROUP_CONCAT(units.id) AS units
             FROM courses
             LEFT JOIN units ON units.course_id=courses.id
-            WHERE courses.subject_id=${req.query.subject}
+            WHERE courses.subject_id=?
             GROUP BY courses.id
-        `;
+        `, [req.query.subject]);
     } else { // Select all courses
-        query = `
+        courses = await pool.query(`
             SELECT
                 courses.id,
                 courses.order,
@@ -105,10 +105,8 @@ app.get(apiUrl + '/courses', async (req, srvRes) => {
             FROM courses
             LEFT JOIN units ON units.course_id=courses.id
             GROUP BY courses.id
-        `;
+        `);
     }
-
-    let courses = await pool.query(query);
 
     for (let course of courses) {
         course.units = JSON.parse('[' + (course.units || '') + ']');
@@ -135,8 +133,8 @@ app.get(apiUrl + '/courses/:id', async (req, srvRes) => {
             GROUP_CONCAT(units.id) AS units
         FROM courses
         LEFT JOIN units ON units.course_id=courses.id
-        WHERE courses.id=${req.params.id}
-    `);
+        WHERE courses.id=?
+    `, [req.params.id]);
 
     for (let course of courses) {
         course.units = JSON.parse('[' + (course.units || '') + ']');
@@ -154,9 +152,9 @@ app.get(apiUrl + '/courses/:id', async (req, srvRes) => {
 
 // <URL>/api/units[?course=<course_id> | ?subject=<subject_id>]
 app.get(apiUrl + '/units', async (req, srvRes) => {
-    let query;
+    let units;
     if (req.query.course) { // Select all units within a course
-        query = `
+        units = await pool.query(`
             SELECT
                 units.id,
                 units.order,
@@ -166,11 +164,11 @@ app.get(apiUrl + '/units', async (req, srvRes) => {
             FROM units
             LEFT JOIN articles ON units.id=articles.unit_id
             LEFT JOIN courses ON courses.id=units.course_id
-            WHERE courses.id=${req.query.course}
+            WHERE courses.id=?
             GROUP BY units.id
-        `;
+        `, [req.query.course]);
     } else if (req.query.subject) { // Select all units within a subject
-        query = `
+        units = await pool.query(`
             SELECT
                 units.id,
                 units.order,
@@ -181,11 +179,11 @@ app.get(apiUrl + '/units', async (req, srvRes) => {
             LEFT JOIN articles ON units.id=articles.unit_id
             LEFT JOIN courses ON courses.id=units.course_id
             LEFT JOIN subjects ON subjects.id=courses.subject_id
-            WHERE subjects.id=${req.query.subject}
+            WHERE subjects.id=?
             GROUP BY units.id
-        `;
+        `, [req.query.subject]);
     } else { // Select all units
-        query = `
+        units = await pool.query(`
             SELECT
                 units.id,
                 units.order,
@@ -195,9 +193,8 @@ app.get(apiUrl + '/units', async (req, srvRes) => {
             FROM units
             LEFT JOIN articles ON units.id=articles.unit_id
             GROUP BY units.id
-        `;
+        `);
     }
-    let units = await pool.query(query);
 
     for (let unit of units) {
         unit.articles = JSON.parse('[' + (unit.articles || '') + ']');
@@ -214,9 +211,9 @@ app.get(apiUrl + '/units', async (req, srvRes) => {
 
 // <URL>/api/articles[?unit=<unit_id> | ?course=<course_id> | ?subject=<subject_id>]
 app.get(apiUrl + '/articles', async (req, srvRes) => {
-    let query;
+    let articles;
     if (req.query.unit) { // Get all articles within a unit
-        query = `
+        articles = await pool.query(`
             SELECT
                 articles.id,
                 articles.order,
@@ -226,10 +223,10 @@ app.get(apiUrl + '/articles', async (req, srvRes) => {
                 articles.content
             FROM articles
             LEFT JOIN units ON articles.unit_id=units.id
-            WHERE units.id=${req.query.unit}
-        `;
+            WHERE units.id=?
+        `, [req.query.unit]);
     } else if (req.query.course) { // Get all articles within a course
-        query = `
+        articles = await pool.query(`
             SELECT
                 articles.id,
                 articles.order,
@@ -240,10 +237,10 @@ app.get(apiUrl + '/articles', async (req, srvRes) => {
             FROM articles
             LEFT JOIN units ON articles.unit_id=units.id
             LEFT JOIN courses ON units.course_id=courses.id
-            WHERE courses.id=${req.query.course}
-        `;
+            WHERE courses.id=?
+        `, [req.query.course]);
     } else if (req.query.subject) { // Get all articles within a subject
-        query = `
+        articles = await pool.query(`
             SELECT
                 articles.id,
                 articles.order,
@@ -255,10 +252,10 @@ app.get(apiUrl + '/articles', async (req, srvRes) => {
             LEFT JOIN units ON articles.unit_id=units.id
             LEFT JOIN courses ON units.course_id=courses.id
             LEFT JOIN subjects ON courses.subject_id=subjects.id
-            WHERE subjects.id=${req.query.subject}
-        `;
+            WHERE subjects.id=?
+        `, [req.query.subject]);
     } else { // Get all articles
-        query = `
+        articles = await pool.query(`
             SELECT
                 id,
                 order,
@@ -267,10 +264,8 @@ app.get(apiUrl + '/articles', async (req, srvRes) => {
                 update_date AS updateDate,
                 content
             FROM articles
-        `;
+        `);
     }
-
-    let articles = await pool.query(query);
 
     let articlesObj = {};
     articles.map(article => {
