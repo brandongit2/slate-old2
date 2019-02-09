@@ -22,8 +22,16 @@ app.get(apiUrl, (req, res) => {
     res.end('Slate API');
 });
 
+function wrap(func) {
+    return function (req, res, next) {
+        func(req, res, next).catch(e => {
+            next(e);
+        });
+    };
+}
+
 // <URL>/api/subjects
-app.get(apiUrl + '/subjects', async (req, srvRes) => {
+app.get(apiUrl + '/subjects', wrap(async (req, srvRes) => {
     let subjects = await pool.query(`
         SELECT
             subjects.id,
@@ -48,10 +56,10 @@ app.get(apiUrl + '/subjects', async (req, srvRes) => {
     });
 
     srvRes.json(subjectsObj);
-});
+}));
 
 // <URL>/api/subjects/<subject_id>
-app.get(apiUrl + '/subjects/:id', async (req, srvRes) => {
+app.get(apiUrl + '/subjects/:id', wrap(async (req, srvRes) => {
     let subjects = await pool.query(`
         SELECT
             subjects.id,
@@ -76,10 +84,10 @@ app.get(apiUrl + '/subjects/:id', async (req, srvRes) => {
     });
 
     srvRes.json(subjectsObj);
-});
+}));
 
 // <URL>/api/courses[?subject=<subject_id>]
-app.get(apiUrl + '/courses', async (req, srvRes) => {
+app.get(apiUrl + '/courses', wrap(async (req, srvRes) => {
     let courses;
     if (req.query.subject) { // Select all courses within a subject
         courses = await pool.query(`
@@ -120,10 +128,10 @@ app.get(apiUrl + '/courses', async (req, srvRes) => {
     });
 
     srvRes.json(coursesObj);
-});
+}));
 
 // <URL>/api/courses/<course_id>
-app.get(apiUrl + '/courses/:id', async (req, srvRes) => {
+app.get(apiUrl + '/courses/:id', wrap(async (req, srvRes) => {
     let courses = await pool.query(`
         SELECT
             courses.id,
@@ -148,10 +156,10 @@ app.get(apiUrl + '/courses/:id', async (req, srvRes) => {
     });
 
     srvRes.json(coursesObj);
-});
+}));
 
 // <URL>/api/units[?course=<course_id> | ?subject=<subject_id>]
-app.get(apiUrl + '/units', async (req, srvRes) => {
+app.get(apiUrl + '/units', wrap(async (req, srvRes) => {
     let units;
     if (req.query.course) { // Select all units within a course
         units = await pool.query(`
@@ -207,10 +215,10 @@ app.get(apiUrl + '/units', async (req, srvRes) => {
     });
 
     srvRes.json(unitsObj);
-});
+}));
 
 // <URL>/api/articles[?unit=<unit_id> | ?course=<course_id> | ?subject=<subject_id>]
-app.get(apiUrl + '/articles', async (req, srvRes) => {
+app.get(apiUrl + '/articles', wrap(async (req, srvRes) => {
     let articles;
     if (req.query.unit) { // Get all articles within a unit
         articles = await pool.query(`
@@ -274,6 +282,17 @@ app.get(apiUrl + '/articles', async (req, srvRes) => {
     });
 
     srvRes.json(articlesObj);
+}));
+
+app.use((req, res) => {
+    res.status(404).end('Not found');
+});
+
+app.use((err, req, res, next) => {
+    if (!res.headersSent) {
+        res.status(500).end('Internal server error');
+    }
+    console.log(err);
 });
 
 app.listen(port, () => console.log(`Slate backend running on port ${port}.`));
