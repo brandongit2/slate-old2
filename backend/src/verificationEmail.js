@@ -1,14 +1,27 @@
 exports.verificationEmail = (name, query) => `
     <html>
-        <head>
-            <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato">
-        </head>
         <body style="margin: 0px;">
+            <style type="text/css">
+                @font-face {
+                    font-family: 'Lato';
+                    font-style: normal;
+                    font-weight: 400;
+                    src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v14/S6uyw4BMUTPHjxAwXiWtFCfQ7A.woff2) format('woff2');
+                    unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+                }
+                @font-face {
+                    font-family: 'Lato';
+                    font-style: normal;
+                    font-weight: 400;
+                    src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v14/S6uyw4BMUTPHjx4wXiWtFCc.woff2) format('woff2');
+                    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+                }
+            </style>
             <table border="0" cellpadding="20" cellspacing="0" width="100%"><tr align="center"><td>
                 <table border="0" cellpadding="0" cellspacing="0" style="max-width: 500px; border-width: 1px; border-style: solid; border-color: #cccccc; border-radius: 10px;">
                     <tr><td>
                         <table border="0" cellpadding="20" cellspacing="0"><tr><td>
-                            <img src="http://localhost:8080/static/slate-logo.svg" height="35">
+                            <img src="https://brandontsang.net/static/slate-logo.svg" alt="Slate logo" width="65" height="35">
                         </td></tr></table>
                     </td></tr>
                     <tr><td>
@@ -25,11 +38,11 @@ exports.verificationEmail = (name, query) => `
                             <td>
                                 <table border="0" cellpadding="0" cellspacing="0">
                                     <tr><td>
-                                        <p style="font-family: Lato, sans-serif; margin: 0px;">Hi ${name},</p>
+                                        <p style="font-family: 'Lato', 'Segoe UI', sans-serif; font-size: 16px; margin: 0px;">Hi ${name},</p>
                                     </td></tr>
                                     <tr><td height="10"></td></tr>
                                     <tr><td>
-                                        <p style="font-family: Lato, sans-serif; margin: 0px;">Welcome to Slate! To log in, you must first verify your email by clicking the button below:</p>
+                                        <p style="font-family: 'Lato', 'Segoe UI', sans-serif; font-size: 16px; margin: 0px;">Welcome to Slate! To log in, you must first verify your email by clicking the button below:</p>
                                     </td></tr>
                                     <tr><td height="20"></td></tr>
                                     <tr><td>
@@ -40,7 +53,7 @@ exports.verificationEmail = (name, query) => `
                                                     <tr>
                                                         <td width="20"></td>
                                                         <td>
-                                                            <p style="color: #ffffff; font-family: Lato, sans-serif; margin: 0px;">Verify e-mail</p>
+                                                            <p style="color: #ffffff; font-family: 'Lato', 'Segoe UI', sans-serif; font-size: 16px; margin: 0px;">Verify e-mail</p>
                                                         </td>
                                                         <td width="20"></td>
                                                     </tr>

@@ -1,4 +1,8 @@
 export const actionTypes = {
+    ADD_NOTIFICATION:    Symbol('add notification'),
+    HIDE_NOTIFICATION:   Symbol('hide notification'),
+    REMOVE_NOTIFICATION: Symbol('remove notification'),
+
     CHANGE_SUBJECT: Symbol('change subject'),
     CHANGE_COURSE:  Symbol('change course'),
     CHANGE_UNIT:    Symbol('change unit'),
@@ -6,7 +10,8 @@ export const actionTypes = {
     GET_COURSES:    Symbol('get courses'),
     GET_UNITS:      Symbol('get units'),
     GET_ARTICLES:   Symbol('get articles'),
-    SET_INFO:       Symbol('set info')
+
+    SET_INFO: Symbol('set info')
 };
 
 export const apiPrefix1 = '/api';

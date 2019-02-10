@@ -8,29 +8,16 @@ const app = next({
 });
 const handle = app.getRequestHandler();
 
-const apiPrefix = 'http://localhost:8080';
+const url = 'http://localhost:8080';
 
 app.prepare()
     .then(() => {
         const server = express();
 
-        server.get('/subject/:subject/:course', async (req, res) => {
-            const actualPage = '/course';
-            try {
-                const subjectId = (await axios.get(apiPrefix + '/api/subjectId?course=' + req.params.course)).data.id;
-                const courseId = (await axios.get(apiPrefix + '/api/courseId?name=' + req.params.course)).data.id;
-
-                const queryParams = {subject: subjectId, course: courseId};
-                app.render(req, res, actualPage, queryParams);
-            } catch {
-                app.render(req, res, '/404');
-            }
-        });
-
         server.get('/subject/:subject', async (req, res) => {
             const actualPage = '/subject';
             try {
-                const subjectId = (await axios.get(apiPrefix + '/api/subjectId?name=' + req.params.subject)).data.id;
+                const subjectId = (await axios.get(url + '/api/subjectId?name=' + req.params.subject)).data.id;
 
                 const queryParams = {subject: subjectId};
                 app.render(req, res, actualPage, queryParams);
@@ -39,16 +26,31 @@ app.prepare()
             }
         });
 
+        server.get('/subject/:subject/:course', async (req, res) => {
+            const actualPage = '/course';
+            try {
+                const subjectId = (await axios.get(url + '/api/subjectId?course=' + req.params.course)).data.id;
+                const courseId = (await axios.get(url + '/api/courseId?name=' + req.params.course)).data.id;
+
+                const queryParams = {subject: subjectId, course: courseId};
+                app.render(req, res, actualPage, queryParams);
+            } catch {
+                app.render(req, res, '/404');
+            }
+        });
+
         server.get('/verify', async (req, res) => {
             try {
-                const success = (await axios.get(apiPrefix + '/api/verify?e=' + req.query.e)).data.success;
+                const success = (await axios.get(url + '/api/verify?e=' + req.query.e)).data.success;
                 if (success) {
                     app.render(req, res, '/verify');
                 } else {
-                    app.render(req, res, '/404');
+                    res.set('location', url + '/subjects');
+                    res.status(301).send();
                 }
             } catch {
-                app.render(req, res, '/404');
+                res.set('location', url + '/subjects');
+                res.status(301).send();
             }
         });
 

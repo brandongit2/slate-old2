@@ -1,6 +1,7 @@
 import {actionTypes} from '../constants';
 
 export * from './api';
+export * from './snackbar';
 
 export const changeSubject = newSubject => ({
     type: actionTypes.CHANGE_SUBJECT,

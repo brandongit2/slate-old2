@@ -9,6 +9,33 @@ const {verificationEmail} = require('./verificationEmail.js');
 
 sgMail.setApiKey(apiKey);
 
+const sendEmail = async (fName, email, validationQuery) => {
+    const textEmail = `Hi ${fName},
+    Welcome to Slate! To log in, you must first verify your email. Do this by following this link: ${validationQuery}`;
+
+    sgMail.send({
+        to:      email,
+        from:    'Slate <no-reply@brandontsang.net>',
+        subject: 'Slate: Validate your e-mail',
+        text:    textEmail,
+        html:    verificationEmail(fName, validationQuery)
+    });
+
+    try {
+        await pool.query('DELETE FROM email_validation_links WHERE email=?', [email]);
+        await pool.query('INSERT INTO email_validation_links(email, query) VALUES (?, ?)', [email, validationQuery]);
+        return {
+            success: true
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            success: false,
+            error
+        };
+    }
+};
+
 exports.addUser = async (req, res) => {
     let valid = true;
     const email = req.body.email;
@@ -43,36 +70,31 @@ exports.addUser = async (req, res) => {
                         valid_email
                     )
                 VALUES (?, ?, ?, ?, 0)
-            `, [fName, lName, email, hash]).then(() => {
-                pool.query('INSERT INTO email_validation_links(email, query) VALUES (?, ?)', [email, validationQuery])
-                    .then(() => {
+            `, [fName, lName, email, hash])
+                .then(async () => {
+                    try {
+                        res.json(await sendEmail(fName, email, validationQuery));
+                    } catch (error) {
                         res.json({
-                            success: true
+                            success: false,
+                            error
                         });
-                    })
-                    .catch(err => { console.log(err); });
-            }).catch(error => {
-                res.json({
-                    success: false,
-                    error
+                    }
+                })
+                .catch(error => {
+                    res.json({
+                        success: false,
+                        error
+                    });
                 });
-            });
-        });
-
-        // Validate e-mail
-        const textEmail = `Hi ${fName},
-        Welcome to Slate! To log in, you must first verify your email. Do this by following this link: ${validationQuery}`;
-
-        sgMail.send({
-            to:      email,
-            from:    'Slate <no-reply@brandontsang.net>',
-            subject: 'Slate: Validate your e-mail',
-            text:    textEmail,
-            html:    verificationEmail(fName, validationQuery)
         });
     } else {
         res.end('Invalid form.');
     }
+};
+
+exports.resendEmail = async req => {
+    sendEmail(req.body.firstName, req.body.email, generate());
 };
 
 exports.authenticate = async (req, srvRes) => {
@@ -88,6 +110,7 @@ exports.verifyEmail = async (req, res) => {
         .then(emails => {
             if (emails.length === 1) {
                 pool.query('DELETE FROM email_validation_links WHERE query=?', [req.query.e]);
+                pool.query('UPDATE users SET valid_email=1 WHERE email=?', [req.query.e]);
                 res.json({success: true});
             } else {
                 res.json({success: false});

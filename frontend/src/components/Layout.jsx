@@ -5,7 +5,7 @@
 import Head from 'next/head';
 import React from 'react';
 
-import {Header} from './';
+import {Header, Snackbar} from './';
 import css from './Layout.scss';
 
 const layoutStyles = {
@@ -56,6 +56,12 @@ const Layout = props => (
                 font-size: 12pt;
                 border: 1px solid grey;
                 border-radius: 5px;
+                outline: none;
+            }
+
+            input:focus {
+                border: 1px solid #0478f1;
+                box-shadow: 0px 0px 2px 0px #0478f1;
             }
 
             button, input[type='submit'] {
@@ -66,15 +72,31 @@ const Layout = props => (
                 border: none;
                 color: white;
                 border-radius: 5px;
+                outline: none;
+                transition: box-shadow 0.2s;
+            }
+
+            button:hover, input[type='submit']:hover {
+                box-shadow: 0px 0px 15px 0px rgb(4, 120, 241, 0.5);
+            }
+
+            button:active, input[type='submit']:active {
+                background: #0056af;
             }
 
             label {
                 cursor: text;
             }
         `}</style> {/* eslint-disable-line react/jsx-closing-tag-location */}
-        <Header currentPage={props.currentPage}
-                float={props.headerFloat}
-                noShadow={props.noShadow} />
+        {props.noHeader
+            ? null
+            : (
+                <Header currentPage={props.currentPage}
+                        float={props.headerFloat}
+                        noShadow={props.noShadow} />
+            )
+        }
+        <Snackbar />
         {props.children}
     </div>
 );

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {validate as validateEmail} from 'email-validator';
+import Router from 'next/router';
 import React from 'react';
 import zxcvbn from 'zxcvbn';
 
@@ -34,62 +35,50 @@ export default function Register() {
 
     const submitForm = e => {
         e.preventDefault();
+        setError('');
 
         let valid = true;
 
         if (email.length === 0) {
             valid = false;
-            emailField.current.classList.add(css.invalid);
             setEmailErr('Required field.');
         } else if (email.length > 254) {
             valid = false;
-            emailField.current.classList.add(css.invalid);
             setEmailErr('Maximum length of 254 characters.');
         } else if (!validateEmail(email)) {
             valid = false;
-            emailField.current.classList.add(css.invalid);
             setEmailErr('Invalid e-mail.');
         } else {
-            emailField.current.classList.remove(css.invalid);
             setEmailErr('');
         }
 
         if (fName.length === 0) {
             valid = false;
-            fNameField.current.classList.add(css.invalid);
             setFNameErr('Required field.');
         } else if (fName.length > 50) {
             valid = false;
-            fNameField.current.classList.add(css.invalid);
             setFNameErr('Max 50 chars.');
         } else {
-            fNameField.current.classList.remove(css.invalid);
             setFNameErr('');
         }
 
         if (lName.length > 50) {
             valid = false;
-            lNameField.current.classList.add(css.invalid);
             setLNameErr('Max 50 chars.');
         } else {
-            lNameField.current.classList.remove(css.invalid);
             setLNameErr('');
         }
 
         if (password.length === 0) {
             valid = false;
-            passwordField.current.classList.add(css.invalid);
             setPasswordErr('Required field.');
         } else if (password.length > 72) {
             valid = false;
-            passwordField.current.classList.add(css.invalid);
             setPasswordErr('Maximum of 72 characters.');
         } else if (zxcvbn(password).score < 2) {
             valid = false;
-            passwordField.current.classList.add(css.invalid);
             setPasswordErr('Password too weak.');
         } else {
-            passwordField.current.classList.remove(css.invalid);
             setPasswordErr('');
         }
 
@@ -101,8 +90,7 @@ export default function Register() {
                 email, password
             }).then(res => {
                 if (res.data.success) {
-                    console.log('good job!');
-                    setError('');
+                    Router.push(`/check-email?email=${email}&fname=${fName}`, '/register');
                 } else {
                     switch (res.data.error.errno) {
                         case 1062:
@@ -164,9 +152,11 @@ export default function Register() {
                                 <span className={css['error-message']}>{emailErr}</span>
                             </div>
                             <input id="email"
+                                   className={emailErr.length > 0 ? css.invalid : ''}
                                    type="email"
                                    spellCheck="false"
                                    value={email}
+                                   onFocus={() => setEmailErr('')}
                                    onChange={e => setEmail(e.target.value)}
                                    ref={emailField} />
                         </div>
@@ -178,9 +168,11 @@ export default function Register() {
                                     <span className={css['error-message']}>{fNameErr}</span>
                                 </div>
                                 <input id="first-name"
+                                       className={fNameErr.length > 0 ? css.invalid : ''}
                                        type="text"
                                        spellCheck="false"
                                        value={fName}
+                                       onFocus={() => setFNameErr('')}
                                        onChange={e => setFName(e.target.value)}
                                        ref={fNameField} />
                             </div>
@@ -191,9 +183,11 @@ export default function Register() {
                                     <span className={css['error-message']}>{lNameErr}</span>
                                 </div>
                                 <input id="last-name"
+                                       className={lNameErr.length > 0 ? css.invalid : ''}
                                        type="text"
                                        spellCheck="false"
                                        value={lName}
+                                       onFocus={() => setLNameErr('')}
                                        onChange={e => setLName(e.target.value)}
                                        ref={lNameField} />
                             </div>
@@ -205,9 +199,10 @@ export default function Register() {
                                 <span className={css['error-message']}>{passwordErr}</span>
                             </div>
                             <input id="password"
-                                   className={css['no-bottom-margin']}
+                                   className={css['no-bottom-margin'] + ' ' + (passwordErr.length > 0 ? css.invalid : '')}
                                    type="password"
                                    value={password}
+                                   onFocus={() => setPasswordErr('')}
                                    onChange={e => setPassword(e.target.value)}
                                    ref={passwordField} />
                             <PasswordStrength strength={zxcvbn(password).score} length={password.length} />

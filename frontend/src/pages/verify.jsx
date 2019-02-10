@@ -11,7 +11,7 @@ export default class Verify extends React.Component {
     componentDidMount() {
         setTimeout(() => { Router.push('/subjects'); }, 5000);
         setInterval(() => {
-            this.setState({counter: this.state.counter - 1});
+            this.setState({counter: this.state.counter - 1 >= 0 ? this.state.counter - 1 : 0});
         }, 1000);
     }
 
