@@ -1,6 +1,6 @@
-/node_modules
+/**/node_modules
 /mysqlCreds.json
-/frontend/node_modules
 /frontend/src/.next
-/backend/node_modules
 /backend/build
+/backend/sendgrid.json
+/email/dist

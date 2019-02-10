@@ -1,10 +1,10 @@
 {
-  "name": "slate-backend",
+  "name": "slate-email",
   "version": "0.0.1-SNAPSHOT",
-  "description": "The backend for Slate.",
-  "main": "src/server.js",
+  "description": "E-mail templates for Slate.",
+  "main": "index.js",
   "scripts": {
-    "start": "nodemon src/server.js",
+    "build": "node inline.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,14 +18,9 @@
   },
   "homepage": "https://github.com/brandongit2/slate#readme",
   "dependencies": {
-    "@sendgrid/mail": "^6.3.1",
-    "bcrypt": "^3.0.4",
-    "email-validator": "^2.0.4",
-    "express": "^4.16.4",
-    "mysql": "^2.16.0",
-    "nodemon": "^1.18.10",
-    "promise-mysql": "^3.3.1",
-    "shortid": "^2.2.14",
-    "zxcvbn": "^4.4.2"
+    "inline-css": "^2.4.1"
+  },
+  "devDependencies": {
+    "rimraf": "^2.6.3"
   }
 }

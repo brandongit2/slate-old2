@@ -56,10 +56,8 @@ const Header = props => (
 );
 
 Header.defaultProps = {
-    currentPage:     '',
-    backgroundColor: '#ffffff',
-    textColor:       '#000000',
-    float:           false
+    currentPage: '',
+    float:       false
 };
 
 export default Header;

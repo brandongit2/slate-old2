@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
+
+#container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    width: 40em;
+
+    img {
+        height: 2em;
+        margin-bottom: 2em;
+    }
+
+    p {
+        text-align: center;
+        font-family: Lato, sans-serif;
+        font-size: 14pt;
+    }
+}

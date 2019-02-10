@@ -1,4 +1,26 @@
+// For retrieving data such as subjects, courses, units, and articles.
+
 const {pool} = require('./sqlConnect.js');
+
+exports.getSubjectId = async (req, res) => {
+    if (req.query.course) {
+        pool.query(`SELECT subject_id AS id FROM courses WHERE name=?`, [req.query.course])
+            .then(id => { res.json(id[0]); })
+            .catch(() => { res.end('Course doesn\'t exist.'); });
+    } else if (req.query.name) {
+        pool.query(`SELECT id FROM subjects WHERE name=?`, [req.query.name])
+            .then(id => { res.json(id[0]); })
+            .catch(() => { res.end('Subject doesn\'t exist.'); });
+    } else {
+        res.end('Invalid query.');
+    }
+};
+
+exports.getCourseIdByCourseName = async (req, res) => {
+    pool.query(`SELECT id FROM courses WHERE name=?`, [req.query.name])
+        .then(id => { res.json(id[0]); })
+        .catch(() => { res.end('Course doesn\'t exist.'); });
+};
 
 exports.getAllSubjects = async (req, srvRes) => {
     let subjects = await pool.query(`

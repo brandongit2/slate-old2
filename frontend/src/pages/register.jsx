@@ -18,6 +18,9 @@ const PasswordStrength = props => (
 );
 
 export default function Register() {
+    const [email, setEmail] = React.useState('');
+    const [fName, setFName] = React.useState('');
+    const [lName, setLName] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [emailErr, setEmailErr] = React.useState('');
     const [fNameErr, setFNameErr] = React.useState('');
@@ -29,19 +32,10 @@ export default function Register() {
     const lNameField = React.useRef();
     const passwordField = React.useRef();
 
-    const changePassword = e => {
-        setPassword(e.target.value);
-    };
-
     const submitForm = e => {
         e.preventDefault();
 
         let valid = true;
-
-        const email = emailField.current.value;
-        const fName = fNameField.current.value;
-        const lName = lNameField.current.value;
-        const password = passwordField.current.value;
 
         if (email.length === 0) {
             valid = false;
@@ -101,13 +95,14 @@ export default function Register() {
 
         if (valid) {
             const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
-            axios.post(apiPrefix + '/addUser', {
+            axios.post(apiPrefix + '/add-user', {
                 firstName: fName,
                 lastName:  lName,
                 email, password
             }).then(res => {
                 if (res.data.success) {
-                    // success
+                    console.log('good job!');
+                    setError('');
                 } else {
                     switch (res.data.error.errno) {
                         case 1062:
@@ -115,8 +110,11 @@ export default function Register() {
                             break;
                         default:
                             setError('Unknown error code ' + res.data.error.errno + '.');
+                            console.log(res.data.error);
                     }
                 }
+            }).catch(err => {
+                setError(`Error ${err.response.status}: ${err.response.statusText}`);
             });
         }
     };
@@ -165,7 +163,12 @@ export default function Register() {
                                 <label htmlFor="email" className={css.required}>E-MAIL</label>
                                 <span className={css['error-message']}>{emailErr}</span>
                             </div>
-                            <input id="email" type="email" spellCheck="false" ref={emailField} />
+                            <input id="email"
+                                   type="email"
+                                   spellCheck="false"
+                                   value={email}
+                                   onChange={e => setEmail(e.target.value)}
+                                   ref={emailField} />
                         </div>
 
                         <div id={css.name}>
@@ -174,7 +177,12 @@ export default function Register() {
                                     <label htmlFor="first-name" className={css.required}>FIRST NAME</label>
                                     <span className={css['error-message']}>{fNameErr}</span>
                                 </div>
-                                <input id="first-name" type="text" spellCheck="false" ref={fNameField} />
+                                <input id="first-name"
+                                       type="text"
+                                       spellCheck="false"
+                                       value={fName}
+                                       onChange={e => setFName(e.target.value)}
+                                       ref={fNameField} />
                             </div>
 
                             <div className={css.input}>
@@ -182,7 +190,12 @@ export default function Register() {
                                     <label htmlFor="last-name">LAST NAME</label>
                                     <span className={css['error-message']}>{lNameErr}</span>
                                 </div>
-                                <input id="last-name" type="text" spellCheck="false" ref={lNameField} />
+                                <input id="last-name"
+                                       type="text"
+                                       spellCheck="false"
+                                       value={lName}
+                                       onChange={e => setLName(e.target.value)}
+                                       ref={lNameField} />
                             </div>
                         </div>
 
@@ -195,7 +208,7 @@ export default function Register() {
                                    className={css['no-bottom-margin']}
                                    type="password"
                                    value={password}
-                                   onChange={changePassword}
+                                   onChange={e => setPassword(e.target.value)}
                                    ref={passwordField} />
                             <PasswordStrength strength={zxcvbn(password).score} length={password.length} />
                         </div>

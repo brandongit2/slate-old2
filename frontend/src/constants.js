@@ -8,3 +8,6 @@ export const actionTypes = {
     GET_ARTICLES:   Symbol('get articles'),
     SET_INFO:       Symbol('set info')
 };
+
+export const apiPrefix1 = '/api';
+export const apiPrefix2 = 'http://localhost:8080/api';

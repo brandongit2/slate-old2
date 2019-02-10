@@ -1,9 +1,6 @@
 import axios from 'axios';
 
-import {actionTypes} from '../constants';
-
-const apiPrefix1 = '/api';
-const apiPrefix2 = 'http://localhost:8080/api';
+import {actionTypes, apiPrefix1, apiPrefix2} from '../constants';
 
 export const getAllSubjects = () => async dispatch => {
     const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;

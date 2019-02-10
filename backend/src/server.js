@@ -10,8 +10,15 @@ const port = 3001;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.enable('trust proxy');
 
 ////////////////////////////////////////////////// DATA FUNCTIONS ////////////////////////////////////////////////////////
+
+// <URL>/api/subjectId[?course=<course_name> | ?name=<subject_name>]
+app.get(apiUrl + '/subjectId', wrap(data.getSubjectId));
+
+// <URL>/api/courseId?name=<course_name>
+app.get(apiUrl + '/courseId', wrap(data.getCourseIdByCourseName));
 
 // <URL>/api/subjects
 app.get(apiUrl + '/subjects', wrap(data.getAllSubjects));
@@ -33,7 +40,11 @@ app.get(apiUrl + '/articles', wrap(data.getArticles));
 
 ////////////////////////////////////////////////// USER FUNCTIONS ////////////////////////////////////////////////////////
 
-app.post(apiUrl + '/addUser', wrap(users.addUser));
+app.post(apiUrl + '/add-user', wrap(users.addUser));
+app.post(apiUrl + '/authenticate', wrap(users.authenticate));
+
+// <URL>/api/verify?e=<unique query string>
+app.get(apiUrl + '/verify', wrap(users.verifyEmail));
 
 /////////////////////////////////////////////////// MISCELLANEOUS ////////////////////////////////////////////////////////
 

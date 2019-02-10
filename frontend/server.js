@@ -1,8 +1,6 @@
+const axios = require('axios');
 const express = require('express');
-const mysql = require('promise-mysql');
 const next = require('next');
-
-const mysqlCreds = require('../mysqlCreds.json');
 
 const app = next({
     dev: process.env.NODE_ENV !== 'production',
@@ -10,13 +8,7 @@ const app = next({
 });
 const handle = app.getRequestHandler();
 
-const pool = mysql.createPool({
-    connectionLimit: 10,
-    user:            mysqlCreds.user,
-    password:        mysqlCreds.pass,
-    host:            mysqlCreds.host,
-    database:        'slate'
-});
+const apiPrefix = 'http://localhost:8080';
 
 app.prepare()
     .then(() => {
@@ -24,23 +16,40 @@ app.prepare()
 
         server.get('/subject/:subject/:course', async (req, res) => {
             const actualPage = '/course';
-            const subjectId = (await pool.query(`
-                SELECT subject_id AS id FROM courses WHERE name='${req.params.course}'
-            `))[0].id;
-            const courseId = (await pool.query(`
-                SELECT id FROM courses WHERE name='${req.params.course}'
-            `))[0].id;
+            try {
+                const subjectId = (await axios.get(apiPrefix + '/api/subjectId?course=' + req.params.course)).data.id;
+                const courseId = (await axios.get(apiPrefix + '/api/courseId?name=' + req.params.course)).data.id;
 
-            const queryParams = {subject: subjectId, course: courseId};
-            app.render(req, res, actualPage, queryParams);
+                const queryParams = {subject: subjectId, course: courseId};
+                app.render(req, res, actualPage, queryParams);
+            } catch {
+                app.render(req, res, '/404');
+            }
         });
 
         server.get('/subject/:subject', async (req, res) => {
             const actualPage = '/subject';
-            const subjectId = (await pool.query(`SELECT id FROM subjects WHERE name='${req.params.subject}'`))[0].id;
+            try {
+                const subjectId = (await axios.get(apiPrefix + '/api/subjectId?name=' + req.params.subject)).data.id;
 
-            const queryParams = {subject: subjectId};
-            app.render(req, res, actualPage, queryParams);
+                const queryParams = {subject: subjectId};
+                app.render(req, res, actualPage, queryParams);
+            } catch {
+                app.render(req, res, '/404');
+            }
+        });
+
+        server.get('/verify', async (req, res) => {
+            try {
+                const success = (await axios.get(apiPrefix + '/api/verify?e=' + req.query.e)).data.success;
+                if (success) {
+                    app.render(req, res, '/verify');
+                } else {
+                    app.render(req, res, '/404');
+                }
+            } catch {
+                app.render(req, res, '/404');
+            }
         });
 
         server.get('*', (req, res) => {

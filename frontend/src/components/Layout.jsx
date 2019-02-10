@@ -74,7 +74,6 @@ const Layout = props => (
         `}</style> {/* eslint-disable-line react/jsx-closing-tag-location */}
         <Header currentPage={props.currentPage}
                 float={props.headerFloat}
-                backgroundColor={props.headerColor}
                 noShadow={props.noShadow} />
         {props.children}
     </div>
