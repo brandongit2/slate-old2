@@ -98,7 +98,7 @@ exports.resendEmail = async req => {
 };
 
 exports.authenticate = async (req, srvRes) => {
-    const hash = (await pool.query(`SELECT password FROM users WHERE email='${req.body.email}'`))[0].password.toString();
+    const hash = (await pool.query(`SELECT password FROM users WHERE email=?`, [req.body.email]))[0].password.toString();
 
     bcrypt.compare(req.body.password, hash, (err, cryptRes) => {
         srvRes.json({authenticate: cryptRes});
