@@ -4,22 +4,31 @@ const {pool} = require('./sqlConnect.js');
 
 exports.getSubjectId = async (req, res) => {
     if (req.query.course) {
-        pool.query(`SELECT subject_id AS id FROM courses WHERE name=?`, [req.query.course])
-            .then(id => { res.json(id[0]); })
-            .catch(() => { res.end('Course doesn\'t exist.'); });
+        const data = await pool.query(`SELECT subject_id AS id FROM courses WHERE name=?`, [req.query.course]);
+        if (data.length === 1) {
+            res.json(data[0]);
+        } else {
+            res.end('Course doesn\' exist.');
+        }
     } else if (req.query.name) {
-        pool.query(`SELECT id FROM subjects WHERE name=?`, [req.query.name])
-            .then(id => { res.json(id[0]); })
-            .catch(() => { res.end('Subject doesn\'t exist.'); });
+        const data = await pool.query(`SELECT id FROM subjects WHERE name=?`, [req.query.name]);
+        if (data.length === 1) {
+            res.json(data[0]);
+        } else {
+            res.end('Course doesn\' exist.');
+        }
     } else {
         res.end('Invalid query.');
     }
 };
 
 exports.getCourseIdByCourseName = async (req, res) => {
-    pool.query(`SELECT id FROM courses WHERE name=?`, [req.query.name])
-        .then(id => { res.json(id[0]); })
-        .catch(() => { res.end('Course doesn\'t exist.'); });
+    const data = pool.query(`SELECT id FROM courses WHERE name=?`, [req.query.name]);
+    if (data.length === 1) {
+        res.json(data[0]);
+    } else {
+        res.end('Course doesn\' exist.');
+    }
 };
 
 exports.getAllSubjects = async (req, srvRes) => {
