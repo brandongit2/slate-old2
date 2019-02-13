@@ -50,7 +50,7 @@ nextApp.prepare()
                 nextApp.render(req, res, '/verify', {success: 'false'});
             } else {
                 try {
-                    const success = (await axios.get(url + '/api/verify?e=' + req.query.e)).data.success;
+                    const success = (await axios.post(url + '/api/verify', {query: req.query.q})).data.success;
                     if (success) {
                         nextApp.render(req, res, '/verify', {success: 'true'});
                     } else {
@@ -61,6 +61,21 @@ nextApp.prepare()
                     res.set('location', url + '/subjects');
                     res.status(301).send();
                 }
+            }
+        });
+        
+        app.get('/deactivate', async (req, res) => {
+            try {
+                if (!req.query.q) {
+                    res.set('location', url + '/subjects');
+                    res.status(301).send();
+                }
+                axios.post(url + '/api/deactivate', {query: req.query.q});
+                nextApp.render(req, res, '/deactivate');
+            } catch (err) {
+                console.error(err);
+                res.set('location', url + '/subjects');
+                res.status(301).send();
             }
         });
 

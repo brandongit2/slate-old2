@@ -44,10 +44,11 @@ app.get(apiUrl + '/articles', wrap(data.getArticles));
 
 app.post(apiUrl + '/add-user', wrap(users.addUser));
 app.post(apiUrl + '/authenticate', wrap(users.authenticate));
+app.post(apiUrl + '/deactivate', wrap(users.deactivate));
 app.post(apiUrl + '/resend-verification-email', wrap(users.resendEmail));
 
 // <URL>/api/verify?e=<unique query string>
-app.get(apiUrl + '/verify', wrap(users.verifyEmail));
+app.post(apiUrl + '/verify', wrap(users.verifyEmail));
 
 /////////////////////////////////////////////////// MISCELLANEOUS //////////////////////////////////////////////////////
 

@@ -119,45 +119,61 @@ exports.resendEmail = async (req, res) => {
 };
 
 exports.authenticate = async (req, srvRes) => {
-    const hash = (await pool.query(`SELECT password FROM users WHERE email=?`, [req.body.email]))[0].password.toString();
+    const hash = (await pool.query('SELECT password FROM users WHERE email=?', [req.body.email]))[0].password.toString();
 
     bcrypt.compare(req.body.password, hash, (err, cryptRes) => {
         srvRes.json({authenticate: cryptRes});
     });
 };
 
+exports.deactivate = async req => {
+    try {
+        pool.query(
+            `
+                DELETE users FROM users
+                LEFT JOIN email_verification ON users.email=email_verification.email
+                WHERE email_verification.query=?
+            `,
+            [req.body.query]
+        );
+    } catch (err) {
+        console.error(err);
+    }
+};
+
 exports.verifyEmail = async (req, res) => {
-    if (req.query.e) {
-        pool.query('SELECT email FROM email_verification WHERE query=?', [req.query.e])
-            .then(emails => {
-                if (emails.length === 1) {
-                    try {
-                        pool.query('UPDATE users SET valid_email=1 WHERE ev.email=?', [emails[0]]);
-                        pool.query('DELETE FROM email_verification WHERE query=?', [req.query.e]);
-                    } catch {
-                        res.json({
-                            success: false,
-                            error:   errors.MYSQL_ERROR
-                        });
-                    }
-                    res.json({success: true});
-                } else {
+    console.log(req.body);
+    if (req.body.query) {
+        const emails = await pool.query('SELECT email FROM email_verification WHERE query=?', [req.body.query]);
+
+        try {
+            if (emails.length === 1) {
+                try {
+                    pool.query('UPDATE users SET valid_email=1 WHERE email=?', [emails[0].email]);
+                    pool.query('DELETE FROM email_verification WHERE query=?', [req.body.query]);
+                } catch {
                     res.json({
                         success: false,
-                        error:   errors.QUERY_NOT_IN_DATABASE
+                        error:   errors.MYSQL_ERROR
                     });
+                    return;
                 }
-            })
-            .catch(err => {
-                console.log('nok');
-                console.log(err);
+                res.json({success: true});
+            } else {
                 res.json({
                     success: false,
-                    error:   errors.MYSQL_ERROR
+                    error:   errors.QUERY_NOT_IN_DATABASE
                 });
+                return;
+            }
+        } catch (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                error:   errors.MYSQL_ERROR
             });
+        }
     } else {
-        console.log('haha yes');
         res.json({
             success: false,
             error:   errors.QUERY_EXPECTED

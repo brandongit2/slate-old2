@@ -1,3 +1,5 @@
+const {rootUrl} = require('./constants.js');
+
 exports.verificationEmail = (name, query) => `
     <html>
         <body style="margin: 0px;">
@@ -47,7 +49,7 @@ exports.verificationEmail = (name, query) => `
                                     <tr><td height="20"></td></tr>
                                     <tr><td>
                                         <table bgcolor="#0478f1" align="center" border="0" cellpadding="0" cellspacing="0" style="border-radius: 5px;"><tr><td>
-                                            <a href="https://localhost:8080/verify?e=${query}" style="display: inline-block; text-decoration: none;">
+                                            <a href="${rootUrl}/verify?q=${query}" style="display: inline-block; text-decoration: none;">
                                                 <table border="0" cellpadding="0" cellspacing="0">
                                                     <tr height="10"></tr>
                                                     <tr>
@@ -64,7 +66,7 @@ exports.verificationEmail = (name, query) => `
                                     </td></tr>
                                     <tr><td height="20"></td></tr>
                                     <tr><td>
-                                        <p style="font-family: 'Lato', 'Segoe UI', sans-serif; font-size: 14px; margin: 0px; color: #777777;">Didn't make an account? Somebody must have used your e-mail address when signing up. <a href="http://localhost:8080/deactivate?query=${query}" style="color: #777777;">Click here</a> to deactivate their account.</p>
+                                        <p style="font-family: 'Lato', 'Segoe UI', sans-serif; font-size: 14px; margin: 0px; color: #777777;">Didn't make an account? Somebody must have used your e-mail address when signing up. <a href="${rootUrl}/deactivate?q=${query}" style="color: #777777;">Click here</a> to deactivate their account.</p>
                                     </td></tr>
                                 </table>
                             </td>
