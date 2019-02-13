@@ -3,6 +3,7 @@ const express = require('express');
 const data = require('./data.js');
 const users = require('./users.js');
 const {wrap} = require('./utils.js');
+const auth = require('./auth.js');
 
 const app = express();
 const apiUrl = '/api';
@@ -11,6 +12,8 @@ const port = 3001;
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.enable('trust proxy');
+
+app.use(auth.auth);
 
 ////////////////////////////////////////////////// DATA FUNCTIONS //////////////////////////////////////////////////////
 
