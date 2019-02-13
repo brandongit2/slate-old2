@@ -1,8 +1,10 @@
 const express = require('express');
+const https = require('https');
 
 const data = require('./data.js');
 const users = require('./users.js');
 const {wrap} = require('./utils.js');
+const {credentials} = require('../../certOptions.js');
 
 const app = express();
 const apiUrl = '/api';
@@ -12,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.enable('trust proxy');
 
-////////////////////////////////////////////////// DATA FUNCTIONS ////////////////////////////////////////////////////////
+////////////////////////////////////////////////// DATA FUNCTIONS //////////////////////////////////////////////////////
 
 // <URL>/api/subjectId[?course=<course_name> | ?name=<subject_name>]
 app.get(apiUrl + '/subjectId', wrap(data.getSubjectId));
@@ -38,7 +40,7 @@ app.get(apiUrl + '/units', wrap(data.getUnits));
 // <URL>/api/articles[?unit=<unit_id> | ?course=<course_id> | ?subject=<subject_id>]
 app.get(apiUrl + '/articles', wrap(data.getArticles));
 
-////////////////////////////////////////////////// USER FUNCTIONS ////////////////////////////////////////////////////////
+////////////////////////////////////////////////// USER FUNCTIONS //////////////////////////////////////////////////////
 
 app.post(apiUrl + '/add-user', wrap(users.addUser));
 app.post(apiUrl + '/authenticate', wrap(users.authenticate));
@@ -47,7 +49,7 @@ app.post(apiUrl + '/resend-verification-email', wrap(users.resendEmail));
 // <URL>/api/verify?e=<unique query string>
 app.get(apiUrl + '/verify', wrap(users.verifyEmail));
 
-/////////////////////////////////////////////////// MISCELLANEOUS ////////////////////////////////////////////////////////
+/////////////////////////////////////////////////// MISCELLANEOUS //////////////////////////////////////////////////////
 
 app.get('/', (req, res) => {
     res.end('Slate API root');
@@ -68,4 +70,4 @@ app.use((err, req, res) => {
     console.log(err);
 });
 
-app.listen(port, () => console.log(`Slate backend running on port ${port}.`));
+https.createServer(credentials, app).listen(port, () => console.log(`Slate backend running on port ${port}.`));

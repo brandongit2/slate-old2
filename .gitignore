@@ -1,4 +1,5 @@
 /**/node_modules
 /mysqlCreds.json
+/certOptions.js
 /frontend/src/.next
 /backend/sendgrid.json

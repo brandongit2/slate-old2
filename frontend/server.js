@@ -1,66 +1,76 @@
 const axios = require('axios');
 const express = require('express');
+const https = require('https');
 const next = require('next');
 
-const app = next({
+const {credentials} = require('../certOptions.js');
+
+const nextApp = next({
     dev: process.env.NODE_ENV !== 'production',
     dir: './src'
 });
-const handle = app.getRequestHandler();
+const handle = nextApp.getRequestHandler();
 
-const url = 'http://localhost:8080';
+const port = 3000;
+const url = 'https://localhost';
 
-app.prepare()
+nextApp.prepare()
     .then(() => {
-        const server = express();
+        const app = express();
 
-        server.get('/subject/:subject', async (req, res) => {
+        app.get('/subject/:subject', async (req, res) => {
             const actualPage = '/subject';
             try {
                 const subjectId = (await axios.get(url + '/api/subjectId?name=' + req.params.subject)).data.id;
 
                 const queryParams = {subject: subjectId};
-                app.render(req, res, actualPage, queryParams);
+                nextApp.render(req, res, actualPage, queryParams);
             } catch {
-                app.render(req, res, '/404');
+                nextApp.render(req, res, '/404');
             }
         });
 
-        server.get('/subject/:subject/:course', async (req, res) => {
+        app.get('/subject/:subject/:course', async (req, res) => {
             const actualPage = '/course';
             try {
                 const subjectId = (await axios.get(url + '/api/subjectId?course=' + req.params.course)).data.id;
                 const courseId = (await axios.get(url + '/api/courseId?name=' + req.params.course)).data.id;
 
                 const queryParams = {subject: subjectId, course: courseId};
-                app.render(req, res, actualPage, queryParams);
+                nextApp.render(req, res, actualPage, queryParams);
             } catch {
-                app.render(req, res, '/404');
+                nextApp.render(req, res, '/404');
             }
         });
 
-        server.get('/verify', async (req, res) => {
-            try {
-                const success = (await axios.get(url + '/api/verify?e=' + req.query.e)).data.success;
-                if (success) {
-                    app.render(req, res, '/verify');
-                } else {
+        app.get('/verify', async (req, res) => {
+            if (req.query.success === 'true') {
+                nextApp.render(req, res, '/verify', {success: 'true'});
+            } else if (req.query.success === 'false') {
+                nextApp.render(req, res, '/verify', {success: 'false'});
+            } else {
+                try {
+                    const success = (await axios.get(url + '/api/verify?e=' + req.query.e)).data.success;
+                    if (success) {
+                        nextApp.render(req, res, '/verify', {success: 'true'});
+                    } else {
+                        nextApp.render(req, res, '/verify', {success: 'false'});
+                    }
+                } catch (err) {
+                    console.error(err);
                     res.set('location', url + '/subjects');
                     res.status(301).send();
                 }
-            } catch {
-                res.set('location', url + '/subjects');
-                res.status(301).send();
             }
         });
 
-        server.get('*', (req, res) => {
+        app.get('*', (req, res) => {
             return handle(req, res);
         });
 
-        server.listen(3000, err => {
+        https.createServer(credentials, app).listen(port, err => {
             if (err) throw err;
-            console.log('> Ready on http://localhost:3000');
+            console.log(`Slate frontend running on port ${port}.`);
         });
     })
     .catch(ex => {
