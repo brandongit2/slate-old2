@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
-    "start": "SLATE_VERSION=$(git describe --tags --exact-match HEAD 2>/dev/null || git rev-parse --verify HEAD --short=7 2>/dev/null) SLATE_PUBLISH_DATE=$(git show -s --format=%ct HEAD) node server.js",
+    "start": "`./init.sh` && SLATE_VERSION=$(git describe --tags --exact-match HEAD 2>/dev/null || git rev-parse --verify HEAD --short=7 2>/dev/null) SLATE_PUBLISH_DATE=$(git show -s --format=%ct HEAD) node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -35,6 +35,7 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "shortid": "^2.2.14",
+    "stylis": "^3.5.4",
     "wcag-contrast": "^2.1.1",
     "zxcvbn": "^4.4.2"
   },

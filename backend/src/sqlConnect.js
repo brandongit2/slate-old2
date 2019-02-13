@@ -1,6 +1,6 @@
 const mysql = require('promise-mysql');
 
-const mysqlCreds = require('../../mysqlCreds.json');
+const mysqlCreds = require('../mysqlCreds.json');
 
 exports.pool = mysql.createPool({
     connectionLimit: 10,
