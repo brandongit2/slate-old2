@@ -356,6 +356,7 @@
             }
         ],
         "yoda": "error",
+
         "react/display-name": "warn",
         "react/jsx-boolean-value": "error",
         "react/jsx-closing-bracket-location": [
