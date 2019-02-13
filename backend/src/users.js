@@ -25,20 +25,15 @@ const sendEmail = async (fName, email, validationQuery) => {
     try {
         await pool.query('DELETE FROM email_verification WHERE email=?', [email]);
         await pool.query('INSERT INTO email_verification(email, query) VALUES (?, ?)', [email, validationQuery]);
-        console.log('something');
         return {
             success: true
         };
     } catch (error) {
-        console.log('something else');
-        switch (error.errno) {
-            default:
-                console.log(error);
-                return {
-                    success: false,
-                    error:   errors.MYSQL_ERROR
-                };
-        }
+        console.error(error);
+        return {
+            success: false,
+            error:   errors.MYSQL_ERROR
+        };
     }
 };
 
@@ -57,45 +52,46 @@ exports.addUser = async (req, res) => {
     if (valid) {
         const validationQuery = generate(); // Will be used as a query string when validating e-mails.
 
-        bcrypt.hash(password, 10, (err, hash) => {
+        bcrypt.hash(password, 10, async (err, hash) => {
             if (err) {
                 console.error(err);
                 res.json({
                     success: false,
                     error:   errors.BCRYPT_ERROR
                 });
+                return;
             }
 
-            pool.query(`
-                INSERT INTO
-                    users(
-                        first_name,
-                        last_name,
-                        email,
-                        password,
-                        valid_email
-                    )
-                VALUES (?, ?, ?, ?, 0)
-            `, [fName, lName, email, hash])
-                .then(async () => {
-                    res.json(await sendEmail(fName, email, validationQuery));
-                })
-                .catch(err => {
-                    switch (err.errno) {
-                        case 1062:
-                            res.json({
-                                success: false,
-                                error:   errors.ACCOUNT_EXISTS
-                            });
-                            break;
-                        default:
-                            console.error(err);
-                            res.json({
-                                success: false,
-                                error:   errors.MYSQL_ERROR
-                            });
-                    }
-                });
+            try {
+                await pool.query(`
+                    INSERT INTO
+                        users(
+                            first_name,
+                            last_name,
+                            email,
+                            password,
+                            valid_email
+                        )
+                    VALUES (?, ?, ?, ?, 0)
+                `, [fName, lName, email, hash]);
+                
+                res.json(await sendEmail(fName, email, validationQuery));
+            } catch (err) {
+                switch (err.errno) {
+                    case 1062:
+                        res.json({
+                            success: false,
+                            error:   errors.ACCOUNT_EXISTS
+                        });
+                        break;
+                    default:
+                        console.error(err);
+                        res.json({
+                            success: false,
+                            error:   errors.MYSQL_ERROR
+                        });
+                }
+            }
         });
     } else {
         res.json({

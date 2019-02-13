@@ -1,5 +1,5 @@
 // These constants must be added to the frontend `constants.js` as well.
-exports.rootUrl = 'https://localhost'; // CHANGE FOR PRODUCTION
+exports.rootUrl = 'http://localhost'; // CHANGE FOR PRODUCTION
 exports.errors = {
     ACCOUNT_EXISTS:         'account exists',
     BCRYPT_ERROR:           'bcrypt error',

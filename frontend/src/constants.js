@@ -1,5 +1,5 @@
 export const isDev = true; // CHANGE TO `false` BEFORE PUSHING TO PRODUCTION
-export const rootUrl = 'https://localhost'; // CHANGE FOR PRODUCTION
+export const rootUrl = 'http://localhost'; // CHANGE FOR PRODUCTION
 
 export const actionTypes = {
     ADD_NOTIFICATION:    'add notification',

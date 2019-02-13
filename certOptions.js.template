@@ -1,6 +1,0 @@
-var fs = require('fs');
-
-exports.certOptions = {
-    key:  fs.readFileSync(/* '/path/to/ssl-certificate.key' */),
-    cert: fs.readFileSync(/* '/path/to/signed-ssl.crt' */)
-};

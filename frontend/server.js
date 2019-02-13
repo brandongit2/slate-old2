@@ -1,9 +1,6 @@
 const axios = require('axios');
 const express = require('express');
-const https = require('https');
 const next = require('next');
-
-const {credentials} = require('../certOptions.js');
 
 const nextApp = next({
     dev: process.env.NODE_ENV !== 'production',
@@ -12,7 +9,7 @@ const nextApp = next({
 const handle = nextApp.getRequestHandler();
 
 const port = 3000;
-const url = 'https://localhost';
+const url = 'http://localhost';
 
 nextApp.prepare()
     .then(() => {
@@ -83,7 +80,7 @@ nextApp.prepare()
             return handle(req, res);
         });
 
-        https.createServer(credentials, app).listen(port, err => {
+        app.listen(port, err => {
             if (err) throw err;
             console.log(`Slate frontend running on port ${port}.`);
         });

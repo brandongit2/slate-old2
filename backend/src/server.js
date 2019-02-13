@@ -1,10 +1,8 @@
 const express = require('express');
-const https = require('https');
 
 const data = require('./data.js');
 const users = require('./users.js');
 const {wrap} = require('./utils.js');
-const {credentials} = require('../../certOptions.js');
 
 const app = express();
 const apiUrl = '/api';
@@ -68,7 +66,7 @@ app.use((err, req, res) => {
     if (!res.headersSent) {
         res.status(500).end('Internal server error');
     }
-    console.log(err);
+    console.error(err);
 });
 
-https.createServer(credentials, app).listen(port, () => console.log(`Slate backend running on port ${port}.`));
+app.listen(port, () => console.info(`Slate backend running on port ${port}.`));
