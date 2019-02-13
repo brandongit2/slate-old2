@@ -7,5 +7,5 @@ exports.pool = mysql.createPool({
     user:            mysqlCreds.user,
     password:        mysqlCreds.pass,
     host:            mysqlCreds.host,
-    database:        'slate'
+    database:        mysqlCreds.database
 });
