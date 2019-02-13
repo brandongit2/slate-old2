@@ -24,7 +24,7 @@ const sendEmail = async (fName, email, validationQuery) => {
 
     try {
         await pool.query('DELETE FROM email_verification WHERE email=?', [email]);
-        await pool.query('INSERT INTO email_verification(email, query) VALUES (?, ?)', [email, validationQuery]);
+        await pool.query('INSERT INTO email_verification(email, query, expiry) VALUES (?, ?, TIMESTAMPADD(HOUR, 24, CURRENT_TIMESTAMP))', [email, validationQuery]);
         return {
             success: true
         };
@@ -128,7 +128,7 @@ exports.deactivate = async req => {
             `
                 DELETE users FROM users
                 LEFT JOIN email_verification ON users.email=email_verification.email
-                WHERE email_verification.query=?
+                WHERE email_verification.query=? AND CURRENT_TIMESTAMP < expiry
             `,
             [req.body.query]
         );
@@ -140,7 +140,7 @@ exports.deactivate = async req => {
 exports.verifyEmail = async (req, res) => {
     console.log(req.body);
     if (req.body.query) {
-        const emails = await pool.query('SELECT email FROM email_verification WHERE query=?', [req.body.query]);
+        const emails = await pool.query('SELECT email FROM email_verification WHERE query=? AND CURRENT_TIMESTAMP < expiry', [req.body.query]);
 
         try {
             if (emails.length === 1) {
