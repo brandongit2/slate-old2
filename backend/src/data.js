@@ -15,7 +15,7 @@ exports.getSubjectId = async (req, res) => {
         if (data.length === 1) {
             res.json(data[0]);
         } else {
-            res.end('Course doesn\' exist.');
+            res.end('Course doesn\'t exist.');
         }
     } else {
         res.end('Invalid query.');
@@ -23,11 +23,11 @@ exports.getSubjectId = async (req, res) => {
 };
 
 exports.getCourseIdByCourseName = async (req, res) => {
-    const data = pool.query(`SELECT id FROM courses WHERE name=?`, [req.query.name]);
+    const data = await pool.query(`SELECT id FROM courses WHERE name=?`, [req.query.name]);
     if (data.length === 1) {
         res.json(data[0]);
     } else {
-        res.end('Course doesn\' exist.');
+        res.end('Course doesn\'t exist.');
     }
 };
 

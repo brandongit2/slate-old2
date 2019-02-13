@@ -42,7 +42,7 @@ const Layout = props => (
             }
 
             p::selection, a::selection, span::selection, h1::selection, h2::selection, h3::selection, h4::selection,
-            h5::selection, h6::selection, input::selection, textarea::selection, div::selection {
+            h5::selection, h6::selection, input::selection, textarea::selection, div::selection, b::selection {
                 background: var(--text-color);
                 color: white;
             }
