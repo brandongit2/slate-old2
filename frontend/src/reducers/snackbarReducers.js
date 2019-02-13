@@ -9,6 +9,7 @@ export function notificationsReducers(state = notifications_initialState, action
                 ...state,
                 [action.id]: {
                     text:    action.notification,
+                    level:   action.level,
                     timeout: action.timeout,
                     fade:    false // Fade animation
                 }

@@ -96,6 +96,10 @@ const Layout = props => (
                         noShadow={props.noShadow} />
             )
         }
+        {props.secondaryLogo
+            ? <img src="/static/slate-logo.svg" id={css['secondary-logo']} />
+            : null
+        }
         <Snackbar />
         {props.children}
     </div>

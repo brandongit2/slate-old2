@@ -1,4 +1,13 @@
 #layout {
     display: flex;
     flex-direction: column;
+    
+    #secondary-logo {
+        position: absolute;
+        bottom: 2em;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 1.5em;
+        opacity: 0.2;
+    }
 }
