@@ -3,9 +3,10 @@ const sgMail = require('@sendgrid/mail');
 const {generate} = require('shortid');
 const zxcvbn = require('zxcvbn');
 
-const {apiKey} = require('../sendgrid.json');
+const {errors} = require('./constants.js');
 const {pool} = require('./sqlConnect.js');
 const {verificationEmail} = require('./verificationEmail.js');
+const {apiKey} = require('../sendgrid.json');
 
 sgMail.setApiKey(apiKey);
 
@@ -22,17 +23,22 @@ const sendEmail = async (fName, email, validationQuery) => {
     });
 
     try {
-        await pool.query('DELETE FROM email_validation_links WHERE email=?', [email]);
-        await pool.query('INSERT INTO email_validation_links(email, query) VALUES (?, ?)', [email, validationQuery]);
+        await pool.query('DELETE FROM email_verification WHERE email=?', [email]);
+        await pool.query('INSERT INTO email_verification(email, query) VALUES (?, ?)', [email, validationQuery]);
+        console.log('something');
         return {
             success: true
         };
     } catch (error) {
-        console.log(error);
-        return {
-            success: false,
-            error
-        };
+        console.log('something else');
+        switch (error.errno) {
+            default:
+                console.log(error);
+                return {
+                    success: false,
+                    error:   errors.MYSQL_ERROR
+                };
+        }
     }
 };
 
@@ -56,7 +62,7 @@ exports.addUser = async (req, res) => {
                 console.error(err);
                 res.json({
                     success: false,
-                    error:   err
+                    error:   errors.BCRYPT_ERROR
                 });
             }
 
@@ -72,29 +78,44 @@ exports.addUser = async (req, res) => {
                 VALUES (?, ?, ?, ?, 0)
             `, [fName, lName, email, hash])
                 .then(async () => {
-                    try {
-                        res.json(await sendEmail(fName, email, validationQuery));
-                    } catch (error) {
-                        res.json({
-                            success: false,
-                            error
-                        });
-                    }
+                    res.json(await sendEmail(fName, email, validationQuery));
                 })
-                .catch(error => {
-                    res.json({
-                        success: false,
-                        error
-                    });
+                .catch(err => {
+                    switch (err.errno) {
+                        case 1062:
+                            res.json({
+                                success: false,
+                                error:   errors.ACCOUNT_EXISTS
+                            });
+                            break;
+                        default:
+                            console.error(err);
+                            res.json({
+                                success: false,
+                                error:   errors.MYSQL_ERROR
+                            });
+                    }
                 });
         });
     } else {
-        res.end('Invalid form.');
+        res.json({
+            success: false,
+            error:   errors.INVALID_FORM
+        });
     }
 };
 
-exports.resendEmail = async req => {
-    sendEmail(req.body.firstName, req.body.email, generate());
+exports.resendEmail = async (req, res) => {
+    const validEmail = (await pool.query('SELECT email FROM email_verification WHERE email=?', [req.body.email])).length === 1;
+
+    if (validEmail) {
+        res.json(await sendEmail(req.body.firstName, req.body.email, generate()));
+    } else {
+        return {
+            success: false,
+            error:   errors.RESEND_EMAIL_NOT_FOUND
+        };
+    }
 };
 
 exports.authenticate = async (req, srvRes) => {
@@ -106,14 +127,40 @@ exports.authenticate = async (req, srvRes) => {
 };
 
 exports.verifyEmail = async (req, res) => {
-    pool.query('SELECT email FROM email_validation_links WHERE query=?', [req.query.e])
-        .then(emails => {
-            if (emails.length === 1) {
-                pool.query('DELETE FROM email_validation_links WHERE query=?', [req.query.e]);
-                pool.query('UPDATE users SET valid_email=1 WHERE email=?', [req.query.e]);
-                res.json({success: true});
-            } else {
-                res.json({success: false});
-            }
+    if (req.query.e) {
+        pool.query('SELECT email FROM email_verification WHERE query=?', [req.query.e])
+            .then(emails => {
+                if (emails.length === 1) {
+                    try {
+                        pool.query('UPDATE users SET valid_email=1 WHERE ev.email=?', [emails[0]]);
+                        pool.query('DELETE FROM email_verification WHERE query=?', [req.query.e]);
+                    } catch {
+                        res.json({
+                            success: false,
+                            error:   errors.MYSQL_ERROR
+                        });
+                    }
+                    res.json({success: true});
+                } else {
+                    res.json({
+                        success: false,
+                        error:   errors.QUERY_NOT_IN_DATABASE
+                    });
+                }
+            })
+            .catch(err => {
+                console.log('nok');
+                console.log(err);
+                res.json({
+                    success: false,
+                    error:   errors.MYSQL_ERROR
+                });
+            });
+    } else {
+        console.log('haha yes');
+        res.json({
+            success: false,
+            error:   errors.QUERY_EXPECTED
         });
+    }
 };

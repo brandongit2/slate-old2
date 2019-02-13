@@ -21,7 +21,7 @@ exports.verificationEmail = (name, query) => `
                 <table border="0" cellpadding="0" cellspacing="0" style="max-width: 500px; border-width: 1px; border-style: solid; border-color: #cccccc; border-radius: 10px;">
                     <tr><td>
                         <table border="0" cellpadding="20" cellspacing="0"><tr><td>
-                            <img src="https://brandontsang.net/static/slate-logo.svg" alt="Slate logo" width="65" height="35">
+                            <img src="https://i.imgur.com/LempzuC.png" alt="Slate logo" width="67" height="25">
                         </td></tr></table>
                     </td></tr>
                     <tr><td>
@@ -38,16 +38,16 @@ exports.verificationEmail = (name, query) => `
                             <td>
                                 <table border="0" cellpadding="0" cellspacing="0">
                                     <tr><td>
-                                        <p style="font-family: 'Lato', 'Segoe UI', sans-serif; font-size: 16px; margin: 0px;">Hi ${name},</p>
+                                        <p style="font-family: 'Lato', 'Segoe UI', sans-serif; font-size: 16px; margin: 0px; color: #000000;">Hi ${name},</p>
                                     </td></tr>
                                     <tr><td height="10"></td></tr>
                                     <tr><td>
-                                        <p style="font-family: 'Lato', 'Segoe UI', sans-serif; font-size: 16px; margin: 0px;">Welcome to Slate! To log in, you must first verify your email by clicking the button below:</p>
+                                        <p style="font-family: 'Lato', 'Segoe UI', sans-serif; font-size: 16px; margin: 0px; color: #000000;">Welcome to Slate! To log in, you must first verify your email by clicking the button below:</p>
                                     </td></tr>
                                     <tr><td height="20"></td></tr>
                                     <tr><td>
                                         <table bgcolor="#0478f1" align="center" border="0" cellpadding="0" cellspacing="0" style="border-radius: 5px;"><tr><td>
-                                            <a href="http://localhost:8080/verify?e=${query}" style="display: inline-block; text-decoration: none;">
+                                            <a href="https://localhost:8080/verify?e=${query}" style="display: inline-block; text-decoration: none;">
                                                 <table border="0" cellpadding="0" cellspacing="0">
                                                     <tr height="10"></tr>
                                                     <tr>
@@ -61,6 +61,10 @@ exports.verificationEmail = (name, query) => `
                                                 </table>
                                             </a>
                                         </td></tr></table>
+                                    </td></tr>
+                                    <tr><td height="20"></td></tr>
+                                    <tr><td>
+                                        <p style="font-family: 'Lato', 'Segoe UI', sans-serif; font-size: 14px; margin: 0px; color: #777777;">Didn't make an account? Somebody must have used your e-mail address when signing up. <a href="http://localhost:8080/deactivate?query=${query}" style="color: #777777;">Click here</a> to deactivate their account.</p>
                                     </td></tr>
                                 </table>
                             </td>

@@ -5,11 +5,15 @@ import React from 'react';
 import zxcvbn from 'zxcvbn';
 
 import {Layout} from '../components';
-import {apiPrefix1, apiPrefix2} from '../constants';
+import {isDev, apiPrefix1, apiPrefix2, errors} from '../constants';
 import css from './register.scss';
 
 const PasswordStrength = props => (
-    <div className={`${css['password-strength']} ${css[`strength-${props.strength}`]} ${props.length === 0 ? css.empty : ''}`}>
+    <div className={[
+             css['password-strength'],
+             css[`strength-${props.strength}`],
+             props.length === 0 ? css.empty : ''
+         ].join(' ')}>
         <div />
         <div />
         <div />
@@ -19,21 +23,19 @@ const PasswordStrength = props => (
 );
 
 export default function Register() {
+    // For the form fields.
     const [email, setEmail] = React.useState('');
     const [fName, setFName] = React.useState('');
     const [lName, setLName] = React.useState('');
     const [password, setPassword] = React.useState('');
+    // These are shown above their corresponding fields when there are errors.
     const [emailErr, setEmailErr] = React.useState('');
     const [fNameErr, setFNameErr] = React.useState('');
     const [lNameErr, setLNameErr] = React.useState('');
     const [passwordErr, setPasswordErr] = React.useState('');
     const [error, setError] = React.useState(''); // General form errors (e.g. account with e-mail already exists)
-    const emailField = React.useRef();
-    const fNameField = React.useRef();
-    const lNameField = React.useRef();
-    const passwordField = React.useRef();
 
-    const submitForm = e => {
+    const submitForm = async e => {
         e.preventDefault();
         setError('');
 
@@ -44,7 +46,7 @@ export default function Register() {
             setEmailErr('Required field.');
         } else if (email.length > 254) {
             valid = false;
-            setEmailErr('Maximum length of 254 characters.');
+            setEmailErr('Maximum of 254 characters.');
         } else if (!validateEmail(email)) {
             valid = false;
             setEmailErr('Invalid e-mail.');
@@ -84,26 +86,28 @@ export default function Register() {
 
         if (valid) {
             const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
-            axios.post(apiPrefix + '/add-user', {
-                firstName: fName,
-                lastName:  lName,
-                email, password
-            }).then(res => {
+            try {
+                const res = await axios.post(apiPrefix + '/add-user', {
+                    firstName: fName,
+                    lastName:  lName,
+                    email, password
+                });
+                
                 if (res.data.success) {
                     Router.push(`/check-email?email=${email}&fname=${fName}`, '/register');
                 } else {
-                    switch (res.data.error.errno) {
-                        case 1062:
-                            setError('An account already exists with that e-mail.');
+                    switch (res.data.error) {
+                        case errors.ACCOUNT_EXISTS:
+                            setError(<p>An account already exists with that e-mail. Would you like to <a href="/login">log in</a> instead?</p>);
                             break;
                         default:
-                            setError('Unknown error code ' + res.data.error.errno + '.');
-                            console.log(res.data.error);
+                            if (isDev) console.error(res.data.error);
+                            setError('An unknown error occurred.');
                     }
                 }
-            }).catch(err => {
+            } catch (err) {
                 setError(`Error ${err.response.status}: ${err.response.statusText}`);
-            });
+            }
         }
     };
 
@@ -142,7 +146,7 @@ export default function Register() {
                         <h1>Make an account</h1>
 
                         <div id={css.error} className={error === '' ? '' : css.shown}>
-                            <p>{error}</p>
+                            <span>{error}</span>
                             <i className="material-icons" onClick={() => { setError(''); }}>close</i>
                         </div>
 
@@ -157,8 +161,7 @@ export default function Register() {
                                    spellCheck="false"
                                    value={email}
                                    onFocus={() => setEmailErr('')}
-                                   onChange={e => setEmail(e.target.value)}
-                                   ref={emailField} />
+                                   onChange={e => setEmail(e.target.value)} />
                         </div>
 
                         <div id={css.name}>
@@ -173,8 +176,7 @@ export default function Register() {
                                        spellCheck="false"
                                        value={fName}
                                        onFocus={() => setFNameErr('')}
-                                       onChange={e => setFName(e.target.value)}
-                                       ref={fNameField} />
+                                       onChange={e => setFName(e.target.value)} />
                             </div>
 
                             <div className={css.input}>
@@ -188,8 +190,7 @@ export default function Register() {
                                        spellCheck="false"
                                        value={lName}
                                        onFocus={() => setLNameErr('')}
-                                       onChange={e => setLName(e.target.value)}
-                                       ref={lNameField} />
+                                       onChange={e => setLName(e.target.value)} />
                             </div>
                         </div>
 
@@ -203,8 +204,7 @@ export default function Register() {
                                    type="password"
                                    value={password}
                                    onFocus={() => setPasswordErr('')}
-                                   onChange={e => setPassword(e.target.value)}
-                                   ref={passwordField} />
+                                   onChange={e => setPassword(e.target.value)} />
                             <PasswordStrength strength={zxcvbn(password).score} length={password.length} />
                         </div>
 
