@@ -8,19 +8,21 @@ import {Layout} from '../components';
 import {isDev, apiPrefix1, apiPrefix2, errors} from '../constants';
 import css from './register.scss';
 
-const PasswordStrength = props => (
-    <div className={[
-             css['password-strength'],
-             css[`strength-${props.strength}`],
-             props.length === 0 ? css.empty : ''
-         ].join(' ')}>
-        <div />
-        <div />
-        <div />
-        <div />
-        <div />
-    </div>
-);
+function PasswordStrength(props) {
+    return (
+        <div className={[
+                 css['password-strength'],
+                 css[`strength-${props.strength}`],
+                 props.length === 0 ? css.empty : ''
+             ].join(' ')}>
+            <div />
+            <div />
+            <div />
+            <div />
+            <div />
+        </div>
+    );
+}
 
 export default function Register() {
     // For the form fields.
@@ -121,23 +123,19 @@ export default function Register() {
                             <li>
                                 <h2>Save your progress (and earn points!)</h2>
                                 <p>
-                                    After you&apos;ve read an article or finished a problem, Slate will automatically
-                                    save your progress! In addition to this, you can also see your progress in a unit,
-                                    course, or subject. The more progress you make, the more points you earn!
+                                    After you&apos;ve read an article or finished a problem, Slate will automatically save your progress! In addition to this, you can also see your progress in a unit, course, or subject. The more progress you make, the more points you earn!
                                 </p>
                             </li>
                             <li>
                                 <h2>Ask questions</h2>
                                 <p>
-                                    Confused about a subject? Ask a question in the questions box! Feel like helping
-                                    others? Answer their questions for more points!
+                                    Confused about a subject? Ask a question in the questions box! Feel like helping others? Answer their questions for more points!
                                 </p>
                             </li>
                             <li>
                                 <h2>Leave comments and feedback</h2>
                                 <p>
-                                    If you notice a problem or want to address an error, you can leave a message for the
-                                    developer. Want a feature? Request it, and it may appear in a future version!
+                                    If you notice a problem or want to address an error, you can leave a message for the developer. Want a feature? Request it, and it may appear in a future version!
                                 </p>
                             </li>
                         </ul>
@@ -147,7 +145,7 @@ export default function Register() {
 
                         <div id={css.error} className={error === '' ? '' : css.shown}>
                             <span>{error}</span>
-                            <i className="material-icons" onClick={() => { setError(''); }}>close</i>
+                            <i className="material-icons" onClick={() => setError('')}>close</i>
                         </div>
 
                         <div className={css.input}>
@@ -200,7 +198,10 @@ export default function Register() {
                                 <span className={css['error-message']}>{passwordErr}</span>
                             </div>
                             <input id="password"
-                                   className={css['no-bottom-margin'] + ' ' + (passwordErr.length > 0 ? css.invalid : '')}
+                                   className={[
+                                       css['no-bottom-margin'],
+                                       passwordErr.length > 0 ? css.invalid : ''
+                                   ].join(' ')}
                                    type="password"
                                    value={password}
                                    onFocus={() => setPasswordErr('')}

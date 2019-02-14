@@ -5,24 +5,22 @@ import {Layout} from '../components';
 import {apiPrefix1, apiPrefix2} from '../constants';
 import css from './login.scss';
 
-const Login = () => {
+export default function Login() {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [error, setError] = React.useState('');
 
-    const submit = e => {
+    const submit = async e => {
         e.preventDefault();
 
         const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
-        axios.post(apiPrefix + '/authenticate', {
-            email, password
-        }).then(res => {
-            if (res.data.authenticate) {
-                console.log('logged in!');
-            } else {
-                console.log('invalid login.');
-            }
-        });
+        const res = await axios.post(apiPrefix + '/authenticate', {email, password});
+        
+        if (res.data.authenticate) {
+            console.log('logged in!');
+        } else {
+            console.log('invalid login.');
+        }
     };
 
     return (
@@ -62,6 +60,4 @@ const Login = () => {
             </div>
         </Layout>
     );
-};
-
-export default Login;
+}

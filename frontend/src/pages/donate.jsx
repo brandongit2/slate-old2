@@ -1,9 +1,9 @@
 import {Layout} from '../components';
 
-const Donate = () => (
-    <Layout currentPage="donate" title="Donate - Slate">
-        donate
-    </Layout>
-);
-
-export default Donate;
+export default function Donate() {
+    return (
+        <Layout currentPage="donate" title="Donate - Slate">
+            donate
+        </Layout>
+    );
+}

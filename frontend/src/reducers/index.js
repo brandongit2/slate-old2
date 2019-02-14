@@ -15,25 +15,36 @@ export default combineReducers({
     currentSubject: (state = null, action) => {
         if (action.type === actionTypes.CHANGE_SUBJECT) {
             return action.newSubject;
+        } else {
+            return state;
         }
-        return state;
     },
     currentCourse: (state = null, action) => {
         if (action.type === actionTypes.CHANGE_COURSE) {
             return action.newCourse;
+        } else {
+            return state;
         }
-        return state;
     },
     currentUnit: (state = null, action) => {
         if (action.type === actionTypes.CHANGE_UNIT) {
             return action.newUnit;
+        } else {
+            return state;
         }
-        return state;
+    },
+    currentArticle: (state = null, action) => {
+        if (action.type === actionTypes.CHANGE_ARTICLE) {
+            return action.newArticle;
+        } else {
+            return state;
+        }
     },
     info: (state = {}, action) => {
         if (action.type === actionTypes.SET_INFO) {
             return action.info;
+        } else {
+            return state;
         }
-        return state;
     }
 });

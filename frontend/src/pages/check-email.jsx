@@ -63,8 +63,10 @@ class CheckEmail extends React.Component {
     }
 }
 
-const mapDispatchToProps = dispatch => ({
-    addNotification: notification => dispatch(addNotification(notification))
-});
+function mapDispatchToProps(dispatch) {
+    return {
+        addNotification: notification => dispatch(addNotification(notification))
+    };
+}
 
 export default connect(null, mapDispatchToProps)(CheckEmail);

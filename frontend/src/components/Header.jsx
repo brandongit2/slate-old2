@@ -1,7 +1,23 @@
 import Link from 'next/link';
 
-import {Button} from './';
 import css from './Header.scss';
+
+function Button(props) {
+    return (
+        <div className={css.button}>
+            <span>
+                <style jsx>{`
+                    --width: 1px;
+                `}</style> {/* eslint-disable-line react/jsx-closing-tag-location */}
+                <span>
+                    <span>
+                        <span>{props.children}</span>
+                    </span>
+                </span>
+            </span>
+        </div>
+    );
+}
 
 // Keys are the text shown in the header, entries are the URL they lead to.
 // example: 'blog' would link to slate.brandontsang.net/blog

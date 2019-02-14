@@ -13,6 +13,11 @@ export const changeCourse = newCourse => ({
     newCourse
 });
 
+export const changeArticle = newArticle => ({
+    type: actionTypes.CHANGE_ARTICLE,
+    newArticle
+});
+
 export const setInfo = info => ({
     type: actionTypes.SET_INFO,
     info

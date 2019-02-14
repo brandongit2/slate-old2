@@ -8,6 +8,7 @@ export const actionTypes = {
 
     CHANGE_SUBJECT: 'change subject',
     CHANGE_COURSE:  'change course',
+    CHANGE_ARTICLE: 'change article',
     CHANGE_UNIT:    'change unit',
     GET_SUBJECTS:   'get subjects',
     GET_COURSES:    'get courses',

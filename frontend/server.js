@@ -39,6 +39,23 @@ nextApp.prepare()
                 nextApp.render(req, res, '/404');
             }
         });
+        
+        app.get('/subject/:subject/:course/:articleId', async (req, res) => {
+            const actualPage = '/article';
+            try {
+                const subjectId = (await axios.get(url + '/api/subjectId?course=' + req.params.course)).data.id;
+                const courseId = (await axios.get(url + '/api/courseId?name=' + req.params.course)).data.id;
+
+                const queryParams = {
+                    subject: subjectId,
+                    course:  courseId,
+                    article: req.params.articleId
+                };
+                nextApp.render(req, res, actualPage, queryParams);
+            } catch {
+                nextApp.render(req, res, '/404');
+            }
+        });
 
         app.get('/verify', async (req, res) => {
             if (req.query.success === 'true') {

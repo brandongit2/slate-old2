@@ -1,9 +1,9 @@
 import {Layout} from '../components';
 
-const Blog = () => (
-    <Layout currentPage="blog" title="Blog - Slate">
-        blog
-    </Layout>
-);
-
-export default Blog;
+export default function Blog() {
+    return (
+        <Layout currentPage="blog" title="Blog - Slate">
+            blog
+        </Layout>
+    );
+}

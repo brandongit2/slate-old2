@@ -1,6 +1,8 @@
 import Router from 'next/router';
 
-const Index = () => <div>Index</div>;
+export default function Index() {
+    return <div>Index page</div>;
+}
 
 Index.getInitialProps = async ({req, res}) => {
     if (req) { // If being run on server
@@ -10,5 +12,3 @@ Index.getInitialProps = async ({req, res}) => {
         Router.push('/subjects');
     }
 };
-
-export default Index;
