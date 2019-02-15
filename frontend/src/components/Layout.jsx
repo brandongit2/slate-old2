@@ -73,10 +73,12 @@ const Layout = props => (
                 border-radius: 5px;
                 outline: none;
                 transition: box-shadow 0.2s;
+                user-select: none;
             }
 
-            button:hover, input[type='submit']:hover {
-                box-shadow: 0px 0px 15px 0px rgb(4, 120, 241, 0.5);
+            button:hover, input[type='submit']:hover, button:focus, input[type='submit']:focus {
+                box-shadow: 0px 0px 15px 0px rgb(4, 120, 241, 0.6);
+                outline: none;
             }
 
             button:active, input[type='submit']:active {
@@ -86,7 +88,7 @@ const Layout = props => (
             label {
                 cursor: text;
             }
-        `}</style> {/* eslint-disable-line react/jsx-closing-tag-location */}
+        `}</style>
         {props.noHeader
             ? null
             : (

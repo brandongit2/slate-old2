@@ -3,7 +3,7 @@
     display: flex;
     align-items: stretch;
 
-    p, a, span {
+    p, a, span, b {
         &::selection {
             background: var(--color);
             color: var(--subject-text-color);
@@ -22,7 +22,7 @@
         align-items: center;
         box-shadow: inset 0px 0px 30px 0px rgba(0, 0, 0, 0.2);
 
-        p, a, span {
+        p, a, span, b {
             &::selection {
                 background: var(--subject-text-color);
                 color: var(--color);

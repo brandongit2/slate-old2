@@ -39,7 +39,7 @@ function Subject(props) {
                     <div id={css.breadcrumbs}>
                         <Link href="/subjects"><a>Subjects</a></Link>
                         <span className={css.arrow}>&gt;</span>
-                        <span>{kebabToProper(props.subject.name)}</span>
+                        <span><b>{kebabToProper(props.subject.name)}</b></span>
                     </div>
                     <div>
                         <p id={css['label-subject']}>SUBJECT</p>

@@ -1,0 +1,111 @@
+.button {
+    border-radius: 5px;
+    transition: box-shadow 0.2s;
+    box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.3);
+    user-select: none;
+    outline: none;
+    
+    #visible {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        font-weight: 700;
+        cursor: pointer;
+        
+        i {
+            position: relative;
+            left: 5px;
+            transition: transform 0.2s;
+        }
+    }
+    
+    &:hover, &:focus {
+        box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.6);
+    }
+    
+    #items {
+        height: 0px;
+        overflow: hidden;
+    }
+    
+    &.open {
+        border-radius: 5px 5px 0px 0px;
+        
+        i {
+            transform: scale(1, -1);
+        }
+        
+        #items {
+            height: 0px;
+            overflow: visible;
+            position: relative;
+            top: -1px;
+            
+            & > div {
+                height: auto;
+                max-height: 200px;
+                overflow: auto;
+                background: white;
+                position: relative;
+                z-index: 3;
+                box-sizing: border-box;
+                border-radius: 0px 0px 5px 5px;
+                box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.3);
+                
+                &:hover {
+                    box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.6);
+                }
+            }
+        }
+    }
+    
+    &.mini {
+        border: none;
+        position: relative;
+        
+        #visible {
+            font-size: 10pt;
+            padding: 0px 10px;
+            font-weight: 400;
+        }
+        
+        #items {
+            width: 0px;
+        }
+        
+        &.open {
+            border-radius: 5px 5px 0px 0px;
+            
+            #items > div {
+                width: max-content;
+                max-height: 200px;
+                overflow: auto;
+                border-radius: 0px 5px 5px;
+                box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.3);
+                
+                &:hover {
+                    box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.6);
+                }
+                
+                .item {
+                    font-size: 10pt;
+                    padding: 5px 10px;
+                    padding-right: 1em;
+                }
+            }
+        }
+    }
+}
+
+.item {
+    font-size: 12pt;
+    font-weight: 400;
+    padding: 10px 20px;
+    transition: all 0.2s;
+    white-space: nowrap;
+    
+    &:hover {
+        background: #ddd;
+    }
+}

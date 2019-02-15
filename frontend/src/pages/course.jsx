@@ -51,7 +51,7 @@ function Course(props) {
                             <a>{kebabToProper(props.subject.name)}</a>
                         </Link>
                         <span className={css.arrow}>&gt;</span>
-                        <span>{kebabToProper(props.course.name)}</span>
+                        <span><b>{kebabToProper(props.course.name)}</b></span>
                     </div>
                     <div>
                         <p id={css['label-course']}>COURSE</p>
