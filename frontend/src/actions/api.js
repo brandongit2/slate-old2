@@ -2,92 +2,77 @@ import axios from 'axios';
 
 import {actionTypes, apiPrefix1, apiPrefix2} from '../constants';
 
-export const getAllSubjects = () => async dispatch => {
-    const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
-    const subjects = await axios.get(apiPrefix + '/subjects');
+const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
 
-    dispatch({
-        type: actionTypes.GET_SUBJECTS,
-        subjects
-    });
-};
+export function getChildren(parentType, parentId) {
+    return async dispatch => {
+        dispatch({
+            type:     actionTypes.GET_CHILDREN,
+            children: await axios.get(`${apiPrefix}/children?${parentType}=${parentId}`),
+            parentType
+        });
+    };
+}
 
-export const getSubject = subjectId => async dispatch => {
-    const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
-    const subjects = await axios.get(apiPrefix + '/subjects/' + subjectId);
+export function getAllSubjects() {
+    return async dispatch => {
+        dispatch({
+            type:     actionTypes.GET_SUBJECTS,
+            subjects: await axios.get(apiPrefix + '/allSubjects')
+        });
+    };
+}
 
-    dispatch({
-        type: actionTypes.GET_SUBJECTS,
-        subjects
-    });
-};
+export function getSubject(subjectId) {
+    return async dispatch => {
+        dispatch({
+            type:     actionTypes.GET_SUBJECTS,
+            subjects: await axios.get(apiPrefix + '/subject/' + subjectId)
+        });
+    };
+}
 
-export const getAllCourses = () => async dispatch => {
-    const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
-    const courses = await axios.get(apiPrefix + '/courses');
+export function getAllCourses() {
+    return async dispatch => {
+        dispatch({
+            type:    actionTypes.GET_COURSES,
+            courses: await axios.get(apiPrefix + '/allCourses')
+        });
+    };
+}
 
-    dispatch({
-        type: actionTypes.GET_COURSES,
-        courses
-    });
-};
+export function getCourse(courseId) {
+    return async dispatch => {
+        dispatch({
+            type:    actionTypes.GET_COURSES,
+            courses: await axios.get(apiPrefix + '/course/' + courseId)
+        });
+    };
+}
 
-export const getCourse = courseId => async dispatch => {
-    const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
-    const courses = await axios.get(apiPrefix + '/courses/' + courseId);
+export function getAllUnits() {
+    return async dispatch => {
+        dispatch({
+            type:  actionTypes.GET_UNITS,
+            units: await axios.get(apiPrefix + '/allUnits')
+        });
+    };
+}
 
-    dispatch({
-        type: actionTypes.GET_COURSES,
-        courses
-    });
-};
+export function getUnit(unitId) {
+    return async dispatch => {
+        dispatch({
+            type:  actionTypes.GET_UNITS,
+            units: await axios.get(apiPrefix + '/unit/' + unitId)
+        });
+    };
+}
 
-export const getCoursesBySubject = subjectId => async dispatch => {
-    const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
-    const courses = await axios.get(apiPrefix + '/courses?subject=' + subjectId);
-
-    dispatch({
-        type: actionTypes.GET_COURSES, // This is the same as `getAllCourses` but with a narrower selection of courses.
-        courses
-    });
-};
-
-export const getAllUnits = () => async dispatch => {
-    const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
-    const units = await axios.get(apiPrefix + '/units');
-
-    dispatch({
-        type: actionTypes.GET_UNITS,
-        units
-    });
-};
-
-export const getUnitsBySubject = subjectId => async dispatch => {
-    const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
-    const units = await axios.get(apiPrefix + '/units?subject=' + subjectId);
-
-    dispatch({
-        type: actionTypes.GET_UNITS, // This is the same as `getAllUnits` but with a narrower selection of units.
-        units
-    });
-};
-
-export const getUnitsByCourse = courseId => async dispatch => {
-    const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
-    const units = await axios.get(apiPrefix + '/units?course=' + courseId);
-
-    dispatch({
-        type: actionTypes.GET_UNITS, // This is the same as `getAllUnits` but with a narrower selection of units.
-        units
-    });
-};
-
-export const getArticlesByCourse = courseId => async dispatch => {
-    const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
-    const articles = await axios.get(apiPrefix + '/articles?course=' + courseId);
-
-    dispatch({
-        type: actionTypes.GET_ARTICLES, // This is the same as `getAllArticles` but with a narrower selection of units.
-        articles
-    });
-};
+export function getArticle(articleId) {
+    return async dispatch => {
+        dispatch({
+            type:     actionTypes.GET_ARTICLES,
+            articles: await axios.get(apiPrefix + '/article/' + articleId)
+        });
+    };
+}

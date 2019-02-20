@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 
-import {changeArticle, getSubject, getCourse, getUnitsByCourse, getArticlesByCourse} from '../actions';
-import {Layout} from '../components';
+import {changeSubject, changeCourse, changeUnit, changeArticle, getSubject, getCourse, getUnit, getArticle} from '../actions';
+import {Layout, Dropdown} from '../components';
 import css from './article.scss';
 
 function Article(props) {
@@ -9,7 +9,7 @@ function Article(props) {
         <Layout>
             <div id={css.container}>
                 <div id={css.breadcrumbs}>
-                    
+                    <Dropdown label="" mini></Dropdown>
                 </div>
                 <div id={css.article}></div>
             </div>
@@ -18,12 +18,14 @@ function Article(props) {
 }
 
 Article.getInitialProps = async ({store, query}) => {
-    console.log(query);
+    await store.dispatch(changeSubject(query.subject));
+    await store.dispatch(changeCourse(query.course));
+    await store.dispatch(changeUnit(query.unit));
     await store.dispatch(changeArticle(query.article));
     await store.dispatch(getSubject(query.subject));
     await store.dispatch(getCourse(query.course));
-    await store.dispatch(getUnitsByCourse(query.course));
-    await store.dispatch(getArticlesByCourse(query.course));
+    await store.dispatch(getUnit(query.unit));
+    await store.dispatch(getArticle(query.article));
 };
 
 function mapStateToProps(state) {

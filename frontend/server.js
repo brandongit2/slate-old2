@@ -18,9 +18,9 @@ nextApp.prepare()
         app.get('/subject/:subject', async (req, res) => {
             const actualPage = '/subject';
             try {
-                const subjectId = (await axios.get(url + '/api/subjectId?name=' + req.params.subject)).data.id;
-
-                const queryParams = {subject: subjectId};
+                const queryParams = {
+                    subject: (await axios.get(url + '/api/subject/' + req.params.subject)).data[0].id
+                };
                 nextApp.render(req, res, actualPage, queryParams);
             } catch {
                 nextApp.render(req, res, '/404');
@@ -30,8 +30,8 @@ nextApp.prepare()
         app.get('/subject/:subject/:course', async (req, res) => {
             const actualPage = '/course';
             try {
-                const subjectId = (await axios.get(url + '/api/subjectId?course=' + req.params.course)).data.id;
-                const courseId = (await axios.get(url + '/api/courseId?name=' + req.params.course)).data.id;
+                const subjectId = (await axios.get(url + '/api/parent?course=' + req.params.course)).data[0].id;
+                const courseId = (await axios.get(url + '/api/course/' + req.params.course)).data[0].id;
 
                 const queryParams = {subject: subjectId, course: courseId};
                 nextApp.render(req, res, actualPage, queryParams);
@@ -40,16 +40,18 @@ nextApp.prepare()
             }
         });
         
-        app.get('/subject/:subject/:course/:articleId', async (req, res) => {
+        app.get('/subject/:subject/:course/:article', async (req, res) => {
             const actualPage = '/article';
             try {
-                const subjectId = (await axios.get(url + '/api/subjectId?course=' + req.params.course)).data.id;
-                const courseId = (await axios.get(url + '/api/courseId?name=' + req.params.course)).data.id;
+                const subjectId = (await axios.get(url + '/api/parent?want=subject&article=' + req.params.article)).data[0].id;
+                const courseId = (await axios.get(url + '/api/parent?want=course&article=' + req.params.article)).data[0].id;
+                const unitId = (await axios.get(url + '/api/parent?article=' + req.params.article)).data[0].id;
 
                 const queryParams = {
                     subject: subjectId,
                     course:  courseId,
-                    article: req.params.articleId
+                    unit:    unitId,
+                    article: req.params.article
                 };
                 nextApp.render(req, res, actualPage, queryParams);
             } catch {
@@ -99,7 +101,7 @@ nextApp.prepare()
 
         app.listen(port, err => {
             if (err) throw err;
-            console.log(`Slate frontend running on port ${port}.`);
+            console.info(`Slate frontend running on port ${port}.`);
         });
     })
     .catch(ex => {

@@ -30,9 +30,7 @@
         "brace-style": [
             "error",
             "1tbs",
-            {
-                "allowSingleLine": true
-            }
+            {"allowSingleLine": true}
         ],
         "comma-dangle": [
             "error",
@@ -91,10 +89,8 @@
         ],
         "jsx-quotes": "error",
         "key-spacing": [
-            "error",
-            {
-                "align": "value"
-            }
+            "warn",
+            {"align": "value"}
         ],
         "keyword-spacing": "error",
         "linebreak-style": [
@@ -110,38 +106,24 @@
         "no-case-declarations": "error",
         "no-confusing-arrow": [
             "error",
-            {
-                "allowParens": true
-            }
+            {"allowParens": true}
         ],
         "no-console": "off",
         "no-constant-condition": [
             "error",
-            {
-                "checkLoops": false
-            }
+            {"checkLoops": false}
         ],
         "no-div-regex": "warn",
         "no-duplicate-imports": "error",
         "no-empty": [
             "warn",
-            {
-                "allowEmptyCatch": true
-            }
+            {"allowEmptyCatch": true}
         ],
         "no-empty-function": "warn",
         "no-eval": "warn",
         "no-extra-bind": "warn",
         "no-extra-label": "warn",
-        "no-extra-parens": [
-            "warn",
-            "all",
-            {
-                "enforceForArrowConditionals": false,
-                "ignoreJSX": "all",
-                "nestedBinaryExpressions": false
-            }
-        ],
+        "no-extra-parens": "off",
         "no-floating-decimal": "error",
         "no-implicit-coercion": "error",
         "no-implied-eval": "warn",
@@ -216,9 +198,7 @@
         "no-path-concat": "error",
         "no-redeclare": [
             "error",
-            {
-                "builtinGlobals": true
-            }
+            {"builtinGlobals": true}
         ],
         "no-return-assign": "off",
         "no-return-await": "warn",
@@ -279,9 +259,7 @@
         "quotes": [
             "error",
             "single",
-            {
-                "allowTemplateLiterals": true
-            }
+            {"allowTemplateLiterals": true}
         ],
         "rest-spread-spacing": "error",
         "semi": "error",
@@ -344,9 +322,7 @@
         ],
         "valid-typeof": [
             "error",
-            {
-                "requireStringLiterals": true
-            }
+            {"requireStringLiterals": true}
         ],
         "yield-star-spacing": [
             "error",

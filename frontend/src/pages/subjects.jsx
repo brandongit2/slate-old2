@@ -1,14 +1,21 @@
+import axios from 'axios';
 import moment from 'moment';
 import Link from 'next/link';
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {changeSubject, changeCourse, getAllSubjects, getAllCourses, setInfo} from '../actions';
+import {changeSubject, changeCourse, changeUnit, changeArticle, getAllSubjects, getAllCourses, getChildren, setInfo} from '../actions';
 import {Layout} from '../components';
-import {kebabToProper} from '../util';
+import {apiPrefix1, apiPrefix2} from '../constants';
 import css from './subjects.scss';
 
+const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
+
 function Subject(props) {
+    const [courses, setCourses] = React.useState([]);
+    
+    props.courses.then(courses => setCourses(courses.data));
+    
     return (
         <div className={css.subject}>
             <style jsx>{`
@@ -17,15 +24,15 @@ function Subject(props) {
             <Link href={`/subject?subject=${props.id}`}
                   as={`/subject/${props.name}`}>
                 <a className={css.title}>
-                    {kebabToProper(props.name)}
+                    {props.displayName}
                 </a>
             </Link>
-            {props.courses.map(course => (
+            {courses.map(course => (
                 <Link key={course.name}
                       href={`/course?course=${course.id}`}
                       as={`/subject/${props.name}/${course.name}`}>
                     <a className={css.course}>
-                        {kebabToProper(course.name)}
+                        {course.display_name}
                     </a>
                 </Link>
             ))}
@@ -48,15 +55,14 @@ function Courses(props) {
             <div id={css.container}>
                 <span id={css.prompt}>What would you like to learn today?</span>
                 <div id={css.courses}>
-                    {Object.entries(props.subjects).map(([id, subject]) => (
-                        <Subject key={id}
-                                 id={id}
+                    {props.subjects.map(subject => (
+                        <Subject key={subject.id}
+                                 id={subject.id}
                                  name={subject.name}
+                                 displayName={subject.display_name}
                                  color={subject.color}
-                                 courses={subject.courses.map(
-                                     courseId => ({id: courseId, ...props.courses[courseId]})
-                                 )} />
-                         ))}
+                                 courses={axios.get(apiPrefix + '/children?subject=' + subject.id)} />
+                    ))}
                 </div>
             </div>
             <div id={css.footer}>
@@ -73,10 +79,12 @@ function Courses(props) {
 }
 
 Courses.getInitialProps = async ({store}) => {
-    await store.dispatch(getAllSubjects());
-    await store.dispatch(getAllCourses());
     await store.dispatch(changeSubject(null));
     await store.dispatch(changeCourse(null));
+    await store.dispatch(changeUnit(null));
+    await store.dispatch(changeArticle(null));
+    await store.dispatch(getAllSubjects());
+    await store.dispatch(getAllCourses());
     await store.dispatch(setInfo({
         version:     process.env.SLATE_VERSION,
         publishDate: process.env.SLATE_PUBLISH_DATE
@@ -85,10 +93,16 @@ Courses.getInitialProps = async ({store}) => {
 
 function mapStateToProps(state) {
     return {
-        courses:  state.courses,
         subjects: state.subjects,
+        courses:  state.courses,
         info:     state.info
     };
 }
 
-export default connect(mapStateToProps)(Courses);
+function mapDispatchToProps(dispatch) {
+    return {
+        getCoursesBySubject: subjectId => dispatch(getChildren('subject', subjectId))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Courses);

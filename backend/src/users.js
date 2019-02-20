@@ -138,7 +138,6 @@ exports.deactivate = async req => {
 };
 
 exports.verifyEmail = async (req, res) => {
-    console.log(req.body);
     if (req.body.query) {
         const emails = await pool.query('SELECT email FROM email_verification WHERE query=? AND CURRENT_TIMESTAMP < expiry', [req.body.query]);
 
@@ -163,7 +162,7 @@ exports.verifyEmail = async (req, res) => {
                 return;
             }
         } catch (err) {
-            console.log(err);
+            console.error(err);
             res.json({
                 success: false,
                 error:   errors.MYSQL_ERROR

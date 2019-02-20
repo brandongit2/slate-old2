@@ -18,7 +18,7 @@ export default function Dropdown(props) {
             </div>
             <div id={css.items}>
                 <div>
-                    {props.children.map(child => (
+                    {props.children && props.children.map(child => (
                         <div key={generate()} onClick={() => {
                             changeSelected(child.props.children);
                             setIsOpen(false);

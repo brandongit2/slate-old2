@@ -1,26 +1,34 @@
+import axios from 'axios';
 import Link from 'next/link';
 import {withRouter} from 'next/router';
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {changeCourse, getSubject, getCourse, getUnitsByCourse, getArticlesByCourse} from '../actions';
+import {changeSubject, changeCourse, changeUnit, changeArticle, getSubject, getCourse, getChildren} from '../actions';
 import {Layout} from '../components';
-import {contrasts, kebabToProper} from '../util';
+import {apiPrefix1, apiPrefix2} from '../constants';
+import {contrasts} from '../util';
 import css from './course.scss';
 
+const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
+
 function ArticleList(props) {
+    const [articles, setArticles] = React.useState([]);
+    
+    props.articles.then(articles => setArticles(articles.data));
+    
     return (
         <div className={css['article-list']}>
             <div id={css['unit-header']}>
                 <span className={css['unit-number']}>Unit {props.unit.order}</span>
-                <span>{props.unit.name}</span>
+                <span>{props.unit.display_name}</span>
             </div>
             <div id={css.list}>
-                {props.articles.map(article => (
+                {articles.map(article => (
                     <Link key={article.id}
-                          href={`/article?subject=${props.subjectId}&course=${props.courseId}&article=${article.id}`}
+                          href={`/article?subject=${props.subject.id}&course=${props.course.id}&unit=${props.unit.id}&article=${article.id}`}
                           as={`/subject/${props.subject.name}/${props.course.name}/${article.id}`}>
-                        <a key={article.id}>{article.title}</a>
+                        <a key={article.id}>{article.display_title}</a>
                     </Link>
                 ))}
             </div>
@@ -33,7 +41,7 @@ function Course(props) {
     const brightText = contrasts('ffffff', props.subject.color);
     return (
         <Layout currentPage=""
-                title={kebabToProper(props.course.name) + ' - Slate'}>
+                title={props.course.display_name + ' - Slate'}>
             <style jsx>{`
                 --color: #${props.subject.color};
                 --subject-text-color: ${brightText ? '#ffffff' : '#000000'};
@@ -48,31 +56,28 @@ function Course(props) {
                         <Link href="/subjects"><a>Subjects</a></Link>
                         <span className={css.arrow}>&gt;</span>
                         <Link href={`/subject/${props.subject.name}`}>
-                            <a>{kebabToProper(props.subject.name)}</a>
+                            <a>{props.subject.display_name}</a>
                         </Link>
                         <span className={css.arrow}>&gt;</span>
-                        <span><b>{kebabToProper(props.course.name)}</b></span>
+                        <span><b>{props.course.display_name}</b></span>
                     </div>
                     <div>
                         <p id={css['label-course']}>COURSE</p>
-                        <p id={css.title}>{kebabToProper(props.course.name)}</p>
+                        <p id={css.title}>{props.course.display_name}</p>
                         <p id={css.description}>{props.course.description}</p>
                     </div>
                 </div>
                 <div id={css['unit-list']}>
                     <p id={css['units-title']}>Units</p>
-                    {Object.entries(props.units).map(([id, unit]) => (
-                        <ArticleList key={id}
+                    {props.units.map(unit => (
+                        <ArticleList key={unit.id}
                                      subjectId={props.subjectId}
                                      subject={props.subject}
                                      courseId={props.courseId}
                                      course={props.course}
-                                     unitId={id}
+                                     unitId={unit.id}
                                      unit={unit}
-                                     articles={unit.articles.map(articleId => ({
-                                         id: articleId,
-                                         ...props.articles[articleId]
-                                     }))} />
+                                     articles={axios.get(apiPrefix + '/children?unit=' + unit.id)} />
                     ))}
                 </div>
             </div>
@@ -81,21 +86,21 @@ function Course(props) {
 }
 
 Course.getInitialProps = async ({store, query}) => {
+    await store.dispatch(changeSubject(query.subject));
     await store.dispatch(changeCourse(query.course));
+    await store.dispatch(changeUnit(null));
+    await store.dispatch(changeArticle(null));
     await store.dispatch(getSubject(query.subject));
     await store.dispatch(getCourse(query.course));
-    await store.dispatch(getUnitsByCourse(query.course));
-    await store.dispatch(getArticlesByCourse(query.course));
+    await store.dispatch(getChildren('course', query.course));
 };
 
 function mapStateToProps(state) {
     return {
-        subjectId: Object.keys(state.subjects)[0],
-        subject:   Object.values(state.subjects)[0],
-        courseId:  Object.keys(state.courses)[0],
-        course:    Object.values(state.courses)[0],
-        units:     state.units,
-        articles:  state.articles
+        subject:  state.subjects[0],
+        course:   state.courses[0],
+        units:    state.units,
+        articles: state.articles
     };
 }
 

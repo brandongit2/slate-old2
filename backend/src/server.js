@@ -14,29 +14,26 @@ app.enable('trust proxy');
 
 ////////////////////////////////////////////////// DATA FUNCTIONS //////////////////////////////////////////////////////
 
-// <URL>/api/subjectId[?course=<course_name> | ?name=<subject_name>]
-app.get(apiUrl + '/subjectId', wrap(data.getSubjectId));
+// Lists only get id and name, whereas the other endpoints get detailed information for a specific item.
 
-// <URL>/api/courseId?name=<course_name>
-app.get(apiUrl + '/courseId', wrap(data.getCourseIdByCourseName));
+app.get(apiUrl + '/allSubjects', wrap(data.getAllSubjects));
+app.get(apiUrl + '/subject/:id', wrap(data.getSubject));
 
-// <URL>/api/subjects
-app.get(apiUrl + '/subjects', wrap(data.getAllSubjects));
+app.get(apiUrl + '/allCourses', wrap(data.getAllCourses));
+app.get(apiUrl + '/course/:id', wrap(data.getCourse));
 
-// <URL>/api/subjects/<subject_id>
-app.get(apiUrl + '/subjects/:id', wrap(data.getSubjectById));
+app.get(apiUrl + '/allUnits', wrap(data.getAllUnits));
+app.get(apiUrl + '/unit/:id', wrap(data.getUnit));
 
-// <URL>/api/courses[?subject=<subject_id>]
-app.get(apiUrl + '/courses', wrap(data.getCourses));
+app.get(apiUrl + '/allArticles', wrap(data.getAllArticles));
+app.get(apiUrl + '/article/:id', wrap(data.getArticle));
 
-// <URL>/api/courses/<course_id>
-app.get(apiUrl + '/courses/:id', wrap(data.getCourseById));
+// <apiUrl>/parent?[want=<subject|course|unit>&]<course|unit|article>=<name|id>
+// ex: <apiUrl>/parent?want=subject&article=2 gets the subject containing article #2
+app.get(apiUrl + '/parent', wrap(data.getParent));
 
-// <URL>/api/units[?course=<course_id> | ?subject=<subject_id>]
-app.get(apiUrl + '/units', wrap(data.getUnits));
-
-// <URL>/api/articles[?unit=<unit_id> | ?course=<course_id> | ?subject=<subject_id>]
-app.get(apiUrl + '/articles', wrap(data.getArticles));
+// <apiUrl>/children?<subject|course|unit>=<name|id>
+app.get(apiUrl + '/children', wrap(data.getChildren));
 
 ////////////////////////////////////////////////// USER FUNCTIONS //////////////////////////////////////////////////////
 
