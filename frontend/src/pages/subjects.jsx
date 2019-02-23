@@ -46,12 +46,9 @@ Subject.defaultProps = {
     courses: []
 };
 
-function Courses(props) {
+function Subjects(props) {
     return (
-        <Layout currentPage="subjects"
-                title="Subjects - Slate"
-                className={css.layout}
-                noShadow>
+        <Layout currentPage="subjects" title="Subjects - Slate" noShadow>
             <div id={css.container}>
                 <span id={css.prompt}>What would you like to learn today?</span>
                 <div id={css.courses}>
@@ -71,20 +68,21 @@ function Courses(props) {
                     : props.info.version
                         ? `Slate version ${props.info.version}.`
                         : ''
-                }</span> {/* eslint-disable-line react/jsx-closing-tag-location */}
-                <span style={{float: 'right'}}>Made by <a href="https://github.com/brandongit2">Brandon Tsang</a>.</span>
+                }</span>
+                <span style={{float: 'right'}}>
+                    Made by <a href="https://github.com/brandongit2">Brandon Tsang</a>.
+                </span>
             </div>
         </Layout>
     );
 }
 
-Courses.getInitialProps = async ({store}) => {
+Subjects.getInitialProps = async ({store}) => {
     await store.dispatch(changeSubject(null));
     await store.dispatch(changeCourse(null));
     await store.dispatch(changeUnit(null));
     await store.dispatch(changeArticle(null));
     await store.dispatch(getAllSubjects());
-    await store.dispatch(getAllCourses());
     await store.dispatch(setInfo({
         version:     process.env.SLATE_VERSION,
         publishDate: process.env.SLATE_PUBLISH_DATE
@@ -94,7 +92,6 @@ Courses.getInitialProps = async ({store}) => {
 function mapStateToProps(state) {
     return {
         subjects: state.subjects,
-        courses:  state.courses,
         info:     state.info
     };
 }
@@ -105,4 +102,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Courses);
+export default connect(mapStateToProps, mapDispatchToProps)(Subjects);

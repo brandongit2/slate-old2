@@ -30,7 +30,7 @@ nextApp.prepare()
         app.get('/subject/:subject/:course', async (req, res) => {
             const actualPage = '/course';
             try {
-                const subjectId = (await axios.get(url + '/api/parent?course=' + req.params.course)).data[0].id;
+                const subjectId = (await axios.get(url + '/api/subject/' + req.params.subject)).data[0].id;
                 const courseId = (await axios.get(url + '/api/course/' + req.params.course)).data[0].id;
 
                 const queryParams = {subject: subjectId, course: courseId};
@@ -43,8 +43,8 @@ nextApp.prepare()
         app.get('/subject/:subject/:course/:article', async (req, res) => {
             const actualPage = '/article';
             try {
-                const subjectId = (await axios.get(url + '/api/parent?want=subject&article=' + req.params.article)).data[0].id;
-                const courseId = (await axios.get(url + '/api/parent?want=course&article=' + req.params.article)).data[0].id;
+                const subjectId = (await axios.get(url + '/api/subject/' + req.params.subject)).data[0].id;
+                const courseId = (await axios.get(url + '/api/course/' + req.params.course)).data[0].id;
                 const unitId = (await axios.get(url + '/api/parent?article=' + req.params.article)).data[0].id;
 
                 const queryParams = {
@@ -54,7 +54,8 @@ nextApp.prepare()
                     article: req.params.article
                 };
                 nextApp.render(req, res, actualPage, queryParams);
-            } catch {
+            } catch (err) {
+                console.error(err);
                 nextApp.render(req, res, '/404');
             }
         });
