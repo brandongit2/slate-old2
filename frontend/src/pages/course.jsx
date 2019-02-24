@@ -5,7 +5,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {changeSubject, changeCourse, changeUnit, changeArticle, getSubject, getCourse, getChildren} from '../actions';
-import {Layout} from '../components';
+import {Layout, Breadcrumbs, Crumb, Dropdown, Item} from '../components';
 import {apiPrefix1, apiPrefix2} from '../constants';
 import {contrasts} from '../util';
 import css from './course.scss';
@@ -28,7 +28,7 @@ function ArticleList(props) {
                     <Link key={article.id}
                           href={`/article?subject=${props.subject.id}&course=${props.course.id}&unit=${props.unit.id}&article=${article.id}`}
                           as={`/subject/${props.subject.name}/${props.course.name}/${article.id}`}>
-                        <a key={article.id}>{article.display_title}</a>
+                        <a>{article.display_title}</a>
                     </Link>
                 ))}
             </div>
@@ -52,15 +52,15 @@ function Course(props) {
             
             <div id={css.container}>
                 <div id={css.info}>
-                    <div id={css.breadcrumbs}>
-                        <Link href="/subjects"><a>Subjects</a></Link>
-                        <span className={css.arrow}>&gt;</span>
-                        <Link href={`/subject/${props.subject.name}`}>
-                            <a>{props.subject.display_name}</a>
-                        </Link>
-                        <span className={css.arrow}>&gt;</span>
-                        <span><b>{props.course.display_name}</b></span>
-                    </div>
+                    <Breadcrumbs>
+                        <Crumb><Link href="/subjects"><a>Subjects</a></Link></Crumb>
+                        <Crumb><Link href={'/subject/' + props.subject.name}><a>{props.subject.display_name}</a></Link></Crumb>
+                        <Crumb>
+                            <Dropdown mini label={props.course.display_name}>
+                                <Item>hahaha</Item>
+                            </Dropdown>
+                        </Crumb>
+                    </Breadcrumbs>
                     <div>
                         <p id={css['label-course']}>COURSE</p>
                         <p id={css.title}>{props.course.display_name}</p>

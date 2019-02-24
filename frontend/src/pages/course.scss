@@ -33,27 +33,23 @@
             }
         }
 
-        #breadcrumbs {
+        :global(.breadcrumbs) {
             position: absolute;
             top: 2em;
             left: 2em;
             font-size: 10pt;
-
-            a {
-                color: var(--secondary-subject-text-color);
-                transition: color 0.2s;
-
-                &:hover {
-                    color: var(--subject-text-color);
+            color: var(--secondary-subject-text-color);
+            
+            :global(.crumb:hover) {
+                a, span {
+                    &:not(:global(.dropdown-item)) {
+                        color: var(--subject-text-color);
+                    }
                 }
             }
-
-            span {
-                color: var(--secondary-subject-text-color);
-            }
-
-            span.arrow {
-                margin: 0px 10px;
+            
+            :global(.dropdown-items) {
+                color: var(--text-color);
             }
         }
 

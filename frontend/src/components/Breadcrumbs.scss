@@ -1,0 +1,17 @@
+:global(.breadcrumbs) {
+    display: flex;
+    align-items: center;
+    
+    i {
+        color: inherit;
+        font-size: inherit;
+        margin: 0px 5px;
+    }
+}
+
+:global(.crumb) {
+    a, span {
+        color: inherit;
+        transition: color 0.2s;
+    }
+}

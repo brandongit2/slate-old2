@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {changeSubject, changeCourse, changeUnit, changeArticle, getAllSubjects, getAllCourses, getChildren, setInfo} from '../actions';
+import {changeSubject, changeCourse, changeUnit, changeArticle, getAllSubjects, getChildren} from '../actions';
 import {Layout} from '../components';
 import {apiPrefix1, apiPrefix2} from '../constants';
 import css from './subjects.scss';
@@ -83,10 +83,6 @@ Subjects.getInitialProps = async ({store}) => {
     await store.dispatch(changeUnit(null));
     await store.dispatch(changeArticle(null));
     await store.dispatch(getAllSubjects());
-    await store.dispatch(setInfo({
-        version:     process.env.SLATE_VERSION,
-        publishDate: process.env.SLATE_PUBLISH_DATE
-    }));
 };
 
 function mapStateToProps(state) {

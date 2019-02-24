@@ -4,12 +4,11 @@
     flex-direction: column;
     
     #breadcrumbs {
-        flex-basis: 2em;
-        height: 2em;
+        flex-shrink: 0px;
+        display: flex;
         
-        .unit-label {
-            font-size: 14pt;
-            font-weight: 700;
+        .dropdown {
+            width: min-content;
         }
     }
     
