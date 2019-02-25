@@ -8,7 +8,6 @@ import {apiPrefix1, apiPrefix2} from '../constants';
 import css from './article.scss';
 
 const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
-const key1 = generate();
 
 function Article(props) {
     const [articles, setArticles] = React.useState(props.articles);
@@ -18,7 +17,7 @@ function Article(props) {
             <div id={css.container}>
                 <div id={css.breadcrumbs}>
                     <Dropdown label={props.currentArticle.display_title} mini>{
-                        articles.map(article => <Item key={key1 + article.id}>{article.display_title}</Item>)
+                        articles.map(article => <Item key={article.id}>{article.display_title}</Item>)
                     }</Dropdown>
                 </div>
                 <div id={css.article}>{props.currentArticle.content}</div>

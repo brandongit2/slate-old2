@@ -42,5 +42,5 @@ export default function Dropdown(props) {
 }
 
 export function Item(props) {
-    return <div className={css.item} id={generate()}>{props.children}</div>;
+    return <div className={css.item} onClick={props.onClick}>{props.children}</div>;
 }

@@ -16,7 +16,7 @@ p, a, span, h1, h2, h3, h4, h5, h6, input, textarea, button, div {
     margin: 0;
 }
 
-p::selection, a::selection, span::selection, h1::selection, h2::selection, h3::selection, h4::selection, h5::selection, h6::selection, input::selection, textarea::selection, div::selection, b::selection, label::selection {
+::selection {
     background: var(--text-color);
     color: white;
 }
@@ -25,8 +25,9 @@ a {
     cursor: pointer;
 }
 
-i.material-icons {
+i:global(.material-icons) {
     font-size: 120%;
+    user-select: none;
 }
 
 input {

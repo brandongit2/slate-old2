@@ -28,6 +28,10 @@
     #items {
         height: 0px;
         overflow: hidden;
+        
+        & > div {
+            transition: all 0.2s;
+        }
     }
     
     &.open {

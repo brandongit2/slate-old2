@@ -20,14 +20,14 @@ function ArticleList(props) {
     return (
         <div className={css['article-list']}>
             <div id={css['unit-header']}>
-                <span className={css['unit-number']}>Unit {props.unit.order}</span>
-                <span>{props.unit.display_name}</span>
+                <span className={css['unit-number']}>Unit {props.unit?.order}</span>
+                <span>{props.unit?.display_name}</span>
             </div>
             <div id={css.list}>
                 {articles.map(article => (
                     <Link key={article.id}
-                          href={`/article?subject=${props.subject.id}&course=${props.course.id}&unit=${props.unit.id}&article=${article.id}`}
-                          as={`/subject/${props.subject.name}/${props.course.name}/${article.id}`}>
+                          href={'/article?subject=' + props.subject?.id + '&course=' + props.course?.id + '&unit=' + props.unit?.id + '&article=' + article.id}
+                          as={'/subject/' + props.subject?.name + '/' + props.course?.name + '/' + article.id}>
                         <a>{article.display_title}</a>
                     </Link>
                 ))}
@@ -38,44 +38,41 @@ function ArticleList(props) {
 
 function Course(props) {
     // Boolean; whether white contrasts well with the subject color.
-    const brightText = contrasts('ffffff', props.subject.color);
+    const brightText = contrasts('ffffff', props.subject?.color);
     return (
         <Layout currentPage=""
-                title={props.course.display_name + ' - Slate'}>
+                title={props.course?.display_name + ' - Slate'}>
             <style jsx>{`
-                --color: #${props.subject.color};
+                --color: #${props.subject ? props.subject.color : 'fff'};
                 --subject-text-color: ${brightText ? '#ffffff' : '#000000'};
                 --secondary-subject-text-color: ${brightText ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 1)'};
                 --tertiary-subject-text-color: ${brightText ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'};
-                --title-color: ${brightText ? '#' + props.subjectColor : 'black'}
+                --title-color: ${brightText ? '#' + (props.subject ? props.subject.color : 'fff') : 'black'}
             `}</style>
             
             <div id={css.container}>
                 <div id={css.info}>
                     <Breadcrumbs>
                         <Crumb><Link href="/subjects"><a>Subjects</a></Link></Crumb>
-                        <Crumb><Link href={'/subject/' + props.subject.name}><a>{props.subject.display_name}</a></Link></Crumb>
+                        <Crumb><Link href={'/subject/' + props.subject?.name}><a>{props.subject?.display_name}</a></Link></Crumb>
                         <Crumb>
-                            <Dropdown mini label={props.course.display_name}>
+                            <Dropdown mini label={props.course?.display_name}>
                                 <Item>hahaha</Item>
                             </Dropdown>
                         </Crumb>
                     </Breadcrumbs>
                     <div>
                         <p id={css['label-course']}>COURSE</p>
-                        <p id={css.title}>{props.course.display_name}</p>
-                        <p id={css.description}>{props.course.description}</p>
+                        <p id={css.title}>{props.course?.display_name}</p>
+                        <p id={css.description}>{props.course?.description}</p>
                     </div>
                 </div>
                 <div id={css['unit-list']}>
                     <p id={css['units-title']}>Units</p>
                     {props.units.map(unit => (
                         <ArticleList key={unit.id}
-                                     subjectId={props.subjectId}
                                      subject={props.subject}
-                                     courseId={props.courseId}
                                      course={props.course}
-                                     unitId={unit.id}
                                      unit={unit}
                                      articles={axios.get(apiPrefix + '/children?unit=' + unit.id)} />
                     ))}
@@ -97,8 +94,8 @@ Course.getInitialProps = async ({store, query}) => {
 
 function mapStateToProps(state) {
     return {
-        subject:  state.subjects[0],
-        course:   state.courses[0],
+        subject:  state.subjects.find(subject => subject.id === parseInt(state.currentSubject)),
+        course:   state.courses.find(course => course.id === parseInt(state.currentCourse)),
         units:    state.units,
         articles: state.articles
     };

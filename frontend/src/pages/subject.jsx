@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import {withRouter} from 'next/router';
+import Router, {withRouter} from 'next/router';
 import React from 'react';
 import {connect} from 'react-redux';
 
@@ -20,7 +20,6 @@ function CourseInfo(props) {
 
 function Subject(props) {
     // Boolean; whether white contrasts well with the subject color.
-    console.log(props);
     const brightText = contrasts('ffffff', props.subject?.color);
     return (
         <Layout currentPage=""
@@ -40,7 +39,12 @@ function Subject(props) {
                         <Crumb>
                             <Dropdown mini label={props.subject?.display_name}>
                                 {props.subjects.map(subject => (
-                                    <Item key={subject.id}>{subject.display_name}</Item>
+                                    <Item key={subject.id}
+                                          onClick={() => {
+                                              props.dispatch(changeSubject(subject.id));
+                                              props.dispatch(getChildren('subject', subject.id));
+                                              Router.push('/subject?subject=' + subject.id, '/subject/' + subject.name, {shallow: true});
+                                          }}>{subject.display_name}</Item>
                                 ))}
                             </Dropdown>
                         </Crumb>
@@ -56,7 +60,7 @@ function Subject(props) {
                         <p id={css['courses-title']}>Courses</p>
                         {props.courses.map(course => (
                             <Link key={course.id}
-                                  href={`/course?subject=${props.router.query.subject}&course=${course.id}`}
+                                  href={'/course?subject=' + props.subject.id + '&course=' + course.id}
                                   as={'/subject/' + props.subject?.name + '/' + course.name}>
                                 <a>
                                     <CourseInfo courseId={course.id}
