@@ -13,7 +13,7 @@ export default function Dropdown(props) {
              onBlur={() => setIsOpen(false)}
              tabIndex="0">
             <div id={css.visible} onClick={toggleIsOpen}>
-                <span>{selected}</span>
+                <span className="dropdown-label">{selected}</span>
                 <i className="material-icons">{'arrow_drop_' + (isOpen ? 'up' : 'down')}</i>
             </div>
             <div className="dropdown-items" id={css.items}>

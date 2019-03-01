@@ -51,7 +51,7 @@ exports.getAllArticles = async (req, res) => {
 
 exports.getArticle = async (req, res) => {
     // Whether :id refers to a subject name or id
-    const nameOrId = isNaN(req.params.id) ? 'name' : 'id';
+    const nameOrId = isNaN(req.params.id) ? 'title' : 'id';
     
     const data = await pool.query(`SELECT id, \`order\`, title, display_title, publish_date, update_date, content, unit_id FROM articles WHERE ${nameOrId}=?`, [req.params.id]);
     
@@ -98,6 +98,7 @@ exports.getParent = async (req, res) => {
     } else if (req.query.unit) {
         parent = await pool.query(`SELECT DISTINCT courses.id, courses.name, courses.display_name, courses.description, courses.subject_id FROM courses JOIN units ON courses.id=units.course_id WHERE units.${nameOrId}=?`, [req.query.unit]);
     } else if (req.query.article) {
+        if (nameOrId === 'name') nameOrId = 'title';
         parent = await pool.query(`SELECT DISTINCT units.id, units.name, units.display_name, units.description, units.course_id FROM units JOIN articles ON units.id=articles.unit_id WHERE articles.${nameOrId}=?`, [req.query.article]);
     } else {
         res.end('Invalid query.');

@@ -3,17 +3,44 @@
     display: flex;
     flex-direction: column;
     
-    #breadcrumbs {
-        flex-shrink: 0px;
-        display: flex;
+    :global(.breadcrumbs) {
+        margin: 1em;
+        font-size: 10pt;
+        color: var(--secondary-text-color);
         
-        .dropdown {
-            width: min-content;
+        :global(.dropdown-label):hover {
+            color: var(--text-color);
         }
     }
     
     #article {
-        width: 100%;
+        width: 60vw;
         height: 100%;
+        margin: 1em auto;
+        
+        * {
+            font-family: 'PT Serif', serif;
+        }
+        
+        #head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 1em;
+            
+            #title {
+                font-size: 32pt;
+            }
+            
+            #date {
+                font-size: 10pt;
+                text-align: right;
+                color: var(--secondary-text-color);
+            }
+        }
+        
+        #body {
+            text-indent: 4em;
+        }
     }
 }

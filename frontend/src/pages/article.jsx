@@ -1,26 +1,47 @@
-import axios from 'axios';
+import moment from 'moment';
+import Link from 'next/link';
+import Router from 'next/router';
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {changeSubject, changeCourse, changeUnit, changeArticle, getSubject, getCourse, getUnit, getArticle} from '../actions';
-import {Layout, Dropdown, Item} from '../components';
-import {apiPrefix1, apiPrefix2} from '../constants';
+import {changeSubject, changeCourse, changeUnit, changeArticle, getSubject, getCourse, getUnit, getArticle, getChildren} from '../actions';
+import {Layout, Breadcrumbs, Crumb, Dropdown, Item} from '../components';
 import css from './article.scss';
 
-const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
-
 function Article(props) {
-    const [articles, setArticles] = React.useState(props.articles);
-    
     return (
         <Layout>
             <div id={css.container}>
-                <div id={css.breadcrumbs}>
-                    <Dropdown label={props.currentArticle.display_title} mini>{
-                        articles.map(article => <Item key={article.id}>{article.display_title}</Item>)
-                    }</Dropdown>
+                <Breadcrumbs>
+                    <Crumb><Link href="/subjects"><a>Subjects</a></Link></Crumb>
+                    <Crumb><Link href={`/subject/${props.subject.name}`}><a>{props.subject.display_name}</a></Link></Crumb>
+                    <Crumb><Link href={`/subject/${props.subject.name}/${props.course.name}`}><a>{props.course.display_name}</a></Link></Crumb>
+                    <Crumb>
+                        <Dropdown label={props.article.display_title} mini>{
+                            props.articles.map(article => (
+                                <Item key={article.id}
+                                      onClick={() => {
+                                          props.dispatch(changeArticle(article.id));
+                                          Router.push('/article?article=' + article.id, `/subject/${props.subject.name}/${props.course.name}/${article.title}`, {shallow: true});
+                                      }}>
+                                    {article.display_title}
+                                </Item>
+                            ))
+                        }</Dropdown>
+                    </Crumb>
+                </Breadcrumbs>
+                <div id={css.article}>
+                    <div id={css.head}>
+                        <p id={css.title}>{props.article.display_title}</p>
+                        <div id={css.date}>
+                            <p>Published {moment(props.article.publish_date).calendar(null, {sameElse: '[on] MMMM Do, YYYY'})}</p>
+                            <p>Last updated {moment(props.article.update_date).calendar(null, {sameElse: '[on] MMMM Do, YYYY'})}</p>
+                        </div>
+                    </div>
+                    <div id={css.body}>
+                        {props.article.content}
+                    </div>
                 </div>
-                <div id={css.article}>{props.currentArticle.content}</div>
             </div>
         </Layout>
     );
@@ -31,27 +52,21 @@ Article.getInitialProps = async ({store, query}) => {
     await store.dispatch(changeCourse(query.course));
     await store.dispatch(changeUnit(query.unit));
     await store.dispatch(changeArticle(query.article));
+    
     await store.dispatch(getSubject(query.subject));
     await store.dispatch(getCourse(query.course));
     await store.dispatch(getUnit(query.unit));
     await store.dispatch(getArticle(query.article));
-    
-    return {
-        articles: (await axios.get(`${apiPrefix}/children?unit=${query.article}`)).data,
-        
-        currentSubject: (await axios.get(`${apiPrefix}/subject/${query.subject}`)).data[0],
-        currentCourse:  (await axios.get(`${apiPrefix}/course/${query.course}`)).data[0],
-        currentUnit:    (await axios.get(`${apiPrefix}/unit/${query.unit}`)).data[0],
-        currentArticle: (await axios.get(`${apiPrefix}/article/${query.article}`)).data[0]
-    };
+    await store.dispatch(getChildren('unit', query.unit));
 };
 
 function mapStateToProps(state) {
     return {
-        subject: state.subjects.find(el => el.id === state.currentSubject),
-        course:  state.courses.find(el => el.id === state.currentCourse),
-        unit:    state.units.find(el => el.id === state.currentUnit),
-        article: state.articles.find(el => el.id === state.currentArticle)
+        subject:  state.subjects.find(subject => subject.id === parseInt(state.currentSubject)),
+        course:   state.courses.find(course => course.id === parseInt(state.currentCourse)),
+        unit:     state.units.find(unit => unit.id === parseInt(state.currentUnit)),
+        article:  state.articles.find(article => article.id === parseInt(state.currentArticle)),
+        articles: state.articles
     };
 }
 

@@ -46,12 +46,13 @@ nextApp.prepare()
                 const subjectId = (await axios.get(url + '/api/subject/' + req.params.subject)).data[0].id;
                 const courseId = (await axios.get(url + '/api/course/' + req.params.course)).data[0].id;
                 const unitId = (await axios.get(url + '/api/parent?article=' + req.params.article)).data[0].id;
+                const articleId = (await axios.get(url + '/api/article/' + req.params.article)).data[0].id;
 
                 const queryParams = {
                     subject: subjectId,
                     course:  courseId,
                     unit:    unitId,
-                    article: req.params.article
+                    article: articleId
                 };
                 nextApp.render(req, res, actualPage, queryParams);
             } catch (err) {

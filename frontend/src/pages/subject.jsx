@@ -38,14 +38,14 @@ function Subject(props) {
                         <Crumb><Link href="/subjects"><a>Subjects</a></Link></Crumb>
                         <Crumb>
                             <Dropdown mini label={props.subject?.display_name}>
-                                {props.subjects.map(subject => (
+                                {props ? props.subjects.map(subject => (
                                     <Item key={subject.id}
                                           onClick={() => {
                                               props.dispatch(changeSubject(subject.id));
                                               props.dispatch(getChildren('subject', subject.id));
                                               Router.push('/subject?subject=' + subject.id, '/subject/' + subject.name, {shallow: true});
                                           }}>{subject.display_name}</Item>
-                                ))}
+                                  )) : null}
                             </Dropdown>
                         </Crumb>
                     </Breadcrumbs>
@@ -58,9 +58,9 @@ function Subject(props) {
                 <div id={css['course-list']}>
                     <div>
                         <p id={css['courses-title']}>Courses</p>
-                        {props.courses.map(course => (
+                        {props ? props.courses.map(course => (
                             <Link key={course.id}
-                                  href={'/course?subject=' + props.subject.id + '&course=' + course.id}
+                                  href={'/course?subject=' + props.subject?.id + '&course=' + course.id}
                                   as={'/subject/' + props.subject?.name + '/' + course.name}>
                                 <a>
                                     <CourseInfo courseId={course.id}
@@ -68,7 +68,7 @@ function Subject(props) {
                                                 description={course.description} />
                                 </a>
                             </Link>
-                        ))}
+                        )) : null}
                     </div>
                 </div>
             </div>

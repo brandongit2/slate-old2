@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Link from 'next/link';
-import {withRouter} from 'next/router';
+import Router, {withRouter} from 'next/router';
 import React from 'react';
 import {connect} from 'react-redux';
 
@@ -27,7 +27,7 @@ function ArticleList(props) {
                 {articles.map(article => (
                     <Link key={article.id}
                           href={'/article?subject=' + props.subject?.id + '&course=' + props.course?.id + '&unit=' + props.unit?.id + '&article=' + article.id}
-                          as={'/subject/' + props.subject?.name + '/' + props.course?.name + '/' + article.id}>
+                          as={'/subject/' + props.subject?.name + '/' + props.course?.name + '/' + article.title}>
                         <a>{article.display_title}</a>
                     </Link>
                 ))}
@@ -57,7 +57,16 @@ function Course(props) {
                         <Crumb><Link href={'/subject/' + props.subject?.name}><a>{props.subject?.display_name}</a></Link></Crumb>
                         <Crumb>
                             <Dropdown mini label={props.course?.display_name}>
-                                <Item>hahaha</Item>
+                                {props.courses.map(course => (
+                                    <Item key={course.id}
+                                          onClick={() => {
+                                              props.dispatch(changeCourse(course.id));
+                                              props.dispatch(getChildren('course', course.id));
+                                              Router.push('/course?course=' + course.id, `/subject/${props.subject.name}/${course.name}`, {shallow: true});
+                                          }}>
+                                        {course.display_name}
+                                    </Item>
+                                ))}
                             </Dropdown>
                         </Crumb>
                     </Breadcrumbs>
@@ -90,12 +99,14 @@ Course.getInitialProps = async ({store, query}) => {
     await store.dispatch(getSubject(query.subject));
     await store.dispatch(getCourse(query.course));
     await store.dispatch(getChildren('course', query.course));
+    await store.dispatch(getChildren('subject', query.subject));
 };
 
 function mapStateToProps(state) {
     return {
         subject:  state.subjects.find(subject => subject.id === parseInt(state.currentSubject)),
         course:   state.courses.find(course => course.id === parseInt(state.currentCourse)),
+        courses:  state.courses,
         units:    state.units,
         articles: state.articles
     };
