@@ -1,5 +1,6 @@
 import axios from 'axios';
 import NextApp, {Container} from 'next/app';
+import Router from 'next/router';
 import withRedux from 'next-redux-wrapper';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
@@ -19,6 +20,15 @@ function makeStore(initialState) {
         composeWithDevTools(applyMiddleware(thunk))
     );
 }
+
+// https://github.com/zeit/next-plugins/issues/282#issuecomment-432127816
+Router.events.on('routeChangeComplete', () => {
+    if (process.env.NODE_ENV !== 'production') {
+        const els = document.querySelectorAll('link[href*="/_next/static/css/styles.chunk.css"]');
+        const timestamp = new Date().valueOf();
+        els[0].href = '/_next/static/css/styles.chunk.css?v=' + timestamp;
+    }
+});
 
 export default withRedux(makeStore)(class Slate extends NextApp {
     static async getInitialProps({Component, ctx}) {

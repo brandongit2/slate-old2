@@ -4,11 +4,15 @@
     flex-direction: column;
     
     :global(.breadcrumbs) {
-        margin: 1em;
+        margin: 1em 2em;
         font-size: 10pt;
         color: var(--secondary-text-color);
         
         :global(.dropdown-label):hover {
+            color: var(--text-color);
+        }
+        
+        :global(.dropdown-items) {
             color: var(--text-color);
         }
     }
@@ -25,7 +29,7 @@
         #head {
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
+            align-items: center;
             margin-bottom: 1em;
             
             #title {
