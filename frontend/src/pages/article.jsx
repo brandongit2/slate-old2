@@ -14,12 +14,18 @@ function Article(props) {
         <Layout>
             <div id={css.container}>
                 <Breadcrumbs>
-                    <Crumb><Link href="/subjects"><a>Subjects</a></Link></Crumb>
-                    <Crumb><Link href={`/subject/${props.subject.name}`}><a>{props.subject.display_name}</a></Link></Crumb>
-                    <Crumb><Link href={`/subject/${props.subject.name}/${props.course.name}`}><a>{props.course.display_name}</a></Link></Crumb>
+                    <Crumb><Link href="/subjects">
+                        <a>Subjects</a>
+                    </Link></Crumb>
+                    <Crumb><Link href={'/subject/' + props.subject?.name}>
+                        <a>{props.subject?.display_name}</a>
+                    </Link></Crumb>
+                    <Crumb><Link href={'/subject/' + props.subject?.name + '/' + props.course?.name}>
+                        <a>{props.course?.display_name}</a>
+                    </Link></Crumb>
                     <Crumb>
-                        <Dropdown label={props.article.display_title} mini>{
-                            props.articles.map(article => (
+                        <Dropdown label={props.article?.display_title} mini>{
+                            props.articles ? props.articles.map(article => (
                                 <Item key={article.id}
                                       onClick={() => {
                                           props.dispatch(changeArticle(article.id));
@@ -27,20 +33,20 @@ function Article(props) {
                                       }}>
                                     {article.display_title}
                                 </Item>
-                            ))
+                            )) : null
                         }</Dropdown>
                     </Crumb>
                 </Breadcrumbs>
                 <div id={css.article}>
                     <div id={css.head}>
-                        <p id={css.title}>{props.article.display_title}</p>
+                        <p id={css.title}>{props.article?.display_title}</p>
                         <div id={css.date}>
-                            <p>Published {moment(props.article.publish_date).calendar(null, {sameElse: '[on] MMMM Do, YYYY'})}</p>
-                            <p>Last updated {moment(props.article.update_date).calendar(null, {sameElse: '[on] MMMM Do, YYYY'})}</p>
+                            <p>Published {moment(props.article?.publish_date).calendar(null, {sameElse: '[on] MMMM Do, YYYY'})}</p>
+                            <p>Last updated {moment(props.article?.update_date).calendar(null, {sameElse: '[on] MMMM Do, YYYY'})}</p>
                         </div>
                     </div>
                     <div id={css.body}>
-                        {props.article.content}
+                        {props.article?.content}
                     </div>
                 </div>
             </div>

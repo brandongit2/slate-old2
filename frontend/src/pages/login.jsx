@@ -1,11 +1,14 @@
 import axios from 'axios';
 import Router from 'next/router';
 import React from 'react';
+import {connect} from 'react-redux';
 
 import {Layout} from '../components';
 import css from './login.scss';
 
-export default function Login() {
+export default function Login(props) {
+    if (props.user.isLoggedIn) Router.replace('/');
+    
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [error, setError] = React.useState('');
@@ -60,3 +63,11 @@ export default function Login() {
         </Layout>
     );
 }
+
+function mapStateToProps(state) {
+    return {
+        user: state.user
+    };
+}
+
+Login = connect(mapStateToProps)(Login); /* eslint-disable-line no-func-assign */

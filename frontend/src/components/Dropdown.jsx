@@ -20,17 +20,21 @@ export default function Dropdown(props) {
                 <div>
                     {Array.isArray(props.children)
                         ? props.children.map(child => (
-                            <div key={generate()} onClick={() => {
-                                changeSelected(child.props.children);
-                                setIsOpen(false);
-                            }}>
+                            <div key={generate()}
+                                 onClick={() => {
+                                     changeSelected(child.props.children);
+                                     setIsOpen(false);
+                                 }}
+                                 className={child.props.children === selected ? css.bold : ''}>
                                 <span className="dropdown-item">{child}</span>
                             </div>
                         )) : (
-                            <div key={generate()} onClick={() => {
-                                changeSelected(props.children.props.children);
-                                setIsOpen(false);
-                            }}>
+                            <div key={generate()}
+                                 onClick={() => {
+                                     changeSelected(props.children.props.children);
+                                     setIsOpen(false);
+                                 }}
+                                 className={props.children.props.children === selected ? css.bold : ''}>
                                 {props.children}
                             </div>
                         )

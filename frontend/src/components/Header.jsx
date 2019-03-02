@@ -20,7 +20,19 @@ function Button(props) {
     );
 }
 
+function UserPanel() {
+    return (
+        <div className={[css['user-panel'], 'user-panel'].join(' ')}>
+            <p>Settings</p>
+            <p>Log out</p>
+        </div>
+    );
+}
+
 export default function Header(props) {
+    const [userPanelIsOpen, setUserPanelIsOpen] = React.useState(false);
+    const toggleUserPanel = () => setUserPanelIsOpen(!userPanelIsOpen);
+    
     return (
         <div id={css.header}
              className={props.float ? css.float : ''}
@@ -56,18 +68,31 @@ export default function Header(props) {
                         </a></Link>
                     </li>
                 </ul>
-                <ul id={css.actions}>
-                    <li className={props.currentPage === 'login' ? css.bold : ''}>
-                        <Link href="/login" prefetch><a>
-                            <Button>LOG IN</Button>
-                        </a></Link>
-                    </li>
-                    <li className={props.currentPage === 'register' ? css.bold : ''}>
-                        <Link href="/register" prefetch><a>
-                            <Button>REGISTER</Button>
-                        </a></Link>
-                    </li>
-                </ul>
+                {props.user.isLoggedIn ? (
+                    <div id={css.user}
+                         onClick={() => toggleUserPanel()}
+                         tabIndex="0"
+                         onBlur={() => setUserPanelIsOpen(false)}>
+                        <span>{props.user.first_name} {props.user.last_name}</span>
+                        <i className="material-icons">arrow_drop_down</i>
+                        <div id={css['user-panel-container']} className={userPanelIsOpen ? css.open : ''}>
+                            <UserPanel />
+                        </div>
+                    </div>
+                ) : (
+                    <ul id={css.actions}>
+                        <li className={props.currentPage === 'login' ? css.bold : ''}>
+                            <Link href="/login" prefetch><a>
+                                <Button>LOG IN</Button>
+                            </a></Link>
+                        </li>
+                        <li className={props.currentPage === 'register' ? css.bold : ''}>
+                            <Link href="/register" prefetch><a>
+                                <Button>REGISTER</Button>
+                            </a></Link>
+                        </li>
+                    </ul>
+                )}
             </nav>
         </div>
     );

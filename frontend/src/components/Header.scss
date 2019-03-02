@@ -1,3 +1,98 @@
+.button {
+    position: relative;
+    padding: 5px;
+    display: inline-block;
+    cursor: pointer;
+    color: var(--text-color);
+    
+    span {
+        &::before {
+            content: '';
+            display: block;
+            position: absolute;
+            background: var(--text-color);
+            transition: all 0.2s;
+        }
+    }
+    
+    & > span {
+        &::before {
+            width: 0%;
+            height: var(--width);
+            top: 0px;
+            left: 0px;
+        }
+        
+        & > span {
+            &::before {
+                width: var(--width);
+                height: 0%;
+                bottom: 0px;
+                left: 0px;
+            }
+            
+            & > span {
+                &::before {
+                    width: var(--width);
+                    height: 0%;
+                    top: 0px;
+                    right: 0px;
+                }
+                
+                & > span {
+                    &::before {
+                        width: 0%;
+                        height: var(--width);
+                        bottom: 0px;
+                        right: 0px;
+                    }
+                }
+            }
+        }
+    }
+    
+    &:hover > span {
+        &::before {
+            width: 100%;
+        }
+        
+        & > span {
+            &::before {
+                height: 100%;
+            }
+            
+            & > span {
+                &::before {
+                    height: 100%;
+                }
+                
+                & > span {
+                    &::before {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.user-panel {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    width: min-content;
+    white-space: nowrap;
+    
+    p {
+        padding: 0.5em 1em;
+        font-size: 11pt;
+        transition: background 0.2s;
+        
+        &:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+    }
+}
+
 #header {
     width: 100vw;
     height: 5em;
@@ -8,13 +103,13 @@
     user-select: none;
     position: relative;
     z-index: 10;
-
+    
     &.float {
         position: absolute;
         top: 0px;
         left: 0px;
     }
-
+    
     #logo {
         flex-shrink: 0;
         margin: 1.5em;
@@ -24,115 +119,79 @@
         position: relative;
         top: -0.2em;
     }
-
+    
     nav {
         flex-grow: 1;
         display: flex;
         justify-content: space-between;
-
+        align-items: center;
+        
         & > ul {
             list-style-type: none;
             margin: 0;
             padding: 0;
             display: flex;
-
+            
             & > li {
                 margin-right: 1.5em;
-
+                
                 &:last-child {
                     margin-right: 0;
                 }
-
+                
                 &.bold {
                     font-weight: 700;
                 }
             }
         }
         
-        .button {
-            position: relative;
-            padding: 5px;
-            display: inline-block;
-            cursor: pointer;
-            color: var(--text-color);
-
-            span {
-                &::before {
-                    content: '';
-                    display: block;
-                    position: absolute;
-                    background: var(--text-color);
-                    transition: all 0.2s;
-                }
-            }
-
-            & > span {
-                &::before {
-                    width: 0%;
-                    height: var(--width);
-                    top: 0px;
-                    left: 0px;
-                }
-
-                & > span {
-                    &::before {
-                        width: var(--width);
-                        height: 0%;
-                        bottom: 0px;
-                        left: 0px;
-                    }
-
-                    & > span {
-                        &::before {
-                            width: var(--width);
-                            height: 0%;
-                            top: 0px;
-                            right: 0px;
-                        }
-
-                        & > span {
-                            &::before {
-                                width: 0%;
-                                height: var(--width);
-                                bottom: 0px;
-                                right: 0px;
-                            }
-                        }
-                    }
-                }
-            }
-
-            &:hover > span {
-                &::before {
-                    width: 100%;
-                }
-
-                & > span {
-                    &::before {
-                        height: 100%;
-                    }
-
-                    & > span {
-                        &::before {
-                            height: 100%;
-                        }
-
-                        & > span {
-                            &::before {
-                                width: 100%;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         #links {
             margin-left: 1em;
         }
-
+        
         #actions {
             margin-right: 2em;
+        }
+        
+        #user {
+            position: relative;
+            margin-right: calc(2em - 10px);
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            transition: background 0.2s;
+            outline: none;
+            
+            &:hover, &:focus {
+                background: rgba(0, 0, 0, 0.05);
+                cursor: pointer;
+            }
+            
+            #user-panel-container {
+                position: absolute;
+                bottom: 0px;
+                right: 0px;
+                width: 0px;
+                height: 0px;
+                overflow: hidden;
+                opacity: 0;
+                transition: opacity 0.3s;
+                
+                &.open {
+                    overflow: visible;
+                    opacity: 1;
+                }
+                
+                .user-panel {
+                    position: absolute;
+                    top: -1px;
+                    right: 0px;
+                }
+            }
+            
+            i {
+                margin-left: 10px;
+            }
         }
     }
 }

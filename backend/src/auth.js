@@ -52,7 +52,7 @@ exports.authenticate = async (req, srvRes) => {
 };
 
 exports.logIn = (req, res) => {
-    if (req.cookies.authToken) {
+    if (req.cookies.authToken && req.user) {
         res.json({
             success: true,
             user:    req.user

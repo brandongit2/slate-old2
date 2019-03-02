@@ -87,17 +87,14 @@
         }
         
         .course-info {
-            border: 1px solid black;
-            border-radius: 5px;
+            border: 1.5px solid var(--tertiary-text-color);
             margin-top: 1em;
             padding: 1em;
             transition: all 0.3s;
-            box-shadow: 0px 0px 0px 0px var(--color);
             cursor: pointer;
 
             &:hover {
-                border: 1px solid var(--color);
-                box-shadow: 0px 0px 0px 2px var(--color);
+                border: 1.5px solid var(--color);
             }
 
             p {

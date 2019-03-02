@@ -10,28 +10,37 @@ import {contrasts} from '../util';
 
 import css from './course.scss';
 
-function ArticleList(props) {
-    const [articles, setArticles] = React.useState([]);
+class ArticleList extends React.Component {
+    state = {
+        articles: []
+    };
     
-    props.articles.then(articles => setArticles(articles.data));
+    constructor(props) {
+        super(props);
+        
+        props.articles?.then(articles => this.setState({articles: articles.data})); /* eslint-disable-line no-unused-expressions */
+    }
     
-    return (
-        <div className={css['article-list']}>
-            <div id={css['unit-header']}>
-                <span className={css['unit-number']}>Unit {props.unit?.order}</span>
-                <span>{props.unit?.display_name}</span>
+    render() {
+        const {props} = this;
+        return (
+            <div className={css['article-list']}>
+                <div id={css['unit-header']}>
+                    <span className={css['unit-number']}>Unit {props.unit?.order}</span>
+                    <span>{props.unit?.display_name}</span>
+                </div>
+                <div id={css.list}>
+                    {this.state.articles.map(article => (
+                        <Link key={article.id}
+                              href={'/article?subject=' + props.subject?.id + '&course=' + props.course?.id + '&unit=' + props.unit?.id + '&article=' + article.id}
+                              as={'/subject/' + props.subject?.name + '/' + props.course?.name + '/' + article.title}>
+                            <a>{article.display_title}</a>
+                        </Link>
+                    ))}
+                </div>
             </div>
-            <div id={css.list}>
-                {articles.map(article => (
-                    <Link key={article.id}
-                          href={'/article?subject=' + props.subject?.id + '&course=' + props.course?.id + '&unit=' + props.unit?.id + '&article=' + article.id}
-                          as={'/subject/' + props.subject?.name + '/' + props.course?.name + '/' + article.title}>
-                        <a>{article.display_title}</a>
-                    </Link>
-                ))}
-            </div>
-        </div>
-    );
+        );
+    }
 }
 
 function Course(props) {

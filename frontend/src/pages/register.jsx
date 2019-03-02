@@ -2,6 +2,7 @@ import axios from 'axios';
 import {validate as validateEmail} from 'email-validator';
 import Router from 'next/router';
 import React from 'react';
+import {connect} from 'react-redux';
 import zxcvbn from 'zxcvbn';
 
 import {Layout} from '../components';
@@ -24,7 +25,9 @@ function PasswordStrength(props) {
     );
 }
 
-export default function Register() {
+export default function Register(props) {
+    if (props.user.isLoggedIn) Router.replace('/');
+    
     // For the form fields.
     const [email, setEmail] = React.useState('');
     const [fName, setFName] = React.useState('');
@@ -95,7 +98,7 @@ export default function Register() {
                 });
                 
                 if (res.data.success) {
-                    Router.push(`/check-email?email=${email}&fname=${fName}`, '/register');
+                    Router.replace(`/check-email?email=${email}&fname=${fName}`);
                 } else {
                     switch (res.data.error) {
                         case errors.ACCOUNT_EXISTS:
@@ -218,3 +221,11 @@ export default function Register() {
         </Layout>
     );
 }
+
+function mapStateToProps(state) {
+    return {
+        user: state.user
+    };
+}
+
+Register = connect(mapStateToProps)(Register); /* eslint-disable-line no-func-assign */
