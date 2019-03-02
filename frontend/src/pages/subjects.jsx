@@ -8,33 +8,42 @@ import {changeSubject, changeCourse, changeUnit, changeArticle, getAllSubjects, 
 import {Layout} from '../components';
 import css from './subjects.scss';
 
-function Subject(props) {
-    const [courses, setCourses] = React.useState([]);
+class Subject extends React.Component {
+    state = {
+        courses: []
+    }
     
-    props.courses.then(courses => setCourses(courses.data));
+    constructor(props) {
+        super(props);
+        
+        props.courses?.then(courses => this.setState({courses: courses.data})); /* eslint-disable-line no-unused-expressions */
+    }
     
-    return (
-        <div className={css.subject}>
-            <style jsx>{`
-                --color: #${props.color}
-            `}</style> {/* eslint-disable-line react/jsx-closing-tag-location */}
-            <Link href={`/subject?subject=${props.id}`}
-                  as={`/subject/${props.name}`}>
-                <a className={css.title}>
-                    {props.displayName}
-                </a>
-            </Link>
-            {courses.map(course => (
-                <Link key={course.name}
-                      href={`/course?course=${course.id}`}
-                      as={`/subject/${props.name}/${course.name}`}>
-                    <a className={css.course}>
-                        {course.display_name}
+    render() {
+        const {props} = this;
+        return (
+            <div className={css.subject}>
+                <style jsx>{`
+                    --color: #${props.color}
+                `}</style>
+                <Link href={`/subject?subject=${props.id}`}
+                      as={`/subject/${props.name}`}>
+                    <a className={css.title}>
+                        {props.displayName}
                     </a>
                 </Link>
-            ))}
-        </div>
-    );
+                {this.state.courses.map(course => (
+                    <Link key={course.name}
+                          href={`/course?course=${course.id}`}
+                          as={`/subject/${props.name}/${course.name}`}>
+                        <a className={css.course}>
+                            {course.display_name}
+                        </a>
+                    </Link>
+                ))}
+            </div>
+        );
+    }
 }
 
 Subject.defaultProps = {
