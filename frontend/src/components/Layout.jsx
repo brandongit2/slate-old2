@@ -67,10 +67,8 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        logIn: () => dispatch(logIn())
-    };
-}
+const actionCreators = {
+    logIn
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+export default connect(mapStateToProps, actionCreators)(Layout);

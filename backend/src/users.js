@@ -115,37 +115,9 @@ exports.resendEmail = async (req, res) => {
     }
 };
 
-exports.authenticate = async (req, srvRes) => {
-    const hash = (await pool.query('SELECT password FROM users WHERE email=?', [req.body.email]))[0].password.toString();
-    const userId = (await pool.query('SELECT id FROM users WHERE email=?', [req.body.email]))[0].id;
-
-    bcrypt.compare(req.body.password, hash, async (err, cryptRes) => {
-        srvRes.json({
-            authenticate: cryptRes,
-            token:        await auth.createToken(userId, false)
-        });
-    });
-};
-
-exports.getUser = async (req, res) => {
-    const user = (await pool.query('SELECT users.id, users.first_name, users.last_name, users.email FROM users JOIN logintokens ON users.id=logintokens.userid WHERE logintokens.token=?', [req.query.token]));
-    if (user.length === 1) {
-        res.json(user);
-    } else {
-        res.status(404).end('404 not found');
-    }
-};
-
 exports.deactivate = async req => {
     try {
-        pool.query(
-            `
-                DELETE users FROM users
-                LEFT JOIN email_verification ON users.email=email_verification.email
-                WHERE email_verification.query=? AND CURRENT_TIMESTAMP < expiry
-            `,
-            [req.body.query]
-        );
+        pool.query('DELETE users FROM users LEFT JOIN email_verification ON users.email=email_verification.email WHERE email_verification.query=? AND CURRENT_TIMESTAMP < expiry', [req.body.query]);
     } catch (err) {
         console.error(err);
     }
@@ -167,6 +139,7 @@ exports.verifyEmail = async (req, res) => {
                     });
                     return;
                 }
+                res.cookie('authToken', auth.createToken(), {secure: true});
                 res.json({success: true});
             } else {
                 res.json({

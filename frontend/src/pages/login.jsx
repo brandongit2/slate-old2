@@ -15,11 +15,7 @@ export default function Login() {
 
         const res = await axios.post('/api/authenticate', {email, password});
         
-        console.log(window);
-        const storage = window.localStorage;
-        
-        if (res.data.authenticate) {
-            storage.setItem('authToken', res.data.token);
+        if (res.data.success) {
             Router.push('/subjects');
         } else {
             setError('Invalid login.');

@@ -6,7 +6,7 @@ import {createStore, applyMiddleware} from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 
-import {logIn, setInfo} from '../actions';
+import {setInfo} from '../actions';
 import {rootUrl} from '../constants';
 import rootReducer from '../reducers';
 
@@ -23,12 +23,10 @@ function makeStore(initialState) {
 export default withRedux(makeStore)(class Slate extends NextApp {
     static async getInitialProps({Component, ctx}) {
         axios.defaults.baseUrl = rootUrl;
-        if (typeof window !== 'undefined') {
-            axios.defaults.headers.common['Authorization'] = window.localStorage.getItem('authToken');
-        }
+        
         await ctx.store.dispatch(setInfo({
-            version:     process.env.SLATE_VERSION,
-            publishDate: process.env.SLATE_PUBLISH_DATE
+            version:     process.env.version,
+            publishDate: process.env.publishDate
         }));
         const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
         return {pageProps};

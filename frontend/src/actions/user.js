@@ -4,12 +4,17 @@ import {actionTypes} from '../constants';
 
 export function logIn() {
     return async dispatch => {
-        const authToken = window.localStorage.getItem('authToken');
-        if (authToken != null) {
-            dispatch({
-                type: actionTypes.LOG_IN,
-                user: (await axios.get('/api/user?token=' + authToken)).data[0]
-            });
+        try {
+            const user = (await axios.get('/api/log-in')).data;
+            console.log(user);
+            if (user.success) {
+                dispatch({
+                    type: actionTypes.LOG_IN,
+                    user: user.user
+                });
+            }
+        } catch (err) {
+            console.error(err);
         }
     };
 }

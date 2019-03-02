@@ -56,24 +56,18 @@ export default function Header(props) {
                         </a></Link>
                     </li>
                 </ul>
-                {props.user.isLoggedIn
-                    ? (
-                        <div>{`${props.user.first_name} ${props.user.last_name}`}</div>
-                    ) : (
-                        <ul id={css.actions}>
-                            <li className={props.currentPage === 'login' ? css.bold : ''}>
-                                <Link href="/login" prefetch><a>
-                                    <Button>LOG IN</Button>
-                                </a></Link>
-                            </li>
-                            <li className={props.currentPage === 'register' ? css.bold : ''}>
-                                <Link href="/register" prefetch><a>
-                                    <Button>REGISTER</Button>
-                                </a></Link>
-                            </li>
-                        </ul>
-                    )
-                }
+                <ul id={css.actions}>
+                    <li className={props.currentPage === 'login' ? css.bold : ''}>
+                        <Link href="/login" prefetch><a>
+                            <Button>LOG IN</Button>
+                        </a></Link>
+                    </li>
+                    <li className={props.currentPage === 'register' ? css.bold : ''}>
+                        <Link href="/register" prefetch><a>
+                            <Button>REGISTER</Button>
+                        </a></Link>
+                    </li>
+                </ul>
             </nav>
         </div>
     );
