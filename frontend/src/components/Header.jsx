@@ -20,10 +20,11 @@ function Button(props) {
     );
 }
 
-function UserPanel() {
+function UserPanel(props) {
     return (
         <div className={[css['user-panel'], 'user-panel'].join(' ')}>
             <p>Settings</p>
+            {props.user.permissions > 1 ? <p>Admin panel</p> : null}
             <p>Log out</p>
         </div>
     );
@@ -76,7 +77,7 @@ export default function Header(props) {
                         <span>{props.user.first_name} {props.user.last_name}</span>
                         <i className="material-icons">arrow_drop_down</i>
                         <div id={css['user-panel-container']} className={userPanelIsOpen ? css.open : ''}>
-                            <UserPanel />
+                            <UserPanel user={props.user} />
                         </div>
                     </div>
                 ) : (
