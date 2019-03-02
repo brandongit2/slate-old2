@@ -1,8 +1,8 @@
 import axios from 'axios';
+import Router from 'next/router';
 import React from 'react';
 
 import {Layout} from '../components';
-import {apiPrefix1, apiPrefix2} from '../constants';
 import css from './login.scss';
 
 export default function Login() {
@@ -13,13 +13,16 @@ export default function Login() {
     const submit = async e => {
         e.preventDefault();
 
-        const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
-        const res = await axios.post(apiPrefix + '/authenticate', {email, password});
+        const res = await axios.post('/api/authenticate', {email, password});
+        
+        console.log(window);
+        const storage = window.localStorage;
         
         if (res.data.authenticate) {
-            console.log('logged in!');
+            storage.setItem('authToken', res.data.token);
+            Router.push('/subjects');
         } else {
-            console.log('invalid login.');
+            setError('Invalid login.');
         }
     };
 

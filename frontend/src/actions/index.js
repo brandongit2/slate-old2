@@ -2,6 +2,7 @@ import {actionTypes} from '../constants';
 
 export * from './api';
 export * from './snackbar';
+export * from './user';
 
 export function changeSubject(newSubject) {
     return {

@@ -16,11 +16,10 @@ export const actionTypes = {
     GET_UNITS:      'get units',
     GET_ARTICLES:   'get articles',
 
+    LOG_IN: 'log in',
+
     SET_INFO: 'set info'
 };
-
-export const apiPrefix1 = '/api';
-export const apiPrefix2 = rootUrl + '/api';
 
 // These constants must be added to the backend `constants.js` as well.
 export const errors = {

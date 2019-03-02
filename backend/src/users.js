@@ -3,6 +3,7 @@ const sgMail = require('@sendgrid/mail');
 const {generate} = require('shortid');
 const zxcvbn = require('zxcvbn');
 
+const auth = require('./auth.js');
 const {errors} = require('./constants.js');
 const {pool} = require('./sqlConnect.js');
 const {verificationEmail} = require('./verificationEmail.js');
@@ -116,10 +117,23 @@ exports.resendEmail = async (req, res) => {
 
 exports.authenticate = async (req, srvRes) => {
     const hash = (await pool.query('SELECT password FROM users WHERE email=?', [req.body.email]))[0].password.toString();
+    const userId = (await pool.query('SELECT id FROM users WHERE email=?', [req.body.email]))[0].id;
 
-    bcrypt.compare(req.body.password, hash, (err, cryptRes) => {
-        srvRes.json({authenticate: cryptRes});
+    bcrypt.compare(req.body.password, hash, async (err, cryptRes) => {
+        srvRes.json({
+            authenticate: cryptRes,
+            token:        await auth.createToken(userId, false)
+        });
     });
+};
+
+exports.getUser = async (req, res) => {
+    const user = (await pool.query('SELECT users.id, users.first_name, users.last_name, users.email FROM users JOIN logintokens ON users.id=logintokens.userid WHERE logintokens.token=?', [req.query.token]));
+    if (user.length === 1) {
+        res.json(user);
+    } else {
+        res.status(404).end('404 not found');
+    }
 };
 
 exports.deactivate = async req => {

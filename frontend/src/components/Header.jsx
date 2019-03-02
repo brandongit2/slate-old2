@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import React from 'react';
 
 import css from './Header.scss';
 
@@ -8,7 +9,7 @@ function Button(props) {
             <span>
                 <style jsx>{`
                     --width: 1px;
-                `}</style> {/* eslint-disable-line react/jsx-closing-tag-location */}
+                `}</style>
                 <span>
                     <span>
                         <span>{props.children}</span>
@@ -18,19 +19,6 @@ function Button(props) {
         </div>
     );
 }
-
-// Keys are the text shown in the header, entries are the URL they lead to.
-// example: 'blog' would link to slate.brandontsang.net/blog
-const leftEntries = {
-    subjects: 'subjects',
-    about:    'about',
-    blog:     'blog',
-    donate:   'donate'
-};
-const rightEntries = {
-    'log in': 'login',
-    register: 'register'
-};
 
 export default function Header(props) {
     return (
@@ -47,27 +35,45 @@ export default function Header(props) {
             </Link>
             <nav>
                 <ul id={css.links}>
-                    {Object.keys(leftEntries).map(entry => (
-                        <li key={entry} className={props.currentPage === entry ? css.bold : ''}>
-                            <Link href={'/' + leftEntries[entry]} prefetch>
-                                <a>
-                                    <Button>{entry.toUpperCase()}</Button>
-                                </a>
-                            </Link>
-                        </li>
-                    ))}
+                    <li className={props.currentPage === 'subjects' ? css.bold : ''}>
+                        <Link href="/subjects" prefetch><a>
+                            <Button>SUBJECTS</Button>
+                        </a></Link>
+                    </li>
+                    <li className={props.currentPage === 'about' ? css.bold : ''}>
+                        <Link href="/about" prefetch><a>
+                            <Button>ABOUT</Button>
+                        </a></Link>
+                    </li>
+                    <li className={props.currentPage === 'blog' ? css.bold : ''}>
+                        <Link href="/blog" prefetch><a>
+                            <Button>BLOG</Button>
+                        </a></Link>
+                    </li>
+                    <li className={props.currentPage === 'donate' ? css.bold : ''}>
+                        <Link href="/donate" prefetch><a>
+                            <Button>DONATE</Button>
+                        </a></Link>
+                    </li>
                 </ul>
-                <ul id={css.actions}>
-                    {Object.keys(rightEntries).map(entry => (
-                        <li key={entry} className={props.currentPage === entry ? css.bold : ''}>
-                            <Link href={'/' + rightEntries[entry]} prefetch>
-                                <a>
-                                    <Button>{entry.toUpperCase()}</Button>
-                                </a>
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
+                {props.user.isLoggedIn
+                    ? (
+                        <div>{`${props.user.first_name} ${props.user.last_name}`}</div>
+                    ) : (
+                        <ul id={css.actions}>
+                            <li className={props.currentPage === 'login' ? css.bold : ''}>
+                                <Link href="/login" prefetch><a>
+                                    <Button>LOG IN</Button>
+                                </a></Link>
+                            </li>
+                            <li className={props.currentPage === 'register' ? css.bold : ''}>
+                                <Link href="/register" prefetch><a>
+                                    <Button>REGISTER</Button>
+                                </a></Link>
+                            </li>
+                        </ul>
+                    )
+                }
             </nav>
         </div>
     );

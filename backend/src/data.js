@@ -13,7 +13,11 @@ exports.getSubject = async (req, res) => {
     
     const data = await pool.query(`SELECT id, \`order\`, name, display_name, description, color FROM subjects WHERE ${nameOrId}=?`, [req.params.id]);
     
-    res.json(data);
+    if (data.length === 1) {
+        res.json(data);
+    } else {
+        res.status(404).end('404 not found');
+    }
 };
 
 exports.getAllCourses = async (req, res) => {
@@ -27,7 +31,11 @@ exports.getCourse = async (req, res) => {
     
     const data = await pool.query(`SELECT id, \`order\`, name, display_name, description, subject_id FROM courses WHERE ${nameOrId}=?`, [req.params.id]);
     
-    res.json(data);
+    if (data.length === 1) {
+        res.json(data);
+    } else {
+        res.status(404).end('404 not found');
+    }
 };
 
 exports.getAllUnits = async (req, res) => {
@@ -41,7 +49,11 @@ exports.getUnit = async (req, res) => {
     
     const data = await pool.query(`SELECT id, \`order\`, name, display_name, description, course_id FROM units WHERE ${nameOrId}=?`, [req.params.id]);
     
-    res.json(data);
+    if (data.length === 1) {
+        res.json(data);
+    } else {
+        res.status(404).end('404 not found');
+    }
 };
 
 exports.getAllArticles = async (req, res) => {
@@ -55,7 +67,11 @@ exports.getArticle = async (req, res) => {
     
     const data = await pool.query(`SELECT id, \`order\`, title, display_title, publish_date, update_date, content, unit_id FROM articles WHERE ${nameOrId}=?`, [req.params.id]);
     
-    res.json(data);
+    if (data.length === 1) {
+        res.json(data);
+    } else {
+        res.status(404).end('404 not found');
+    }
 };
 
 exports.getParent = async (req, res) => {
@@ -70,7 +86,7 @@ exports.getParent = async (req, res) => {
     } else if (req.query.article) {
         nameOrId = isNaN(req.query.article) ? 'name' : 'id';
     } else {
-        res.end('Invalid query.');
+        res.status(404).end('404 not found');
     }
     
     if (req.query.want) {

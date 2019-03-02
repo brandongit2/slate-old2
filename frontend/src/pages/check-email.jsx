@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import {addNotification} from '../actions';
 import {Layout} from '../components';
-import {apiPrefix2 as apiPrefix, errors, notificationLevels} from '../constants';
+import {errors, notificationLevels} from '../constants';
 import css from './check-email.scss';
 
 class CheckEmail extends React.Component {
@@ -34,7 +34,7 @@ class CheckEmail extends React.Component {
 
     resendEmail = async () => {
         if (this.state.counter <= 0) {
-            const res = await axios.post(apiPrefix + '/resend-verification-email', {
+            const res = await axios.post('/api/resend-verification-email', {
                 firstName: this.props.fName,
                 email:     this.props.email
             });

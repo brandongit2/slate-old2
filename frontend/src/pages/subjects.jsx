@@ -6,10 +6,7 @@ import {connect} from 'react-redux';
 
 import {changeSubject, changeCourse, changeUnit, changeArticle, getAllSubjects, getChildren} from '../actions';
 import {Layout} from '../components';
-import {apiPrefix1, apiPrefix2} from '../constants';
 import css from './subjects.scss';
-
-const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
 
 function Subject(props) {
     const [courses, setCourses] = React.useState([]);
@@ -58,7 +55,7 @@ function Subjects(props) {
                                  name={subject.name}
                                  displayName={subject.display_name}
                                  color={subject.color}
-                                 courses={axios.get(apiPrefix + '/children?subject=' + subject.id)} />
+                                 courses={axios.get('/api/children?subject=' + subject.id)} />
                     ))}
                 </div>
             </div>

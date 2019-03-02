@@ -7,9 +7,10 @@ const nextApp = next({
     dir: './src'
 });
 const handle = nextApp.getRequestHandler();
-
+const rootUrl = 'http://localhost';
 const port = 3000;
-const url = 'http://localhost';
+
+axios.defaults.baseURL = rootUrl;
 
 nextApp.prepare()
     .then(() => {
@@ -19,7 +20,7 @@ nextApp.prepare()
             const actualPage = '/subject';
             try {
                 const queryParams = {
-                    subject: (await axios.get(url + '/api/subject/' + req.params.subject)).data[0].id
+                    subject: (await axios.get('/api/subject/' + req.params.subject)).data[0].id
                 };
                 nextApp.render(req, res, actualPage, queryParams);
             } catch {
@@ -30,8 +31,8 @@ nextApp.prepare()
         app.get('/subject/:subject/:course', async (req, res) => {
             const actualPage = '/course';
             try {
-                const subjectId = (await axios.get(url + '/api/subject/' + req.params.subject)).data[0].id;
-                const courseId = (await axios.get(url + '/api/course/' + req.params.course)).data[0].id;
+                const subjectId = (await axios.get('/api/subject/' + req.params.subject)).data[0].id;
+                const courseId = (await axios.get('/api/course/' + req.params.course)).data[0].id;
 
                 const queryParams = {subject: subjectId, course: courseId};
                 nextApp.render(req, res, actualPage, queryParams);
@@ -43,10 +44,10 @@ nextApp.prepare()
         app.get('/subject/:subject/:course/:article', async (req, res) => {
             const actualPage = '/article';
             try {
-                const subjectId = (await axios.get(url + '/api/subject/' + req.params.subject)).data[0].id;
-                const courseId = (await axios.get(url + '/api/course/' + req.params.course)).data[0].id;
-                const unitId = (await axios.get(url + '/api/parent?article=' + req.params.article)).data[0].id;
-                const articleId = (await axios.get(url + '/api/article/' + req.params.article)).data[0].id;
+                const subjectId = (await axios.get('/api/subject/' + req.params.subject)).data[0].id;
+                const courseId = (await axios.get('/api/course/' + req.params.course)).data[0].id;
+                const unitId = (await axios.get('/api/parent?article=' + req.params.article)).data[0].id;
+                const articleId = (await axios.get('/api/article/' + req.params.article)).data[0].id;
 
                 const queryParams = {
                     subject: subjectId,
@@ -68,7 +69,7 @@ nextApp.prepare()
                 nextApp.render(req, res, '/verify', {success: 'false'});
             } else {
                 try {
-                    const success = (await axios.post(url + '/api/verify', {query: req.query.q})).data.success;
+                    const success = (await axios.post('/api/verify', {query: req.query.q})).data.success;
                     if (success) {
                         nextApp.render(req, res, '/verify', {success: 'true'});
                     } else {
@@ -76,7 +77,7 @@ nextApp.prepare()
                     }
                 } catch (err) {
                     console.error(err);
-                    res.set('location', url + '/subjects');
+                    res.set('location', rootUrl + '/subjects');
                     res.status(301).send();
                 }
             }
@@ -85,14 +86,14 @@ nextApp.prepare()
         app.get('/deactivate', async (req, res) => {
             try {
                 if (!req.query.q) {
-                    res.set('location', url + '/subjects');
+                    res.set('location', rootUrl + '/subjects');
                     res.status(301).send();
                 }
-                axios.post(url + '/api/deactivate', {query: req.query.q});
+                axios.post('/api/deactivate', {query: req.query.q});
                 nextApp.render(req, res, '/deactivate');
             } catch (err) {
                 console.error(err);
-                res.set('location', url + '/subjects');
+                res.set('location', rootUrl + '/subjects');
                 res.status(301).send();
             }
         });

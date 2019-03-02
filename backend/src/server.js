@@ -1,9 +1,9 @@
 const express = require('express');
 
+const {auth} = require('./auth.js');
 const data = require('./data.js');
 const users = require('./users.js');
 const {wrap} = require('./utils.js');
-const auth = require('./auth.js');
 
 const app = express();
 const apiUrl = '/api';
@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.enable('trust proxy');
 
-app.use(auth.auth);
+app.use(auth);
 
 ////////////////////////////////////////////////// DATA FUNCTIONS //////////////////////////////////////////////////////
 
@@ -40,6 +40,7 @@ app.get(apiUrl + '/children', wrap(data.getChildren));
 
 ////////////////////////////////////////////////// USER FUNCTIONS //////////////////////////////////////////////////////
 
+app.get(apiUrl + '/user', wrap(users.getUser));
 app.post(apiUrl + '/add-user', wrap(users.addUser));
 app.post(apiUrl + '/authenticate', wrap(users.authenticate));
 app.post(apiUrl + '/deactivate', wrap(users.deactivate));

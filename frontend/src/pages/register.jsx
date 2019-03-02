@@ -5,7 +5,7 @@ import React from 'react';
 import zxcvbn from 'zxcvbn';
 
 import {Layout} from '../components';
-import {isDev, apiPrefix1, apiPrefix2, errors} from '../constants';
+import {isDev, errors} from '../constants';
 import css from './register.scss';
 
 function PasswordStrength(props) {
@@ -87,9 +87,8 @@ export default function Register() {
         }
 
         if (valid) {
-            const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
             try {
-                const res = await axios.post(apiPrefix + '/add-user', {
+                const res = await axios.post('/api/add-user', {
                     firstName: fName,
                     lastName:  lName,
                     email, password

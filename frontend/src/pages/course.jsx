@@ -6,11 +6,8 @@ import {connect} from 'react-redux';
 
 import {changeSubject, changeCourse, changeUnit, changeArticle, getSubject, getCourse, getChildren} from '../actions';
 import {Layout, Breadcrumbs, Crumb, Dropdown, Item} from '../components';
-import {apiPrefix1, apiPrefix2} from '../constants';
 import {contrasts} from '../util';
 import css from './course.scss';
-
-const apiPrefix = process.env ? apiPrefix2 : apiPrefix1;
 
 function ArticleList(props) {
     const [articles, setArticles] = React.useState([]);
@@ -83,7 +80,7 @@ function Course(props) {
                                      subject={props.subject}
                                      course={props.course}
                                      unit={unit}
-                                     articles={axios.get(apiPrefix + '/children?unit=' + unit.id)} />
+                                     articles={axios.get('/api/children?unit=' + unit.id)} />
                     ))}
                 </div>
             </div>
