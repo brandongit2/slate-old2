@@ -76,6 +76,7 @@ function Testing(props) {
                             <input type="checkbox"
                                    name="has-x"
                                    checked={modalHasX}
+                                   style={{marginTop: '0px'}}
                                    onChange={e => setModalHasX(e.target.checked)} />
                         </div>
                         
