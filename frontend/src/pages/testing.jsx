@@ -18,12 +18,15 @@ function Testing(props) {
             case 'modify':
                 return state.map(button => {
                     if (button[0] === action.id) {
-                        button[1] = action.value;
+                        if (action.value) button[1] = action.value;
+                        if (action.severity) button[2] = action.severity;
                         return button;
                     } else {
                         return button;
                     }
                 });
+            case 'delete':
+                return state.filter(button => button[0] === action.id);
             default:
                 return state;
         }
@@ -68,18 +71,48 @@ function Testing(props) {
                         <button name="add-button" onClick={e => {
                                 e.preventDefault();
                                 changeModalButtons({type: 'add'});
-                        }}>Add button</button>
-                        <div style={{gridColumnEnd: 3}}>{modalButtons.map(button => (
-                            <input key={button[0]}
-                                   type="text"
-                                   name="button"
-                                   value={button[1]}
-                                   onChange={e => changeModalButtons({
-                                       type:  'modify',
-                                       id:    button[0],
-                                       value: e.target.value
-                                   })} />
-                        ))}</div>
+                        }}>
+                            Add button
+                        </button>
+                        <div style={{gridColumnEnd: 3, display: 'grid', gridTemplateColumns: '1fr 1fr', gridGap: '10px'}}>
+                            <p>Button text</p>
+                            <p>Severity</p>
+                            {modalButtons.map(button => (
+                                <React.Fragment key={button[0]}>
+                                    <input type="text"
+                                           name="button"
+                                           value={button[1]}
+                                           onChange={e => changeModalButtons({
+                                               type:  'modify',
+                                               id:    button[0],
+                                               value: e.target.value
+                                           })} />
+                                    <Dropdown label="Low">
+                                        <Item onClick={() => changeModalButtons({
+                                                  type:     'modify',
+                                                  id:       button[0],
+                                                  severity: severities.LOW
+                                              })}>
+                                            Low
+                                        </Item>
+                                        <Item onClick={() => changeModalButtons({
+                                                  type:     'modify',
+                                                  id:       button[0],
+                                                  severity: severities.MED
+                                              })}>
+                                            Medium
+                                        </Item>
+                                        <Item onClick={() => changeModalButtons({
+                                                  type:     'modify',
+                                                  id:       button[0],
+                                                  severity: severities.HIGH
+                                              })}>
+                                            High
+                                        </Item>
+                                    </Dropdown>
+                                </React.Fragment>
+                            ))}
+                        </div>
                         
                         
                         <label htmlFor="has-x">Has X:</label>
@@ -128,7 +161,7 @@ function Testing(props) {
                     <h1>Buttons</h1>
                     <button>Regular plain-old boring button</button>
                     <button className="low">Low-severity button</button>
-                    <button className="med">Medium severity button</button>
+                    <button className="med">Medium-severity button</button>
                     <button className="high">High-severity button</button>
                 </div>
             </div>

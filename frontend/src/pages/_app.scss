@@ -59,6 +59,7 @@ button, input[type='submit'] {
     outline: none;
     transition: transform 0.2s;
     user-select: none;
+    cursor: pointer;
     
     &:hover, &:focus {
         transform: scale(1.03);
