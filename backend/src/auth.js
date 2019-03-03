@@ -1,8 +1,8 @@
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 
-const auth = require('./auth.js');
-const {pool} = require('./sqlConnect.js');
+const auth = require('./auth');
+const {pool} = require('./sqlConnect');
 
 function randomBytes(bytes) {
     return new Promise(((resolve, reject) => {

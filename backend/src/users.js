@@ -3,10 +3,11 @@ const sgMail = require('@sendgrid/mail');
 const {generate} = require('shortid');
 const zxcvbn = require('zxcvbn');
 
-const auth = require('./auth.js');
-const {errors} = require('./constants.js');
-const {pool} = require('./sqlConnect.js');
-const {verificationEmail} = require('./verificationEmail.js');
+const auth = require('./auth');
+const {errors} = require('./constants');
+const {verificationEmail} = require('./emails');
+const {pool} = require('./sqlConnect');
+
 const {apiKey} = require('../sendgrid.json');
 
 sgMail.setApiKey(apiKey);

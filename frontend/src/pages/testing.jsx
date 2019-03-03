@@ -55,71 +55,80 @@ function Testing(props) {
                 </div>
                 <div>
                     <h1>Modal</h1>
-                    <form id={css['modal-form']}>
-                        <label htmlFor="title">Title:</label>
-                        <input type="text"
-                               name="title"
-                               value={modalTitle}
-                               onChange={e => setModalTitle(e.target.value)} />
+                    <form style={{width: '25rem'}}>
+                        <div className="form-field">
+                            <label htmlFor="title">Title</label>
+                            <input type="text"
+                                   name="title"
+                                   value={modalTitle}
+                                   onChange={e => setModalTitle(e.target.value)} />
+                        </div>
                         
-                        <label htmlFor="content">Content:</label>
-                        <textarea name="content"
-                                  value={modalContent}
-                                  onChange={e => setModalContent(e.target.value)} />
+                        <div className="form-field">
+                            <label htmlFor="content">Content</label>
+                            <textarea name="content"
+                                      value={modalContent}
+                                      onChange={e => setModalContent(e.target.value)} />
+                        </div>
                         
-                        <label htmlFor="add-button">Buttons:</label>
-                        <button name="add-button" onClick={e => {
+                        <div className="form-field" style={{flexDirection: 'row', alignItems: 'center'}}>
+                            <label htmlFor="has-x" style={{marginRight: '5px'}}>Has X:</label>
+                            <input type="checkbox"
+                                   name="has-x"
+                                   checked={modalHasX}
+                                   onChange={e => setModalHasX(e.target.checked)} />
+                        </div>
+                        
+                        {modalButtons.length > 0
+                            ? (
+                                <div style={{display: 'grid', gridTemplateColumns: '1fr auto', gridGap: '10px'}}>
+                                    <label>Button text</label>
+                                    <label>Severity</label>
+                                    {modalButtons.map(button => (
+                                        <React.Fragment key={button[0]}>
+                                            <input type="text"
+                                                   name="button"
+                                                   value={button[1]}
+                                                   onChange={e => changeModalButtons({
+                                                       type:  'modify',
+                                                       id:    button[0],
+                                                       value: e.target.value
+                                                   })} />
+                                            <Dropdown label="Low">
+                                                <Item onClick={() => changeModalButtons({
+                                                          type:     'modify',
+                                                          id:       button[0],
+                                                          severity: severities.LOW
+                                                      })}>
+                                                    Low
+                                                </Item>
+                                                <Item onClick={() => changeModalButtons({
+                                                          type:     'modify',
+                                                          id:       button[0],
+                                                          severity: severities.MED
+                                                      })}>
+                                                    Medium
+                                                </Item>
+                                                <Item onClick={() => changeModalButtons({
+                                                          type:     'modify',
+                                                          id:       button[0],
+                                                          severity: severities.HIGH
+                                                      })}>
+                                                    High
+                                                </Item>
+                                            </Dropdown>
+                                        </React.Fragment>
+                                    ))}
+                                </div>
+                            ) : null
+                        }
+                        
+                        <button onClick={e => {
                                 e.preventDefault();
                                 changeModalButtons({type: 'add'});
                         }}>
                             Add button
                         </button>
-                        <div style={{gridColumnEnd: 3, display: 'grid', gridTemplateColumns: '1fr 1fr', gridGap: '10px'}}>
-                            <p>Button text</p>
-                            <p>Severity</p>
-                            {modalButtons.map(button => (
-                                <React.Fragment key={button[0]}>
-                                    <input type="text"
-                                           name="button"
-                                           value={button[1]}
-                                           onChange={e => changeModalButtons({
-                                               type:  'modify',
-                                               id:    button[0],
-                                               value: e.target.value
-                                           })} />
-                                    <Dropdown label="Low">
-                                        <Item onClick={() => changeModalButtons({
-                                                  type:     'modify',
-                                                  id:       button[0],
-                                                  severity: severities.LOW
-                                              })}>
-                                            Low
-                                        </Item>
-                                        <Item onClick={() => changeModalButtons({
-                                                  type:     'modify',
-                                                  id:       button[0],
-                                                  severity: severities.MED
-                                              })}>
-                                            Medium
-                                        </Item>
-                                        <Item onClick={() => changeModalButtons({
-                                                  type:     'modify',
-                                                  id:       button[0],
-                                                  severity: severities.HIGH
-                                              })}>
-                                            High
-                                        </Item>
-                                    </Dropdown>
-                                </React.Fragment>
-                            ))}
-                        </div>
-                        
-                        
-                        <label htmlFor="has-x">Has X:</label>
-                        <input type="checkbox"
-                               name="has-x"
-                               checked={modalHasX}
-                               onChange={e => setModalHasX(e.target.checked)} />
                         
                         <button className="low" onClick={submitModalForm}>Show modal</button>
                     </form>

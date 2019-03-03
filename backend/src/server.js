@@ -2,9 +2,9 @@ const asyncHandler = require('express-async-handler');
 const cookieParser = require('cookie-parser');
 const express = require('express');
 
-const auth = require('./auth.js');
-const data = require('./data.js');
-const users = require('./users.js');
+const auth = require('./auth');
+const data = require('./data');
+const users = require('./users');
 
 const app = express();
 const apiUrl = '/api';
