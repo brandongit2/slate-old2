@@ -4,7 +4,8 @@
     flex-direction: column;
     
     :global(.breadcrumbs) {
-        margin: 1em 2em;
+        flex-shrink: 0;
+        margin: 1rem 2rem;
         font-size: 10pt;
         color: var(--secondary-text-color);
         
@@ -20,7 +21,7 @@
     #article {
         width: 60vw;
         height: 100%;
-        margin: 1em auto;
+        margin: 1rem auto;
         
         * {
             font-family: 'PT Serif', serif;
@@ -30,7 +31,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1em;
+            margin-bottom: 1rem;
             
             #title {
                 font-size: 32pt;
@@ -44,7 +45,7 @@
         }
         
         #body {
-            text-indent: 4em;
+            text-indent: 4rem;
         }
     }
 }

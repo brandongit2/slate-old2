@@ -20,8 +20,8 @@
         position: relative;
         flex-basis: 0px;
         flex-grow: 1;
-        max-width: 25em;
-        padding: 2em;
+        max-width: 25rem;
+        padding: 2rem;
         box-sizing: border-box;
         background: var(--color);
         display: flex;
@@ -31,8 +31,8 @@
 
         :global(.breadcrumbs) {
             position: absolute;
-            top: 2em;
-            left: 2em;
+            top: 2rem;
+            left: 2rem;
             font-size: 10pt;
             color: var(--secondary-subject-text-color);
             
@@ -58,7 +58,7 @@
         #title {
             font-size: 32pt;
             color: var(--subject-text-color);
-            margin: 0.2em 0;
+            margin: 0.2rem 0;
         }
 
         #description {
@@ -71,15 +71,15 @@
         flex-grow: 2;
 
         & > div {
-            max-width: 40em;
-            padding: 2em;
+            max-width: 40rem;
+            padding: 2rem;
             box-sizing: border-box;
         }
 
         #courses-title {
             font-size: 32pt;
             color: var(--title-color);
-            margin-bottom: 0.5em;
+            margin-bottom: 0.5rem;
         }
 
         a {
@@ -88,8 +88,8 @@
         
         .course-info {
             border: 1.5px solid var(--tertiary-text-color);
-            margin-top: 1em;
-            padding: 1em;
+            margin-top: 1rem;
+            padding: 1rem;
             transition: all 0.3s;
             cursor: pointer;
 
@@ -104,7 +104,7 @@
             #name {
                 font-size: 16pt;
                 font-weight: 700;
-                margin-bottom: 0.3em;
+                margin-bottom: 0.3rem;
             }
 
             #description {

@@ -38,3 +38,16 @@ export function setInfo(info) {
         info
     };
 }
+
+export function showModal(title, content, buttons, hasX = true) {
+    return {
+        type: actionTypes.SHOW_MODAL,
+        title, content, buttons, hasX
+    };
+}
+
+export function hideModal() {
+    return {
+        type: actionTypes.HIDE_MODAL
+    };
+}

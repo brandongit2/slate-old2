@@ -31,7 +31,7 @@ i:global(.material-icons) {
     user-select: none;
 }
 
-input {
+input, textarea {
     padding: 10px;
     font-size: 12pt;
     border: 1px solid grey;
@@ -39,7 +39,11 @@ input {
     outline: none;
 }
 
-input:focus {
+textarea {
+    resize: none;
+}
+
+input:focus, textarea:focus {
     border: 1px solid #0478f1;
     box-shadow: 0px 0px 2px 0px #0478f1;
 }
@@ -48,22 +52,43 @@ button, input[type='submit'] {
     padding: 10px 20px;
     font-weight: 700;
     font-size: 12pt;
-    background: #0478f1;
-    border: none;
-    color: white;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    color: black;
+    background: transparent;
     border-radius: 5px;
     outline: none;
-    transition: box-shadow 0.2s;
+    transition: transform 0.2s;
     user-select: none;
-}
-
-button:hover, input[type='submit']:hover, button:focus, input[type='submit']:focus {
-    box-shadow: 0px 0px 15px 0px rgba(4, 120, 241, 0.6);
-    outline: none;
-}
-
-button:active, input[type='submit']:active {
-    background: #0056af;
+    
+    &:hover, &:focus {
+        transform: scale(1.03);
+    }
+    
+    &:active {
+        background: rgba(0, 0, 0, 0.1);
+    }
+    
+    &:global(.low) {
+        background: #1691ea;
+        color: white;
+        border: none;
+        
+        &:active {
+            background: #0056af;
+        }
+    }
+    
+    &:global(.med) {
+        background: #e8e857;
+        color: black;
+        border: 1px solid #acac15;
+    }
+    
+    &:global(.high) {
+        background: #cb6055;
+        color: white;
+        border: none;
+    }
 }
 
 label {

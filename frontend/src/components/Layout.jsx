@@ -6,7 +6,7 @@ import Head from 'next/head';
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {Header, Snackbar} from './';
+import {Header, Modal, Snackbar} from './';
 import {logIn} from '../actions';
 
 import css from './Layout.scss';
@@ -34,6 +34,7 @@ class Layout extends React.Component {
                     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                     <link rel="shortcut icon" href="/static/favicon.png" />
                 </Head>
+                <Modal />
                 {props.noHeader
                     ? null
                     : (

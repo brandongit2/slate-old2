@@ -1,9 +1,9 @@
 import {generate} from 'shortid';
 
-import {actionTypes, notificationLevels} from '../constants';
+import {actionTypes, severities} from '../constants';
 
 // `timeout` is in milliseconds.
-export const addNotification = (notification, level = notificationLevels.INFO, timeout = 7000) => dispatch => {
+export const addNotification = (notification, level = severities.INFO, timeout = 7000) => dispatch => {
     const id = generate();
 
     setTimeout(() => {

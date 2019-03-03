@@ -9,12 +9,12 @@
         flex-direction: column;
         box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
         border-radius: 10px;
-        padding: 2em;
+        padding: 2rem;
 
         h1 {
             font-weight: 700;
             font-size: 18pt;
-            margin-bottom: 0.5em;
+            margin-bottom: 0.5rem;
         }
 
         #error {
@@ -33,7 +33,7 @@
             &.shown {
                 height: auto;
                 padding: 10px;
-                margin-bottom: 1em;
+                margin-bottom: 1rem;
             }
 
             i {
@@ -61,7 +61,7 @@
         input {
             margin-top: 5px;
             margin-bottom: 15px;
-            width: 15em;
+            width: 15rem;
 
             &.no-bottom-margin {
                 margin-bottom: 7px;

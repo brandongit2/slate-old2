@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import {addNotification} from '../actions';
 import {Layout} from '../components';
-import {errors, notificationLevels} from '../constants';
+import {errors, severities} from '../constants';
 import css from './check-email.scss';
 
 class CheckEmail extends React.Component {
@@ -42,7 +42,7 @@ class CheckEmail extends React.Component {
             if (res.data.success) {
                 this.props.addNotification('E-mail resent.');
             } else if (res.data.error === errors.UNKNOWN) {
-                this.props.addNotification('Unknown error occured.', notificationLevels.ERROR);
+                this.props.addNotification('Unknown error occured.', severities.ERROR);
             }
         }
     };

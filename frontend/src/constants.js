@@ -5,6 +5,9 @@ export const actionTypes = {
     ADD_NOTIFICATION:    'add notification',
     HIDE_NOTIFICATION:   'hide notification',
     REMOVE_NOTIFICATION: 'remove notification',
+    
+    SHOW_MODAL: 'show modal',
+    HIDE_MODAL: 'hide modal',
 
     CHANGE_SUBJECT: 'change subject',
     CHANGE_COURSE:  'change course',
@@ -33,8 +36,12 @@ export const errors = {
     UNKNOWN:                'unknown'
 };
 
-export const notificationLevels = {
+export const severities = {
     INFO:  'info',
     WARN:  'warn',
-    ERROR: 'error'
+    ERROR: 'error',
+    
+    LOW:  'low',
+    MED:  'med',
+    HIGH: 'high'
 };

@@ -213,7 +213,7 @@ export default function Register(props) {
 
                         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                             <span><span style={{color: 'red'}}>*</span> required</span>
-                            <button onClick={submitForm}>Submit</button>
+                            <button onClick={submitForm} className="low">Submit</button>
                         </div>
                     </form>
                 </div>

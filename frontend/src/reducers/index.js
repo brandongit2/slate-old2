@@ -8,6 +8,14 @@ import * as snackbar from './snackbarReducers';
 import user from './userReducers';
 import {actionTypes} from '../constants';
 
+const defaultModal = {
+    isVisible: false,
+    title:     '',
+    content:   '',
+    buttons:   [],
+    hasX:      true
+};
+
 export default combineReducers({
     subjects, courses, units, articles,
     notifications:        snackbar.notificationsReducers,
@@ -45,6 +53,21 @@ export default combineReducers({
     info: (state = {}, action) => {
         if (action.type === actionTypes.SET_INFO) {
             return action.info;
+        } else {
+            return state;
+        }
+    },
+    modal: (state = defaultModal, action) => {
+        if (action.type === actionTypes.SHOW_MODAL) {
+            return {
+                isVisible: true,
+                title:     action.title,
+                content:   action.content,
+                buttons:   action.buttons,
+                hasX:      action.hasX
+            };
+        } else if (action.type === actionTypes.HIDE_MODAL) {
+            return defaultModal;
         } else {
             return state;
         }

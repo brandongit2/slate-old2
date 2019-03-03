@@ -1,13 +1,13 @@
 import {connect} from 'react-redux';
 
 import {removeNotification} from '../actions';
-import {notificationLevels} from '../constants';
+import {severities} from '../constants';
 import css from './Snackbar.scss';
 
 const levelToCssClass = {
-    [notificationLevels.INFO]:  css.info,
-    [notificationLevels.WARN]:  css.warn,
-    [notificationLevels.ERROR]: css.error
+    [severities.INFO]:  css.info,
+    [severities.WARN]:  css.warn,
+    [severities.ERROR]: css.error
 };
 
 const Snackbar = props => (

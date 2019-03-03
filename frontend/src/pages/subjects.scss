@@ -8,7 +8,7 @@
     align-items: center;
 
     #prompt {
-        margin-bottom: 1em;
+        margin-bottom: 1rem;
         font-size: 24pt;
         text-align: center;
     }
@@ -19,7 +19,7 @@
         flex-flow: column wrap;
 
         & > * {
-            margin-bottom: 1em;
+            margin-bottom: 1rem;
         }
         
         .subject {
