@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Router from 'next/router';
 import React from 'react';
 
 import css from './Header.scss';
@@ -23,9 +24,9 @@ function Button(props) {
 function UserPanel(props) {
     return (
         <div className={[css['user-panel'], 'user-panel'].join(' ')}>
-            <p>Settings</p>
-            {props.user.permissions > 1 ? <p>Admin panel</p> : null}
-            <p>Log out</p>
+            <a onClick={() => Router.push('/settings')}>Settings</a>
+            {props.user.permissions > 1 ? <a onClick={() => Router.push('/admin')}>Admin panel</a> : null}
+            <a>Log out</a>
         </div>
     );
 }
@@ -71,11 +72,12 @@ export default function Header(props) {
                 </ul>
                 {props.user.isLoggedIn ? (
                     <div id={css.user}
-                         onClick={() => toggleUserPanel()}
-                         tabIndex="0"
-                         onBlur={() => setUserPanelIsOpen(false)}>
-                        <span>{props.user.first_name} {props.user.last_name}</span>
-                        <i className="material-icons">arrow_drop_down</i>
+                         onBlur={() => setUserPanelIsOpen(false)}
+                         tabIndex="0">
+                        <div className="user-panel-visible" onClick={toggleUserPanel}>
+                            <span>{props.user.first_name} {props.user.last_name}</span>
+                            <i className="material-icons">arrow_drop_down</i>
+                        </div>
                         <div id={css['user-panel-container']} className={userPanelIsOpen ? css.open : ''}>
                             <UserPanel user={props.user} />
                         </div>
