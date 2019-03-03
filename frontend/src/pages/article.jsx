@@ -11,7 +11,7 @@ import css from './article.scss';
 
 function Article(props) {
     return (
-        <Layout>
+        <Layout title={props.article?.display_title + ' - Slate'}>
             <div id={css.container}>
                 <Breadcrumbs>
                     <Crumb><Link href="/subjects">

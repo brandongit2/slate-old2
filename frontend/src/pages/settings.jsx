@@ -4,7 +4,7 @@ import css from './settings.scss';
 
 export default function Settings() {
     return (
-        <Layout>
+        <Layout title="Settings - Slate">
             <div id={css.container}>
                 <h1>Settings</h1>
                 <div className={css.box}>
