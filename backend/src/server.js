@@ -73,3 +73,5 @@ app.use((err, req, res) => {
 });
 
 app.listen(port, () => console.info(`Slate backend running on port ${port}.`));
+
+export default app;
