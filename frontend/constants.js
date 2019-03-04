@@ -27,9 +27,8 @@ export const actionTypes = {
 // These constants must be added to the backend `constants.js` as well.
 export const errors = {
     ACCOUNT_EXISTS:         'account exists',
-    BCRYPT_ERROR:           'bcrypt error',
     INVALID_FORM:           'invalid form',
-    MYSQL_ERROR:            'mysql error',
+    INVALID_LOGIN:          'invalid login',
     QUERY_EXPECTED:         'query expected',
     QUERY_NOT_IN_DATABASE:  'query not in database',
     RESEND_EMAIL_NOT_FOUND: 'resend email not found',

@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 
 const auth = require('./auth');
+const {errors} = require('./constants');
 const {pool} = require('./sqlConnect');
 
 function randomBytes(bytes) {
@@ -39,18 +40,23 @@ exports.createToken = async (user, extended) => {
 };
 
 exports.authenticate = async (req, srvRes) => {
-    const hash = (await pool.query('SELECT password FROM users WHERE email=?', [req.body.email]))[0].password.toString();
-    const userId = (await pool.query('SELECT id FROM users WHERE email=?', [req.body.email]))[0].id;
-
-    bcrypt.compare(req.body.password, hash, async (err, cryptRes) => {
-        srvRes.cookie('authToken', await auth.createToken(userId, false));
+    try {
+        const hash = (await pool.query('SELECT password FROM users WHERE email=?', [req.body.email]))[0].password.toString();
+        const userId = (await pool.query('SELECT id FROM users WHERE email=?', [req.body.email]))[0].id;
         
-        srvRes.send({
-            success: cryptRes
+        bcrypt.compare(req.body.password, hash, async (err, cryptRes) => {
+            srvRes.cookie('authToken', await auth.createToken(userId, req.body.stayLoggedIn));
+            
+            srvRes.send({
+                success: cryptRes
+            });
         });
-    });
-    
-    srvRes.end();
+    } catch {
+        srvRes.send({
+            success: false,
+            error:   errors.INVALID_LOGIN
+        });
+    }
 };
 
 exports.logIn = (req, res) => {
