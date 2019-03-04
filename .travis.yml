@@ -4,7 +4,7 @@ node_js:
 services:
   - mysql
 before_install:
-  - cad backend
+  - cd backend
   - cp src/tests/mysqlCreds.test.json ./mysqlCreds.json
   - cp src/tests/sendgrid.test.json ./sendgrid.json
   - mysql -e 'CREATE DATABASE slate;'
