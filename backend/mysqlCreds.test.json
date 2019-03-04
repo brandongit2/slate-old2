@@ -1,6 +1,6 @@
 {
-    "user": "",
+    "user": "travis",
     "pass": "",
-    "host": "",
-    "database": ""
+    "host": "127.0.0.1",
+    "database": "slate"
 }
