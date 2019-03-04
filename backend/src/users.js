@@ -9,7 +9,7 @@ const {errors} = require('./constants.js');
 const {pool} = require('./sqlConnect.js');
 const {verificationEmail} = require('./verificationEmail.js');
 
-const {apiKey} = JSON.parse(fs.readFileSync(process.env.TRAVIS ? 'sendgrid.test.json' : 'sendgrid.json'));
+const {apiKey} = require('./sendgrid.json');
 
 sgMail.setApiKey(apiKey);
 

@@ -1,12 +1,15 @@
 language: node_js
 node_js:
-- "node"
+  - "node"
 services:
-- mysql
+  - mysql
 before_install:
+  - cp tests/mysqlCreds.test.json ./mysqlCreds.json
+  - cp tests/sendgrid.test.json ./sendgrid.json
   - mysql -e 'CREATE DATABASE slate;'
   - cat migrations/* | mysql slate
+  - cat tests/slate.test.sql | mysql slate
 script:
-- cd backend
-- npm install
-- npm test
+  - cd backend
+  - npm install
+  - npm test
