@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Link from 'next/link';
 import Router from 'next/router';
 import React from 'react';
@@ -26,7 +27,10 @@ function UserPanel(props) {
         <div className={[css['user-panel'], 'user-panel'].join(' ')}>
             <a onClick={() => Router.push('/settings')}>Settings</a>
             {props.user.permissions > 1 ? <a onClick={() => Router.push('/admin')}>Admin panel</a> : null}
-            <a>Log out</a>
+            <a onClick={async () => {
+                   await axios.post('/api/log-out');
+                   window.location.reload();
+               }}>Log out</a>
         </div>
     );
 }

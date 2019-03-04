@@ -1,4 +1,5 @@
 const axios = require('axios');
+const cookieParser = require('cookie-parser');
 const express = require('express');
 const next = require('next');
 
@@ -6,7 +7,7 @@ const nextApp = next({
     dev: process.env.NODE_ENV !== 'production'
 });
 const handle = nextApp.getRequestHandler();
-const rootUrl = 'http://localhost';
+const rootUrl = process.env.SLATE_ROOT_URL;
 const port = 3000;
 
 axios.defaults.baseURL = rootUrl;
@@ -14,6 +15,8 @@ axios.defaults.baseURL = rootUrl;
 nextApp.prepare()
     .then(() => {
         const app = express();
+        
+        app.use(cookieParser());
 
         app.get('/subject/:subject', async (req, res) => {
             const actualPage = '/subject';

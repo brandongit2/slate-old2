@@ -7,7 +7,7 @@ import {createStore, applyMiddleware} from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 
-import {setInfo} from '../actions';
+import {logIn, setInfo} from '../actions';
 import {rootUrl} from '../constants';
 import rootReducer from '../reducers';
 
@@ -38,6 +38,11 @@ export default withRedux(makeStore)(class Slate extends NextApp {
             version:     process.env.version,
             publishDate: process.env.publishDate
         }));
+        
+        console.log(Object.keys(ctx.req.cookies));
+        // const user = (await axios.post('/api/log-in', {cookie: })).data.user;
+        // console.log(user);
+        
         const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
         return {pageProps};
     }

@@ -45,25 +45,30 @@ exports.authenticate = async (req, srvRes) => {
     bcrypt.compare(req.body.password, hash, async (err, cryptRes) => {
         srvRes.cookie('authToken', await auth.createToken(userId, false));
         
-        srvRes.json({
+        srvRes.send({
             success: cryptRes
         });
     });
+    
+    srvRes.end();
 };
 
 exports.logIn = (req, res) => {
     if (req.user) {
-        res.json({
+        res.send({
             success: true,
             user:    req.user
         });
     } else {
-        res.json({success: false});
+        res.send({success: false});
     }
 };
 
-exports.logOut = (req, res) => {
+exports.logOut = async (req, res) => {
     if (req.user) {
-        pool.query('');
+        await pool.query('UPDATE login_tokens SET valid=0 WHERE user_id=?', [req.user.id]);
+        res.clearCookie('authToken');
     }
+    
+    res.end();
 };
