@@ -1,5 +1,6 @@
 # slate
 [![Build Status](https://travis-ci.com/brandongit2/slate.svg?branch=master)](https://travis-ci.com/brandongit2/slate)
+
 Free online courses on STEM subjects.
 
 ---
