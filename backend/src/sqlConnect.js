@@ -1,5 +1,5 @@
 const mysql = require('promise-mysql');
-
+const fs = require('fs');
 const mysqlCreds = require('../mysqlCreds.json');
 
 exports.pool = mysql.createPool({

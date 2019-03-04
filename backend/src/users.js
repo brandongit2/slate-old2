@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const sgMail = require('@sendgrid/mail');
 const {generate} = require('shortid');
 const zxcvbn = require('zxcvbn');
+const fs = require('fs');
 
 const auth = require('./auth');
 const {errors} = require('./constants');
