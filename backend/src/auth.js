@@ -52,12 +52,18 @@ exports.authenticate = async (req, srvRes) => {
 };
 
 exports.logIn = (req, res) => {
-    if (req.cookies.authToken && req.user) {
+    if (req.user) {
         res.json({
             success: true,
             user:    req.user
         });
     } else {
         res.json({success: false});
+    }
+};
+
+exports.logOut = (req, res) => {
+    if (req.user) {
+        pool.query('');
     }
 };

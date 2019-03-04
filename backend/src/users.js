@@ -73,9 +73,10 @@ exports.addUser = async (req, res) => {
                             last_name,
                             email,
                             password,
-                            valid_email
+                            valid_email,
+                            permissions
                         )
-                    VALUES (?, ?, ?, ?, 0)
+                    VALUES (?, ?, ?, ?, 0, 5)
                 `, [fName, lName, email, hash]);
                 
                 res.json(await sendEmail(fName, email, validationQuery));

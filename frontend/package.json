@@ -3,9 +3,9 @@
   "version": "0.0.1-SNAPSHOT",
   "description": "The frontend for Slate.",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "version=$(git describe --tags --exact-match HEAD 2>/dev/null || git rev-parse --verify HEAD --short=7 2>/dev/null) pubdate=$(git show -s --format=%ct HEAD) && echo \"{\\n    \\\"version\\\": \\\"$version\\\",\\n    \\\"publishDate\\\": \\\"$pubdate\\\"\\n}\" > version.json && node server.js",
     "build": "next build",
-    "start": "version=$(git describe --tags --exact-match HEAD 2>/dev/null || git rev-parse --verify HEAD --short=7 2>/dev/null) pubdate=$(git show -s --format=%ct HEAD) && echo \"{\\n    \\\"version\\\": \\\"$version\\\",\\n    \\\"publishDate\\\": \\\"$pubdate\\\"\\n}\" > version.json && node server.js",
+    "start": "NODE_ENV=production node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.2.0",
+    "next-progressbar": "^1.0.0",
     "redux-devtools-extension": "^2.13.8"
   }
 }

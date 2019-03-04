@@ -18,7 +18,8 @@ class ArticleList extends React.Component {
     constructor(props) {
         super(props);
         
-        props.articles?.then(articles => this.setState({articles: articles.data})); /* eslint-disable-line no-unused-expressions */
+        /* eslint-disable-next-line no-unused-expressions */
+        props.articles?.then(articles => this.setState({articles: articles.data}));
     }
     
     render() {

@@ -3,8 +3,7 @@ const express = require('express');
 const next = require('next');
 
 const nextApp = next({
-    dev: process.env.NODE_ENV !== 'production',
-    dir: './src'
+    dev: process.env.NODE_ENV !== 'production'
 });
 const handle = nextApp.getRequestHandler();
 const rootUrl = 'http://localhost';
