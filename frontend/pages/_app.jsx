@@ -42,7 +42,7 @@ export default withRedux(makeStore)(class Slate extends NextApp {
         let pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
         if (pageProps == null) pageProps = {};
         
-        if (ctx.isServer) {
+        if (ctx.req) {
             let user = (await axios.request({
                 url:     '/api/log-in',
                 method:  'post',
