@@ -9,6 +9,6 @@ script:
   - cp src/tests/sendgrid.test.json ./sendgrid.json
   - mysql -e 'CREATE DATABASE slate;'
   - cat migrations/* | mysql slate
-  - cat tests/slate.test.sql | mysql slate
+  - cat src/tests/slate.test.sql | mysql slate
   - npm install
   - npm test

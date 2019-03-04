@@ -9,7 +9,7 @@ const {errors} = require('./constants.js');
 const {pool} = require('./sqlConnect.js');
 const {verificationEmail} = require('./verificationEmail.js');
 
-const {apiKey} = require('./sendgrid.json');
+const {apiKey} = require('../sendgrid.json');
 
 sgMail.setApiKey(apiKey);
 
