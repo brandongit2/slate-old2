@@ -1,6 +1,6 @@
-const {rootUrl} = require('./constants.js');
+const {rootUrl} = require('../constants');
 
-exports.verificationEmail = (name, query) => `
+module.exports = (name, query) => `
     <html>
         <body style="margin: 0px;">
             <style type="text/css">

@@ -12,9 +12,9 @@ import css from './register.scss';
 function PasswordStrength(props) {
     return (
         <div className={[
-                 css['password-strength'],
-                 css[`strength-${props.strength}`],
-                 props.length === 0 ? css.empty : ''
+                 'password-strength',
+                 `strength-${props.strength}`,
+                 props.length === 0 ? 'password-strength-empty' : ''
              ].join(' ')}>
             <div />
             <div />
@@ -39,13 +39,13 @@ export default function Register(props) {
     const [lNameErr, setLNameErr] = React.useState('');
     const [passwordErr, setPasswordErr] = React.useState('');
     const [error, setError] = React.useState(''); // General form errors (e.g. account with e-mail already exists)
-
+    
     const submitForm = async e => {
         e.preventDefault();
         setError('');
-
+        
         let valid = true;
-
+        
         if (email.length === 0) {
             valid = false;
             setEmailErr('Required field.');
@@ -58,7 +58,7 @@ export default function Register(props) {
         } else {
             setEmailErr('');
         }
-
+        
         if (fName.length === 0) {
             valid = false;
             setFNameErr('Required field.');
@@ -68,14 +68,14 @@ export default function Register(props) {
         } else {
             setFNameErr('');
         }
-
+        
         if (lName.length > 50) {
             valid = false;
             setLNameErr('Max 50 chars.');
         } else {
             setLNameErr('');
         }
-
+        
         if (password.length === 0) {
             valid = false;
             setPasswordErr('Required field.');
@@ -88,7 +88,7 @@ export default function Register(props) {
         } else {
             setPasswordErr('');
         }
-
+        
         if (valid) {
             try {
                 const res = await axios.post('/api/add-user', {
@@ -143,35 +143,36 @@ export default function Register(props) {
                         </ul>
                     </div>
                     <form>
-                        <h1>Make an account</h1>
-
-                        <div id={css.error} className={error === '' ? '' : css.shown}>
-                            <span>{error}</span>
-                            <i className="material-icons" onClick={() => setError('')}>close</i>
+                        <div>
+                            <h1>Make an account</h1>
+                            <div className={['error', error === '' ? '' : 'shown'].join(' ')}>
+                                <span>{error}</span>
+                                <i className="material-icons" onClick={() => setError('')}>close</i>
+                            </div>
                         </div>
-
-                        <div className={css.input}>
-                            <div className={css.label}>
-                                <label htmlFor="email" className={css.required}>E-MAIL</label>
-                                <span className={css['error-message']}>{emailErr}</span>
+                        
+                        <div className="form-field">
+                            <div className="form-label">
+                                <label htmlFor="email" className="form-required">E-MAIL</label>
+                                <span className="form-label-error">{emailErr}</span>
                             </div>
                             <input id="email"
-                                   className={emailErr.length > 0 ? css.invalid : ''}
+                                   className={emailErr.length > 0 ? 'form-invalid' : ''}
                                    type="email"
                                    spellCheck="false"
                                    value={email}
                                    onFocus={() => setEmailErr('')}
                                    onChange={e => setEmail(e.target.value)} />
                         </div>
-
-                        <div id={css.name}>
-                            <div className={css.input}>
-                                <div className={css.label}>
-                                    <label htmlFor="first-name" className={css.required}>FIRST NAME</label>
-                                    <span className={css['error-message']}>{fNameErr}</span>
+                        
+                        <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gridColumnGap: '1rem'}}>
+                            <div className="form-field">
+                                <div className="form-label">
+                                    <label htmlFor="first-name" className="form-required">FIRST NAME</label>
+                                    <span className="form-label-error">{fNameErr}</span>
                                 </div>
                                 <input id="first-name"
-                                       className={fNameErr.length > 0 ? css.invalid : ''}
+                                       className={fNameErr.length > 0 ? 'form-invalid' : ''}
                                        type="text"
                                        spellCheck="false"
                                        value={fName}
@@ -179,13 +180,13 @@ export default function Register(props) {
                                        onChange={e => setFName(e.target.value)} />
                             </div>
 
-                            <div className={css.input}>
-                                <div className={css.label}>
+                            <div className="form-field">
+                                <div className="form-label">
                                     <label htmlFor="last-name">LAST NAME</label>
-                                    <span className={css['error-message']}>{lNameErr}</span>
+                                    <span className="form-label-error">{lNameErr}</span>
                                 </div>
                                 <input id="last-name"
-                                       className={lNameErr.length > 0 ? css.invalid : ''}
+                                       className={lNameErr.length > 0 ? 'form-invalid' : ''}
                                        type="text"
                                        spellCheck="false"
                                        value={lName}
@@ -193,24 +194,21 @@ export default function Register(props) {
                                        onChange={e => setLName(e.target.value)} />
                             </div>
                         </div>
-
-                        <div className={css.input}>
-                            <div className={css.label}>
-                                <label htmlFor="password" className={css.required}>PASSWORD</label>
-                                <span className={css['error-message']}>{passwordErr}</span>
+                        
+                        <div className="form-field">
+                            <div className="form-label">
+                                <label htmlFor="password" className="form-required">PASSWORD</label>
+                                <span className="form-label-error">{passwordErr}</span>
                             </div>
                             <input id="password"
-                                   className={[
-                                       css['no-bottom-margin'],
-                                       passwordErr.length > 0 ? css.invalid : ''
-                                   ].join(' ')}
+                                   className={passwordErr.length > 0 ? 'form-invalid' : ''}
                                    type="password"
                                    value={password}
                                    onFocus={() => setPasswordErr('')}
                                    onChange={e => setPassword(e.target.value)} />
                             <PasswordStrength strength={zxcvbn(password).score} length={password.length} />
                         </div>
-
+                        
                         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                             <span><span style={{color: 'red'}}>*</span> required</span>
                             <button onClick={submitForm} className="low">Submit</button>

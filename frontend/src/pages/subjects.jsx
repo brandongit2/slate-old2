@@ -16,7 +16,8 @@ class Subject extends React.Component {
     constructor(props) {
         super(props);
         
-        props.courses?.then(courses => this.setState({courses: courses.data})); /* eslint-disable-line no-unused-expressions */
+        /* eslint-disable-next-line no-unused-expressions */
+        props.courses?.then(courses => this.setState({courses: courses.data}));
     }
     
     render() {

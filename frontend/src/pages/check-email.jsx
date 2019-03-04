@@ -50,7 +50,7 @@ class CheckEmail extends React.Component {
     render() {
         const {props} = this;
         return (
-            <Layout noHeader secondaryLogo>
+            <Layout title="Verifying email... - Slate" noHeader secondaryLogo>
                 <div id={css.page}>
                     <div id={css.container}>
                         <p style={{fontSize: '20pt'}}>You&apos;re almost there!</p>

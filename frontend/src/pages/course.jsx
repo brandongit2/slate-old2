@@ -47,8 +47,7 @@ function Course(props) {
     // Boolean; whether white contrasts well with the subject color.
     const brightText = contrasts('ffffff', props.subject?.color);
     return (
-        <Layout currentPage=""
-                title={props.course?.display_name + ' - Slate'}>
+        <Layout title={props.course?.display_name + ' - Slate'}>
             <style jsx>{`
                 --color: #${props.subject ? props.subject.color : 'fff'};
                 --subject-text-color: ${brightText ? '#ffffff' : '#000000'};

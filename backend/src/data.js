@@ -1,6 +1,6 @@
 // For retrieving data such as subjects, courses, units, and articles.
 
-const {pool} = require('./sqlConnect.js');
+const {pool} = require('./sqlConnect');
 
 exports.getAllSubjects = async (req, res) => {
     const list = await pool.query('SELECT id, name, display_name, description, color FROM subjects ORDER BY `order`');

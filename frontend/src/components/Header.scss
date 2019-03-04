@@ -78,11 +78,14 @@
 
 .user-panel {
     background: white;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--secondary-border-color);
     width: min-content;
     white-space: nowrap;
     
-    p {
+    a, p {
+        display: block;
+        color: var(--text-color);
+        text-decoration: none;
         padding: 0.5rem 1rem;
         font-size: 11pt;
         transition: background 0.2s;
@@ -157,11 +160,14 @@
         #user {
             position: relative;
             margin-right: calc(2rem - 10px);
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            transition: background 0.2s;
             outline: none;
+            
+            & > div:first-child {
+                display: flex;
+                align-items: center;
+                padding: 10px;
+                transition: background 0.2s;
+            }
             
             &:hover, &:focus {
                 background: rgba(0, 0, 0, 0.05);
