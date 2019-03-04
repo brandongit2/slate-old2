@@ -54,22 +54,22 @@ export default function Header(props) {
             <nav>
                 <ul id={css.links}>
                     <li className={props.currentPage === 'subjects' ? css.bold : ''}>
-                        <Link href="/subjects" prefetch><a>
+                        <Link href="/subjects"><a>
                             <Button>SUBJECTS</Button>
                         </a></Link>
                     </li>
                     <li className={props.currentPage === 'about' ? css.bold : ''}>
-                        <Link href="/about" prefetch><a>
+                        <Link href="/about"><a>
                             <Button>ABOUT</Button>
                         </a></Link>
                     </li>
                     <li className={props.currentPage === 'blog' ? css.bold : ''}>
-                        <Link href="/blog" prefetch><a>
+                        <Link href="/blog"><a>
                             <Button>BLOG</Button>
                         </a></Link>
                     </li>
                     <li className={props.currentPage === 'donate' ? css.bold : ''}>
-                        <Link href="/donate" prefetch><a>
+                        <Link href="/donate"><a>
                             <Button>DONATE</Button>
                         </a></Link>
                     </li>
