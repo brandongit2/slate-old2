@@ -72,6 +72,6 @@ app.use((err, req, res) => {
     console.error(err);
 });
 
-app.listen(port, () => console.info(`Slate backend running on port ${port}.`));
+const server = app.listen(port, () => console.info(`Slate backend running on port ${port}.`));
 
-module.exports = app;
+module.exports = {app, server};

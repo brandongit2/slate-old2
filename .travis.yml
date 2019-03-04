@@ -1,6 +1,11 @@
 language: node_js
 node_js:
 - "node"
+services:
+- mysql
+before_install:
+  - mysql -e 'CREATE DATABASE slate;'
+  - cat migrations/* | mysql slate
 script:
 - cd backend
 - npm install

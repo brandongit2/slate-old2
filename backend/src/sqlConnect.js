@@ -1,6 +1,7 @@
 const mysql = require('promise-mysql');
+const fs = require('fs');
 
-const mysqlCreds = require('../mysqlCreds.json');
+const mysqlCreds = JSON.parse(fs.readFileSync(process.env.TRAVIS ? 'mysqlCreds.test.json' : 'mysqlCreds.json'));
 
 exports.pool = mysql.createPool({
     connectionLimit: 10,
