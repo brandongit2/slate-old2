@@ -1,7 +1,7 @@
 import {Layout} from '../components';
 
-export default function Admin() {
+export default function Admin(props) {
     return (
-        <Layout title="Admin - Slate">Admin</Layout>
+        <Layout title="Admin - Slate" {...props}>Admin</Layout>
     );
 }

@@ -26,7 +26,7 @@ export default function Login(props) {
     };
 
     return (
-        <Layout currentPage="log in" title="Log in - Slate" noShadow>
+        <Layout currentPage="log in" title="Log in - Slate" noShadow {...props}>
             <div id={css.container}>
                 <form>
                     <h1>Log in to Slate</h1>

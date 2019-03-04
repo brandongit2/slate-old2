@@ -2,9 +2,9 @@ import {Layout} from '../components';
 
 import css from './settings.scss';
 
-export default function Settings() {
+export default function Settings(props) {
     return (
-        <Layout title="Settings - Slate">
+        <Layout title="Settings - Slate" {...props}>
             <div id={css.container}>
                 <h1>Settings</h1>
                 <div className={css.box}>

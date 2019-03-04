@@ -54,6 +54,7 @@ exports.authenticate = async (req, srvRes) => {
 };
 
 exports.logIn = (req, res) => {
+    console.log(req.cookies);
     if (req.user) {
         res.send({
             success: true,

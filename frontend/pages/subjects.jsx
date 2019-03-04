@@ -55,7 +55,7 @@ Subject.defaultProps = {
 
 function Subjects(props) {
     return (
-        <Layout currentPage="subjects" title="Subjects - Slate" noShadow>
+        <Layout currentPage="subjects" title="Subjects - Slate" noShadow {...props}>
             <div id={css.container}>
                 <span id={css.prompt}>What would you like to learn today?</span>
                 <div id={css.courses}>

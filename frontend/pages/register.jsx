@@ -116,7 +116,7 @@ export default function Register(props) {
     };
 
     return (
-        <Layout currentPage="register" title="Register - Slate" noShadow>
+        <Layout currentPage="register" title="Register - Slate" noShadow {...props}>
             <div id={css.register}>
                 <div id={css.container}>
                     <div id={css.info}>

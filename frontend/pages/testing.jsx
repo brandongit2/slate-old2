@@ -39,7 +39,7 @@ function Testing(props) {
     };
     
     return (
-        <Layout title="Testing - Slate">
+        <Layout title="Testing - Slate" {...props}>
             <div id={css.container}>
                 <div>
                     <h1>Notifications</h1>

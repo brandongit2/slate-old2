@@ -22,7 +22,7 @@ function Subject(props) {
     // Boolean; whether white contrasts well with the subject color.
     const brightText = contrasts('ffffff', props.subject?.color);
     return (
-        <Layout title={props.subject?.display_name + ' - Slate'}>
+        <Layout title={props.subject?.display_name + ' - Slate'} {...props}>
             <style jsx>{`
                 --color: #${props.subject ? props.subject.color : 'fff'};
                 --subject-text-color: ${brightText ? '#ffffff' : '#000000'};

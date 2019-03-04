@@ -7,7 +7,7 @@ import {createStore, applyMiddleware} from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 
-import {logIn, setInfo} from '../actions';
+import {setInfo} from '../actions';
 import {rootUrl} from '../constants';
 import rootReducer from '../reducers';
 
@@ -39,11 +39,33 @@ export default withRedux(makeStore)(class Slate extends NextApp {
             publishDate: process.env.publishDate
         }));
         
-        console.log(Object.keys(ctx.req.cookies));
-        // const user = (await axios.post('/api/log-in', {cookie: })).data.user;
-        // console.log(user);
+        let pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
+        if (pageProps == null) pageProps = {};
         
-        const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
+        if (ctx.isServer) {
+            let user = (await axios.request({
+                url:     '/api/log-in',
+                method:  'post',
+                headers: {
+                    Cookie: `authToken=${ctx.req.cookies.authToken};`
+                }
+            })).data;
+            if (user.success) {
+                user = {
+                    isLoggedIn:  true,
+                    id:          user.user.id,
+                    first_name:  user.user.first_name,
+                    last_name:   user.user.last_name,
+                    valid_email: user.user.valid_email,
+                    permissions: user.user.permissions
+                };
+            } else {
+                user = {isLoggedIn: false};
+            }
+            
+            Object.assign(pageProps, {altUser: user});
+        }
+        
         return {pageProps};
     }
 
