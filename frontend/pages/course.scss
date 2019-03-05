@@ -10,7 +10,7 @@
     p, a, span, b {
         &::selection {
             background: var(--color);
-            color: white;
+            color: var(--subject-text-color);
         }
     }
 

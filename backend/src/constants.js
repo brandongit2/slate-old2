@@ -1,5 +1,4 @@
 // These constants must be added to the frontend `constants.js` as well.
-exports.rootUrl = 'http://localhost'; // CHANGE FOR PRODUCTION
 exports.errors = {
     ACCOUNT_EXISTS:         'account exists',
     INVALID_FORM:           'invalid form',

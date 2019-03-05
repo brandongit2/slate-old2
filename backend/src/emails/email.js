@@ -1,19 +1,24 @@
-const sgMail = require('@sendgrid/mail');
-const nodemailer = require('nodemailer');
-const credentials = require('../../emailCreds.json');
+/*
+ * This file is currently unused.
+ */
 
-if (credentials.type === "sendgrid") {
-	sgMail.setApiKey(credentials.apiKey);
-	exports.send = function(email) {
-		email.from = credentials.from;
-		sgMail.send(email);
-	}
-} else if (credentials.type === "smtp") {
-	const transporter = nodemailer.createTransport(credentials.credentials);
-	exports.send = function(email) {
-		email.from = credentials.from;
-		transporter.sendMail(email);
-	}
+const nodemailer = require('nodemailer');
+const sgMail = require('@sendgrid/mail');
+
+const {email: credentials} = require('../config.json');
+
+if (credentials.provider === 'sendgrid') {
+    sgMail.setApiKey(credentials.apiKey);
+    exports.send = email => {
+        email.from = credentials.from;
+        sgMail.send(email);
+    };
+} else if (credentials.provider === 'smtp') {
+    const transporter = nodemailer.createTransport(credentials.credentials);
+    exports.send = email => {
+        email.from = credentials.from;
+        transporter.sendMail(email);
+    };
 } else {
-	console.log("Invalid email type: " + credentials.type);
+    console.log('Invalid email provider: ' + credentials.provider);
 }
