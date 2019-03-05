@@ -6,9 +6,10 @@ const auth = require('./auth');
 const data = require('./data');
 const users = require('./users');
 
+const {port} = require('./config.json');
+
 const app = express();
 const apiUrl = '/api';
-const port = 3001;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -18,8 +19,6 @@ app.enable('trust proxy');
 app.use(auth.auth);
 
 ////////////////////////////////////////////////// DATA FUNCTIONS //////////////////////////////////////////////////////
-
-// Lists only get id and name, whereas the other endpoints get detailed information for a specific item.
 
 app.get(apiUrl + '/allSubjects', asyncHandler(data.getAllSubjects));
 app.get(apiUrl + '/subject/:id', asyncHandler(data.getSubject));
@@ -42,12 +41,12 @@ app.get(apiUrl + '/children', asyncHandler(data.getChildren));
 
 ////////////////////////////////////////////////// USER FUNCTIONS //////////////////////////////////////////////////////
 
-app.post(apiUrl + '/log-in', auth.logIn);
-app.post(apiUrl + '/log-out', asyncHandler(auth.logOut));
-app.post(apiUrl + '/reset-password', asyncHandler(auth.resetPassword));
 app.post(apiUrl + '/add-user', asyncHandler(users.addUser));
 app.post(apiUrl + '/authenticate', asyncHandler(auth.authenticate));
 app.post(apiUrl + '/deactivate', asyncHandler(users.deactivate));
+app.post(apiUrl + '/log-in', auth.logIn);
+app.post(apiUrl + '/log-out', auth.logOut);
+app.post(apiUrl + '/reset-password', auth.resetPassword);
 app.post(apiUrl + '/resend-verification-email', asyncHandler(users.resendEmail));
 
 // <URL>/api/verify?e=<unique query string>
@@ -56,11 +55,11 @@ app.post(apiUrl + '/verify', asyncHandler(users.verifyEmail));
 /////////////////////////////////////////////////// MISCELLANEOUS //////////////////////////////////////////////////////
 
 app.get('/', (req, res) => {
-    res.end('Slate API root');
+    res.send('Slate API root');
 });
 
 app.get(apiUrl, (req, res) => {
-    res.end('Slate API');
+    res.send('Slate API');
 });
 
 app.use((req, res) => {
@@ -71,7 +70,7 @@ app.use((err, req, res) => {
     if (!res.headersSent) {
         res.status(500).end('500 Internal server error');
     }
-    console.error(err);
+    console.trace();
 });
 
 const server = app.listen(port, () => console.info(`Slate backend running on port ${port}.`));

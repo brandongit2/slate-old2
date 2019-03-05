@@ -1,20 +1,25 @@
-const bcrypt = require('bcrypt');
+const {promisify} = require('util');
+const bcryptHash = promisify(require('bcrypt').hash);
+const sgMail = require('@sendgrid/mail');
 const {generate} = require('shortid');
 const zxcvbn = require('zxcvbn');
 
 const auth = require('./auth');
-const {errors, rootUrl} = require('./constants');
+const {errors} = require('./constants');
 const {emails, getEmail} = require('./emails');
-const {pool} = require('./sqlConnect');
+const {pool, mysqlErrorHandler} = require('./sqlConnect');
 
-const email = require('./emails/email.js');
+const {email: {apiKey}, rootUrl, verboseErrors} = require('./config.json');
+
+sgMail.setApiKey(apiKey);
 
 const sendEmail = async (fName, email, validationQuery) => {
     const textEmail = `Hi ${fName},
     Welcome to Slate! To log in, you must first verify your email. Do this by following this link: ${validationQuery}`;
 
-    email.send({
+    sgMail.send({
         to:      email,
+        from:    'Slate <no-reply@brandontsang.net>',
         subject: 'Slate: Validate your e-mail',
         text:    textEmail,
         html:    getEmail(emails.verification, {name: fName, query: validationQuery, rootUrl})
@@ -26,11 +31,10 @@ const sendEmail = async (fName, email, validationQuery) => {
         return {
             success: true
         };
-    } catch (error) {
-        console.error(error);
+    } catch (err) {
+        mysqlErrorHandler(err);
         return {
-            success: false,
-            error:   errors.MYSQL_ERROR
+            success: false
         };
     }
 };
@@ -42,6 +46,7 @@ exports.addUser = async (req, res) => {
     const lName = req.body.lastName;
     const password = req.body.password;
 
+    // Validate e-mail
     if (email.length > 254 || !require('email-validator').validate(email)) valid = false;
     if (fName.length === 0 || fName.length > 50) valid = false;
     if (lName.length > 50) valid = false;
@@ -50,48 +55,30 @@ exports.addUser = async (req, res) => {
     if (valid) {
         const validationQuery = generate(); // Will be used as a query string when validating e-mails.
 
-        bcrypt.hash(password, 10, async (err, hash) => {
-            if (err) {
-                console.error(err);
-                res.json({
-                    success: false,
-                    error:   errors.BCRYPT_ERROR
-                });
-                return;
-            }
+        let hash;
+        try {
+            hash = await bcryptHash(password, 10);
+        } catch (err) {
+            if (verboseErrors) console.error(err);
+            console.trace();
+        }
 
-            try {
-                await pool.query(`
-                    INSERT INTO
-                        users(
-                            first_name,
-                            last_name,
-                            email,
-                            password,
-                            valid_email,
-                            permissions
-                        )
-                    VALUES (?, ?, ?, ?, 0, 5)
-                `, [fName, lName, email, hash]);
-                
-                res.json(await sendEmail(fName, email, validationQuery));
-            } catch (err) {
-                switch (err.errno) {
-                    case 1062:
-                        res.json({
-                            success: false,
-                            error:   errors.ACCOUNT_EXISTS
-                        });
-                        break;
-                    default:
-                        console.error(err);
-                        res.json({
-                            success: false,
-                            error:   errors.MYSQL_ERROR
-                        });
-                }
+        try {
+            await pool.query('INSERT INTO users(first_name, last_name, email, password, valid_email, permissions) VALUES (?, ?, ?, ?, 0, 5)', [fName, lName, email, hash]);
+            
+            res.send(await sendEmail(fName, email, validationQuery));
+        } catch (err) {
+            switch (err.errno) {
+                case 1062:
+                    res.json({
+                        success: false,
+                        error:   errors.ACCOUNT_EXISTS
+                    });
+                    break;
+                default:
+                    mysqlErrorHandler(err);
             }
-        });
+        }
     } else {
         res.json({
             success: false,
@@ -101,15 +88,19 @@ exports.addUser = async (req, res) => {
 };
 
 exports.resendEmail = async (req, res) => {
-    const validEmail = (await pool.query('SELECT email FROM email_verification WHERE email=?', [req.body.email])).length === 1;
+    try {
+        const validEmail = (await pool.query('SELECT email FROM email_verification WHERE email=?', [req.body.email])).length === 1;
 
-    if (validEmail) {
-        res.json(await sendEmail(req.body.firstName, req.body.email, generate()));
-    } else {
-        return {
-            success: false,
-            error:   errors.RESEND_EMAIL_NOT_FOUND
-        };
+        if (validEmail) {
+            res.send(await sendEmail(req.body.firstName, req.body.email, generate()));
+        } else {
+            return {
+                success: false,
+                error:   errors.RESEND_EMAIL_NOT_FOUND
+            };
+        }
+    } catch (err) {
+        mysqlErrorHandler(err);
     }
 };
 
@@ -117,41 +108,31 @@ exports.deactivate = async req => {
     try {
         pool.query('DELETE users FROM users LEFT JOIN email_verification ON users.email=email_verification.email WHERE email_verification.query=? AND CURRENT_TIMESTAMP < expiry', [req.body.query]);
     } catch (err) {
-        console.error(err);
+        mysqlErrorHandler(err);
     }
 };
 
 exports.verifyEmail = async (req, res) => {
     if (req.body.query) {
-        const emails = await pool.query('SELECT email FROM email_verification WHERE query=? AND CURRENT_TIMESTAMP < expiry', [req.body.query]);
-
         try {
+            const emails = await pool.query('SELECT email FROM email_verification WHERE query=? AND CURRENT_TIMESTAMP < expiry', [req.body.query]);
+            
             if (emails.length === 1) {
-                try {
-                    pool.query('UPDATE users SET valid_email=1 WHERE email=?', [emails[0].email]);
-                    pool.query('DELETE FROM email_verification WHERE query=?', [req.body.query]);
-                } catch {
-                    res.json({
-                        success: false,
-                        error:   errors.MYSQL_ERROR
-                    });
-                    return;
-                }
+                pool.query('UPDATE users SET valid_email=1 WHERE email=?', [emails[0].email]);
+                pool.query('DELETE FROM email_verification WHERE query=?', [req.body.query]);
+                    
                 res.cookie('authToken', auth.createToken(), {secure: true});
-                res.json({success: true});
+                res.send({
+                    success: true
+                });
             } else {
-                res.json({
+                res.send({
                     success: false,
                     error:   errors.QUERY_NOT_IN_DATABASE
                 });
-                return;
             }
         } catch (err) {
-            console.error(err);
-            res.json({
-                success: false,
-                error:   errors.MYSQL_ERROR
-            });
+            mysqlErrorHandler(err);
         }
     } else {
         res.json({

@@ -7,13 +7,11 @@
     --secondary-subject-text-color: rgba(255, 255, 255, 0.7);
     --tertiary-subject-text-color: rgba(255, 255, 255, 0.5);
 
-    p, a, span {
-        transition: color 0.5s;
-    }
-
-    ::selection {
-        background: var(--color);
-        color: var(--subject-text-color);
+    p, a, span, b {
+        &::selection {
+            background: var(--color);
+            color: var(--subject-text-color);
+        }
     }
 
     #info {
