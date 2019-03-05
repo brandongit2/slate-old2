@@ -8,7 +8,7 @@ script:
   - cp src/tests/mysqlCreds.test.json ./mysqlCreds.json
   - cp src/tests/sendgrid.test.json ./sendgrid.json
   - cp src/tests/emailCreds.test.json ./emailCreds.json
-  - mysql -e 'CREATE =ATABASE slate;'
+  - mysql -e 'CREATE DATABASE slate;'
   - cat migrations/* | mysql slate
   - cat src/tests/slate.test.sql | mysql slate
   - npm install
