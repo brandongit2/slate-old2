@@ -15,7 +15,6 @@ const sendEmail = async (fName, email, validationQuery) => {
 
     email.send({
         to:      email,
-        from:    'Slate <no-reply@brandontsang.net>',
         subject: 'Slate: Validate your e-mail',
         text:    textEmail,
         html:    getEmail(emails.verification, {name: fName, query: validationQuery, rootUrl})
