@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt');
-const sgMail = require('@sendgrid/mail');
 const {generate} = require('shortid');
 const zxcvbn = require('zxcvbn');
 
@@ -8,15 +7,13 @@ const {errors, rootUrl} = require('./constants');
 const {emails, getEmail} = require('./emails');
 const {pool} = require('./sqlConnect');
 
-const {apiKey} = require('../sendgrid.json');
-
-sgMail.setApiKey(apiKey);
+const email = require('./emails/email.js');
 
 const sendEmail = async (fName, email, validationQuery) => {
     const textEmail = `Hi ${fName},
     Welcome to Slate! To log in, you must first verify your email. Do this by following this link: ${validationQuery}`;
 
-    sgMail.send({
+    email.send({
         to:      email,
         from:    'Slate <no-reply@brandontsang.net>',
         subject: 'Slate: Validate your e-mail',

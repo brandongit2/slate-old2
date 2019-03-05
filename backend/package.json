@@ -26,6 +26,7 @@
     "express": "^4.16.4",
     "express-async-handler": "^1.1.4",
     "mysql": "^2.16.0",
+    "nodemailer": "^5.1.1",
     "promise-mysql": "^3.3.1",
     "shortid": "^2.2.14",
     "zxcvbn": "^4.4.2"
