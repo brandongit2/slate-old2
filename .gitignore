@@ -2,3 +2,4 @@
 /frontend/.next
 /backend/mysqlCreds.json
 /backend/sendgrid.json
+/backend/emailCreds.json
