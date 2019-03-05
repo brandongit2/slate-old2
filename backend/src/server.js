@@ -44,6 +44,7 @@ app.get(apiUrl + '/children', asyncHandler(data.getChildren));
 
 app.post(apiUrl + '/log-in', auth.logIn);
 app.post(apiUrl + '/log-out', asyncHandler(auth.logOut));
+app.post(apiUrl + '/reset-password', asyncHandler(auth.resetPassword));
 app.post(apiUrl + '/add-user', asyncHandler(users.addUser));
 app.post(apiUrl + '/authenticate', asyncHandler(auth.authenticate));
 app.post(apiUrl + '/deactivate', asyncHandler(users.deactivate));

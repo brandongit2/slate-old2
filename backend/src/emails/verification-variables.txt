@@ -1,0 +1,3 @@
+name    - The first name of the recipient.
+rootUrl - The URL of Slate.
+query   - The e-mail verification query string (from database).

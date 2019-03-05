@@ -2,11 +2,10 @@ const bcrypt = require('bcrypt');
 const sgMail = require('@sendgrid/mail');
 const {generate} = require('shortid');
 const zxcvbn = require('zxcvbn');
-const fs = require('fs');
 
 const auth = require('./auth');
-const {errors} = require('./constants');
-const {verificationEmail} = require('./emails');
+const {errors, rootUrl} = require('./constants');
+const {emails, getEmail} = require('./emails');
 const {pool} = require('./sqlConnect');
 
 const {apiKey} = require('../sendgrid.json');
@@ -22,7 +21,7 @@ const sendEmail = async (fName, email, validationQuery) => {
         from:    'Slate <no-reply@brandontsang.net>',
         subject: 'Slate: Validate your e-mail',
         text:    textEmail,
-        html:    verificationEmail(fName, validationQuery)
+        html:    getEmail(emails.verification, {name: fName, query: validationQuery, rootUrl})
     });
 
     try {

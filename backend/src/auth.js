@@ -34,7 +34,7 @@ exports.auth = async (req, res, next) => {
 
 exports.createToken = async (user, extended) => {
     const token = await genToken(16);
-    const extend = extended ? 720 : 2;
+    const extend = extended ? 720 : 1;
     await pool.query('INSERT INTO login_tokens (token, user_id, creation, extend, expiry, valid) VALUES (?, ?, CURRENT_TIMESTAMP, ?, TIMESTAMPADD(HOUR, ?, CURRENT_TIMESTAMP), 1)', [token, user, extend, extend]);
     return token;
 };
@@ -77,4 +77,10 @@ exports.logOut = async (req, res) => {
     }
     
     res.end();
+};
+
+exports.resetPassword = async (req, res) => {
+    if (req.body.email) {
+        pool.query('UPDATE login_tokens JOIN users ON login_tokens.user_id=users.id SET login_tokens.valid=0 WHERE users.email=?', [req.body.email]);
+    }
 };

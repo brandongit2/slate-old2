@@ -1,9 +1,9 @@
 import axios from 'axios';
-import Link from 'next/link';
 import Router from 'next/router';
 import React from 'react';
 import {connect} from 'react-redux';
 
+import {addNotification} from '../actions';
 import {Layout} from '../components';
 import {errors} from '../constants';
 import css from './login.scss';
@@ -29,6 +29,11 @@ export default function Login(props) {
             setError('Unknown error occured.');
         }
     };
+    
+    const resetPassword = async () => {
+        // await axios.post('/api/reset-password', {email});
+        props.addNotification('E-mail sent! Check your inbox for the password reset link.');
+    };
 
     return (
         <Layout currentPage="log in" title="Log in - Slate" noShadow {...props}>
@@ -53,10 +58,10 @@ export default function Login(props) {
                                onChange={e => setEmail(e.target.value)} />
                     </div>
                     
-                    <div className="form-field">
+                    <div className="form-field" style={{marginBottom: '0.5rem'}}>
                         <div className="form-label">
                             <label htmlFor="password">PASSWORD</label>
-                            <Link><a id={css['forgot-password']}>(Forgot password?)</a></Link>
+                            <p id={css['forgot-password']} onClick={resetPassword}>(Forgot password?)</p>
                         </div>
                         <input id="password"
                                type="password"
@@ -86,4 +91,8 @@ function mapStateToProps(state) {
     };
 }
 
-Login = connect(mapStateToProps)(Login); /* eslint-disable-line no-func-assign */
+const actionCreators = {
+    addNotification
+};
+
+Login = connect(mapStateToProps, actionCreators)(Login); /* eslint-disable-line no-func-assign */
