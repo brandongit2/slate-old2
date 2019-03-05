@@ -1,0 +1,16 @@
+{
+    "port": 3001,
+    "verboseErrors": false,
+    "rootUrl": "http://localhost",
+    "email": {
+        "provider": "sendgrid",
+        "apiKey": "TEST",
+        "from": "Slate <no-reply@brandontsang.net>"
+    },
+    "mysql": {
+        "user": "travis",
+        "pass": "",
+        "host": "localhost",
+        "database": "slate"
+    }
+}
