@@ -17,7 +17,7 @@ INSERT INTO `subjects` VALUES (1,1,'mathematics','Mathematics','Mathematics (fro
 
 INSERT INTO `login_tokens` VALUES ('9cZ8R3yLIzoFnoCD',1,'2019-03-03 20:02:50','2019-03-04 02:59:11',2,1),('nrSpVUmFJkkZe9Mu',1,'2019-03-02 19:01:57','2019-03-02 21:01:57',2,1),('Prm7fKKrYBAvmHfa',1,'2019-03-02 18:50:42','2019-03-02 20:50:42',2,1),('roljNk51JHF2uxt/',1,'2019-03-02 19:02:42','2019-03-03 04:58:49',2,1),('RqjChel2D67ThRUs',1,'2019-03-02 19:00:21','2019-03-02 21:00:21',2,1),('u6P3AojGYYrywrRQ',1,'2019-03-01 23:25:03','2019-03-02 01:25:03',2,1);
 
-INSERT INTO `users` VALUES (1,'Brandon','Tsang','brandononline2@gmail.com',_binary '$2b$10$jqQTGQiIfWcRx5GgeXazJuWAHghYruM6fN2rD.kz5Y.eYHkmjDdtu',1,5);
+INSERT INTO `users` VALUES (1,'Brandon','Tsang','brandononline2@gmail.com',_binary '$2b$10$jqQTGQiIfWcRx5GgeXazJuWAHghYruM6fN2rD.kz5Y.eYHkmjDdtu',1,5,0);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
