@@ -30,6 +30,7 @@ exports.auth = async (req, res, next) => {
             }
         } catch (err) {
             mysqlErrorHandler(err);
+            res.end();
         }
     }
 
@@ -61,6 +62,7 @@ exports.authenticate = async (req, res) => {
         });
     } catch (err) {
         mysqlErrorHandler(err);
+        res.end();
     }
 };
 
@@ -83,6 +85,7 @@ exports.logOut = (req, res) => {
             pool.query('UPDATE login_tokens SET valid=0 WHERE user_id=?', [req.user.id]);
         } catch (err) {
             mysqlErrorHandler(err);
+            res.end();
         }
         res.clearCookie('authToken');
     }
@@ -97,6 +100,7 @@ exports.resetPassword = (req, res) => {
             pool.query('UPDATE users SET password_reset=1 WHERE email=?', [req.body.email]);
         } catch (err) {
             mysqlErrorHandler(err);
+            res.end();
         }
     } else {
         console.trace();

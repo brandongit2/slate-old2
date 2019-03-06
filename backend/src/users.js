@@ -33,6 +33,7 @@ const sendEmail = async (fName, email, validationQuery) => {
         };
     } catch (err) {
         mysqlErrorHandler(err);
+        
         return {
             success: false
         };
@@ -77,6 +78,7 @@ exports.addUser = async (req, res) => {
                     break;
                 default:
                     mysqlErrorHandler(err);
+                    res.end();
             }
         }
     } else {
@@ -101,15 +103,18 @@ exports.resendEmail = async (req, res) => {
         }
     } catch (err) {
         mysqlErrorHandler(err);
+        res.end();
     }
 };
 
-exports.deactivate = async req => {
+exports.deactivate = async (req, res) => {
     try {
         pool.query('DELETE users FROM users LEFT JOIN email_verification ON users.email=email_verification.email WHERE email_verification.query=? AND CURRENT_TIMESTAMP < expiry', [req.body.query]);
     } catch (err) {
         mysqlErrorHandler(err);
     }
+    
+    res.end();
 };
 
 exports.verifyEmail = async (req, res) => {
@@ -133,6 +138,7 @@ exports.verifyEmail = async (req, res) => {
             }
         } catch (err) {
             mysqlErrorHandler(err);
+            res.end();
         }
     } else {
         res.json({
