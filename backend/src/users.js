@@ -96,10 +96,10 @@ exports.resendEmail = async (req, res) => {
         if (validEmail) {
             res.send(await sendEmail(req.body.firstName, req.body.email, generate()));
         } else {
-            return {
+            res.json({
                 success: false,
                 error:   errors.RESEND_EMAIL_NOT_FOUND
-            };
+            });
         }
     } catch (err) {
         mysqlErrorHandler(err);

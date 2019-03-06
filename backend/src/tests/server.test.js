@@ -31,7 +31,7 @@ describe('Slate API', () => {
         });
     });
     describe('/api/add-user', () => {
-        test('should return 500', done => {
+        test('should return 200', done => {
             request(app.app).post('/api/add-user').expect(200, done);
         });
     });
