@@ -32,7 +32,7 @@ describe('Slate API', () => {
     });
     describe('/api/add-user', () => {
         test('should return 500', done => {
-            request(app.app).post('/api/add-user').expect(500, done);
+            request(app.app).post('/api/add-user').expect(200, done);
         });
     });
     describe('/api/authenticate', () => {
