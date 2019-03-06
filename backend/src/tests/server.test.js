@@ -46,7 +46,7 @@ describe('Slate API', () => {
         });
     });
     describe('/resend-verification-email', () => {
-        test('should return 200', done => { request(app.app).post('/resend-verification-email').expect(200, done); });
+        test('should return 200', done => { request(app.app).post('/api/resend-verification-email').expect(200, done); });
     });
 });
 
