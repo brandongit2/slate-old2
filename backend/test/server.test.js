@@ -50,6 +50,6 @@ describe('Slate API', () => {
     });
 });
 
-afterAll(() => {
+after('close server', () => {
     app.server.close();
 });
