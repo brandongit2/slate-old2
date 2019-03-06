@@ -8,8 +8,9 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 
 import {setInfo} from '../actions';
-import {rootUrl} from '../constants';
 import rootReducer from '../reducers';
+
+import {rootUrl} from '../config.json';
 
 import './_app.scss';
 
