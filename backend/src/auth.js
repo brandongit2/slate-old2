@@ -21,7 +21,7 @@ async function genToken(len) {
 exports.auth = async (req, res, next) => {
     if (req.cookies.authToken) {
         try {
-            const user = await pool.query('SELECT users.id, users.first_name, users.last_name, users.valid_email, users.permissions FROM users JOIN login_tokens ON users.id=login_tokens.user_id WHERE login_tokens.token=? AND login_tokens.valid AND CURRENT_TIMESTAMP < login_tokens.expiry', [req.cookies.authToken]);
+            const user = await pool.query('SELECT users.id, users.first_name, users.last_name, users.email, users.valid_email, users.permissions, users.password_reset FROM users JOIN login_tokens ON users.id=login_tokens.user_id WHERE login_tokens.token=? AND login_tokens.valid AND CURRENT_TIMESTAMP < login_tokens.expiry', [req.cookies.authToken]);
 
             if (user.length === 1) {
                 req.user = user[0];

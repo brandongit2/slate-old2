@@ -14,7 +14,6 @@
         margin: 1rem 0px;
         padding: 2rem;
         position: relative;
-        text-transform: uppercase;
         
         .box-header {
             position: absolute;
@@ -24,6 +23,57 @@
             background: white;
             font-weight: 700;
             color: var(--secondary-text-color);
+            text-transform: uppercase;
+        }
+        
+        #personal-info {
+            display: grid;
+            grid-template-columns: repeat(3, max-content);
+            grid-gap: 0.5rem 2rem;
+            
+            & > :nth-child(4n-2) {
+                font-weight: 700;
+            }
+            
+            & > :nth-child(4n-1) {
+                text-decoration: underline;
+                color: #3476d6;
+                font-style: italic;
+                font-size: 10pt;
+                cursor: pointer;
+                user-select: none;
+            }
+            
+            & > :nth-child(4n) {
+                grid-column: 1 / span 3;
+                display: flex;
+                height: 0px;
+                overflow: hidden;
+                opacity: 0;
+                transition: all 0.2s;
+                
+                :first-child {
+                    flex-grow: 1;
+                    margin-right: 0.5rem;
+                }
+                
+                &.open {
+                    margin: 0.5rem 0px;
+                    height: auto;
+                    opacity: 1;
+                }
+            }
+            
+            #password {
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-column-gap: 0.5rem;
+                position: absolute;
+                
+                &.open {
+                    position: initial;
+                }
+            }
         }
     }
 }

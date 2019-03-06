@@ -52,12 +52,14 @@ export default withRedux(makeStore)(class Slate extends NextApp {
             })).data;
             if (user.success) {
                 user = {
-                    isLoggedIn:  true,
-                    id:          user.user.id,
-                    first_name:  user.user.first_name,
-                    last_name:   user.user.last_name,
-                    valid_email: user.user.valid_email,
-                    permissions: user.user.permissions
+                    isLoggedIn:     true,
+                    id:             user.user.id,
+                    first_name:     user.user.first_name,
+                    last_name:      user.user.last_name,
+                    email:          user.user.email,
+                    valid_email:    user.user.valid_email,
+                    permissions:    user.user.permissions,
+                    password_reset: user.user.password_reset
                 };
             } else {
                 user = {isLoggedIn: false};
