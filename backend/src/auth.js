@@ -33,7 +33,6 @@ exports.auth = async (req, res, next) => {
             res.end();
         }
     }
-
     next();
 };
 
@@ -86,17 +85,14 @@ exports.logIn = (req, res) => {
 };
 
 exports.logOut = (req, res) => {
+    console.log(req.user);
     if (req.user) {
-        try {
-            pool.query('UPDATE login_tokens SET valid=0 WHERE user_id=?', [req.user.id]);
-        } catch (err) {
-            mysqlErrorHandler(err);
-            res.end();
-        }
+        pool.query('UPDATE login_tokens SET valid=0 WHERE user_id=?', [req.user.id]);
         res.clearCookie('authToken');
+        res.end();
+    } else {
+        res.send('You are not logged in.');
     }
-    
-    res.end();
 };
 
 exports.resetPassword = (req, res) => {

@@ -58,9 +58,31 @@ describe('Slate API', () => {
             });
         });
     });
-    describe('/api/log-out', () => {
+    describe('/api/authenticate', () => {
         it('should return 200', done => {
-            request(app.app).post('/api/log-out').expect(200, done);
+            request(app.app).post('/api/authenticate').expect(200, done);
+        });
+    });
+    describe('/api/log-out', () => {
+        it('no token - should return 200 and not succeed', done => {
+            request(app.app).post('/api/log-out').expect(200).end((err, res) => {
+                assert.equal(res.text, 'You are not logged in.');
+                done();
+            });
+        });
+
+        it('invalid token - should return 200 and not succeed', done => {
+            request(app.app).post('/api/log-out').set('Cookie', ['authToken=9cZ8R3yLIzoFnoCD']).expect(200).end((err, res) => {
+                assert.equal(res.text, 'You are not logged in.');
+                done();
+            });
+        });
+
+        it('valid token - should return 200 and succeed', done => {
+            request(app.app).post('/api/log-out').set('Cookie', ['authToken=u6P3AojGYYrywrRQ']).expect(200).end((err, res) => {
+                assert.equal(res.text, '');
+                done();
+            });
         });
     });
     describe('/api/reset-password', () => {
@@ -71,11 +93,6 @@ describe('Slate API', () => {
     describe('/api/add-user', () => {
         it('should return 200', done => {
             request(app.app).post('/api/add-user').expect(200, done);
-        });
-    });
-    describe('/api/authenticate', () => {
-        it('should return 200', done => {
-            request(app.app).post('/api/authenticate').expect(200, done);
         });
     });
     describe('/api/deactivate', () => {
