@@ -5,7 +5,7 @@ CREATE TABLE logintokens (
     token char(16) NOT NULL,
     userid INT NOT NULL,
     creation TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    expiry TIMESTAMP NOT NULL,
+    expiry TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     extend INT NOT NULL,
     valid TINYINT(1) NOT NULL DEFAULT 1,
     PRIMARY KEY (token),
