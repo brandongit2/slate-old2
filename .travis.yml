@@ -5,7 +5,7 @@ services:
   - mysql
 script:
   - cd backend
-  - cp ./src/tests/config.test.json ./src/config.json
+  - cp ./tests/config.test.json ./src/config.json
   - mysql -e 'CREATE DATABASE slate;'
   - cat migrations/* | mysql slate
   - cat src/tests/slate.test.sql | mysql slate
