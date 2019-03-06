@@ -94,17 +94,11 @@ exports.logOut = (req, res) => {
 };
 
 exports.resetPassword = (req, res) => {
-    if (req.body.email) {
-        try {
-            pool.query('UPDATE login_tokens JOIN users ON login_tokens.user_id=users.id SET login_tokens.valid=0 WHERE users.email=?', [req.body.email]);
-            pool.query('UPDATE users SET password_reset=1 WHERE email=?', [req.body.email]);
-        } catch (err) {
-            mysqlErrorHandler(err);
-            res.end();
-        }
-    } else {
-        console.trace();
-        console.error('No e-mail specified.');
+    try {
+        pool.query('UPDATE login_tokens JOIN users ON login_tokens.user_id=users.id SET login_tokens.valid=0 WHERE users.email=?', [req.body.email]);
+        pool.query('UPDATE users SET password_reset=1 WHERE email=?', [req.body.email]);
+    } catch (err) {
+        mysqlErrorHandler(err);
     }
     
     res.end();
