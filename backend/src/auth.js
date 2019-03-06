@@ -30,6 +30,7 @@ exports.auth = async (req, res, next) => {
             }
         } catch (err) {
             mysqlErrorHandler(err);
+            res.end();
         }
     }
 
@@ -61,6 +62,7 @@ exports.authenticate = async (req, res) => {
         });
     } catch (err) {
         mysqlErrorHandler(err);
+        res.end();
     }
 };
 
@@ -83,6 +85,7 @@ exports.logOut = (req, res) => {
             pool.query('UPDATE login_tokens SET valid=0 WHERE user_id=?', [req.user.id]);
         } catch (err) {
             mysqlErrorHandler(err);
+            res.end();
         }
         res.clearCookie('authToken');
     }
@@ -91,16 +94,11 @@ exports.logOut = (req, res) => {
 };
 
 exports.resetPassword = (req, res) => {
-    if (req.body.email) {
-        try {
-            pool.query('UPDATE login_tokens JOIN users ON login_tokens.user_id=users.id SET login_tokens.valid=0 WHERE users.email=?', [req.body.email]);
-            pool.query('UPDATE users SET password_reset=1 WHERE email=?', [req.body.email]);
-        } catch (err) {
-            mysqlErrorHandler(err);
-        }
-    } else {
-        console.trace();
-        console.error('No e-mail specified.');
+    try {
+        pool.query('UPDATE login_tokens JOIN users ON login_tokens.user_id=users.id SET login_tokens.valid=0 WHERE users.email=?', [req.body.email]);
+        pool.query('UPDATE users SET password_reset=1 WHERE email=?', [req.body.email]);
+    } catch (err) {
+        mysqlErrorHandler(err);
     }
     
     res.end();

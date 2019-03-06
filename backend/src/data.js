@@ -8,6 +8,7 @@ exports.getAllSubjects = async (req, res) => {
         res.send(list);
     } catch (err) {
         mysqlErrorHandler(err);
+        res.end();
     }
 };
 
@@ -25,6 +26,7 @@ exports.getSubject = async (req, res) => {
         }
     } catch (err) {
         mysqlErrorHandler(err);
+        res.end();
     }
 };
 
@@ -34,6 +36,7 @@ exports.getAllCourses = async (req, res) => {
         res.send(list);
     } catch (err) {
         mysqlErrorHandler(err);
+        res.end();
     }
 };
 
@@ -51,6 +54,7 @@ exports.getCourse = async (req, res) => {
         }
     } catch (err) {
         mysqlErrorHandler(err);
+        res.end();
     }
 };
 
@@ -60,6 +64,7 @@ exports.getAllUnits = async (req, res) => {
         res.send(list);
     } catch (err) {
         mysqlErrorHandler(err);
+        res.end();
     }
 };
 
@@ -77,6 +82,7 @@ exports.getUnit = async (req, res) => {
         }
     } catch (err) {
         mysqlErrorHandler(err);
+        res.end();
     }
 };
 
@@ -86,6 +92,7 @@ exports.getAllArticles = async (req, res) => {
         res.send(list);
     } catch (err) {
         mysqlErrorHandler(err);
+        res.end();
     }
 };
 
@@ -103,6 +110,7 @@ exports.getArticle = async (req, res) => {
         }
     } catch (err) {
         mysqlErrorHandler(err);
+        res.end();
     }
 };
 
@@ -154,6 +162,7 @@ exports.getParent = async (req, res) => {
         }
     } catch (err) {
         mysqlErrorHandler(err);
+        res.end();
     }
     
     res.send(parent);
@@ -183,6 +192,7 @@ exports.getChildren = async (req, res) => {
         }
     } catch (err) {
         mysqlErrorHandler(err);
+        res.end();
     }
     
     res.send(children);

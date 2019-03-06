@@ -3,11 +3,11 @@ const cookieParser = require('cookie-parser');
 const express = require('express');
 const next = require('next');
 
-const nextApp = next({
-    dev: process.env.NODE_ENV !== 'production'
-});
+const {rootUrl, verboseErrors} = require('./config.json');
+
+const dev = process.env.NODE_ENV !== 'production';
+const nextApp = next({dev});
 const handle = nextApp.getRequestHandler();
-const rootUrl = process.env.SLATE_ROOT_URL;
 const port = 3000;
 
 axios.defaults.baseURL = rootUrl;
@@ -25,7 +25,10 @@ nextApp.prepare()
                     subject: (await axios.get('/api/subject/' + req.params.subject)).data[0].id
                 };
                 nextApp.render(req, res, actualPage, queryParams);
-            } catch {
+            } catch (err) {
+                if (verboseErrors) console.error(err);
+                console.trace();
+                
                 nextApp.render(req, res, '/404');
             }
         });
@@ -38,7 +41,10 @@ nextApp.prepare()
                 
                 const queryParams = {subject: subjectId, course: courseId};
                 nextApp.render(req, res, actualPage, queryParams);
-            } catch {
+            } catch (err) {
+                if (verboseErrors) console.error(err);
+                console.trace();
+                
                 nextApp.render(req, res, '/404');
             }
         });
@@ -59,7 +65,9 @@ nextApp.prepare()
                 };
                 nextApp.render(req, res, actualPage, queryParams);
             } catch (err) {
-                console.error(err);
+                if (verboseErrors) console.error(err);
+                console.trace();
+                
                 nextApp.render(req, res, '/404');
             }
         });
@@ -78,8 +86,10 @@ nextApp.prepare()
                         nextApp.render(req, res, '/verify', {success: 'false'});
                     }
                 } catch (err) {
-                    console.error(err);
-                    res.set('location', rootUrl + '/subjects');
+                    if (verboseErrors) console.error(err);
+                    console.trace();
+                    
+                    res.set('location', rootUrl);
                     res.status(301).send();
                 }
             }
@@ -88,14 +98,16 @@ nextApp.prepare()
         app.get('/deactivate', async (req, res) => {
             try {
                 if (!req.query.q) {
-                    res.set('location', rootUrl + '/subjects');
+                    res.set('location', rootUrl);
                     res.status(301).send();
                 }
                 axios.post('/api/deactivate', {query: req.query.q});
                 nextApp.render(req, res, '/deactivate');
             } catch (err) {
-                console.error(err);
-                res.set('location', rootUrl + '/subjects');
+                if (verboseErrors) console.error(err);
+                console.trace();
+                
+                res.set('location', rootUrl);
                 res.status(301).send();
             }
         });
@@ -105,11 +117,15 @@ nextApp.prepare()
         });
         
         app.listen(port, err => {
-            if (err) throw err;
+            if (err) {
+                if (verboseErrors) console.error(err);
+                console.trace();
+            }
+            
             console.info(`Slate frontend running on port ${port}.`);
         });
     })
-    .catch(ex => {
-        console.error(ex.stack);
-        process.exit(1);
+    .catch(err => {
+        if (verboseErrors) console.error(err);
+        console.trace();
     });
