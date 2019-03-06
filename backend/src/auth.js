@@ -51,15 +51,21 @@ exports.createToken = async (user, extended) => {
 
 exports.authenticate = async (req, res) => {
     try {
-        const hash = (await pool.query('SELECT password FROM users WHERE email=?', [req.body.email]))[0].password.toString();
-        const userId = (await pool.query('SELECT id FROM users WHERE email=?', [req.body.email]))[0].id;
+        if (req.body.email && req.body.password && req.body.stayLoggedIn != null) {
+            const hash = (await pool.query('SELECT password FROM users WHERE email=?', [req.body.email]))[0].password.toString();
+            const userId = (await pool.query('SELECT id FROM users WHERE email=?', [req.body.email]))[0].id;
         
-        const success = await bcryptCompare(req.body.password, hash);
-        res.cookie('authToken', await auth.createToken(userId, req.body.stayLoggedIn));
+            const success = await bcryptCompare(req.body.password, hash);
+            res.cookie('authToken', await auth.createToken(userId, req.body.stayLoggedIn));
         
-        res.send({
-            success
-        });
+            res.send({
+                success
+            });
+        } else {
+            res.send({
+                success: false
+            });
+        }
     } catch (err) {
         mysqlErrorHandler(err);
         res.end();
