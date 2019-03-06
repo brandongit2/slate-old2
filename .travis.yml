@@ -8,6 +8,6 @@ script:
   - cp ./test/config.test.json ./src/config.json
   - mysql -e 'CREATE DATABASE slate;'
   - cat migrations/* | mysql slate
-  - cat src/tests/slate.test.sql | mysql slate
+  - cat ./test/slate.test.sql | mysql slate
   - npm install
   - npm test
