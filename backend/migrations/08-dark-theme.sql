@@ -1,0 +1,2 @@
+ALTER TABLE subjects MODIFY COLUMN color CHAR(6) NOT NULL;
+ALTER TABLE subjects ADD COLUMN dark_color CHAR(6) NOT NULL;
