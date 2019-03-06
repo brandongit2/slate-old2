@@ -47,39 +47,46 @@ exports.addUser = async (req, res) => {
     const lName = req.body.lastName;
     const password = req.body.password;
 
-    // Validate e-mail
-    if (email.length > 254 || !require('email-validator').validate(email)) valid = false;
-    if (fName.length === 0 || fName.length > 50) valid = false;
-    if (lName.length > 50) valid = false;
-    if (password.length > 72 || zxcvbn(password).score < 2) valid = false;
+    if (email != null && fName != null && lName != null && password != null) {
+        // Validate e-mail
+        if (email.length > 254 || !require('email-validator').validate(email)) valid = false;
+        if (fName.length === 0 || fName.length > 50) valid = false;
+        if (lName.length > 50) valid = false;
+        if (password.length > 72 || zxcvbn(password).score < 2) valid = false;
 
-    if (valid) {
-        const validationQuery = generate(); // Will be used as a query string when validating e-mails.
+        if (valid) {
+            const validationQuery = generate(); // Will be used as a query string when validating e-mails.
 
-        let hash;
-        try {
-            hash = await bcryptHash(password, 10);
-        } catch (err) {
-            if (verboseErrors) console.error(err);
-            console.trace();
-        }
-
-        try {
-            await pool.query('INSERT INTO users(first_name, last_name, email, password, valid_email, permissions) VALUES (?, ?, ?, ?, 0, 5)', [fName, lName, email, hash]);
-            
-            res.send(await sendEmail(fName, email, validationQuery));
-        } catch (err) {
-            switch (err.errno) {
-                case 1062:
-                    res.json({
-                        success: false,
-                        error:   errors.ACCOUNT_EXISTS
-                    });
-                    break;
-                default:
-                    mysqlErrorHandler(err);
-                    res.end();
+            let hash;
+            try {
+                hash = await bcryptHash(password, 10);
+            } catch (err) {
+                if (verboseErrors) console.error(err);
+                console.trace();
             }
+
+            try {
+                await pool.query('INSERT INTO users(first_name, last_name, email, password, valid_email, permissions) VALUES (?, ?, ?, ?, 0, 5)', [fName, lName, email, hash]);
+            
+                res.send(await sendEmail(fName, email, validationQuery));
+            } catch (err) {
+                switch (err.errno) {
+                    case 1062:
+                        res.json({
+                            success: false,
+                            error:   errors.ACCOUNT_EXISTS
+                        });
+                        break;
+                    default:
+                        mysqlErrorHandler(err);
+                        res.end();
+                }
+            }
+        } else {
+            res.json({
+                success: false,
+                error:   errors.INVALID_FORM
+            });
         }
     } else {
         res.json({
