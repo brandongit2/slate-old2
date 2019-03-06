@@ -4,8 +4,8 @@ node_js:
 services:
   - mysql
 script:
-  - cd backend/src
-  - cp tests/config.test.json ./config.json
+  - cd backend
+  - cp ./src/tests/config.test.json ./src/config.json
   - mysql -e 'CREATE DATABASE slate;'
   - cat migrations/* | mysql slate
   - cat src/tests/slate.test.sql | mysql slate
