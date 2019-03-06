@@ -85,7 +85,6 @@ exports.logIn = (req, res) => {
 };
 
 exports.logOut = (req, res) => {
-    console.log(req.user);
     if (req.user) {
         pool.query('UPDATE login_tokens SET valid=0 WHERE user_id=?', [req.user.id]);
         res.clearCookie('authToken');
