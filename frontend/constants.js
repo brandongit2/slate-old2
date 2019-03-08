@@ -16,9 +16,10 @@ export const actionTypes = {
     GET_UNITS:      'get units',
     GET_ARTICLES:   'get articles',
 
-    LOG_IN: 'log in',
+    AUTHENTICATE: 'authenticate',
 
-    SET_INFO: 'set info'
+    SET_INFO:     'set info',
+    TOGGLE_THEME: 'toggle theme'
 };
 
 // These constants must be added to the backend `constants.js` as well.

@@ -3,15 +3,14 @@
     align-items: center;
     
     i {
-        color: inherit;
+        color: var(--secondary-subject-text-color);
         font-size: inherit;
         margin: 0px 5px;
     }
-}
-
-:global(.crumb) {
-    a, span {
-        color: inherit;
-        transition: color 0.2s;
+    
+    :global(.crumb) {
+        a, span {
+            color: var(--secondary-subject-text-color);
+        }
     }
 }

@@ -19,7 +19,7 @@ export default function Login(props) {
     const submit = async e => {
         e.preventDefault();
 
-        const res = await axios.post('/api/authenticate', {email, password, stayLoggedIn});
+        const res = await axios.post('/api/log-in', {email, password, stayLoggedIn});
         
         if (res.data.success) {
             Router.push('/subjects');
@@ -38,7 +38,7 @@ export default function Login(props) {
     return (
         <Layout currentPage="log in" title="Log in - Slate" noShadow {...props}>
             <div id={css.container}>
-                <form>
+                <form className={props.theme}>
                     <div>
                         <h1>Log in to Slate</h1>
                         <div className={['error', error === '' ? '' : 'shown'].join(' ')}>
@@ -87,7 +87,8 @@ export default function Login(props) {
 
 function mapStateToProps(state) {
     return {
-        user: state.user
+        user:  state.user,
+        theme: state.theme
     };
 }
 

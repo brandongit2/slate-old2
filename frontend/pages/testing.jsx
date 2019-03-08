@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {generate} from 'shortid';
 
-import {addNotification, showModal} from '../actions';
+import {addNotification, showModal, toggleTheme} from '../actions';
 import {Dropdown, Item, Layout} from '../components';
 import {severities} from '../constants';
 
@@ -174,13 +174,17 @@ function Testing(props) {
                     <button className="med">Medium-severity button</button>
                     <button className="high">High-severity button</button>
                 </div>
+                <div>
+                    <h1>Theme</h1>
+                    <button onClick={props.toggleTheme}>Toggle theme</button>
+                </div>
             </div>
         </Layout>
     );
 }
 
 const actionCreators = {
-    addNotification, showModal
+    addNotification, showModal, toggleTheme
 };
 
 export default connect(null, actionCreators)(Testing);

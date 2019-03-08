@@ -16,16 +16,16 @@ describe('Slate API', () => {
         });
     });
 
-    describe('/api/log-in', () => {
+    describe('/api/authenticate', () => {
         it('empty body - should return 200 and not succeed', done => {
-            request(app.app).post('/api/log-in').expect(200).end((err, res) => {
+            request(app.app).post('/api/authenticate').expect(200).end((err, res) => {
                 if (err) return done(err);
                 assert.deepEqual(res.body, {success: false});
                 done();
             });
         });
         it('invalid token - should return 200 and not succeed', done => {
-            request(app.app).post('/api/log-in').set('Cookie', ['authToken=thisshouldfail']).expect(200).end((err, res) => {
+            request(app.app).post('/api/authenticate').set('Cookie', ['authToken=thisshouldfail']).expect(200).end((err, res) => {
                 if (err) return done(err);
                 assert.deepEqual(res.body, {success: false});
                 done();
@@ -33,14 +33,14 @@ describe('Slate API', () => {
         });
 
         it('expired token - should return 200 and not succeed', done => {
-            request(app.app).post('/api/log-in').set('Cookie', ['authToken=9cZ8R3yLIzoFnoCD']).expect(200).end((err, res) => {
+            request(app.app).post('/api/authenticate').set('Cookie', ['authToken=9cZ8R3yLIzoFnoCD']).expect(200).end((err, res) => {
                 if (err) return done(err);
                 assert.deepEqual(res.body, {success: false});
                 done();
             });
         });
         it('valid token - should return 200 and succeed', done => {
-            request(app.app).post('/api/log-in').set('Cookie', ['authToken=u6P3AojGYYrywrRQ']).expect(200).end((err, res) => {
+            request(app.app).post('/api/authenticate').set('Cookie', ['authToken=u6P3AojGYYrywrRQ']).expect(200).end((err, res) => {
                 if (err) return done(err);
                 assert.deepEqual(res.body, {
                     success: true,
@@ -56,11 +56,6 @@ describe('Slate API', () => {
                 });
                 done();
             });
-        });
-    });
-    describe('/api/authenticate', () => {
-        it('should return 200', done => {
-            request(app.app).post('/api/authenticate').expect(200, done);
         });
     });
     describe('/api/log-out', () => {
@@ -93,6 +88,11 @@ describe('Slate API', () => {
     describe('/api/add-user', () => {
         it('should return 200', done => {
             request(app.app).post('/api/add-user').expect(200, done);
+        });
+    });
+    describe('/api/log-in', () => {
+        it('should return 200', done => {
+            request(app.app).post('/api/log-in').expect(200, done);
         });
     });
     describe('/api/deactivate', () => {

@@ -45,7 +45,7 @@ export default withRedux(makeStore)(class Slate extends NextApp {
         
         if (ctx.req) {
             let user = (await axios.request({
-                url:     '/api/log-in',
+                url:     '/api/authenticate',
                 method:  'post',
                 headers: {
                     Cookie: `authToken=${ctx.req.cookies.authToken};`

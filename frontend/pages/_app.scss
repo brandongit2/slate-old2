@@ -17,11 +17,12 @@ body {
 p, a, span, h1, h2, h3, h4, h5, h6, input, textarea, button, div {
     font-family: 'Lato', sans-serif;
     margin: 0;
+    color: var(--text-color);
 }
 
 ::selection {
     background: var(--text-color);
-    color: white;
+    color: var(--background-color);
 }
 
 a {
@@ -37,6 +38,7 @@ input, textarea {
     padding: 10px;
     font-size: 12pt;
     border: 1px solid var(--border-color);
+    background: var(--secondary-background-color);
     border-radius: 5px;
     outline: none;
 }
@@ -55,7 +57,6 @@ button, input[type='submit'] {
     font-weight: 700;
     font-size: 12pt;
     border: 1px solid var(--border-color);
-    color: black;
     background: transparent;
     border-radius: 5px;
     transition: transform 0.2s;
@@ -168,7 +169,7 @@ form {
             padding: 10px;
         }
 
-        a {
+        a, p {
             color: white;
         }
 

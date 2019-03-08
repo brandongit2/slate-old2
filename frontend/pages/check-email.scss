@@ -21,6 +21,10 @@ body {
 
     p {
         margin: 0.5rem;
+        
+        &#light-text {
+            color: var(--tertiary-text-color);
+        }
     }
 
     a {

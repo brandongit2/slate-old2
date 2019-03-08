@@ -2,6 +2,9 @@ import axios from 'axios';
 import Link from 'next/link';
 import Router from 'next/router';
 import React from 'react';
+import {connect} from 'react-redux';
+
+import {toggleTheme} from '../actions';
 
 import css from './Header.scss';
 
@@ -35,7 +38,7 @@ function UserPanel(props) {
     );
 }
 
-export default function Header(props) {
+function Header(props) {
     const [userPanelIsOpen, setUserPanelIsOpen] = React.useState(false);
     const toggleUserPanel = () => setUserPanelIsOpen(!userPanelIsOpen);
     
@@ -43,12 +46,12 @@ export default function Header(props) {
         <div id={css.header}
              className={props.float ? css.float : ''}
              style={{
-                 boxShadow:    props.noShadow ? 'none' : '0px 0px 30px rgba(0, 0, 0, 0.1)',
-                 borderBottom: props.noShadow ? '1px solid #ddd' : 'none'
+                 boxShadow:    props.noShadow ? 'none' : '0px 0px 30px var(--shadow-color)',
+                 borderBottom: props.noShadow ? '1px solid var(--secondary-border-color)' : 'none'
              }}>
             <Link href="/subjects">
                 <a id={css.logo}>
-                    <img src="/static/slate-logo.svg" alt="Slate logo" style={{height: '100%'}} />
+                    <img src="/static/slate-logo.svg" alt="Slate logo" className="bw-icon" style={{height: '100%'}} />
                 </a>
             </Link>
             <nav>
@@ -74,38 +77,50 @@ export default function Header(props) {
                         </a></Link>
                     </li>
                 </ul>
-                {props.user.isLoggedIn ? (
-                    <div id={css.user}
-                         onBlur={() => setUserPanelIsOpen(false)}
-                         tabIndex="0">
-                        <div className="user-panel-visible" onClick={toggleUserPanel}>
-                            <span>{props.user.first_name} {props.user.last_name}</span>
-                            <i className="material-icons">arrow_drop_down</i>
+                <div id={css['right-buttons']}>
+                    <p onClick={props.toggleTheme} style={{fontSize: '10pt', cursor: 'pointer', textDecoration: 'underline'}}>
+                        Switch to {props.theme === 'light' ? 'dark mode' : 'light mode'}
+                    </p>
+                    {props.user.isLoggedIn ? (
+                        <div id={css.user}
+                             onBlur={() => setUserPanelIsOpen(false)}
+                             tabIndex="0">
+                            <div className="user-panel-visible" onClick={toggleUserPanel}>
+                                <span>{props.user.first_name} {props.user.last_name}</span>
+                                <i className="material-icons">arrow_drop_down</i>
+                            </div>
+                            <div id={css['user-panel-container']} className={userPanelIsOpen ? css.open : ''}>
+                                <UserPanel user={props.user} />
+                            </div>
                         </div>
-                        <div id={css['user-panel-container']} className={userPanelIsOpen ? css.open : ''}>
-                            <UserPanel user={props.user} />
-                        </div>
-                    </div>
-                ) : (
-                    <ul id={css.actions}>
-                        <li className={props.currentPage === 'login' ? css.bold : ''}>
-                            <Link href="/login" prefetch><a>
-                                <Button>LOG IN</Button>
-                            </a></Link>
-                        </li>
-                        <li className={props.currentPage === 'register' ? css.bold : ''}>
-                            <Link href="/register" prefetch><a>
-                                <Button>REGISTER</Button>
-                            </a></Link>
-                        </li>
-                    </ul>
-                )}
+                    ) : (
+                        <ul>
+                            <li className={props.currentPage === 'login' ? css.bold : ''}>
+                                <Link href="/login" prefetch><a>
+                                    <Button>LOG IN</Button>
+                                </a></Link>
+                            </li>
+                            <li className={props.currentPage === 'register' ? css.bold : ''}>
+                                <Link href="/register" prefetch><a>
+                                    <Button>REGISTER</Button>
+                                </a></Link>
+                            </li>
+                        </ul>
+                    )}
+                </div>
             </nav>
         </div>
     );
 }
 
-Header.defaultProps = {
-    currentPage: '',
-    float:       false
+function mapStateToProps(state) {
+    return {
+        theme: state.theme
+    };
+}
+
+const actionCreators = {
+    toggleTheme
 };
+
+export default connect(mapStateToProps, actionCreators)(Header);

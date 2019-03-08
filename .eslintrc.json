@@ -97,7 +97,6 @@
             "error",
             "unix"
         ],
-        "new-cap": "warn",
         "new-parens": "error",
         "no-async-promise-executor": "error",
         "no-await-in-loop": "error",

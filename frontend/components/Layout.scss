@@ -1,6 +1,7 @@
 #layout {
     display: flex;
     flex-direction: column;
+    background: var(--background-color);
     
     #secondary-logo {
         position: absolute;

@@ -42,9 +42,9 @@ app.get(apiUrl + '/children', asyncHandler(data.getChildren));
 ////////////////////////////////////////////////// USER FUNCTIONS //////////////////////////////////////////////////////
 
 app.post(apiUrl + '/add-user', asyncHandler(users.addUser));
-app.post(apiUrl + '/authenticate', asyncHandler(auth.authenticate));
+app.post(apiUrl + '/authenticate', auth.authenticate);
 app.post(apiUrl + '/deactivate', asyncHandler(users.deactivate));
-app.post(apiUrl + '/log-in', auth.logIn);
+app.post(apiUrl + '/log-in', asyncHandler(auth.logIn));
 app.post(apiUrl + '/log-out', auth.logOut);
 app.post(apiUrl + '/reset-password', auth.resetPassword);
 app.post(apiUrl + '/resend-verification-email', asyncHandler(users.resendEmail));

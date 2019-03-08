@@ -6,18 +6,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    
     #prompt {
         margin-bottom: 1rem;
         font-size: 24pt;
         text-align: center;
     }
-
+    
     #courses {
-        width: min-content;
         display: flex;
         flex-flow: column wrap;
-
+        
         & > * {
             margin-bottom: 1rem;
         }
@@ -25,13 +24,13 @@
         .subject {
             border-left: 2px solid var(--color);
             padding-left: 10px;
-
+            
             .title {
                 font-size: 18pt;
                 color: var(--color);
                 display: inline-block;
                 text-decoration: none;
-
+                
                 &::after {
                     content: '';
                     display: block;
@@ -41,12 +40,12 @@
                     margin: 0px auto;
                     transition: width 0.2s;
                 }
-
+                
                 &:hover::after {
                     width: 100%;
                 }
             }
-
+            
             .course {
                 font-size: 12pt;
                 margin: 5px 0px;
@@ -54,7 +53,7 @@
                 text-decoration: none;
                 display: block;
                 transition: color 0.3s;
-
+                
                 &:hover {
                     color: var(--color);
                 }
@@ -72,7 +71,7 @@
     width: 100vw;
     font-size: 10pt;
     color: var(--tertiary-text-color);
-
+    
     a {
         color: var(--tertiary-text-color);
     }

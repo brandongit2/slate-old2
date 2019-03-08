@@ -6,10 +6,10 @@ exports.emails = {
     verification:  fs.readFileSync(path.join(__dirname, 'verificationEmail.html'), 'utf8').split('##')
 };
 
-exports.getEmail = async (emailName, args) => {
+exports.getEmail = (email, args) => {
     let str = '';
-    for (let i = 0; i < exports.emails[emailName].length; i++) {
-        str += i % 2 === 0 ? exports.emails[emailName][i] : args[exports.emails[emailName][i]];
+    for (let i = 0; i < email.length; i++) {
+        str += i % 2 === 0 ? email[i] : args[email[i]];
     }
     return str;
 };

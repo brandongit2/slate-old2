@@ -6,7 +6,7 @@ const initialState = {
 
 export default function userReducers(state = initialState, action) {
     switch (action.type) {
-        case actionTypes.LOG_IN:
+        case actionTypes.AUTHENTICATE:
             return {
                 isLoggedIn: true,
                 ...action.user

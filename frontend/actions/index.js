@@ -51,3 +51,9 @@ export function hideModal() {
         type: actionTypes.HIDE_MODAL
     };
 }
+
+export function toggleTheme() {
+    return {
+        type: actionTypes.TOGGLE_THEME
+    };
+}

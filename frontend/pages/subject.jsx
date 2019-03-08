@@ -1,3 +1,4 @@
+import Color from 'color';
 import Link from 'next/link';
 import Router, {withRouter} from 'next/router';
 import React from 'react';
@@ -5,7 +6,7 @@ import {connect} from 'react-redux';
 
 import {changeSubject, changeCourse, changeUnit, changeArticle, getAllSubjects, getChildren} from '../actions';
 import {Layout, Breadcrumbs, Crumb, Dropdown, Item} from '../components';
-import {contrasts} from '../util';
+import {rgb} from '../util';
 
 import css from './subject.scss';
 
@@ -19,16 +20,34 @@ function CourseInfo(props) {
 }
 
 function Subject(props) {
-    // Boolean; whether white contrasts well with the subject color.
-    const brightText = contrasts('ffffff', props.subject?.color);
+    const lightTheme = props.theme === 'light';
+    const subjectColor = lightTheme
+        ? (props.subject
+            ? Color('#' + props.subject.color)
+            : Color('#ffffff'))
+        : (props.subject
+            ? Color('#' + props.subject.color)
+            : Color('#000000'));
     return (
         <Layout title={props.subject?.display_name + ' - Slate'} {...props}>
             <style jsx>{`
-                --color: #${props.subject ? props.subject.color : 'fff'};
-                --subject-text-color: ${brightText ? '#ffffff' : '#000000'};
-                --secondary-subject-text-color: ${brightText ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 1)'};
-                --tertiary-subject-text-color: ${brightText ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'};
-                --title-color: ${brightText ? '#' + props.subjectColor : 'black'}
+                --subject-color: ${rgb(subjectColor.rgb().array())};
+                --subject-background-color: ${lightTheme ? rgb(subjectColor.rgb().array()) : '#000'};
+                --subject-text-color: ${
+                    lightTheme
+                        ? (subjectColor.isLight() ? '#000' : '#fff')
+                        : rgb(subjectColor.rgb().array())
+                };
+                --secondary-subject-text-color: ${
+                    lightTheme
+                        ? (subjectColor.isLight() ? '#00000bb' : '#ffffffbb')
+                        : '#ffffffaa'
+                };
+                --tertiary-subject-text-color: ${
+                    lightTheme
+                        ? (subjectColor.isLight() ? '#00000088' : '#ffffff88')
+                        : 'ffffff77'
+                };
             `}</style>
 
             <div id={css.container}>
@@ -89,7 +108,8 @@ function mapStateToProps(state) {
         subject:  state.subjects.find(subject => subject.id === parseInt(state.currentSubject)),
         subjects: state.subjects,
         courses:  state.courses,
-        units:    state.units
+        units:    state.units,
+        theme:    state.theme
     };
 }
 

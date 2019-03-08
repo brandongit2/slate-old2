@@ -6,7 +6,9 @@ import {connect} from 'react-redux';
 import zxcvbn from 'zxcvbn';
 
 import {Layout} from '../components';
-import {isDev, errors} from '../constants';
+import {errors} from '../constants';
+
+import {verboseErrors} from '../config.json';
 import css from './register.scss';
 
 function PasswordStrength(props) {
@@ -98,6 +100,7 @@ export default function Register(props) {
                 });
                 
                 if (res.data.success) {
+                    console.log('replacing .......');
                     Router.replace(`/check-email?email=${email}&fname=${fName}`);
                 } else {
                     switch (res.data.error) {
@@ -105,7 +108,7 @@ export default function Register(props) {
                             setError(<p>An account already exists with that e-mail. Would you like to <a href="/login">log in</a> instead?</p>);
                             break;
                         default:
-                            if (isDev) console.error(res.data.error);
+                            if (verboseErrors) console.error(res.data.error);
                             setError('An unknown error occurred.');
                     }
                 }
@@ -142,7 +145,7 @@ export default function Register(props) {
                             </li>
                         </ul>
                     </div>
-                    <form>
+                    <form className={props.theme}>
                         <div>
                             <h1>Make an account</h1>
                             <div className={['error', error === '' ? '' : 'shown'].join(' ')}>
@@ -222,7 +225,8 @@ export default function Register(props) {
 
 function mapStateToProps(state) {
     return {
-        user: state.user
+        user:  state.user,
+        theme: state.theme
     };
 }
 

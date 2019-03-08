@@ -3,15 +3,14 @@
     padding: 5px;
     display: inline-block;
     cursor: pointer;
-    color: var(--text-color);
     
     span {
         &::before {
             content: '';
             display: block;
             position: absolute;
-            background: var(--text-color);
             transition: all 0.2s;
+            background: var(--text-color);
         }
     }
     
@@ -84,10 +83,10 @@
     
     a, p {
         display: block;
-        color: var(--text-color);
         text-decoration: none;
         padding: 0.5rem 1rem;
         font-size: 11pt;
+        color: black;
         transition: background 0.2s;
         
         &:hover {
@@ -102,7 +101,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: white;
+    background: var(--secondary-background-color);
     user-select: none;
     position: relative;
     z-index: 10;
@@ -130,7 +129,7 @@
         justify-content: space-between;
         align-items: center;
         
-        & > ul {
+        ul {
             list-style-type: none;
             margin: 0;
             padding: 0;
@@ -153,51 +152,57 @@
             margin-left: 1rem;
         }
         
-        #actions {
+        #right-buttons {
             margin-right: 2rem;
-        }
-        
-        #user {
-            position: relative;
-            margin-right: calc(2rem - 10px);
-            outline: none;
+            display: flex;
+            align-items: center;
             
-            & > div:first-child {
-                display: flex;
-                align-items: center;
-                padding: 10px;
+            & > * {
+                margin-right: 1rem;
+            }
+            
+            #user {
+                position: relative;
+                margin-right: -10px;
+                outline: none;
                 transition: background 0.2s;
-            }
-            
-            &:hover, &:focus {
-                background: rgba(0, 0, 0, 0.05);
                 cursor: pointer;
-            }
-            
-            #user-panel-container {
-                position: absolute;
-                bottom: 0px;
-                right: 0px;
-                width: 0px;
-                height: 0px;
-                overflow: hidden;
-                opacity: 0;
-                transition: opacity 0.3s;
                 
-                &.open {
-                    overflow: visible;
-                    opacity: 1;
+                & > div:first-child {
+                    display: flex;
+                    align-items: center;
+                    padding: 10px;
                 }
                 
-                .user-panel {
+                &:hover, &:focus {
+                    background: rgba(0, 0, 0, 0.05);
+                }
+                
+                #user-panel-container {
                     position: absolute;
-                    top: -1px;
+                    bottom: 0px;
                     right: 0px;
+                    width: 0px;
+                    height: 0px;
+                    overflow: hidden;
+                    opacity: 0;
+                    transition: opacity 0.3s;
+                    
+                    &.open {
+                        overflow: visible;
+                        opacity: 1;
+                    }
+                    
+                    .user-panel {
+                        position: absolute;
+                        top: -1px;
+                        right: 0px;
+                    }
                 }
-            }
-            
-            i {
-                margin-left: 5px;
+                
+                i {
+                    margin-left: 5px;
+                }
             }
         }
     }

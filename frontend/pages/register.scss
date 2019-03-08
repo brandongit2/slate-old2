@@ -41,7 +41,14 @@
         form {
             padding: 2rem;
             border-radius: 10px;
-            box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+            
+            &:global(.light) {
+                box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+            }
+            
+            &:global(.dark) {
+                border: 1px solid var(--border-color);
+            }
         }
     }
 }
