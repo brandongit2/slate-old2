@@ -21,6 +21,10 @@
             font-size: 16pt;
             cursor: pointer;
         }
+        
+        span {
+            color: inherit;
+        }
 
         &.fade {
             animation: fade-out 0.5s forwards;

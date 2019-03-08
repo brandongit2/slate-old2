@@ -20,7 +20,7 @@ function CourseInfo(props) {
 }
 
 function Subject(props) {
-    const lightTheme = props.theme === 'light';
+    const lightTheme = (props.altUser ? props.altUser.theme : props.user.theme) === 'light';
     const subjectColor = lightTheme
         ? (props.subject
             ? Color('#' + props.subject.color)
@@ -109,7 +109,7 @@ function mapStateToProps(state) {
         subjects: state.subjects,
         courses:  state.courses,
         units:    state.units,
-        theme:    state.user.theme
+        user:     state.user
     };
 }
 

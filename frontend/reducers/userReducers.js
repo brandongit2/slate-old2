@@ -1,8 +1,7 @@
 import {actionTypes} from '../constants';
 
 const initialState = {
-    isLoggedIn: false,
-    theme:      'light'
+    isLoggedIn: false
 };
 
 export default function userReducers(state = initialState, action) {

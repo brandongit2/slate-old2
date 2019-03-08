@@ -38,7 +38,7 @@ export default function Login(props) {
     return (
         <Layout currentPage="log in" title="Log in - Slate" noShadow {...props}>
             <div id={css.container}>
-                <form className={props.theme}>
+                <form className={props.altUser ? props.altUser.theme : props.user.theme}>
                     <div>
                         <h1>Log in to Slate</h1>
                         <div className={['error', error === '' ? '' : 'shown'].join(' ')}>

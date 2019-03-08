@@ -17,5 +17,5 @@ export default function Breadcrumbs(props) {
 }
 
 export function Crumb(props) {
-    return <span className="crumb">{props.children}</span>;
+    return <div className="crumb">{props.children}</div>;
 }

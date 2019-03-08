@@ -79,7 +79,7 @@ function Header(props) {
                 </ul>
                 <div id={css['right-buttons']}>
                     <p onClick={props.toggleTheme} style={{fontSize: '10pt', cursor: 'pointer', textDecoration: 'underline'}}>
-                        Switch to {props.theme === 'light' ? 'dark mode' : 'light mode'}
+                        Switch to {props.user.theme === 'light' ? 'dark mode' : 'light mode'}
                     </p>
                     {props.user.isLoggedIn ? (
                         <div id={css.user}
@@ -113,14 +113,8 @@ function Header(props) {
     );
 }
 
-function mapStateToProps(state) {
-    return {
-        theme: state.user.theme
-    };
-}
-
 const actionCreators = {
     toggleTheme
 };
 
-export default connect(mapStateToProps, actionCreators)(Header);
+export default connect(null, actionCreators)(Header);

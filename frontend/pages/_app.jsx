@@ -60,7 +60,8 @@ export default withRedux(makeStore)(class Slate extends NextApp {
                     email:          user.user.email,
                     valid_email:    user.user.valid_email,
                     permissions:    user.user.permissions,
-                    password_reset: user.user.password_reset
+                    password_reset: user.user.password_reset,
+                    theme:          user.user.theme
                 };
             } else {
                 user = {isLoggedIn: false};

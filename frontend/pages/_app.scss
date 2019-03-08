@@ -18,6 +18,7 @@ p, a, span, h1, h2, h3, h4, h5, h6, input, textarea, button, div {
     font-family: 'Lato', sans-serif;
     margin: 0;
     color: var(--text-color);
+    transition: color 0.5s;
 }
 
 ::selection {
@@ -39,6 +40,7 @@ input, textarea {
     font-size: 12pt;
     border: 1px solid var(--border-color);
     background: var(--secondary-background-color);
+    transition: background 0.5s;
     border-radius: 5px;
     outline: none;
 }
@@ -156,7 +158,6 @@ form {
         height: 0px;
         margin-top: 0.5rem;
         border-radius: 5px;
-        color: white;
         padding: 0px 10px;
         display: flex;
         justify-content: space-between;
@@ -169,7 +170,7 @@ form {
             padding: 10px;
         }
 
-        a, p {
+        a, p, span, i {
             color: white;
         }
 

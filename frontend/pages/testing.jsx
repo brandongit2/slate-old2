@@ -43,13 +43,13 @@ function Testing(props) {
             <div id={css.container}>
                 <div>
                     <h1>Notifications</h1>
-                    <button onClick={() => props.addNotification('test notification', severities.INFO, 2000)}>
+                    <button onClick={() => props.addNotification('test notification', severities.INFO, 50000)}>
                         Add an info notification
                     </button>
-                    <button onClick={() => props.addNotification('test notification', severities.WARN, 2000)}>
+                    <button onClick={() => props.addNotification('test notification', severities.WARN, 50000)}>
                         Add a warn notification
                     </button>
-                    <button onClick={() => props.addNotification('test notification', severities.ERROR, 2000)}>
+                    <button onClick={() => props.addNotification('test notification', severities.ERROR, 50000)}>
                         Add an error notification
                     </button>
                 </div>

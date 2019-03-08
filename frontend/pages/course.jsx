@@ -46,7 +46,7 @@ class ArticleList extends React.Component {
 }
 
 function Course(props) {
-    const lightTheme = props.theme === 'light';
+    const lightTheme = (props.altUser ? props.altUser.theme : props.user.theme) === 'light';
     const subjectColor = lightTheme
         ? (props.subject
             ? Color('#' + props.subject.color)
@@ -135,7 +135,7 @@ function mapStateToProps(state) {
         courses:  state.courses,
         units:    state.units,
         articles: state.articles,
-        theme:    state.user.theme
+        user:     state.user
     };
 }
 

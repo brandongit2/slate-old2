@@ -102,6 +102,7 @@
     align-items: center;
     justify-content: space-between;
     background: var(--secondary-background-color);
+    transition: background 0.5s;
     user-select: none;
     position: relative;
     z-index: 10;
