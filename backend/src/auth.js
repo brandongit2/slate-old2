@@ -74,7 +74,8 @@ exports.logIn = async (req, res) => {
             const userId = user[0].id;
         
             const success = await bcryptCompare(req.body.password, hash);
-            res.cookie('authToken', await auth.createToken(userId, req.body.stayLoggedIn));
+            if (success)
+                res.cookie('authToken', await auth.createToken(userId, req.body.stayLoggedIn));
         
             res.send({
                 success
