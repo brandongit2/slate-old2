@@ -1,6 +1,6 @@
 /**/node_modules
 /frontend/.next
-/frontent/config.json
+/frontend/config.json
 /frontend/version.json
 /backend/src/config.json
 /**/*.swp
