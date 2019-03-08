@@ -4,7 +4,8 @@ node_js:
 services:
   - mysql
 script:
-  - cd backend
-  - ./test/setupTestEnv.sh
+  - cd backend/test/
+  - ./setupTestEnv.sh
+  - cd ../
   - npm install
   - npm test
