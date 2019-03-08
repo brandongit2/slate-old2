@@ -4,6 +4,7 @@ const express = require('express');
 
 const auth = require('./auth');
 const data = require('./data');
+const settings = require('./settings');
 const users = require('./users');
 
 const {port} = require('./config.json');
@@ -51,6 +52,10 @@ app.post(apiUrl + '/resend-verification-email', asyncHandler(users.resendEmail))
 
 // <URL>/api/verify?e=<unique query string>
 app.post(apiUrl + '/verify', asyncHandler(users.verifyEmail));
+
+/////////////////////////////////////////////////// USER SETTINGS //////////////////////////////////////////////////////
+
+app.post(apiUrl + '/settings/toggle-theme', settings.toggleTheme);
 
 /////////////////////////////////////////////////// MISCELLANEOUS //////////////////////////////////////////////////////
 

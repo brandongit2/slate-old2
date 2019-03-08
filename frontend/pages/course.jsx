@@ -135,7 +135,7 @@ function mapStateToProps(state) {
         courses:  state.courses,
         units:    state.units,
         articles: state.articles,
-        theme:    state.theme
+        theme:    state.user.theme
     };
 }
 

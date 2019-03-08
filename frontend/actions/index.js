@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import {actionTypes} from '../constants';
 
 export * from './api';
@@ -53,6 +55,7 @@ export function hideModal() {
 }
 
 export function toggleTheme() {
+    axios.post('/api/settings/toggle-theme');
     return {
         type: actionTypes.TOGGLE_THEME
     };

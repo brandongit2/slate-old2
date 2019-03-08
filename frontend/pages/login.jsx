@@ -88,7 +88,7 @@ export default function Login(props) {
 function mapStateToProps(state) {
     return {
         user:  state.user,
-        theme: state.theme
+        theme: state.user.theme
     };
 }
 

@@ -5,7 +5,6 @@ Free online courses on STEM subjects.
 
 ---
 
-Reverse proxy: Nginx  
 Frontend framework: Next.js/React  
 Frontend server: Express.js  
 Backend server: Express.js  

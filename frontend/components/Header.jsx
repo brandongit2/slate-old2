@@ -115,7 +115,7 @@ function Header(props) {
 
 function mapStateToProps(state) {
     return {
-        theme: state.theme
+        theme: state.user.theme
     };
 }
 

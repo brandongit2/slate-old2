@@ -11,6 +11,11 @@ export default function userReducers(state = initialState, action) {
                 isLoggedIn: true,
                 ...action.user
             };
+        case actionTypes.TOGGLE_THEME:
+            return {
+                ...state,
+                theme: state.theme === 'light' ? 'dark' : 'light'
+            };
         default:
             return state;
     }

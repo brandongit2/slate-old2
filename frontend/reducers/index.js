@@ -71,13 +71,5 @@ export default combineReducers({
         } else {
             return state;
         }
-    },
-    theme: (state = 'light', action) => {
-        if (action.type === actionTypes.TOGGLE_THEME) {
-            const newTheme = state === 'light' ? 'dark' : 'light';
-            return newTheme;
-        } else {
-            return state;
-        }
     }
 });
