@@ -52,6 +52,7 @@ describe('Slate API', () => {
                         password_reset: 0,
                         permissions:    5,
                         valid_email:    1,
+                        theme:          'light'
                     }
                 });
                 done();
