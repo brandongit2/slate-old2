@@ -65,8 +65,13 @@ exports.authenticate = (req, res) => {
 exports.logIn = async (req, res) => {
     try {
         if (req.body.email && req.body.password && req.body.stayLoggedIn != null) {
-            const hash = (await pool.query('SELECT password FROM users WHERE email=?', [req.body.email]))[0].password.toString();
-            const userId = (await pool.query('SELECT id FROM users WHERE email=?', [req.body.email]))[0].id;
+            const user = await pool.query('SELECT id,password FROM users WHERE email=?', [req.body.email]);
+            if (user.length < 1) {
+                res.send({ success: false });
+                return;
+            }
+            const hash = user[0].password.toString();
+            const userId = user[0].id;
         
             const success = await bcryptCompare(req.body.password, hash);
             res.cookie('authToken', await auth.createToken(userId, req.body.stayLoggedIn));
