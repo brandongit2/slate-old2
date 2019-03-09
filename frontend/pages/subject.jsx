@@ -10,15 +10,6 @@ import {rgb} from '../util';
 
 import css from './subject.scss';
 
-function CourseInfo(props) {
-    return (
-        <div className={css['course-info']}>
-            <p id={css.name}>{props.name}</p>
-            <p id={css.description}>{props.description}</p>
-        </div>
-    );
-}
-
 function Subject(props) {
     const lightTheme = (props.altUser ? props.altUser.theme : props.user.theme) === 'light';
     const subjectColor = lightTheme
@@ -76,14 +67,15 @@ function Subject(props) {
                 <div id={css['course-list']}>
                     <div>
                         <p id={css['courses-title']}>Courses</p>
-                        {props ? props.courses.map(course => (
+                        {props.courses ? props.courses.map(course => (
                             <Link key={course.id}
                                   href={'/course?subject=' + props.subject?.id + '&course=' + course.id}
                                   as={'/subject/' + props.subject?.name + '/' + course.name}>
                                 <a>
-                                    <CourseInfo courseId={course.id}
-                                                name={course.display_name}
-                                                description={course.description} />
+                                    <div className={css['course-info']}>
+                                        <p id={css.name}>{course.name}</p>
+                                        <p id={css.description}>{course.description}</p>
+                                    </div>
                                 </a>
                             </Link>
                         )) : null}

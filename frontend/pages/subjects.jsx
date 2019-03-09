@@ -26,7 +26,7 @@ function Subjects(props) {
                             </Link>
                             {props.courses.filter(course => course.subject_id === subject.id).map(course => (
                                 <Link key={course.name}
-                                      href={`/course?subject=${subject.id}?course=${course.id}`}
+                                      href={`/course?subject=${subject.id}&course=${course.id}`}
                                       as={`/subject/${subject.name}/${course.name}`}>
                                     <a className={css.course}>
                                         {course.display_name}
