@@ -78,6 +78,7 @@ function Header(props) {
                     </li>
                 </ul>
                 <div id={css['right-buttons']}>
+                    {console.log(props.user)}
                     <p onClick={props.toggleTheme} style={{fontSize: '10pt', cursor: 'pointer', textDecoration: 'underline'}}>
                         Switch to {props.user.theme === 'light' ? 'dark mode' : 'light mode'}
                     </p>

@@ -78,7 +78,7 @@ class Layout extends React.Component {
                         <Header currentPage={props.currentPage}
                                 float={props.headerFloat}
                                 noShadow={props.noShadow}
-                                user={!props.user.isLoggedIn && props.altUser ? props.altUser : props.user} />
+                                user={!props.user.isLoggedIn && props.altUser && props.altUser.theme ? props.altUser : props.user} />
                     )
                 }
                 {props.secondaryLogo
