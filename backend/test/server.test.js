@@ -84,10 +84,16 @@ describe('Slate API', () => {
 
     describe('/api/reset-password', () => {
         it('no token - should return 401', done => {
-            request(app.app).post('/api/reset-password').expect(401, done);
+            request(app.app).post('/api/reset-password').expect(401).end((err, res) => {
+                assert.equal(res.text, 'No token.');
+                done();
+            });
         });
         it('invalid token - should return 401', done => {
-            request(app.app).post('/api/reset-password').set('Cookie', ['authToken="9cZ8R3yLIzoFnoCD"']).expect(401, done);
+            request(app.app).post('/api/reset-password').set('Cookie', ['authToken="9cZ8R3yLIzoFnoCD"']).expect(401).end((err, res) => {
+                assert.equal(res.text, 'Invalid token.');
+                done();
+            });
         });
         it('valid token - should return 200 and succeed', done => {
             request(app.app).post('/api/reset-password').set('Cookie', ['authToken="Ayudf3AojGxYr121"']).expect(200).end((err, res) => {
