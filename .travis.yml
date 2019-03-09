@@ -23,7 +23,7 @@ matrix:
     - cd $TRAVIS_BUILD_DIR/frontend
     - cp ./test/config.test.json ./config.json
     - npm install
-    - npm start
+    - npm run dev
     - npm test
   - name: "Backend"
   script:  
