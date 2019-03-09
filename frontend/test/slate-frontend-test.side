@@ -1,0 +1,75 @@
+{
+  "id": "16aae50f-1ccd-4fb5-87ee-52a0cce4fa79",
+  "version": "2.0",
+  "name": "slate-frontend-test",
+  "url": "https://www.google.com",
+  "tests": [{
+    "id": "efcdce2c-3c7a-4aac-b5e5-76cde49fbeb6",
+    "name": "test1",
+    "commands": [{
+      "id": "f05cf83f-bb74-42fa-bcae-b34c68bbfac4",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e2cc0897-c045-4f96-92c4-9332a850c166",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "636x1037",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ef36a6c4-509d-42b6-95ae-9a79df578ac5",
+      "comment": "",
+      "command": "type",
+      "target": "name=q",
+      "targets": [
+        ["name=q", "name"],
+        ["css=.gLFyf", "css:finder"],
+        ["xpath=//input[@name='q']", "xpath:attributes"],
+        ["xpath=//form[@id='tsf']/div[2]/div/div/div/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "what is going on"
+    }, {
+      "id": "1610230d-f3e1-4b41-912b-3031fd7ccd62",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "name=q",
+      "targets": [
+        ["name=q", "name"],
+        ["css=.gLFyf", "css:finder"],
+        ["xpath=//input[@name='q']", "xpath:attributes"],
+        ["xpath=//form[@id='tsf']/div[2]/div/div/div/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }, {
+      "id": "ea9cda36-1914-433b-a939-f7346e958c91",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Images",
+      "targets": [
+        ["linkText=Images", "linkText"],
+        ["css=.hdtb-mitem:nth-child(2) > .q", "css:finder"],
+        ["xpath=//a[contains(text(),'Images')]", "xpath:link"],
+        ["xpath=//div[@id='hdtb-msb-vis']/div[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/search?q=what+is+going+on&safe=strict&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiv65D31PXgAhUsja0KHQ7EB_EQ_AUIDigB')]", "xpath:href"],
+        ["xpath=//div[5]/div/div/div/div/div/div/div/div[2]/a", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "b3cf22a2-77c7-44f2-bffd-4cd140959723",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["efcdce2c-3c7a-4aac-b5e5-76cde49fbeb6"]
+  }],
+  "urls": ["https://www.google.com/"],
+  "plugins": []
+}

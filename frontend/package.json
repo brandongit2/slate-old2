@@ -6,7 +6,7 @@
     "dev": "version=$(git describe --tags --exact-match HEAD 2>/dev/null || git rev-parse --verify HEAD --short=7 2>/dev/null) pubdate=$(git show -s --format=%ct HEAD) && echo \"{\\\"version\\\":\\\"$version\\\",\\\"publishDate\\\":\\\"$pubdate\\\"}\" > version.json && node server.js",
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "selenium-side-runner test/slate-frontend-test.side"
   },
   "repository": {
     "type": "git",
@@ -35,12 +35,15 @@
     "react-redux": "^6.0.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
+    "selenium-side-runner": "^3.5.9",
     "shortid": "^2.2.14",
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.2.0",
+    "chromedriver": "^2.46.0",
     "next-progressbar": "^1.0.0",
-    "redux-devtools-extension": "^2.13.8"
+    "redux-devtools-extension": "^2.13.8",
+    "selenium-webdriver": "^4.0.0-alpha.1"
   }
 }
