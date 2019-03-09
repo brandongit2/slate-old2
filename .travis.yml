@@ -7,5 +7,6 @@ script:
   - cd backend/test/
   - ./setupTestEnv.sh
   - cd ../
+  - cp ./test/config.test.json ./src/config.json
   - npm install
   - npm test
