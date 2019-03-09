@@ -33,7 +33,10 @@ class Layout extends React.Component {
                     <title>{props.title}</title>
                     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                     <link rel="shortcut icon" href="/static/favicon.png" />
-                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.css" integrity="sha384-dbVIfZGuN1Yq7/1Ocstc1lUEm+AT+/rCkibIcC/OmWo5f0EA48Vf8CytHzGrSwbQ" crossorigin="anonymous" />
+                    <link rel="stylesheet"
+                          href="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.css"
+                          integrity="sha384-dbVIfZGuN1Yq7/1Ocstc1lUEm+AT+/rCkibIcC/OmWo5f0EA48Vf8CytHzGrSwbQ"
+                          crossOrigin="anonymous" />
                 </Head>
                 <style jsx global>{`
                     :root {
@@ -47,7 +50,6 @@ class Layout extends React.Component {
                             --background-color: #fff;
                             --secondary-background-color: #fff;
                             --shadow-color: rgba(0, 0, 0, 0.1);
-                            --accent-color: #eef1c9;
                         ` : `
                             --text-color: rgba(255, 255, 255, 0.8);
                             --secondary-text-color: rgba(255, 255, 255, 0.5);
@@ -58,14 +60,15 @@ class Layout extends React.Component {
                             --background-color: #111;
                             --secondary-background-color: #222;
                             --shadow-color: rgba(255, 255, 255, 0);
-                            --accent-color: #434437;
                         `}
                     }
                     
                     .bw-icon {
-                        ${(props.theme ? props.theme : (props.altUser ? props.altUser.theme : 'light')) === 'light' ? '' : `
-                            filter: invert(1);
-                        `}
+                        ${(props.theme ? props.theme : (props.altUser ? props.altUser.theme : 'light')) === 'light'
+                            ? ''
+                            : 'filter: invert(1);'
+                        }
+                        transition: filter 0.5s;
                     }
                 `}</style>
                 <Modal />

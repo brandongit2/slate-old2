@@ -1,20 +1,22 @@
 // For retrieving data such as subjects, courses, units, and articles.
 
-const {pool, mysqlErrorHandler} = require('./sqlConnect');
-const showdown = require('showdown');
-const converter = new showdown.Converter();
 const katex = require('katex');
 const sanitizeHtml = require('sanitize-html');
+const showdown = require('showdown');
+
+const {pool, mysqlErrorHandler} = require('./sqlConnect');
+
+const converter = new showdown.Converter();
 
 function parseContent(content) {
     content = content.replace(/\$\$([\w\W]+?)\$\$/gm, (match, tex) => katex.renderToString(tex, {
         throwOnError: false,
-        displayMode: true
+        displayMode:  true
     }));
 
     content = content.replace(/\$([\w\W]+?)\$/gm, (match, tex) => katex.renderToString(tex, {
         throwOnError: false,
-        displayMode: false
+        displayMode:  false
     }));
 
     content = converter.makeHtml(content);
@@ -26,11 +28,11 @@ function parseContent(content) {
             'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'iframe',
             'svg', 'path', 'span'
         ], allowedAttributes: {
-            a: [ 'href', 'name', 'target' ],
-            img: [ 'src' ],
-            svg: [ 'width', 'height', 'viewbox', 'preserveaspectratio' ],
-            path: [ 'd' ],
-            span: [ 'style', 'class' ]
+            a:    ['href', 'name', 'target'],
+            img:  ['src'],
+            svg:  ['width', 'height', 'viewbox', 'preserveaspectratio'],
+            path: ['d'],
+            span: ['style', 'class']
         }
     });
 
@@ -123,12 +125,12 @@ exports.getUnit = async (req, res) => {
 
 exports.getAllArticles = async (req, res) => {
     try {
-        const list = await pool.query('SELECT id, title, display_title, publish_date, update_date, content FROM articles ORDER BY `order`');
+        let list = await pool.query('SELECT id, title, display_title, publish_date, update_date, content FROM articles ORDER BY `order`');
 
-        list = list.map((data) => {
-		data.content = parseContent(data.content);
-		return data;
-	});
+        list = list.map(data => {
+            data.content = parseContent(data.content);
+            return data;
+        });
 
         res.send(list);
     } catch (err) {
@@ -230,11 +232,10 @@ exports.getChildren = async (req, res) => {
             
             children = await pool.query(`SELECT articles.id, articles.order, articles.title, articles.display_title, articles.publish_date, articles.update_date, articles.content FROM articles JOIN units ON units.id=articles.unit_id where units.${nameOrId}=?`, [req.query.unit]);
 
-            children = children.map((data) => {
-                    data.content = parseContent(data.content);
-                    return data;
+            children = children.map(data => {
+                data.content = parseContent(data.content);
+                return data;
             });
-
         } else {
             res.status(404).end();
         }

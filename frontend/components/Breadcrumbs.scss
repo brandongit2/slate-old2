@@ -4,6 +4,7 @@
     
     i {
         color: var(--secondary-subject-text-color);
+        transition: color 0.5s;
         font-size: inherit;
         margin: 0px 5px;
     }
@@ -11,6 +12,7 @@
     :global(.crumb) {
         a, span {
             color: var(--secondary-subject-text-color);
+            transition: color 0.5s;
         }
     }
 }
