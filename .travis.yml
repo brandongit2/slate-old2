@@ -20,10 +20,12 @@ matrix:
     script:  
     - cd $TRAVIS_BUILD_DIR/backend
     - npm start&
+    - sleep 10
     - cd $TRAVIS_BUILD_DIR/frontend
     - cp ./test/config.test.json ./config.json
     - npm install
     - npm run dev&
+    - sleep 10
     - npm test
   - name: "Backend"
   script:  
