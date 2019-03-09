@@ -45,8 +45,7 @@ function Article(props) {
                             <p>Last updated {moment(props.article?.update_date).calendar(null, {sameElse: '[on] MMMM Do, YYYY'})}</p>
                         </div>
                     </div>
-                    <div id={css.body}>
-                        {props.article?.content}
+                    <div id={css.body} dangerouslySetInnerHTML={{__html: props.article?.content}}>
                     </div>
                 </div>
             </div>

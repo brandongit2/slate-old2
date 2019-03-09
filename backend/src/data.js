@@ -1,6 +1,41 @@
 // For retrieving data such as subjects, courses, units, and articles.
 
 const {pool, mysqlErrorHandler} = require('./sqlConnect');
+const showdown = require('showdown');
+const converter = new showdown.Converter();
+const katex = require('katex');
+const sanitizeHtml = require('sanitize-html');
+
+function parseContent(content) {
+    content = content.replace(/\$\$([\w\W]+?)\$\$/gm, (match, tex) => katex.renderToString(tex, {
+        throwOnError: false,
+        displayMode: true
+    }));
+
+    content = content.replace(/\$([\w\W]+?)\$/gm, (match, tex) => katex.renderToString(tex, {
+        throwOnError: false,
+        displayMode: false
+    }));
+
+    content = converter.makeHtml(content);
+
+    content = sanitizeHtml(content, {
+        allowedTags: [
+            'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol',
+            'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'code', 'hr', 'br', 'div',
+            'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'iframe',
+            'svg', 'path', 'span'
+        ], allowedAttributes: {
+            a: [ 'href', 'name', 'target' ],
+            img: [ 'src' ],
+            svg: [ 'width', 'height', 'viewbox', 'preserveaspectratio' ],
+            path: [ 'd' ],
+            span: [ 'style', 'class' ]
+        }
+    });
+
+    return content;
+}
 
 exports.getAllSubjects = async (req, res) => {
     try {
@@ -89,6 +124,12 @@ exports.getUnit = async (req, res) => {
 exports.getAllArticles = async (req, res) => {
     try {
         const list = await pool.query('SELECT id, title, display_title, publish_date, update_date, content FROM articles ORDER BY `order`');
+
+        list = list.map((data) => {
+		data.content = parseContent(data.content);
+		return data;
+	});
+
         res.send(list);
     } catch (err) {
         mysqlErrorHandler(err);
@@ -104,6 +145,7 @@ exports.getArticle = async (req, res) => {
         const data = await pool.query(`SELECT id, \`order\`, title, display_title, publish_date, update_date, content, unit_id FROM articles WHERE ${nameOrId}=?`, [req.params.id]);
         
         if (data.length === 1) {
+            data[0].content = parseContent(data[0].content);
             res.send(data);
         } else {
             res.status(404).end();
@@ -187,6 +229,12 @@ exports.getChildren = async (req, res) => {
             const nameOrId = isNaN(req.query.unit) ? 'name' : 'id';
             
             children = await pool.query(`SELECT articles.id, articles.order, articles.title, articles.display_title, articles.publish_date, articles.update_date, articles.content FROM articles JOIN units ON units.id=articles.unit_id where units.${nameOrId}=?`, [req.query.unit]);
+
+            children = children.map((data) => {
+                    data.content = parseContent(data.content);
+                    return data;
+            });
+
         } else {
             res.status(404).end();
         }
