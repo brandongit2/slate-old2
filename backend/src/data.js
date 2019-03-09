@@ -69,7 +69,7 @@ exports.getSubject = async (req, res) => {
 
 exports.getAllCourses = async (req, res) => {
     try {
-        const list = await pool.query('SELECT id, name, display_name, description FROM courses ORDER BY `order`');
+        const list = await pool.query('SELECT id, subject_id, name, display_name, description FROM courses ORDER BY `order`');
         res.send(list);
     } catch (err) {
         mysqlErrorHandler(err);

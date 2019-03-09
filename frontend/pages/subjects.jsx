@@ -1,57 +1,11 @@
-import axios from 'axios';
 import moment from 'moment';
 import Link from 'next/link';
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {changeSubject, changeCourse, changeUnit, changeArticle, getAllSubjects, getChildren} from '../actions';
+import {changeSubject, changeCourse, changeUnit, changeArticle, getAllSubjects, getAllCourses} from '../actions';
 import {Layout} from '../components';
 import css from './subjects.scss';
-
-class Subject extends React.Component {
-    state = {
-        courses: []
-    }
-    
-    constructor(props) {
-        super(props);
-        
-        /* eslint-disable-next-line no-unused-expressions */
-        props.courses?.then(courses => this.setState({courses: courses.data}));
-    }
-    
-    render() {
-        const {props} = this;
-        return (
-            <div className={css.subject}>
-                <style jsx>{`
-                    --color: #${props.color}
-                `}</style>
-                <Link href={`/subject?subject=${props.id}`}
-                      as={`/subject/${props.name}`}>
-                    <a className={css.title}>
-                        {props.displayName}
-                    </a>
-                </Link>
-                {this.state.courses.map(course => (
-                    <Link key={course.name}
-                          href={`/course?course=${course.id}`}
-                          as={`/subject/${props.name}/${course.name}`}>
-                        <a className={css.course}>
-                            {course.display_name}
-                        </a>
-                    </Link>
-                ))}
-            </div>
-        );
-    }
-}
-
-Subject.defaultProps = {
-    name:    '',
-    color:   '888888',
-    courses: []
-};
 
 function Subjects(props) {
     return (
@@ -60,12 +14,26 @@ function Subjects(props) {
                 <span id={css.prompt}>What would you like to learn today?</span>
                 <div id={css.courses}>
                     {props.subjects.map(subject => (
-                        <Subject key={subject.id}
-                                 id={subject.id}
-                                 name={subject.name}
-                                 displayName={subject.display_name}
-                                 color={subject.color}
-                                 courses={axios.get('/api/children?subject=' + subject.id)} />
+                        <div className={css.subject} key={subject.id}>
+                            <style jsx>{`
+                                --color: #${subject.color}
+                            `}</style>
+                            <Link href={`/subject?subject=${subject.id}`}
+                                  as={`/subject/${subject.name}`}>
+                                <a className={css.title}>
+                                    {subject.display_name}
+                                </a>
+                            </Link>
+                            {props.courses.filter(course => course.subject_id === subject.id).map(course => (
+                                <Link key={course.name}
+                                      href={`/course?subject=${subject.id}?course=${course.id}`}
+                                      as={`/subject/${subject.name}/${course.name}`}>
+                                    <a className={css.course}>
+                                        {course.display_name}
+                                    </a>
+                                </Link>
+                            ))}
+                        </div>
                     ))}
                 </div>
             </div>
@@ -90,19 +58,15 @@ Subjects.getInitialProps = async ({store}) => {
     await store.dispatch(changeUnit(null));
     await store.dispatch(changeArticle(null));
     await store.dispatch(getAllSubjects());
+    await store.dispatch(getAllCourses());
 };
 
 function mapStateToProps(state) {
     return {
         subjects: state.subjects,
+        courses:  state.courses,
         info:     state.info
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        getCoursesBySubject: subjectId => dispatch(getChildren('subject', subjectId))
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Subjects);
+export default connect(mapStateToProps)(Subjects);
