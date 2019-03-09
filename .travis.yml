@@ -6,15 +6,17 @@ node_js:
 services:
   - mysql
 before_script:
-  - cd $TRAVIS_BUILD_DIR/frontend/test/
+  - cd $TRAVIS_BUILD_DIR/test
   - ./setup-nginx.sh
-script:
-  - cd $TRAVIS_BUILD_DIR/backend/test/
-  - ./setupTestEnv.sh
-  - cd ../
-  - cp ./test/config.test.json ./src/config.json
-  - npm install
-  - npm test
-  - cd ../frontend
-  - npm install
-  - npm test
+matrix:
+  include:
+  - name: "Frontend"
+    script:  
+    - cd $TRAVIS_BUILD_DIR/backend/test/
+    - ./setupTestEnv.sh
+    - cp ./test/config.test.json ./src/config.json
+    - npm test
+  - name: "Backend"
+  script:  
+    - cd $TRAVIS_BUILD_DIR/frontend
+    - npm test
