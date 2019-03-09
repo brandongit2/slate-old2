@@ -6,11 +6,10 @@ node_js:
 services:
   - mysql
 before_script:
-  - pwd
-  - cd frontend/test/
+  - cd $TRAVIS_BUILD_DIR/frontend/test/
   - ./setup-nginx.sh
 script:
-  - cd backend/test/
+  - cd $TRAVIS_BUILD_DIR/backend/test/
   - ./setupTestEnv.sh
   - cd ../
   - cp ./test/config.test.json ./src/config.json
