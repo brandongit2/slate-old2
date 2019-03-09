@@ -22,10 +22,7 @@
         width: 60vw;
         height: 100%;
         margin: 1rem auto;
-        
-        * {
-            font-family: 'PT Serif', serif;
-        }
+        font-family: 'PT Serif', serif;
         
         #head {
             display: flex;
@@ -44,7 +41,7 @@
             }
         }
         
-        #body {
+        #body p {
             text-indent: 4rem;
         }
     }

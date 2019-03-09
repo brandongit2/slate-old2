@@ -45,6 +45,7 @@ function Article(props) {
                             <p>Last updated {moment(props.article?.update_date).calendar(null, {sameElse: '[on] MMMM Do, YYYY'})}</p>
                         </div>
                     </div>
+                    {/* eslint-disable-next-line react/no-danger */}
                     <div id={css.body} dangerouslySetInnerHTML={{__html: props.article?.content}}>
                     </div>
                 </div>

@@ -96,12 +96,12 @@ function Header(props) {
                     ) : (
                         <ul>
                             <li className={props.currentPage === 'login' ? css.bold : ''}>
-                                <Link href="/login" prefetch><a>
+                                <Link href="/login"><a>
                                     <Button>LOG IN</Button>
                                 </a></Link>
                             </li>
                             <li className={props.currentPage === 'register' ? css.bold : ''}>
-                                <Link href="/register" prefetch><a>
+                                <Link href="/register"><a>
                                     <Button>REGISTER</Button>
                                 </a></Link>
                             </li>
