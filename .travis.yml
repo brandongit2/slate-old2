@@ -19,11 +19,11 @@ matrix:
   - name: "Frontend"
     script:  
     - cd $TRAVIS_BUILD_DIR/backend
-    - npm start
+    - npm start&
     - cd $TRAVIS_BUILD_DIR/frontend
     - cp ./test/config.test.json ./config.json
     - npm install
-    - npm run dev
+    - npm run dev&
     - npm test
   - name: "Backend"
   script:  
