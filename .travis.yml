@@ -12,15 +12,17 @@ before_script:
   - ./setupTestEnv.sh
   - cd ..
   - cp ./test/config.test.json ./src/config.json
-  - cd $TRAVIS_BUILD_DIR/frontend
-  - npm install
   - cd $TRAVIS_BUILD_DIR/backend
   - npm install
 matrix:
   include:
   - name: "Frontend"
     script:  
+    - cd $TRAVIS_BUILD_DIR/backend
+    - npm start
     - cd $TRAVIS_BUILD_DIR/frontend
+    - npm install
+    - npm start
     - npm test
   - name: "Backend"
   script:  
