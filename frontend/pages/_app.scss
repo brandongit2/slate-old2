@@ -15,11 +15,15 @@ body {
     font-family: 'Lato', sans-serif;
 }
 
+button, input {
+    font-family: 'Lato', sans-serif;
+}
+
 p, a, span, h1, h2, h3, h4, h5, h6, input, textarea, button, div, label {
     margin: 0;
     color: var(--text-color);
     
-    &:not(div):not(input):not(textarea) {
+    :not(button):not(input):not(textarea):not(:global(.material-icons)) {
         transition: color 0.5s;
     }
 }
@@ -64,7 +68,7 @@ button, input[type='submit'] {
     border: 1px solid var(--border-color);
     background: transparent;
     border-radius: 5px;
-    transition: transform 0.2s, border 0.5s;
+    transition: transform 0.2s, border 0.5s, color 0.5s;
     user-select: none;
     cursor: pointer;
     
