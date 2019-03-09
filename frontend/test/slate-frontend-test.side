@@ -39,6 +39,89 @@
       "target": "Subjects - Slate",
       "targets": [],
       "value": ""
+    }, {
+      "id": "605e87c0-533f-407e-a36c-407d923ae878",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "618d5275-c089-412c-a53e-9cf52ba624fb",
+    "name": "Login",
+    "commands": [{
+      "id": "c33d79d3-13d8-42a2-8f97-25677a3717d6",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/subjects",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d4af76de-f182-4d50-b3a7-5203d6d3f4b6",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "636x1037",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ccbad8bc-a52c-4363-b1e6-8a0e00bd61c2",
+      "comment": "",
+      "command": "click",
+      "target": "css=ul:nth-child(2) > li:nth-child(1) .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067",
+      "targets": [
+        ["css=ul:nth-child(2) > li:nth-child(1) .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067", "css:finder"],
+        ["xpath=//div[@id='right-buttons___2mGHM']/ul/li/a/div/span/span/span/span", "xpath:idRelative"],
+        ["xpath=//div/ul/li/a/div/span/span/span/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c4a5b5a3-867f-4a77-98d8-7e000407df66",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=ul:nth-child(2) > li:nth-child(1) .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067",
+      "targets": [
+        ["css=ul:nth-child(2) > li:nth-child(1) .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067", "css:finder"],
+        ["xpath=//div[@id='right-buttons___2mGHM']/ul/li/a/div/span/span/span/span", "xpath:idRelative"],
+        ["xpath=//div/ul/li/a/div/span/span/span/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "48869160-1c43-42b8-a69a-d1105d68c2ff",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=ul:nth-child(2) > li:nth-child(1) .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067",
+      "targets": [
+        ["css=ul:nth-child(2) > li:nth-child(1) .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067", "css:finder"],
+        ["xpath=//div[@id='right-buttons___2mGHM']/ul/li/a/div/span/span/span/span", "xpath:idRelative"],
+        ["xpath=//div/ul/li/a/div/span/span/span/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f819e84a-8e75-4c3b-8fce-376ccb872087",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=ul:nth-child(2) > li:nth-child(1) .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067",
+      "targets": [
+        ["css=ul:nth-child(2) > li:nth-child(1) .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067", "css:finder"],
+        ["xpath=//div[@id='right-buttons___2mGHM']/ul/li/a/div/span/span/span/span", "xpath:idRelative"],
+        ["xpath=//div/ul/li/a/div/span/span/span/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bed59bcd-b3f6-43d5-bd7b-fa11accd9f56",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a6c49d3b-de46-4aa3-9784-d4e292096970",
+      "comment": "",
+      "command": "assertTitle",
+      "target": "Log in - Slate",
+      "targets": [],
+      "value": ""
     }]
   }],
   "suites": [{
