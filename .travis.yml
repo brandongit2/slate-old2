@@ -6,9 +6,8 @@ node_js:
 services:
   - mysql
 before_script:
-  - sudo apt-get update
-  - sudo apt-get install nginx
-  - nginx -c $TRAVIS_BUILD_DIR/frontend/test/slate.nginx.test.conf
+  - cd $TRAVIS_BUILD_DIR/frontend/test/
+  - ./setup-nginx.sh
 script:
   - cd backend/test/
   - ./setupTestEnv.sh
