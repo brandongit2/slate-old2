@@ -10,6 +10,7 @@ before_script:
   - ./setup-tests.sh
   - cd $TRAVIS_BUILD_DIR/backend/test/
   - ./setupTestEnv.sh
+  - cd ..
   - cp ./test/config.test.json ./src/config.json
   - cd $TRAVIS_BUILD_DIR/frontend
   - npm install
