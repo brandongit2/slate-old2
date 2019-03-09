@@ -94,9 +94,9 @@ exports.logOut = (req, res) => {
     if (req.user) {
         pool.query('UPDATE login_tokens SET valid=0 WHERE token=?', [req.cookies.authToken]);
         res.clearCookie('authToken');
-        res.end();
+        res.send('Logged out.').end(200);
     } else {
-        res.send('You are not logged in.');
+        res.send('You are not logged in.').end(200);
     }
 };
 

@@ -72,9 +72,9 @@ describe('Slate API', () => {
         });
 
         it('valid token - should return 200 and token should be invalidated', done => {
-            const agent = request.agent(app.app);
-            agent.post('/api/log-out').set('Cookie', ['authToken=u6P3AojGYYrywrRQ']).expect(200).end((err, res) => {
-                agent.post('/api/authenticate').set('Cookie', ['authToken=u6P3AojGYYrywrRQ']).expect(200).end((err, res) => {
+            request(app.app).post('/api/log-out').set('Cookie', ['authToken=u6P3AojGYYrywrRQ']).expect(200).end((err, res) => {
+                assert.equal(res.text, 'Logged out.');
+                request(app.app).post('/api/authenticate').set('Cookie', ['authToken=u6P3AojGYYrywrRQ']).expect(200).end((err, res) => {
                     assert.deepEqual(res.body, {success: false});
                     done();
                 });
