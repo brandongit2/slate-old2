@@ -19,7 +19,7 @@ INSERT INTO `subjects` VALUES (1,1,'mathematics','Mathematics','Mathematics (fro
 
 INSERT INTO `units` VALUES (1,1,'01-slopes-of-secant-and-tangent-lines','Slopes of secant and tangent lines','Find the slopes of lines intersecting functions.',1),(2,2,'01-limits','Limits','One of the most important aspects of calculus.',1),(3,1,'02-the-fundamental-theorem-of-calculus','The fundamental theorem of calculus','yeah',2),(4,1,'03-intro-to-cells','Intro to cells','introduction to cells',3);
 
-INSERT INTO `users` VALUES (1,'Brandon','Tsang','brandononline2@gmail.com',_binary '$2b$10$jqQTGQiIfWcRx5GgeXazJuWAHghYruM6fN2rD.kz5Y.eYHkmjDdtu',1,5,0,'light'),(8,'test','','yes@wow.xxx',_binary '$2b$10$Lvfu9nImjDGCVx9RdouP3udrPzXa7xiLggJt2vzx1Zc3oUMe9qHjC',1,5,0,'light'),(9,'test','','test@example.com',_binary '$2b$10$Djdn./Lau.EVd0IolQceU.gqI6EpBS3T7bkadD1tzhbXWYbkGla9.',1,5,0,'light');
+INSERT INTO `users` VALUES (1,'Brandon','Tsang','brandononline2@gmail.com',_binary '$2b$10$jqQTGQiIfWcRx5GgeXazJuWAHghYruM6fN2rD.kz5Y.eYHkmjDdtu',1,5,0,'light'),(8,'test','','yes@wow.xxx',_binary '$2b$10$Lvfu9nImjDGCVx9RdouP3udrPzXa7xiLggJt2vzx1Zc3oUMe9qHjC',1,5,0,'light'),(9,'test','','test@example.com',_binary '$2b$10$Djdn./Lau.EVd0IolQceU.gqI6EpBS3T7bkadD1tzhbXWYbkGla9.',1,5,0,'light'),(10,'toDelete','','useless@example.com',_binary '$2b$10$Djdn./Lau.EVd0IolQceU.gqI6EpBS3T7bkadD1tzhbXWYbkGla9.',1,5,0,'light');
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

@@ -66,15 +66,14 @@ exports.logIn = async (req, res) => {
         if (req.body.email && req.body.password && req.body.stayLoggedIn != null) {
             const user = await pool.query('SELECT id,password FROM users WHERE email=?', [req.body.email]);
             if (user.length < 1) {
-                res.send({ success: false });
+                res.send({success: false});
                 return;
             }
             const hash = user[0].password.toString();
             const userId = user[0].id;
         
             const success = await bcryptCompare(req.body.password, hash);
-            if (success)
-                res.cookie('authToken', await auth.createToken(userId, req.body.stayLoggedIn));
+            if (success) { res.cookie('authToken', await auth.createToken(userId, req.body.stayLoggedIn)); }
         
             res.send({
                 success
