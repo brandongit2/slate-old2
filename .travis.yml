@@ -8,15 +8,20 @@ services:
 before_script:
   - cd $TRAVIS_BUILD_DIR/test
   - ./setup-tests.sh
+  - cd $TRAVIS_BUILD_DIR/backend/test/
+  - ./setupTestEnv.sh
+  - cp ./test/config.test.json ./src/config.json
+  - cd $TRAVIS_BUILD_DIR/frontend
+  - npm install
+  - cd $TRAVIS_BUILD_DIR/backend
+  - npm install
 matrix:
   include:
   - name: "Frontend"
     script:  
-    - cd $TRAVIS_BUILD_DIR/backend/test/
-    - ./setupTestEnv.sh
-    - cp ./test/config.test.json ./src/config.json
+    - cd $TRAVIS_BUILD_DIR/frontend
     - npm test
   - name: "Backend"
   script:  
-    - cd $TRAVIS_BUILD_DIR/frontend
+    - cd $TRAVIS_BUILD_DIR/backend
     - npm test
