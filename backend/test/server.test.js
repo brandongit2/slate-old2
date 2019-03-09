@@ -19,14 +19,12 @@ describe('Slate API', () => {
     describe('/api/authenticate', () => {
         it('empty body - should return 200 and not succeed', done => {
             request(app.app).post('/api/authenticate').expect(200).end((err, res) => {
-                if (err) return done(err);
                 assert.deepEqual(res.body, {success: false});
                 done();
             });
         });
         it('invalid token - should return 200 and not succeed', done => {
             request(app.app).post('/api/authenticate').set('Cookie', ['authToken=thisshouldfail']).expect(200).end((err, res) => {
-                if (err) return done(err);
                 assert.deepEqual(res.body, {success: false});
                 done();
             });
@@ -34,14 +32,12 @@ describe('Slate API', () => {
 
         it('expired token - should return 200 and not succeed', done => {
             request(app.app).post('/api/authenticate').set('Cookie', ['authToken=9cZ8R3yLIzoFnoCD']).expect(200).end((err, res) => {
-                if (err) return done(err);
                 assert.deepEqual(res.body, {success: false});
                 done();
             });
         });
         it('valid token - should return 200 and succeed', done => {
             request(app.app).post('/api/authenticate').set('Cookie', ['authToken=u6P3AojGYYrywrRQ']).expect(200).end((err, res) => {
-                if (err) return done(err);
                 assert.deepEqual(res.body, {
                     success: true,
                     user:    {
@@ -75,17 +71,9 @@ describe('Slate API', () => {
             });
         });
 
-        it('valid token - should return 200 and succeed', done => {
-            request(app.app).post('/api/log-out').set('Cookie', ['authToken=u6P3AojGYYrywrRQ']).expect(200).end((err, res) => {
-                assert.equal(res.text, '');
-                done();
-            });
-        });
-
         it('valid token - should return 200 and token should be invalidated', done => {
             request(app.app).post('/api/log-out').set('Cookie', ['authToken=u6P3AojGYYrywrRQ']).expect(200).end((err, res) => {
                 request(app.app).post('/api/authenticate').set('Cookie', ['authToken=u6P3AojGYYrywrRQ']).expect(200).end((err, res) => {
-                    if (err) return done(err);
                     assert.deepEqual(res.body, {success: false});
                     done();
                 });
@@ -94,21 +82,65 @@ describe('Slate API', () => {
     });
 
     describe('/api/reset-password', () => {
-        it('should return 200', done => {
-            request(app.app).post('/api/reset-password').expect(200, done);
+        it('no token - should return 401', done => {
+            request(app.app).post('/api/reset-password').expect(401, done);
         });
-        it('should return 200', done => {
-            request(app.app).post('/api/reset-password').set('Cookie', ['authToken="Ayudf3AojGxYr121"']).expect(200, done);
+        it('invalid token - should return 401', done => {
+            request(app.app).post('/api/reset-password').set('Cookie', ['authToken="9cZ8R3yLIzoFnoCD"']).expect(401, done);
+        });
+        it('valid token - should return 200 and succeed', done => {
+            request(app.app).post('/api/reset-password').set('Cookie', ['authToken="Ayudf3AojGxYr121"']).expect(200).end((err, res) => {
+                assert.deepEqual(res.body, {success: true});
+                //TO DO: validate that password was reset
+                done();
+            });
         });
     });
+
     describe('/api/add-user', () => {
         it('should return 200', done => {
             request(app.app).post('/api/add-user').expect(200, done);
         });
     });
     describe('/api/log-in', () => {
-        it('should return 200', done => {
-            request(app.app).post('/api/log-in').expect(200, done);
+        it('invalid email - should return 200 and not succeed', done => {
+            request(app.app).post('/api/log-in').send({email: 'novalid@example.com', password: 't6se;xdroighylsexuirghp;y5ier', stayLoggedIn: true}).expect(200).end((err, res) => {
+                assert.deepEqual(res.body, {success: false});
+                done();
+            });
+        });
+        it('invalid password - should return 200 and not succeed', done => {
+            request(app.app).post('/api/log-in').send({email: 'test@example.com', password: 'wrongpassword', stayLoggedIn: true}).expect(200).end((err, res) => {
+                assert.deepEqual(res.body, {success: false});
+                done();
+            });
+        });
+        it('valid email and password, stay logged in - should return 200 and succeed', done => {
+            const agent = request.agent(app.app);
+            agent.post('/api/log-in').send({email: 'test@example.com', password: 't6se;xdroighylsexuirghp;y5ier', stayLoggedIn: true}).expect(200).end((err, res) => {
+                assert.deepEqual(res.body, {success: true});
+                done();
+            });
+        });
+
+        it('valid email and password, not stay logged in - should return 200 and succeed', done => {
+            const agent = request.agent(app.app);
+            agent.post('/api/log-in').send({email: 'test@example.com', password: 't6se;xdroighylsexuirghp;y5ier', stayLoggedIn: false}).expect(200).end((err, res) => {
+                assert.deepEqual(res.body, {success: true});
+                agent.post('/api/authenticate').expect(200).end((err, res) => {
+                    assert.deepEqual(res.body, {success: true,
+                                                user:
+                         {id:             9,
+                          first_name:     'test',
+                          last_name:      '',
+                          email:          'test@example.com',
+                          valid_email:    1,
+                          permissions:    5,
+                          password_reset: 0,
+                          theme:          'light'}});
+                    done();
+                });
+            });
         });
     });
     describe('/api/deactivate', () => {
