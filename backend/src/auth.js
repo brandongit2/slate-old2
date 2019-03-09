@@ -92,7 +92,7 @@ exports.logIn = async (req, res) => {
 
 exports.logOut = (req, res) => {
     if (req.user) {
-        pool.query('UPDATE login_tokens SET valid=0 WHERE user_id=?', [req.user.id]);
+        pool.query('UPDATE login_tokens SET valid=0 WHERE token=?', [req.cookies.authToken]);
         res.clearCookie('authToken');
         res.end();
     } else {
