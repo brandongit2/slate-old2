@@ -59,6 +59,7 @@ describe('Slate API', () => {
             });
         });
     });
+
     describe('/api/log-out', () => {
         it('no token - should return 200 and not succeed', done => {
             request(app.app).post('/api/log-out').expect(200).end((err, res) => {
@@ -91,9 +92,13 @@ describe('Slate API', () => {
             });
         });
     });
+
     describe('/api/reset-password', () => {
         it('should return 200', done => {
             request(app.app).post('/api/reset-password').expect(200, done);
+        });
+        it('should return 200', done => {
+            request(app.app).post('/api/reset-password').set('Cookie', ['authToken="Ayudf3AojGxYr121"']).expect(200, done);
         });
     });
     describe('/api/add-user', () => {
