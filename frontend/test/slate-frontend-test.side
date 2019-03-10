@@ -58,13 +58,6 @@
       "targets": [],
       "value": ""
     }, {
-      "id": "d4af76de-f182-4d50-b3a7-5203d6d3f4b6",
-      "comment": "",
-      "command": "setWindowSize",
-      "target": "636x1037",
-      "targets": [],
-      "value": ""
-    }, {
       "id": "ccbad8bc-a52c-4363-b1e6-8a0e00bd61c2",
       "comment": "",
       "command": "click",
@@ -74,6 +67,13 @@
         ["xpath=//div[@id='right-buttons___2mGHM']/ul/li/a/div/span/span/span/span", "xpath:idRelative"],
         ["xpath=//div/ul/li/a/div/span/span/span/span", "xpath:position"]
       ],
+      "value": ""
+    }, {
+      "id": "d4af76de-f182-4d50-b3a7-5203d6d3f4b6",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "636x1037",
+      "targets": [],
       "value": ""
     }, {
       "id": "c4a5b5a3-867f-4a77-98d8-7e000407df66",
@@ -130,7 +130,7 @@
     "persistSession": false,
     "parallel": false,
     "timeout": 300,
-    "tests": []
+    "tests": ["a1953e15-a98b-488d-9b27-087a3980adff", "618d5275-c089-412c-a53e-9cf52ba624fb"]
   }],
   "urls": ["https://www.google.com/", "localhost:8080", "http://localhost:8080/"],
   "plugins": []
