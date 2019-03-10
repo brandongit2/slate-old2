@@ -25,6 +25,7 @@ matrix:
     - npm install
     - (npm run dev)&
     - sleep 10
+    - curl localhost
     - npm test
   - name: "Backend"
     script:  
