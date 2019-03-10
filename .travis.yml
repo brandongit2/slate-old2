@@ -23,9 +23,8 @@ matrix:
     - cd ..
     - cp ./test/config.test.json ./config.json
     - npm install
-    - (npm run dev)&
+    - (npm run dev > /dev/null 2>&1)&
     - sleep 10
-    - curl localhost:8080
     - npm test
   - name: "Backend"
     script:  
