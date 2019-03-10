@@ -1,4 +1,4 @@
 {
     "verboseErrors": false,
-    "rootUrl": "http://localhost/"
+    "rootUrl": "http://localhost:8080/"
 }
