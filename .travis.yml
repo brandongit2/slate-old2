@@ -27,6 +27,6 @@ matrix:
     - sleep 10
     - npm test
   - name: "Backend"
-  script:  
-    - cd $TRAVIS_BUILD_DIR/backend
-    - npm test
+    script:  
+      - cd $TRAVIS_BUILD_DIR/backend
+      - npm test
