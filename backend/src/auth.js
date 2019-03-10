@@ -102,7 +102,6 @@ exports.logOut = (req, res) => {
 
 exports.resetPassword = (req, res) => {
     if (req.token) {
-        console.log('USER ' + req.user);
         try {
             if (req.user) {
                 pool.query('UPDATE login_tokens JOIN users ON login_tokens.user_id=users.id SET login_tokens.valid=0 WHERE users.email=?', [req.body.email]);
