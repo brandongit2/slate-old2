@@ -21,7 +21,7 @@
       "targets": [],
       "value": ""
     }, {
-      "id": "605e87c0-533f-407e-a36c-407d923ae878",
+      "id": "1dd14d9b-d2dc-45a2-8249-da9e7b71f140",
       "comment": "",
       "command": "close",
       "target": "",
@@ -36,13 +36,6 @@
       "comment": "",
       "command": "open",
       "target": "http://localhost:8080/",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "8e1c017a-4c0e-467c-92f0-eabf93e4e095",
-      "comment": "",
-      "command": "setWindowSize",
-      "target": "636x1037",
       "targets": [],
       "value": ""
     }, {
@@ -133,6 +126,184 @@
       "target": "Log in - Slate",
       "targets": [],
       "value": ""
+    }, {
+      "id": "6c5420d7-55ac-4e0d-ab5f-98b36e72040d",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "e5530e71-f31e-4cfa-8e84-19c2dde6d0d9",
+    "name": "Switch Theme",
+    "commands": [{
+      "id": "46f20053-5882-474e-a0f3-3e002e822e52",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/subjects",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c1a016b3-1212-4b25-b794-687cba115406",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "id=layout___1Sm2e",
+      "targets": [
+        ["id=layout___1Sm2e", "id"],
+        ["css=#layout___1Sm2e", "css:finder"],
+        ["xpath=//div[@id='layout___1Sm2e']", "xpath:attributes"],
+        ["xpath=//div[@id='__next']/div", "xpath:idRelative"],
+        ["xpath=//div[3]/div", "xpath:position"]
+      ],
+      "value": "1000"
+    }, {
+      "id": "50fd88d0-664e-4c78-8db1-064b3a7512ec",
+      "comment": "",
+      "command": "executeScript",
+      "target": "return window.getComputedStyle( document.getElementById(\"layout___1Sm2e\"),null).getPropertyValue('background-color');",
+      "targets": [
+        ["id=layout___1Sm2e", "id"],
+        ["css=#layout___1Sm2e", "css:finder"],
+        ["xpath=//div[@id='layout___1Sm2e']", "xpath:attributes"],
+        ["xpath=//div[@id='__next']/div", "xpath:idRelative"],
+        ["xpath=//div[3]/div", "xpath:position"]
+      ],
+      "value": "bgColour"
+    }, {
+      "id": "3d118a69-7215-420d-873b-ad4889dc464d",
+      "comment": "",
+      "command": "assert",
+      "target": "bgColour",
+      "targets": [],
+      "value": "rgb(255, 255, 255)"
+    }, {
+      "id": "9e67cad5-b525-46ee-bb10-80d9effb70a5",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=p:nth-child(1)",
+      "targets": [
+        ["css=p:nth-child(1)", "css:finder"],
+        ["xpath=//div[@id='right-buttons___2mGHM']/p", "xpath:idRelative"],
+        ["xpath=//nav/div/p", "xpath:position"],
+        ["xpath=//p[contains(.,'Switch to dark mode')]", "xpath:innerText"]
+      ],
+      "value": "Switch to dark mode"
+    }, {
+      "id": "031510e9-7b52-4034-81ca-0778f105d91f",
+      "comment": "",
+      "command": "click",
+      "target": "css=p:nth-child(1)",
+      "targets": [
+        ["css=p:nth-child(1)", "css:finder"],
+        ["xpath=//div[@id='right-buttons___2mGHM']/p", "xpath:idRelative"],
+        ["xpath=//nav/div/p", "xpath:position"],
+        ["xpath=//p[contains(.,'Switch to dark mode')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ff1fc6d9-881a-4676-8a3d-6a76b3f37472",
+      "comment": "",
+      "command": "pause",
+      "target": "1000",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "17ccfc28-bc53-4df1-be4f-e532b9ac47ec",
+      "comment": "",
+      "command": "executeScript",
+      "target": "return window.getComputedStyle( document.getElementById(\"layout___1Sm2e\"),null).getPropertyValue('background-color');",
+      "targets": [
+        ["id=layout___1Sm2e", "id"],
+        ["css=#layout___1Sm2e", "css:finder"],
+        ["xpath=//div[@id='layout___1Sm2e']", "xpath:attributes"],
+        ["xpath=//div[@id='__next']/div", "xpath:idRelative"],
+        ["xpath=//div[3]/div", "xpath:position"]
+      ],
+      "value": "bgColour"
+    }, {
+      "id": "dea51a3b-4a4e-4d47-8135-5e35eb800805",
+      "comment": "",
+      "command": "assert",
+      "target": "bgColour",
+      "targets": [],
+      "value": "rgb(17, 17, 17)"
+    }, {
+      "id": "a2f6fcfc-0331-4b90-bdc2-f37f5d9d5760",
+      "comment": "",
+      "command": "click",
+      "target": "css=p:nth-child(1)",
+      "targets": [
+        ["css=p:nth-child(1)", "css:finder"],
+        ["xpath=//div[@id='right-buttons___2mGHM']/p", "xpath:idRelative"],
+        ["xpath=//nav/div/p", "xpath:position"],
+        ["xpath=//p[contains(.,'Switch to dark mode')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "829f786e-bba6-4e69-96dd-b9b8bcc729fd",
+      "comment": "",
+      "command": "pause",
+      "target": "1000",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ede2089e-b62b-415d-9e7a-353567618103",
+      "comment": "",
+      "command": "executeScript",
+      "target": "return window.getComputedStyle( document.getElementById(\"layout___1Sm2e\"),null).getPropertyValue('background-color');",
+      "targets": [
+        ["id=layout___1Sm2e", "id"],
+        ["css=#layout___1Sm2e", "css:finder"],
+        ["xpath=//div[@id='layout___1Sm2e']", "xpath:attributes"],
+        ["xpath=//div[@id='__next']/div", "xpath:idRelative"],
+        ["xpath=//div[3]/div", "xpath:position"]
+      ],
+      "value": "bgColour"
+    }, {
+      "id": "f78fb249-50fd-43a3-99c2-97e01a266763",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=p:nth-child(1)",
+      "targets": [
+        ["css=p:nth-child(1)", "css:finder"],
+        ["xpath=//div[@id='right-buttons___2mGHM']/p", "xpath:idRelative"],
+        ["xpath=//nav/div/p", "xpath:position"],
+        ["xpath=//p[contains(.,'Switch to dark mode')]", "xpath:innerText"]
+      ],
+      "value": "Switch to dark mode"
+    }, {
+      "id": "899836d0-49d3-4a55-b827-48d68b723ed9",
+      "comment": "",
+      "command": "executeScript",
+      "target": "return window.getComputedStyle( document.getElementById(\"layout___1Sm2e\"),null).getPropertyValue('background-color');",
+      "targets": [
+        ["id=layout___1Sm2e", "id"],
+        ["css=#layout___1Sm2e", "css:finder"],
+        ["xpath=//div[@id='layout___1Sm2e']", "xpath:attributes"],
+        ["xpath=//div[@id='__next']/div", "xpath:idRelative"],
+        ["xpath=//div[3]/div", "xpath:position"]
+      ],
+      "value": "bgColour"
+    }, {
+      "id": "cd94bdc5-2fd6-4248-a18a-2980f183f0ed",
+      "comment": "",
+      "command": "assert",
+      "target": "bgColour",
+      "targets": [],
+      "value": "rgb(255, 255, 255)"
+    }, {
+      "id": "5269e43b-a579-422f-972e-07d2d7109175",
+      "comment": "",
+      "command": "click",
+      "target": "css=p:nth-child(1)",
+      "targets": [
+        ["css=p:nth-child(1)", "css:finder"],
+        ["xpath=//div[@id='right-buttons___2mGHM']/p", "xpath:idRelative"],
+        ["xpath=//nav/div/p", "xpath:position"],
+        ["xpath=//p[contains(.,'Switch to light mode')]", "xpath:innerText"]
+      ],
+      "value": ""
     }]
   }],
   "suites": [{
@@ -141,7 +312,7 @@
     "persistSession": false,
     "parallel": false,
     "timeout": 300,
-    "tests": ["a1953e15-a98b-488d-9b27-087a3980adff", "618d5275-c089-412c-a53e-9cf52ba624fb"]
+    "tests": ["a1953e15-a98b-488d-9b27-087a3980adff", "618d5275-c089-412c-a53e-9cf52ba624fb", "e5530e71-f31e-4cfa-8e84-19c2dde6d0d9"]
   }],
   "urls": ["https://www.google.com/", "localhost:8080", "http://localhost:8080/"],
   "plugins": []
