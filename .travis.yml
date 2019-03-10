@@ -7,6 +7,8 @@ before_script:
   - cd $TRAVIS_BUILD_DIR/backend
   - cp ./test/config.test.json ./src/config.json
   - npm install
+  - cd test
+  - ./setupTestEnv.sh
 matrix:
   include:
   - name: "Frontend"
@@ -17,9 +19,8 @@ matrix:
     - npm start&
     - sleep 10
     - cd $TRAVIS_BUILD_DIR/frontend/test
-    - ./setup-tests.sh
-    - ./setupTestEnv.sh
-    - cp ./test/config.test.json ./config.json
+    - ./setup-nginx.sh
+    - cd ..
     - npm install
     - npm run dev& > /dev/null 2>&1
     - sleep 10
