@@ -6,7 +6,6 @@ services:
 before_script:
   - cd $TRAVIS_BUILD_DIR/backend
   - cp ./test/config.test.json ./src/config.json
-  - cd $TRAVIS_BUILD_DIR/backend
   - npm install
 matrix:
   include:
@@ -14,13 +13,12 @@ matrix:
     addons:
       chrome: stable
     script:  
-    - cd $TRAVIS_BUILD_DIR/backend/test
-    - ./setup-tests.sh
-    - ./setupTestEnv.sh
-    - cd ..
+    - cd $TRAVIS_BUILD_DIR/backend
     - npm start&
     - sleep 10
-    - cd $TRAVIS_BUILD_DIR/frontend
+    - cd $TRAVIS_BUILD_DIR/frontend/test
+    - ./setup-tests.sh
+    - ./setupTestEnv.sh
     - cp ./test/config.test.json ./config.json
     - npm install
     - npm run dev& > /dev/null 2>&1
