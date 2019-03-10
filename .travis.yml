@@ -23,7 +23,7 @@ matrix:
     - cd ..
     - cp ./test/config.test.json ./config.json
     - npm install
-    - npm run dev& > /dev/null 2>&1
+    - (npm run dev > /dev/null 2>&1)&
     - sleep 10
     - npm test
   - name: "Backend"
