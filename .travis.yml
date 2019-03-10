@@ -21,6 +21,7 @@ matrix:
     - cd $TRAVIS_BUILD_DIR/frontend/test
     - ./setup-nginx.sh
     - cd ..
+    - cp ./test/config.test.json ./src/config.json
     - npm install
     - npm run dev& > /dev/null 2>&1
     - sleep 10
