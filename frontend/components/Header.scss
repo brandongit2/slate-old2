@@ -96,7 +96,7 @@
 }
 
 #header {
-    width: 100vw;
+    width: 100%;
     height: 5rem;
     display: flex;
     align-items: center;
@@ -158,7 +158,7 @@
             display: flex;
             align-items: center;
             
-            & > * {
+            & > *:not(:last-child) {
                 margin-right: 1rem;
             }
             
@@ -203,6 +203,7 @@
                 
                 i {
                     margin-left: 5px;
+                    color: var(--text-color);
                     transition: color 0.5s;
                 }
             }

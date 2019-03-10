@@ -4,7 +4,7 @@ import Router from 'next/router';
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {changeSubject, changeCourse, changeUnit, changeArticle, getSubject, getCourse, getUnit, getArticle, getChildren} from '../actions';
+import {changeSubject, changeCourse, changeUnit, changeArticle, getSubject, getCourse, getUnit, getArticleContent, getChildren} from '../actions';
 import {Layout, Breadcrumbs, Crumb, Dropdown, Item} from '../components';
 
 import css from './article.scss';
@@ -63,8 +63,8 @@ Article.getInitialProps = async ({store, query}) => {
     await store.dispatch(getSubject(query.subject));
     await store.dispatch(getCourse(query.course));
     await store.dispatch(getUnit(query.unit));
-    await store.dispatch(getArticle(query.article));
     await store.dispatch(getChildren('unit', query.unit));
+    await store.dispatch(getArticleContent(query.article));
 };
 
 function mapStateToProps(state) {

@@ -1,8 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Crimson+Text:400,400i,600,700');
+
 #container {
-    flex-grow: 1;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    overflow: auto;
     
     :global(.breadcrumbs) {
         flex-shrink: 0;
@@ -23,7 +24,7 @@
         width: 60vw;
         height: 100%;
         margin: 1rem auto;
-        font-family: 'PT Serif', serif;
+        font-family: 'Crimson Text', serif;
         
         #head {
             display: flex;

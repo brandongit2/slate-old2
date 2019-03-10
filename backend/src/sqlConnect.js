@@ -1,6 +1,6 @@
 const mysql = require('promise-mysql');
 
-const {mysql: mysqlCreds, verboseErrors} = require('./config.json');
+const {mysql: mysqlCreds} = require('./config.json');
 
 exports.pool = mysql.createPool({
     user:     mysqlCreds.user,
@@ -15,7 +15,6 @@ exports.mysqlErrorHandler = err => {
             console.error('Could not connect to MySQL. Make sure you have started the server.');
             break;
         default:
-            if (verboseErrors) console.error(err);
-            console.trace();
+            console.error(err);
     }
 };

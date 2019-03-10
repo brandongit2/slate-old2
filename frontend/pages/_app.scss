@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900|B612|PT+Serif');
+@import url('https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900|B612');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 :root {
@@ -12,6 +12,7 @@
 
 body {
     margin: 0;
+    overflow: hidden;
     font-family: 'Lato', sans-serif;
 }
 
@@ -19,13 +20,13 @@ button, input {
     font-family: 'Lato', sans-serif;
 }
 
-p, a, span, h1, h2, h3, h4, h5, h6, input, textarea, button, div, label {
+p, a, span, h1, h2, h3, h4, h5, h6, input, textarea, button, label {
     margin: 0;
     color: var(--text-color);
-    
-    :not(button):not(input):not(textarea):not(:global(.material-icons)) {
-        transition: color 0.5s;
-    }
+}
+
+p, a, span, h1, h2, h3, h4, h5, h6, label {
+    transition: color 0.5s;
 }
 
 ::selection {

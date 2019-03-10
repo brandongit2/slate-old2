@@ -11,11 +11,6 @@ import {authenticate} from '../actions';
 
 import css from './Layout.scss';
 
-const layoutStyles = {
-    width:  '100vw',
-    height: '100vh'
-};
-
 class Layout extends React.Component {
     constructor(props) {
         super(props);
@@ -28,7 +23,7 @@ class Layout extends React.Component {
         return (
             <div className={props.className}
                  id={css.layout}
-                 style={Object.assign(layoutStyles, props.style)}>
+                 style={props.style}>
                 <Head>
                     <title>{props.title}</title>
                     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -63,7 +58,7 @@ class Layout extends React.Component {
                         `}
                     }
                     
-                    .bw-icon {
+                    img.bw-icon {
                         ${(props.theme ? props.theme : (props.altUser ? props.altUser.theme : 'light')) === 'light'
                             ? ''
                             : 'filter: invert(1);'
@@ -86,7 +81,9 @@ class Layout extends React.Component {
                     : null
                 }
                 <Snackbar />
-                {props.children}
+                <div id={css.container}>
+                    {props.children}
+                </div>
             </div>
         );
     }

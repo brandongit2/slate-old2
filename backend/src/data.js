@@ -78,7 +78,7 @@ exports.getAllCourses = async (req, res) => {
 };
 
 exports.getCourse = async (req, res) => {
-    // Whether :id refers to a subject name or id
+    // Whether :id refers to a course name or id
     const nameOrId = isNaN(req.params.id) ? 'name' : 'id';
     
     try {
@@ -106,7 +106,7 @@ exports.getAllUnits = async (req, res) => {
 };
 
 exports.getUnit = async (req, res) => {
-    // Whether :id refers to a subject name or id
+    // Whether :id refers to a unit name or id
     const nameOrId = isNaN(req.params.id) ? 'name' : 'id';
     
     try {
@@ -125,12 +125,7 @@ exports.getUnit = async (req, res) => {
 
 exports.getAllArticles = async (req, res) => {
     try {
-        let list = await pool.query('SELECT id, title, display_title, publish_date, update_date, content FROM articles ORDER BY `order`');
-
-        list = list.map(data => {
-            data.content = parseContent(data.content);
-            return data;
-        });
+        let list = await pool.query('SELECT id, title, display_title, publish_date, update_date FROM articles ORDER BY `order`');
 
         res.send(list);
     } catch (err) {
@@ -140,15 +135,32 @@ exports.getAllArticles = async (req, res) => {
 };
 
 exports.getArticle = async (req, res) => {
-    // Whether :id refers to a subject name or id
+    // Whether :id refers to a article title or id
     const nameOrId = isNaN(req.params.id) ? 'title' : 'id';
     
     try {
-        const data = await pool.query(`SELECT id, \`order\`, title, display_title, publish_date, update_date, content, unit_id FROM articles WHERE ${nameOrId}=?`, [req.params.id]);
+        const data = await pool.query(`SELECT id, \`order\`, title, display_title, publish_date, update_date, unit_id FROM articles WHERE ${nameOrId}=?`, [req.params.id]);
         
         if (data.length === 1) {
-            data[0].content = parseContent(data[0].content);
             res.send(data);
+        } else {
+            res.status(404).end();
+        }
+    } catch (err) {
+        mysqlErrorHandler(err);
+        res.end();
+    }
+};
+
+exports.getArticleContent = async (req, res) => {
+    const nameOrId = isNaN(req.params.id) ? 'title' : 'id';
+    
+    try {
+        const content = await pool.query(`SELECT id, content FROM articles WHERE ${nameOrId}=?`, [req.params.id]);
+        
+        if (content.length === 1) {
+            content[0].content = parseContent(content[0].content);
+            res.send(content);
         } else {
             res.status(404).end();
         }
@@ -230,10 +242,9 @@ exports.getChildren = async (req, res) => {
             // Whether query refers to a name or id
             const nameOrId = isNaN(req.query.unit) ? 'name' : 'id';
             
-            children = await pool.query(`SELECT articles.id, articles.order, articles.title, articles.display_title, articles.publish_date, articles.update_date, articles.content FROM articles JOIN units ON units.id=articles.unit_id where units.${nameOrId}=?`, [req.query.unit]);
+            children = await pool.query(`SELECT articles.id, articles.order, articles.title, articles.display_title, articles.publish_date, articles.update_date FROM articles JOIN units ON units.id=articles.unit_id where units.${nameOrId}=?`, [req.query.unit]);
 
             children = children.map(data => {
-                data.content = parseContent(data.content);
                 return data;
             });
         } else {

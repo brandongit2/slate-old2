@@ -32,6 +32,7 @@ app.get(apiUrl + '/unit/:id', asyncHandler(data.getUnit));
 
 app.get(apiUrl + '/allArticles', asyncHandler(data.getAllArticles));
 app.get(apiUrl + '/article/:id', asyncHandler(data.getArticle));
+app.get(apiUrl + '/article-content/:id', asyncHandler(data.getArticleContent));
 
 // <apiUrl>/parent?[want=<subject|course|unit>&]<course|unit|article>=<name|id>
 // example: <apiUrl>/parent?want=subject&article=2 gets the subject containing article #2

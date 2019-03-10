@@ -73,7 +73,7 @@ function Subject(props) {
                                   as={'/subject/' + props.subject?.name + '/' + course.name}>
                                 <a>
                                     <div className={css['course-info']}>
-                                        <p id={css.name}>{course.name}</p>
+                                        <p id={css.name}>{course.display_name}</p>
                                         <p id={css.description}>{course.description}</p>
                                     </div>
                                 </a>

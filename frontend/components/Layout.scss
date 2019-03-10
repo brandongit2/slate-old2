@@ -1,6 +1,7 @@
 #layout {
     display: flex;
     flex-direction: column;
+    height: 100vh;
     background: var(--background-color);
     transition: background 0.5s;
     
@@ -11,5 +12,11 @@
         transform: translateX(-50%);
         height: 1.5rem;
         opacity: 0.2;
+    }
+    
+    #container {
+        flex-basis: 0px;
+        flex-grow: 1;
+        overflow: auto;
     }
 }

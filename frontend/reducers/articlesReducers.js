@@ -6,6 +6,15 @@ export default function articlesReducers(state = initialState, action) {
     switch (action.type) {
         case actionTypes.GET_ARTICLES:
             return action.articles.data;
+        case actionTypes.GET_ARTICLE_CONTENT: {
+            let newState = JSON.parse(JSON.stringify(state));
+            for (let i = 0; i < newState.length; i++) {
+                if (newState[i].id === action.content.data[0].id) {
+                    newState[i].content = action.content.data[0].content;
+                }
+            }
+            return newState;
+        }
         case actionTypes.GET_CHILDREN:
             if (action.parentType === 'unit') {
                 return action.children.data;

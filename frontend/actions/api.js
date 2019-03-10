@@ -74,3 +74,12 @@ export function getArticle(articleId) {
         });
     };
 }
+
+export function getArticleContent(articleId) {
+    return async dispatch => {
+        dispatch({
+            type:    actionTypes.GET_ARTICLE_CONTENT,
+            content: await axios.get('/api/article-content/' + articleId)
+        });
+    };
+}
