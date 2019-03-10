@@ -10,7 +10,7 @@
       "id": "58794cfe-cc46-4d0b-9e4e-c3d4a9fb5201",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:8080/subjects",
+      "target": "http://localhost:8080",
       "targets": [],
       "value": ""
     }, {
