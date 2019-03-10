@@ -1,6 +1,4 @@
 language: node_js
-addons:
-  chrome: stable
 node_js:
   - "node"
 services:
@@ -13,6 +11,8 @@ before_script:
 matrix:
   include:
   - name: "Frontend"
+    addons:
+      chrome: stable
     script:  
     - cd $TRAVIS_BUILD_DIR/backend/test
     - ./setup-tests.sh
