@@ -14,25 +14,6 @@
       "targets": [],
       "value": ""
     }, {
-      "id": "ef2d70ea-f6cc-4f51-9cd8-d713b85bab7b",
-      "comment": "",
-      "command": "setWindowSize",
-      "target": "956x1037",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "214d56e0-c261-4e45-a848-bcd041787082",
-      "comment": "",
-      "command": "click",
-      "target": "css=.bw-icon",
-      "targets": [
-        ["css=.bw-icon", "css:finder"],
-        ["xpath=//img[@alt='Slate logo']", "xpath:img"],
-        ["xpath=//a[@id='logo___H5LpO']/img", "xpath:idRelative"],
-        ["xpath=//img", "xpath:position"]
-      ],
-      "value": ""
-    }, {
       "id": "8aeaf04a-ad8b-463a-907c-286861f86460",
       "comment": "",
       "command": "assertTitle",
@@ -55,24 +36,6 @@
       "comment": "",
       "command": "open",
       "target": "http://localhost:8080/subjects",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "ccbad8bc-a52c-4363-b1e6-8a0e00bd61c2",
-      "comment": "",
-      "command": "click",
-      "target": "css=ul:nth-child(2) > li:nth-child(1) .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067",
-      "targets": [
-        ["css=ul:nth-child(2) > li:nth-child(1) .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067", "css:finder"],
-        ["xpath=//div[@id='right-buttons___2mGHM']/ul/li/a/div/span/span/span/span", "xpath:idRelative"],
-        ["xpath=//div/ul/li/a/div/span/span/span/span", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "d4af76de-f182-4d50-b3a7-5203d6d3f4b6",
-      "comment": "",
-      "command": "setWindowSize",
-      "target": "636x1037",
       "targets": [],
       "value": ""
     }, {
