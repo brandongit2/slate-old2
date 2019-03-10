@@ -90,9 +90,9 @@ exports.logIn = async (req, res) => {
     }
 };
 
-exports.logOut = (req, res) => {
+exports.logOut = async (req, res) => {
     if (req.user) {
-        pool.query('UPDATE login_tokens SET valid=0 WHERE token=?', [req.cookies.authToken]);
+        await pool.query('UPDATE login_tokens SET valid=0 WHERE token=?', [req.cookies.authToken]);
         res.clearCookie('authToken');
         res.send('Logged out.').end(200);
     } else {
