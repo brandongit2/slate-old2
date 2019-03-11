@@ -331,7 +331,7 @@ describe('Slate API', () => {
         it('article 1 - should return 200 with description of article', done => {
             request(app.app).get('/api/article/1').expect(200).end((err, res) => {
                 if (err) throw err;
-                assert.deepEqual(res.body, [{id: 1, order: 1, title: '01-slope-review', display_title: 'Slope Review', publish_date: '2019-03-11T06:54:13.000Z', update_date: '2019-03-11T06:54:26.000Z', unit_id: 1}]);
+                assert.deepEqual(res.body, [{id: 1, order: 1, title: '01-slope-review', display_title: 'Slope Review', publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z', unit_id: 1}]);
                 done();
             });
         });
@@ -339,7 +339,7 @@ describe('Slate API', () => {
         it('article 2 - should return 200 with description of article', done => {
             request(app.app).get('/api/article/2').expect(200).end((err, res) => {
                 if (err) throw err;
-                assert.deepEqual(res.body, [{id: 2, order: 2, title: '01-secant-lines', display_title: 'Secant Lines', publish_date: '2019-03-11T06:54:13.000Z', update_date: '2019-03-11T06:54:26.000Z', unit_id: 1}]);
+                assert.deepEqual(res.body, [{id: 2, order: 2, title: '01-secant-lines', display_title: 'Secant Lines', publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z', unit_id: 1}]);
                 done();
             });
         });
@@ -347,7 +347,7 @@ describe('Slate API', () => {
         it('article 3 - should return 200 with description of article', done => {
             request(app.app).get('/api/article/3').expect(200).end((err, res) => {
                 if (err) throw err;
-                assert.deepEqual(res.body, [{id: 3, order: 1, title: '02-intro-to-limits', display_title: 'Intro to Limits', publish_date: '2019-03-11T06:54:13.000Z', update_date: '2019-03-11T06:54:26.000Z', unit_id: 2}]);
+                assert.deepEqual(res.body, [{id: 3, order: 1, title: '02-intro-to-limits', display_title: 'Intro to Limits', publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z', unit_id: 2}]);
                 done();
             });
         });
@@ -355,7 +355,7 @@ describe('Slate API', () => {
         it('article 4 - should return 200 with description of article', done => {
             request(app.app).get('/api/article/4').expect(200).end((err, res) => {
                 if (err) throw err;
-                assert.deepEqual(res.body, [{id: 4, order: 1, title: '03-the-fundamental-theorem-of-calculus-part-1', display_title: 'The Fundamental Theorem of Calculus, part 1', publish_date: '2019-03-11T06:54:13.000Z', update_date: '2019-03-11T06:54:26.000Z', unit_id: 3}]);
+                assert.deepEqual(res.body, [{id: 4, order: 1, title: '03-the-fundamental-theorem-of-calculus-part-1', display_title: 'The Fundamental Theorem of Calculus, part 1', publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z', unit_id: 3}]);
                 done();
             });
         });
