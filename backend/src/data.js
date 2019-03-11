@@ -4,19 +4,19 @@ const katex = require('katex');
 const sanitizeHtml = require('sanitize-html');
 const showdown = require('showdown');
 
-const {pool, mysqlErrorHandler} = require('./sqlConnect');
+const { pool, mysqlErrorHandler } = require('./sqlConnect');
 
 const converter = new showdown.Converter();
 
 function parseContent(content) {
     content = content.replace(/\$\$([\w\W]+?)\$\$/gm, (match, tex) => katex.renderToString(tex, {
         throwOnError: false,
-        displayMode:  true
+        displayMode: true
     }));
 
     content = content.replace(/\$([\w\W]+?)\$/gm, (match, tex) => katex.renderToString(tex, {
         throwOnError: false,
-        displayMode:  false
+        displayMode: false
     }));
 
     content = converter.makeHtml(content);
@@ -28,9 +28,9 @@ function parseContent(content) {
             'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'iframe',
             'svg', 'path', 'span'
         ], allowedAttributes: {
-            a:    ['href', 'name', 'target'],
-            img:  ['src'],
-            svg:  ['width', 'height', 'viewbox', 'preserveaspectratio'],
+            a: ['href', 'name', 'target'],
+            img: ['src'],
+            svg: ['width', 'height', 'viewbox', 'preserveaspectratio'],
             path: ['d'],
             span: ['style', 'class']
         }
@@ -52,7 +52,7 @@ exports.getAllSubjects = async (req, res) => {
 exports.getSubject = async (req, res) => {
     // Whether :id refers to a subject name or id
     const nameOrId = isNaN(req.params.id) ? 'name' : 'id';
-    
+
     try {
         const data = await pool.query(`SELECT id, \`order\`, name, display_name, description, color FROM subjects WHERE ${nameOrId}=?`, [req.params.id]);
         if (data.length === 1) {
@@ -79,10 +79,10 @@ exports.getAllCourses = async (req, res) => {
 exports.getCourse = async (req, res) => {
     // Whether :id refers to a course name or id
     const nameOrId = isNaN(req.params.id) ? 'name' : 'id';
-    
+
     try {
         const data = await pool.query(`SELECT id, \`order\`, name, display_name, description, subject_id FROM courses WHERE ${nameOrId}=?`, [req.params.id]);
-        
+
         if (data.length === 1) {
             res.send(data);
         } else {
@@ -107,10 +107,10 @@ exports.getAllUnits = async (req, res) => {
 exports.getUnit = async (req, res) => {
     // Whether :id refers to a unit name or id
     const nameOrId = isNaN(req.params.id) ? 'name' : 'id';
-    
+
     try {
         const data = await pool.query(`SELECT id, \`order\`, name, display_name, description, course_id FROM units WHERE ${nameOrId}=?`, [req.params.id]);
-        
+
         if (data.length === 1) {
             res.send(data);
         } else {
@@ -136,10 +136,10 @@ exports.getAllArticles = async (req, res) => {
 exports.getArticle = async (req, res) => {
     // Whether :id refers to a article title or id
     const nameOrId = isNaN(req.params.id) ? 'title' : 'id';
-    
+
     try {
         const data = await pool.query(`SELECT id, \`order\`, title, display_title, publish_date, update_date, unit_id FROM articles WHERE ${nameOrId}=?`, [req.params.id]);
-        
+
         if (data.length === 1) {
             res.send(data);
         } else {
@@ -153,10 +153,10 @@ exports.getArticle = async (req, res) => {
 
 exports.getArticleContent = async (req, res) => {
     const nameOrId = isNaN(req.params.id) ? 'title' : 'id';
-    
+
     try {
         const content = await pool.query(`SELECT id, content FROM articles WHERE ${nameOrId}=?`, [req.params.id]);
-        
+
         if (content.length === 1) {
             content[0].content = parseContent(content[0].content);
             res.send(content);
@@ -172,18 +172,18 @@ exports.getArticleContent = async (req, res) => {
 exports.getParent = async (req, res) => {
     let parent;
     let nameOrId;
-    
+
     // Whether query refers to a name or id
     if (req.query.course) {
         nameOrId = isNaN(req.query.course) ? 'name' : 'id';
     } else if (req.query.unit) {
         nameOrId = isNaN(req.query.unit) ? 'name' : 'id';
     } else if (req.query.article) {
-        nameOrId = isNaN(req.query.article) ? 'name' : 'id';
+        nameOrId = isNaN(req.query.article) ? 'title' : 'id';
     } else {
         res.status(404).end();
     }
-    
+
     try {
         if (req.query.want) {
             if (req.query.want === 'subject') {
@@ -219,28 +219,31 @@ exports.getParent = async (req, res) => {
         mysqlErrorHandler(err);
         res.end();
     }
-    
-    res.send(parent);
+    if (parent != null && parent.length > 0) {
+        res.send(parent);
+    } else {
+        res.status(404).end();
+    }
 };
 
 exports.getChildren = async (req, res) => {
     let children;
-    
+
     try {
         if (req.query.subject) {
             // Whether query refers to a name or id
             const nameOrId = isNaN(req.query.subject) ? 'name' : 'id';
-            
+
             children = await pool.query(`SELECT courses.id, courses.order, courses.name, courses.display_name, courses.description FROM courses JOIN subjects ON subjects.id=courses.subject_id where subjects.${nameOrId}=?`, [req.query.subject]);
         } else if (req.query.course) {
             // Whether query refers to a name or id
             const nameOrId = isNaN(req.query.course) ? 'name' : 'id';
-            
+
             children = await pool.query(`SELECT units.id, units.order, units.name, units.display_name, units.description FROM units JOIN courses ON courses.id=units.course_id where courses.${nameOrId}=?`, [req.query.course]);
         } else if (req.query.unit) {
             // Whether query refers to a name or id
             const nameOrId = isNaN(req.query.unit) ? 'name' : 'id';
-            
+
             children = await pool.query(`SELECT articles.id, articles.order, articles.title, articles.display_title, articles.publish_date, articles.update_date FROM articles JOIN units ON units.id=articles.unit_id where units.${nameOrId}=?`, [req.query.unit]);
 
             children = children.map(data => {
@@ -253,6 +256,6 @@ exports.getChildren = async (req, res) => {
         mysqlErrorHandler(err);
         res.end();
     }
-    
+
     res.send(children);
 };
