@@ -321,7 +321,7 @@ describe('Slate API', () => {
         it('should return 200 with all articles', done => {
             request(app.app).get('/api/allArticles').expect(200).end((err, res) => {
                 if (err) throw err;
-                assert.deepEqual(res.body, [{id: 1, title: '01-slope-review', display_title: 'Slope Review', publish_date: '2019-03-11T10:54:13.000Z', update_date: '2019-03-11T10:54:26.000Z'}, {id: 3, title: '02-intro-to-limits', display_title: 'Intro to Limits', publish_date: '2019-03-11T10:54:13.000Z', update_date: '2019-03-11T10:54:26.000Z'}, {id: 4, title: '03-the-fundamental-theorem-of-calculus-part-1', display_title: 'The Fundamental Theorem of Calculus, part 1', publish_date: '2019-03-11T10:54:13.000Z', update_date: '2019-03-11T10:54:26.000Z'}, {id: 2, title: '01-secant-lines', display_title: 'Secant Lines', publish_date: '2019-03-11T10:54:13.000Z', update_date: '2019-03-11T10:54:26.000Z'}]);
+                assert.deepEqual(res.body, [{id: 1, title: '01-slope-review', display_title: 'Slope Review', publish_date: '2019-03-11T06:54:13.000Z', update_date: '2019-03-11T06:54:26.000Z'}, {id: 3, title: '02-intro-to-limits', display_title: 'Intro to Limits', publish_date: '2019-03-11T06:54:13.000Z', update_date: '2019-03-11T06:54:26.000Z'}, {id: 4, title: '03-the-fundamental-theorem-of-calculus-part-1', display_title: 'The Fundamental Theorem of Calculus, part 1', publish_date: '2019-03-11T06:54:13.000Z', update_date: '2019-03-11T06:54:26.000Z'}, {id: 2, title: '01-secant-lines', display_title: 'Secant Lines', publish_date: '2019-03-11T06:54:13.000Z', update_date: '2019-03-11T06:54:26.000Z'}]);
                 done();
             });
         });
