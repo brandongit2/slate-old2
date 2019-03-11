@@ -4,19 +4,19 @@ const katex = require('katex');
 const sanitizeHtml = require('sanitize-html');
 const showdown = require('showdown');
 
-const { pool, mysqlErrorHandler } = require('./sqlConnect');
+const {pool, mysqlErrorHandler} = require('./sqlConnect');
 
 const converter = new showdown.Converter();
 
 function parseContent(content) {
     content = content.replace(/\$\$([\w\W]+?)\$\$/gm, (match, tex) => katex.renderToString(tex, {
         throwOnError: false,
-        displayMode: true
+        displayMode:  true
     }));
 
     content = content.replace(/\$([\w\W]+?)\$/gm, (match, tex) => katex.renderToString(tex, {
         throwOnError: false,
-        displayMode: false
+        displayMode:  false
     }));
 
     content = converter.makeHtml(content);
@@ -28,9 +28,9 @@ function parseContent(content) {
             'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'iframe',
             'svg', 'path', 'span'
         ], allowedAttributes: {
-            a: ['href', 'name', 'target'],
-            img: ['src'],
-            svg: ['width', 'height', 'viewbox', 'preserveaspectratio'],
+            a:    ['href', 'name', 'target'],
+            img:  ['src'],
+            svg:  ['width', 'height', 'viewbox', 'preserveaspectratio'],
             path: ['d'],
             span: ['style', 'class']
         }
@@ -124,7 +124,7 @@ exports.getUnit = async (req, res) => {
 
 exports.getAllArticles = async (req, res) => {
     try {
-        let list = await pool.query('SELECT id, title, display_title, publish_date, update_date FROM articles ORDER BY `order`');
+        let list = await pool.query('SELECT id, title, display_title, CONVERT_TZ(publish_date, @@session.time_zone, \'+00:00\') AS publish_date, CONVERT_TZ(update_date, @@session.time_zone, \'+00:00\') AS update_date FROM articles ORDER BY `order`');
 
         res.send(list);
     } catch (err) {
