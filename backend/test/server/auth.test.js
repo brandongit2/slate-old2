@@ -184,6 +184,37 @@ describe('auth functions', () => {
             request(app.app).post('/api/resend-verification-email').expect(200, done);
         });
     });
+
+    describe('/verify', () => {
+        it('no query - should return 200 and not succeed', done => {
+            request(app.app).post('/api/verify').expect(200).end((err, res) => {
+                if (err) throw err;
+                assert.deepEqual(res.body, {success: false, error: 'query expected'});
+                done();
+            });
+        });
+        it('invalid query - should return 200 and not succeed', done => {
+            request(app.app).post('/api/verify').send({query: 'nonexistantquery'}).expect(200).end((err, res) => {
+                if (err) throw err;
+                assert.deepEqual(res.body, {success: false, error: 'query not in database'});
+                done();
+            });
+        });
+        it('expired query - should return 200 and not succeed', done => {
+            request(app.app).post('/api/verify').send({query: 'Xn58MHrhf'}).expect(200).end((err, res) => {
+                if (err) throw err;
+                assert.deepEqual(res.body, {success: false, error: 'query not in database'});
+                done();
+            });
+        });
+        it('valid query - should return 200 and succeed', done => {
+            request(app.app).post('/api/verify').send({query: 'VD8d21rhf'}).expect(200).end((err, res) => {
+                if (err) throw err;
+                assert.deepEqual(res.body, {success: true});
+                done();
+            });
+        });
+    });
 });
 
 after('close server', () => {
