@@ -306,7 +306,7 @@
         ["xpath=//div[@id='right-buttons___2mGHM']/ul/li/a/div/span/span/span/span", "xpath:idRelative"],
         ["xpath=//div/ul/li/a/div/span/span/span/span", "xpath:position"]
       ],
-      "value": ""
+      "value": "1000"
     }, {
       "id": "aa5cc88a-484a-450d-be53-79337356dd0f",
       "comment": "",
