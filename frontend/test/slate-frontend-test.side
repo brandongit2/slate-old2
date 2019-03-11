@@ -326,7 +326,7 @@
     "persistSession": false,
     "parallel": false,
     "timeout": 300,
-    "tests": ["a1953e15-a98b-488d-9b27-087a3980adff", "e5530e71-f31e-4cfa-8e84-19c2dde6d0d9"]
+    "tests": ["a1953e15-a98b-488d-9b27-087a3980adff", "e5530e71-f31e-4cfa-8e84-19c2dde6d0d9", "e1ddc875-dc0e-4f92-ac4f-4f29c11c48e8", "382b3989-7902-4534-b200-b46888beba62"]
   }],
   "urls": ["https://www.google.com/", "localhost:8080", "http://localhost:8080/"],
   "plugins": []
