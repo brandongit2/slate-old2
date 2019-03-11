@@ -13,7 +13,7 @@ INSERT INTO `courses` VALUES (1,1,'differential-calculus','Differential calculus
 
 INSERT INTO `email_verification` VALUES ('test@example.com','Xn58MHrhf','2019-03-05 01:16:07');
 
-INSERT INTO `login_tokens` VALUES ('u6P3AojGYYrywrRQ',19,'2019-03-11 02:49:55','2100-04-10 02:50:03',720,1),('Ayudf3AojGxYr121/dTA5',20,'2019-03-11 02:50:46','2019-04-10 02:50:46',720,1),('VtQSzjbwB6iOYZ2g',19,'2019-03-11 02:47:21','2019-04-10 02:47:37',720,0);
+INSERT INTO `login_tokens` VALUES ('u6P3AojGYYrywrRQ',19,'2019-03-11 02:49:55','2050-04-10 02:50:03',720,1),('Ayudf3AojGxYr121/dTA5',20,'2019-03-11 02:50:46','2050-04-10 02:50:46',720,1),('VtQSzjbwB6iOYZ2g',19,'2019-03-11 02:47:21','2019-04-10 02:47:37',720,0);
 
 INSERT INTO `subjects` VALUES (1,1,'mathematics','Mathematics','Mathematics (from Greek μάθημα máthēma, \"knowledge, study, learning\") includes the study of such topics as quantity, structure, space, and change.','3f73d9'),(2,2,'biology','Biology','wowie isn\'t biology fun','d13692'),(3,3,'chemistry','Chemistry','Chemistry is the scientific discipline involved with elements and compounds composed of atoms, molecules and ions: their composition, structure, properties, behavior and the changes they undergo during a reaction with other substances.','eae02c');
 
