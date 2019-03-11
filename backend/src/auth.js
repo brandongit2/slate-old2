@@ -25,7 +25,7 @@ exports.auth = async (req, res, next) => {
             const user = await pool.query('SELECT users.id, users.first_name, users.last_name, users.email, users.valid_email, users.permissions, users.password_reset, users.theme FROM users JOIN login_tokens ON users.id=login_tokens.user_id WHERE login_tokens.token=? AND login_tokens.valid AND CURRENT_TIMESTAMP < login_tokens.expiry', [req.cookies.authToken]);
             if (user.length === 1) {
                 req.user = user[0];
-                pool.query('UPDATE login_tokens SET expiry=TIMESTAMPADD(HOUR, extend, CURRENT_TIMESTAMP) WHERE token=?', [req.cookies.authToken]);
+                await pool.query('UPDATE login_tokens SET expiry=TIMESTAMPADD(HOUR, extend, CURRENT_TIMESTAMP) WHERE token=?', [req.cookies.authToken]);
             }
         } catch (err) {
             mysqlErrorHandler(err);
@@ -45,7 +45,7 @@ exports.createToken = async (user, extended) => {
     } catch (err) {
         mysqlErrorHandler(err);
     }
-    
+
     return token;
 };
 
@@ -72,10 +72,10 @@ exports.logIn = async (req, res) => {
             }
             const hash = user[0].password.toString();
             const userId = user[0].id;
-        
+
             const success = await bcryptCompare(req.body.password, hash);
             if (success) { res.cookie('authToken', await auth.createToken(userId, req.body.stayLoggedIn)); }
-        
+
             res.send({
                 success
             });
@@ -94,9 +94,9 @@ exports.logOut = async (req, res) => {
     if (req.user) {
         await pool.query('UPDATE login_tokens SET valid=0 WHERE token=?', [req.cookies.authToken]);
         res.clearCookie('authToken');
-        res.send('Logged out.').end(200);
+        res.send('Logged out.');
     } else {
-        res.send('You are not logged in.').end(200);
+        res.send('You are not logged in.');
     }
 };
 
@@ -108,13 +108,13 @@ exports.resetPassword = async (req, res) => {
                 await pool.query('UPDATE users SET password_reset=1 WHERE email=?', [req.body.email]);
                 res.send({success: true});
             } else {
-                res.send('Invalid token.').end(401);
+                res.status(401).send('Invalid token.');
             }
         } catch (err) {
             mysqlErrorHandler(err);
             res.end(500);
         }
     } else {
-        res.send('No token.').end(401);
+        res.status(401).send('No token.');
     }
 };

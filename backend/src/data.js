@@ -55,7 +55,6 @@ exports.getSubject = async (req, res) => {
     
     try {
         const data = await pool.query(`SELECT id, \`order\`, name, display_name, description, color FROM subjects WHERE ${nameOrId}=?`, [req.params.id]);
-        
         if (data.length === 1) {
             res.send(data);
         } else {

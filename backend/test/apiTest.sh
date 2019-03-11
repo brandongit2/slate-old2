@@ -1,6 +1,5 @@
 #!/bin/bash
 
 curl --header "Content-Type: application/json" \
-  --request POST \
-  --data '{}' \
-  http://localhost:3001/api/log-in
+  --request GET \
+  http://localhost:8080/api/
