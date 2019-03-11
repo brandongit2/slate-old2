@@ -550,11 +550,71 @@ describe('Slate API', () => {
                     done();
                 });
             });
-            it('unit 4, by id, query for unit - should return 200 with query result', done => {
+            it('unit 4, by id, query for unit - should return 404', done => {
                 request(app.app).get('/api/parent?want=unit&unit=4').expect(404, done);
             });
-            it('unit 4, by name, query for unit - should return 200 with query result', done => {
+            it('unit 4, by name, query for unit - should return 404', done => {
                 request(app.app).get('/api/parent?want=unit&unit=03-intro-to-cells').expect(404, done);
+            });
+
+            it('unit 5 (nonexistent), by id - should return 404', done => {
+                request(app.app).get('/api/parent?want=subject&unit=5').expect(404, done);
+            });
+
+            it('unit 5 (nonexistent), by name - should return 404', done => {
+                request(app.app).get('/api/parent?want=subject&article=thisunitdoesnotexist').expect(404, done);
+            });
+        });
+
+        describe('query by course', () => {
+            it('course 1, by id, query for subject - should return 200 with query result', done => {
+                request(app.app).get('/api/parent?want=subject&course=1').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, [{id: 1, name: 'mathematics', display_name: 'Mathematics', description: 'Mathematics (from Greek ?????? máth?ma, "knowledge, study, learning") includes the study of such topics as quantity, structure, space, and change.', color: '3f73d9'}]);
+                    done();
+                });
+            });
+            it('course 1, by name, query for subject - should return 200 with query result', done => {
+                request(app.app).get('/api/parent?want=subject&course=differential-calculus').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, [{id: 1, name: 'mathematics', display_name: 'Mathematics', description: 'Mathematics (from Greek ?????? máth?ma, "knowledge, study, learning") includes the study of such topics as quantity, structure, space, and change.', color: '3f73d9'}]);
+                    done();
+                });
+            });
+            it('course 1, by id, query for course - should return 404', done => {
+                request(app.app).get('/api/parent?want=course&course=1').expect(404, done);
+            });
+            it('course 1, by name, query for course - should return 404', done => {
+                request(app.app).get('/api/parent?want=course&course=differential-calculus').expect(404, done);
+            });
+
+            it('course 3, by id, query for subject - should return 200 with query result', done => {
+                request(app.app).get('/api/parent?want=subject&course=3').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, [{id: 2, name: 'biology', display_name: 'Biology', description: 'wowie isn\'t biology fun', color: 'd13692'}]);
+                    done();
+                });
+            });
+            it('course 3, by name, query for subject - should return 200 with query result', done => {
+                request(app.app).get('/api/parent?want=subject&course=cells').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, [{id: 2, name: 'biology', display_name: 'Biology', description: 'wowie isn\'t biology fun', color: 'd13692'}]);
+                    done();
+                });
+            });
+            it('course 3, by id, query for course - should return 404', done => {
+                request(app.app).get('/api/parent?want=course&course=3').expect(404, done);
+            });
+            it('course 3, by name, query for course - should return 404', done => {
+                request(app.app).get('/api/parent?want=course&course=cells').expect(404, done);
+            });
+            
+            it('course 5 (nonexistent), by id - should return 404', done => {
+                request(app.app).get('/api/parent?want=subject&course=5').expect(404, done);
+            });
+
+            it('course 5 (nonexistent), by name - should return 404', done => {
+                request(app.app).get('/api/parent?want=subject&course=thiscoursedoesnotexist').expect(404, done);
             });
         });
     });
