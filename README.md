@@ -15,6 +15,6 @@ E-mail provider: SendGrid
 0 - No permissions  
 1 - Commenting, liking/disliking, feedback  
 2 - Comment moderation  
-3 - Content editing  
-4 - Approve/decline edits  
-5 - God
+3 - Article editing  
+4 - Approve/decline article edits  
+5 - Site section editing
