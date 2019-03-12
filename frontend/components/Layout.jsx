@@ -86,7 +86,12 @@ class Layout extends React.Component {
                             case 200:
                                 return props.children;
                             case 404:
-                                return <div className={css['err-404']}>404!</div>;
+                                return (
+                                    <div className={css['err-404']}>
+                                        <h2>Error 404:</h2>
+                                        <h1>This page could not be found.</h1>
+                                    </div>
+                                );
                             default:
                                 return <div>Unknown error.</div>;
                         }

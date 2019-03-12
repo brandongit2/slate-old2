@@ -25,5 +25,16 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        
+        h2 {
+            color: var(--tertiary-text-color);
+            font-size: 14pt;
+            font-weight: 700;
+        }
+        
+        h1 {
+            font-weight: 400;
+            font-size: 30pt;
+        }
     }
 }
