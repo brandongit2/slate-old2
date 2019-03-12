@@ -1,49 +1,49 @@
 {
-  "name": "slate-frontend",
-  "version": "0.0.1-SNAPSHOT",
-  "description": "The frontend for Slate.",
-  "scripts": {
-    "dev": "version=$(git describe --tags --exact-match HEAD 2>/dev/null || git rev-parse --verify HEAD --short=7 2>/dev/null) pubdate=$(git show -s --format=%ct HEAD) && echo \"{\\\"version\\\":\\\"$version\\\",\\\"publishDate\\\":\\\"$pubdate\\\"}\" > version.json && node server.js",
-    "build": "next build",
-    "start": "NODE_ENV=production node server.js",
-    "test": "cd test && selenium-side-runner -c \"browserName=chrome chromeOptions.args=[headless]\" slate-frontend-test.side"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/brandongit2/slate.git"
-  },
-  "author": "Brandon Tsang",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/brandongit2/slate/issues"
-  },
-  "homepage": "https://github.com/brandongit2/slate#readme",
-  "dependencies": {
-    "@zeit/next-sass": "^1.0.1",
-    "axios": "^0.18.0",
-    "color": "^3.1.0",
-    "cookie-parser": "^1.4.4",
-    "email-validator": "^2.0.4",
-    "express": "^4.16.4",
-    "moment": "^2.24.0",
-    "next": "^8.0.3",
-    "next-redux-wrapper": "^3.0.0-alpha.2",
-    "node-sass": "^4.11.0",
-    "promise-mysql": "^3.3.1",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4",
-    "react-redux": "^6.0.1",
-    "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0",
-    "selenium-side-runner": "^3.5.9",
-    "shortid": "^2.2.14",
-    "zxcvbn": "^4.4.2"
-  },
-  "devDependencies": {
-    "@babel/plugin-proposal-optional-chaining": "^7.2.0",
-    "chromedriver": "^2.46.0",
-    "next-progressbar": "^1.0.0",
-    "redux-devtools-extension": "^2.13.8",
-    "selenium-webdriver": "^4.0.0-alpha.1"
-  }
+    "name": "slate-frontend",
+    "version": "0.0.1-SNAPSHOT",
+    "description": "The frontend for Slate.",
+    "scripts": {
+        "dev": "version=$(git describe --tags --exact-match HEAD 2>/dev/null || git rev-parse --verify HEAD --short=7 2>/dev/null) pubdate=$(git show -s --format=%ct HEAD) && echo \"{\\\"version\\\":\\\"$version\\\",\\\"publishDate\\\":\\\"$pubdate\\\"}\" > version.json && node server.js",
+        "build": "next build",
+        "start": "NODE_ENV=production node server.js",
+        "test": "cd test && selenium-side-runner -c \"browserName=chrome chromeOptions.args=[headless]\" slate-frontend-test.side"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/brandongit2/slate.git"
+    },
+    "author": "Brandon Tsang",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/brandongit2/slate/issues"
+    },
+    "homepage": "https://github.com/brandongit2/slate#readme",
+    "dependencies": {
+        "@zeit/next-sass": "^1.0.1",
+        "axios": "^0.18.0",
+        "color": "^3.1.0",
+        "cookie-parser": "^1.4.4",
+        "email-validator": "^2.0.4",
+        "express": "^4.16.4",
+        "moment": "^2.24.0",
+        "next": "^8.0.3",
+        "next-redux-wrapper": "^3.0.0-alpha.2",
+        "node-sass": "^4.11.0",
+        "promise-mysql": "^3.3.1",
+        "react": "^16.8.4",
+        "react-dom": "^16.8.4",
+        "react-redux": "^6.0.1",
+        "redux": "^4.0.1",
+        "redux-thunk": "^2.3.0",
+        "selenium-side-runner": "^3.5.9",
+        "shortid": "^2.2.14",
+        "zxcvbn": "^4.4.2"
+    },
+    "devDependencies": {
+        "@babel/plugin-proposal-optional-chaining": "^7.2.0",
+        "chromedriver": "^2.46.0",
+        "next-progressbar": "^1.0.0",
+        "redux-devtools-extension": "^2.13.8",
+        "selenium-webdriver": "^4.0.0-alpha.1"
+    }
 }
