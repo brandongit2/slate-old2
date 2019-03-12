@@ -32,7 +32,8 @@ function UserPanel(props) {
             {props.user.permissions > 1 ? <a onClick={() => Router.push('/admin')}>Admin panel</a> : null}
             <a onClick={async () => {
                    await axios.post('/api/log-out');
-                   window.location.reload();
+                   Router.push('/');
+                   setTimeout(() => window.location.reload(), 500);
                }}>Log out</a>
         </div>
     );

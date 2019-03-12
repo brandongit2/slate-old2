@@ -80,7 +80,17 @@ class Layout extends React.Component {
                 }
                 <Snackbar />
                 <div id={css.container}>
-                    {props.children}
+                    {(() => {
+                        const err = props.private && !props.user.isLoggedIn ? 404 : props.err;
+                        switch (err) {
+                            case 200:
+                                return props.children;
+                            case 404:
+                                return <div className={css['err-404']}>404!</div>;
+                            default:
+                                return <div>Unknown error.</div>;
+                        }
+                    })()}
                 </div>
             </div>
         );
@@ -90,6 +100,7 @@ class Layout extends React.Component {
 Layout.defaultProps = {
     className:   '',
     currentPage: '',
+    err:         200,
     headerFloat: false,
     noShadow:    false,
     style:       {},
