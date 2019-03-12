@@ -70,9 +70,8 @@
     box-sizing: border-box;
     width: 100vw;
     font-size: 10pt;
-    color: var(--tertiary-text-color);
     
-    a {
+    span, a {
         color: var(--tertiary-text-color);
     }
 }

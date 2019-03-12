@@ -1,0 +1,5 @@
+Hi ##name##,
+
+Welcome to Slate! To log in, you must first verify your email by clicking following this link: ##rootUrl##/verify?q=##query##
+
+Didn't make an account? Somebody must have used your e-mail address when signing up. Follow this link to deactivate their account: ##rootUrl##/deactivate?q=##query##

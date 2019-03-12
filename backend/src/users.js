@@ -14,15 +14,11 @@ const {email: {apiKey}, rootUrl, verboseErrors} = require('./config.json');
 sgMail.setApiKey(apiKey);
 
 const sendEmail = async (fName, email, validationQuery) => {
-    const textEmail = `Hi ${fName},
-    Welcome to Slate! To log in, you must first verify your email. Do this by following this link: ${validationQuery}`;
-    
     sgMail.send({
         to:      email,
         from:    'Slate <no-reply@brandontsang.net>',
         subject: 'Slate: Validate your e-mail',
-        text:    textEmail,
-        html:    getEmail(emails.verification, {name: fName, query: validationQuery, rootUrl})
+        ...getEmail(emails.verification, {name: fName, query: validationQuery, rootUrl})
     });
     
     try {
