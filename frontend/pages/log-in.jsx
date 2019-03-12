@@ -6,9 +6,10 @@ import {connect} from 'react-redux';
 import {addNotification} from '../actions';
 import {Layout} from '../components';
 import {errors} from '../constants';
-import css from './login.scss';
 
-export default function Login(props) {
+import css from './log-in.scss';
+
+function LogIn(props) {
     if (props.user.isLoggedIn) Router.replace('/');
     
     const [email, setEmail] = React.useState('');
@@ -37,11 +38,11 @@ export default function Login(props) {
 
     return (
         <Layout currentPage="log in" title="Log in - Slate" noShadow {...props}>
-            <div id={css.container}>
+            <div className={css['log-in']}>
                 <form className={props.user.theme}>
                     <div>
                         <h1>Log in to Slate</h1>
-                        <div className={['error', error === '' ? '' : 'shown'].join(' ')}>
+                        <div className={['error', error === '' ? '' : css.shown].join(' ')}>
                             <span>{error}</span>
                             <i className="material-icons" onClick={() => { setError(''); }}>close</i>
                         </div>
@@ -96,4 +97,4 @@ const actionCreators = {
     addNotification
 };
 
-Login = connect(mapStateToProps, actionCreators)(Login); /* eslint-disable-line no-func-assign */
+export default connect(mapStateToProps, actionCreators)(LogIn); /* eslint-disable-line no-func-assign */

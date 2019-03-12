@@ -40,7 +40,7 @@ function Testing(props) {
     
     return (
         <Layout title="Testing - Slate" {...props}>
-            <div id={css.container}>
+            <div className={css.testing}>
                 <div>
                     <h1>Notifications</h1>
                     <button onClick={() => props.addNotification('test notification', severities.INFO, 50000)}>

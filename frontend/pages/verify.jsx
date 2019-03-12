@@ -22,7 +22,7 @@ export default withRouter(class Verify extends React.Component {
         const {props} = this;
         return (
             <Layout title="Verification success! - Slate" noHeader secondaryLogo {...props}>
-                <div id={css.container}>
+                <div className={css.verify}>
                     {this.props.router.query.success === 'true'
                         ? <p><b>Verification success!</b> You will be redirected to the main page in {this.state.counter} second{this.state.counter === 1 ? '' : 's'}.</p>
                         : <p><b>Sorry, we were unable to verify your email.</b> This could be because you clicked on an old link. <a>Click here</a> to have your verification e-mail resent.</p>

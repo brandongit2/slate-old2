@@ -12,7 +12,7 @@ import css from './article.scss';
 function Article(props) {
     return (
         <Layout title={props.article?.display_title + ' - Slate'} {...props}>
-            <div id={css.container}>
+            <div className={css.article}>
                 <Breadcrumbs>
                     <Crumb><Link href="/subjects">
                         <a>Subjects</a>
@@ -41,8 +41,12 @@ function Article(props) {
                     <div id={css.head}>
                         <p id={css.title}>{props.article?.display_title}</p>
                         <div id={css.date}>
-                            <p>Published {moment(props.article?.publish_date).calendar(null, {sameElse: '[on] MMMM Do, YYYY'})}</p>
-                            <p>Last updated {moment(props.article?.update_date).calendar(null, {sameElse: '[on] MMMM Do, YYYY'})}</p>
+                            <p>Published {
+                                moment(props.article?.publish_date).calendar(null, {sameElse: '[on] MMMM Do, YYYY'})
+                            }</p>
+                            <p>Last updated {
+                                moment(props.article?.update_date).calendar(null, {sameElse: '[on] MMMM Do, YYYY'})
+                            }</p>
                         </div>
                     </div>
                     {/* eslint-disable-next-line react/no-danger */}

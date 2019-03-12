@@ -25,6 +25,20 @@
         box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.6);
     }
     
+    .item {
+        font-size: 12pt;
+        font-weight: 400;
+        margin: 1px;
+        padding: 10px 20px;
+        transition: all 0.2s;
+        white-space: nowrap;
+        color: black;
+        
+        &:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+    }
+    
     #items {
         height: 0px;
         overflow: hidden;
@@ -103,19 +117,5 @@
                 padding-right: 1rem;
             }
         }
-    }
-}
-
-.item {
-    font-size: 12pt;
-    font-weight: 400;
-    margin: 1px;
-    padding: 10px 20px;
-    transition: all 0.2s;
-    white-space: nowrap;
-    color: black;
-    
-    &:hover {
-        background: rgba(0, 0, 0, 0.1);
     }
 }

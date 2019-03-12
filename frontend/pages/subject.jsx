@@ -41,7 +41,7 @@ function Subject(props) {
                 };
             `}</style>
 
-            <div id={css.container}>
+            <div className={css.subject}>
                 <div id={css.info}>
                     <Breadcrumbs>
                         <Crumb><Link href="/subjects"><a>Subjects</a></Link></Crumb>

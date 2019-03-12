@@ -6,7 +6,8 @@ import css from './Modal.scss';
 
 function Modal(props) {
     return (
-        <div className={[css.background, props.isVisible ? css.visible : ''].join(' ')} onClick={props.hideModal}>
+        <div className={[css['modal-background'], props.isVisible ? css.visible : ''].join(' ')}
+             onClick={props.hideModal}>
             <div className={css.modal}>
                 {props.hasX ? <i className="material-icons" onClick={props.hideModal}>close</i> : null}
                 <p id={css.title}>{props.title}</p>

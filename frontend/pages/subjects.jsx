@@ -5,12 +5,13 @@ import {connect} from 'react-redux';
 
 import {changeSubject, changeCourse, changeUnit, changeArticle, getAllSubjects, getAllCourses} from '../actions';
 import {Layout} from '../components';
+
 import css from './subjects.scss';
 
 function Subjects(props) {
     return (
         <Layout currentPage="subjects" title="Subjects - Slate" noShadow {...props}>
-            <div id={css.container}>
+            <div className={css.subjects}>
                 <span id={css.prompt}>What would you like to learn today?</span>
                 <div id={css.courses}>
                     {props.subjects.map(subject => (

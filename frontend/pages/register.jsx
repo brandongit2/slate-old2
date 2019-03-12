@@ -100,11 +100,12 @@ export default function Register(props) {
                 });
                 
                 if (res.data.success) {
-                    Router.replace(`/check-email?email=${email}&fname=${fName}`);
+                    const href = `/check-email?email=${email}&fname=${fName}`;
+                    Router.replace(href, href, {shallow: true});
                 } else {
                     switch (res.data.error) {
                         case errors.ACCOUNT_EXISTS:
-                            setError(<p>An account already exists with that e-mail. Would you like to <a href="/login">log in</a> instead?</p>);
+                            setError(<p>An account already exists with that e-mail. Would you like to <a href="/log-in">log in</a> instead?</p>);
                             break;
                         default:
                             if (verboseErrors) console.error(res.data.error);
@@ -119,7 +120,7 @@ export default function Register(props) {
 
     return (
         <Layout currentPage="register" title="Register - Slate" noShadow {...props}>
-            <div id={css.register}>
+            <div className={css.register}>
                 <div id={css.container}>
                     <div id={css.info}>
                         <h1>Benefits of making an account</h1>

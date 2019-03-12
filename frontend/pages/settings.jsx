@@ -9,8 +9,8 @@ function Settings(props) {
     const [currentOpenPanel, setCurrentOpenPanel] = React.useState('none');
     
     return (
-        <Layout title="Settings - Slate" {...props}>
-            <div id={css.container}>
+        <Layout title="Settings - Slate" private {...props}>
+            <div className={css.settings}>
                 <h1>Settings</h1>
                 <div className={css.box}>
                     <span className={css['box-header']}>Personal info</span>

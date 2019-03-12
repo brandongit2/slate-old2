@@ -52,7 +52,7 @@ class CheckEmail extends React.Component {
         const {props} = this;
         return (
             <Layout title="Verifying email... - Slate" noHeader secondaryLogo {...props}>
-                <div id={css.page}>
+                <div className={css['check-email']}>
                     <div id={css.container}>
                         <p style={{fontSize: '20pt'}}>You&apos;re almost there!</p>
                         <p style={{fontSize: '14pt'}}>We&apos;ve sent a verification e-mail to <b>{props.email}</b>. Follow the instructions in the e-mail in order to verify your account.</p>

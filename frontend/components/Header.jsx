@@ -43,8 +43,7 @@ function Header(props) {
     const toggleUserPanel = () => setUserPanelIsOpen(!userPanelIsOpen);
     
     return (
-        <div id={css.header}
-             className={props.float ? css.float : ''}
+        <div className={[css.header, props.float ? css.float : ''].join(' ')}
              style={{
                  boxShadow:    props.noShadow ? 'none' : '0px 0px 30px var(--shadow-color)',
                  borderBottom: props.noShadow ? '1px solid var(--secondary-border-color)' : 'none'
@@ -85,7 +84,7 @@ function Header(props) {
                         <div id={css.user}
                              onBlur={() => setUserPanelIsOpen(false)}
                              tabIndex="0">
-                            <div className="user-panel-visible" onClick={toggleUserPanel}>
+                            <div onClick={toggleUserPanel}>
                                 <span>{props.user.first_name} {props.user.last_name}</span>
                                 <i className="material-icons">arrow_drop_down</i>
                             </div>
@@ -95,8 +94,8 @@ function Header(props) {
                         </div>
                     ) : (
                         <ul>
-                            <li className={props.currentPage === 'login' ? css.bold : ''}>
-                                <Link href="/login"><a>
+                            <li className={props.currentPage === 'log in' ? css.bold : ''}>
+                                <Link href="/log-in"><a>
                                     <Button>LOG IN</Button>
                                 </a></Link>
                             </li>

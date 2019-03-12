@@ -76,7 +76,7 @@ function Course(props) {
                 };
             `}</style>
             
-            <div id={css.container}>
+            <div className={css.course}>
                 <div id={css.info}>
                     <Breadcrumbs>
                         <Crumb><Link href="/subjects"><a>Subjects</a></Link></Crumb>

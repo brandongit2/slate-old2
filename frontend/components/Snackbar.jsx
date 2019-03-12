@@ -1,23 +1,17 @@
 import {connect} from 'react-redux';
 
 import {removeNotification} from '../actions';
-import {severities} from '../constants';
+
 import css from './Snackbar.scss';
 
-const levelToCssClass = {
-    [severities.INFO]:  css.info,
-    [severities.WARN]:  css.warn,
-    [severities.ERROR]: css.error
-};
-
 const Snackbar = props => (
-    <div id={css.snackbar}>{
+    <div className={css.snackbar}>{
         Object.entries(props.notifications).map(([id, notification]) => (
-            <div key={id} className={
-                css.notification + ' ' +
-                (props.visibleNotifications.indexOf(id) === -1 ? css.fade : '') + ' ' +
-                levelToCssClass[notification.level]}>
-
+            <div key={id} className={[
+                css.notification,
+                (props.visibleNotifications.indexOf(id) === -1 ? css.fade : ''),
+                css[notification.level]
+            ].join(' ')}>
                 <span>{notification.text}</span>
                 <i className="material-icons" onClick={() => props.removeNotification(id)}>close</i>
             </div>

@@ -21,9 +21,7 @@ class Layout extends React.Component {
     render() {
         const {props} = this;
         return (
-            <div className={props.className}
-                 id={css.layout}
-                 style={props.style}>
+            <div className={[css.layout, props.className].join(' ')} style={props.style}>
                 <Head>
                     <title>{props.title}</title>
                     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
