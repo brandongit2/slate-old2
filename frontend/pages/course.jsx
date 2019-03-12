@@ -118,7 +118,6 @@ function Course(props) {
 }
 
 Course.getInitialProps = async ({store, query}) => {
-    console.log(query);
     await store.dispatch(changeSubject(query.subject));
     await store.dispatch(changeCourse(query.course));
     await store.dispatch(changeUnit(null));

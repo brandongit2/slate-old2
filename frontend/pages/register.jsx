@@ -100,7 +100,6 @@ export default function Register(props) {
                 });
                 
                 if (res.data.success) {
-                    console.log('replacing .......');
                     Router.replace(`/check-email?email=${email}&fname=${fName}`);
                 } else {
                     switch (res.data.error) {

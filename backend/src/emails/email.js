@@ -20,5 +20,5 @@ if (credentials.provider === 'sendgrid') {
         transporter.sendMail(email);
     };
 } else {
-    console.log('Invalid email provider: ' + credentials.provider);
+    console.error('Invalid email provider: ' + credentials.provider);
 }
