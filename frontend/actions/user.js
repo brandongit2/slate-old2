@@ -20,3 +20,10 @@ export function authenticate() {
         }
     };
 }
+
+export function setUserInfo(info) {
+    return {
+        type: actionTypes.SET_USER_INFO,
+        info
+    };
+}

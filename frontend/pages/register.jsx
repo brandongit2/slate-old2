@@ -145,7 +145,7 @@ export default function Register(props) {
                             </li>
                         </ul>
                     </div>
-                    <form className={(props.altUser ? props.altUser.theme : props.user.theme)}>
+                    <form className={props.user.theme}>
                         <div>
                             <h1>Make an account</h1>
                             <div className={['error', error === '' ? '' : 'shown'].join(' ')}>

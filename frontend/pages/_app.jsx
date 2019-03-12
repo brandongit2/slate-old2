@@ -7,7 +7,7 @@ import {createStore, applyMiddleware} from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 
-import {setInfo} from '../actions';
+import {setInfo, setUserInfo} from '../actions';
 import rootReducer from '../reducers';
 
 import {rootUrl} from '../config.json';
@@ -52,22 +52,13 @@ export default withRedux(makeStore)(class Slate extends NextApp {
                 }
             })).data;
             if (user.success) {
-                user = {
-                    isLoggedIn:     true,
-                    id:             user.user.id,
-                    first_name:     user.user.first_name,
-                    last_name:      user.user.last_name,
-                    email:          user.user.email,
-                    valid_email:    user.user.valid_email,
-                    permissions:    user.user.permissions,
-                    password_reset: user.user.password_reset,
-                    theme:          user.user.theme
-                };
+                ctx.store.dispatch(setUserInfo({
+                    isLoggedIn: true,
+                    ...user.user
+                }));
             } else {
-                user = {isLoggedIn: false};
+                ctx.store.dispatch(setUserInfo({isLoggedIn: false}));
             }
-            
-            Object.assign(pageProps, {altUser: user});
         }
         
         return {pageProps};

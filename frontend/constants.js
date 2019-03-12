@@ -17,7 +17,8 @@ export const actionTypes = {
     GET_ARTICLES:        'get articles',
     GET_ARTICLE_CONTENT: 'get article content',
 
-    AUTHENTICATE: 'authenticate',
+    AUTHENTICATE:  'authenticate',
+    SET_USER_INFO: 'set user info',
 
     SET_INFO:     'set info',
     TOGGLE_THEME: 'toggle theme'

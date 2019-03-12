@@ -11,7 +11,7 @@ import {rgb} from '../util';
 import css from './subject.scss';
 
 function Subject(props) {
-    const lightTheme = (props.altUser ? props.altUser.theme : props.user.theme) === 'light';
+    const lightTheme = props.user.theme === 'light';
     const subjectColor = lightTheme
         ? (props.subject
             ? Color('#' + props.subject.color)

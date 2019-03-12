@@ -46,7 +46,7 @@ class ArticleList extends React.Component {
 }
 
 function Course(props) {
-    const lightTheme = (props.altUser ? props.altUser.theme : props.user.theme) === 'light';
+    const lightTheme = props.user.theme === 'light';
     const subjectColor = lightTheme
         ? (props.subject
             ? Color('#' + props.subject.color)

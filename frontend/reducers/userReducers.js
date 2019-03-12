@@ -17,6 +17,11 @@ export default function userReducers(state = initialState, action) {
                 ...state,
                 theme: state.theme === 'light' ? 'dark' : 'light'
             };
+        case actionTypes.SET_USER_INFO:
+            return {
+                ...state,
+                ...action.info
+            };
         default:
             return state;
     }

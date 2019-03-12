@@ -35,7 +35,7 @@ class Layout extends React.Component {
                 </Head>
                 <style jsx global>{`
                     :root {
-                        ${(props.theme ? props.theme : (props.altUser ? props.altUser.theme : 'light')) === 'light' ? `
+                        ${props.user.theme === 'light' ? `
                             --text-color: rgba(0, 0, 0, 1);
                             --secondary-text-color: rgba(0, 0, 0, 0.7);
                             --tertiary-text-color: rgba(0, 0, 0, 0.5);
@@ -59,7 +59,7 @@ class Layout extends React.Component {
                     }
                     
                     img.bw-icon {
-                        ${(props.theme ? props.theme : (props.altUser ? props.altUser.theme : 'light')) === 'light'
+                        ${props.user.theme === 'light'
                             ? ''
                             : 'filter: invert(1);'
                         }
@@ -73,7 +73,7 @@ class Layout extends React.Component {
                         <Header currentPage={props.currentPage}
                                 float={props.headerFloat}
                                 noShadow={props.noShadow}
-                                user={!props.user.isLoggedIn && props.altUser && props.altUser.theme ? props.altUser : props.user} />
+                                user={props.user} />
                     )
                 }
                 {props.secondaryLogo
