@@ -154,7 +154,7 @@ exports.logOut = async (req, res) => {
 };
 
 exports.resetPassword = async (req, res) => {
-    if (req.token) {
+    if (req.cookies.authToken) {
         try {
             if (req.user) {
                 await mysql.query('UPDATE login_tokens JOIN users ON login_tokens.user_id=users.id SET login_tokens.valid=0 WHERE users.email=?', [req.body.email]);
