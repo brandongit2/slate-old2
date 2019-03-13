@@ -41,8 +41,8 @@
     }, {
       "id": "c1a016b3-1212-4b25-b794-687cba115406",
       "comment": "",
-      "command": "waitForElementVisible",
-      "target": "id=layout___1Sm2e",
+      "command": "pause",
+      "target": "1000",
       "targets": [
         ["id=layout___1Sm2e", "id"],
         ["css=#layout___1Sm2e", "css:finder"],
@@ -50,12 +50,12 @@
         ["xpath=//div[@id='__next']/div", "xpath:idRelative"],
         ["xpath=//div[3]/div", "xpath:position"]
       ],
-      "value": "1000"
+      "value": ""
     }, {
       "id": "50fd88d0-664e-4c78-8db1-064b3a7512ec",
       "comment": "",
       "command": "executeScript",
-      "target": "return window.getComputedStyle( document.getElementById(\"layout___1Sm2e\"),null).getPropertyValue('background-color');",
+      "target": "return window.getComputedStyle( document.getElementsByClassName(\"layout___1Sm2e\")[0],null).getPropertyValue('background-color');",
       "targets": [
         ["id=layout___1Sm2e", "id"],
         ["css=#layout___1Sm2e", "css:finder"],
@@ -106,7 +106,7 @@
       "id": "17ccfc28-bc53-4df1-be4f-e532b9ac47ec",
       "comment": "",
       "command": "executeScript",
-      "target": "return window.getComputedStyle( document.getElementById(\"layout___1Sm2e\"),null).getPropertyValue('background-color');",
+      "target": "return window.getComputedStyle( document.getElementsByClassName(\"layout___1Sm2e\")[0],null).getPropertyValue('background-color');",
       "targets": [
         ["id=layout___1Sm2e", "id"],
         ["css=#layout___1Sm2e", "css:finder"],
@@ -238,9 +238,9 @@
       "id": "774c320c-3cf5-45ba-a562-06c51a33dd63",
       "comment": "",
       "command": "assertText",
-      "target": "css=.user-panel-visible > span",
+      "target": "css=#user___3uTZc span",
       "targets": [
-        ["css=.user-panel-visible > span", "css:finder"],
+        ["css=#user___3uTZc span", "css:finder"],
         ["xpath=//div[@id='user___3uTZc']/div/span", "xpath:idRelative"],
         ["xpath=//div/div/div/span", "xpath:position"],
         ["xpath=//span[contains(.,'Test Account')]", "xpath:innerText"]
@@ -275,9 +275,9 @@
       "id": "34d191ad-ed5c-4e63-985f-1932df129a2d",
       "comment": "",
       "command": "click",
-      "target": "css=.user-panel-visible",
+      "target": "css=#user___3uTZc > div:nth-child(1)",
       "targets": [
-        ["css=.user-panel-visible", "css:finder"],
+        ["css=#user___3uTZc > div:nth-child(1)", "css:finder"],
         ["xpath=//div[@id='user___3uTZc']/div", "xpath:idRelative"],
         ["xpath=//nav/div/div/div", "xpath:position"]
       ],
@@ -326,7 +326,7 @@
     "persistSession": false,
     "parallel": false,
     "timeout": 300,
-    "tests": ["a1953e15-a98b-488d-9b27-087a3980adff", "e5530e71-f31e-4cfa-8e84-19c2dde6d0d9", "e1ddc875-dc0e-4f92-ac4f-4f29c11c48e8", "382b3989-7902-4534-b200-b46888beba62"]
+    "tests": ["a1953e15-a98b-488d-9b27-087a3980adff", "e5530e71-f31e-4cfa-8e84-19c2dde6d0d9", "e1ddc875-dc0e-4f92-ac4f-4f29c11c48e8"]
   }],
   "urls": ["https://www.google.com/", "localhost:8080", "http://localhost:8080/"],
   "plugins": []
