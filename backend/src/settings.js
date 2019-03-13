@@ -8,6 +8,12 @@ exports.changeEmail = async (req, res) => {
     res.end();
 };
 
+exports.changeName = async (req, res) => {};
+
+exports.changePassword = async (req, res) => {
+    
+};
+
 exports.toggleTheme = async (req, res) => {
     if (req.user) {
         const newTheme = req.user.theme === 'light' ? 'dark' : 'light';

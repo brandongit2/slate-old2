@@ -4,7 +4,7 @@
     margin: 1rem auto;
     
     h1 {
-        margin-top: 1rem;
+        margin-top: 1.6rem;
         margin-bottom: 2rem;
     }
     
@@ -53,11 +53,6 @@
                 overflow: hidden;
                 opacity: 0;
                 transition: all 0.2s;
-                
-                :first-child {
-                    flex-grow: 1;
-                    margin-right: 0.5rem;
-                }
                 
                 &.open {
                     margin: 0.5rem 0px;
