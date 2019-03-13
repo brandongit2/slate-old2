@@ -8,9 +8,9 @@ const zxcvbn = require('zxcvbn');
 
 const {errors} = require('./constants');
 const {emails, getEmail} = require('./emails');
-const {createToken} = require('./util');
+const {createToken, mysql} = require('./util');
 
-const {email: {apiKey}, mysql, rootUrl} = require('./config.json');
+const {email: {apiKey}, rootUrl} = require('./config.json');
 
 sgMail.setApiKey(apiKey);
 
