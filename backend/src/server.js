@@ -2,10 +2,10 @@ const asyncHandler = require('express-async-handler');
 const cookieParser = require('cookie-parser');
 const express = require('express');
 
-const auth = require('./auth');
 const data = require('./data');
 const settings = require('./settings');
-const users = require('./users');
+const user = require('./user');
+const util = require('./util');
 
 const {port} = require('./config.json');
 
@@ -17,7 +17,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 app.enable('trust proxy');
 
-app.use(auth.auth);
+app.use(util.auth);
 
 ////////////////////////////////////////////////// DATA FUNCTIONS //////////////////////////////////////////////////////
 
@@ -43,16 +43,16 @@ app.get(apiUrl + '/children', asyncHandler(data.getChildren));
 
 ////////////////////////////////////////////////// USER FUNCTIONS //////////////////////////////////////////////////////
 
-app.post(apiUrl + '/add-user', asyncHandler(users.addUser));
-app.post(apiUrl + '/authenticate', auth.authenticate);
-app.post(apiUrl + '/deactivate', asyncHandler(users.deactivate));
-app.post(apiUrl + '/log-in', asyncHandler(auth.logIn));
-app.post(apiUrl + '/log-out', auth.logOut);
-app.post(apiUrl + '/reset-password', auth.resetPassword);
-app.post(apiUrl + '/resend-verification-email', asyncHandler(users.resendEmail));
+app.post(apiUrl + '/add-user', asyncHandler(user.addUser));
+app.post(apiUrl + '/authenticate', user.authenticate);
+app.post(apiUrl + '/deactivate', asyncHandler(user.deactivate));
+app.post(apiUrl + '/log-in', asyncHandler(user.logIn));
+app.post(apiUrl + '/log-out', user.logOut);
+app.post(apiUrl + '/reset-password', user.resetPassword);
+app.post(apiUrl + '/resend-verification-email', asyncHandler(user.resendEmail));
 
 // <URL>/api/verify?e=<unique query string>
-app.post(apiUrl + '/verify', asyncHandler(users.verifyEmail));
+app.post(apiUrl + '/verify', asyncHandler(user.verifyEmail));
 
 /////////////////////////////////////////////////// USER SETTINGS //////////////////////////////////////////////////////
 
