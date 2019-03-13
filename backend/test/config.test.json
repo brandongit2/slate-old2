@@ -11,6 +11,6 @@
         "user": "travis",
         "pass": "",
         "host": "localhost",
-        "database": "slate"
+        "database": "slate_test"
     }
 }
