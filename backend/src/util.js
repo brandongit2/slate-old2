@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const katex = require('katex');
 const sql = require('promise-mysql');
 const sanitizeHtml = require('sanitize-html');
