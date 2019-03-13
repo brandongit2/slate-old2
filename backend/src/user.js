@@ -2,40 +2,11 @@ const {promisify} = require('util');
 
 const bcryptCompare = promisify(require('bcrypt').compare);
 const bcryptHash = promisify(require('bcrypt').hash);
-const sgMail = require('@sendgrid/mail');
 const {generate} = require('shortid');
 const zxcvbn = require('zxcvbn');
 
 const {errors} = require('./constants');
-const {emails, getEmail} = require('./emails');
-const {createToken, mysql} = require('./util');
-
-const {email: {apiKey}, rootUrl} = require('./config.json');
-
-sgMail.setApiKey(apiKey);
-
-async function sendEmail(fName, email, validationQuery) {
-    sgMail.send({
-        to:      email,
-        from:    'Slate <no-reply@brandontsang.net>',
-        subject: 'Slate: Validate your e-mail',
-        ...getEmail(emails.verification, {name: fName, query: validationQuery, rootUrl})
-    });
-    
-    try {
-        await mysql.query('DELETE FROM email_verification WHERE email=?', [email]);
-        await mysql.query('INSERT INTO email_verification(email, query, expiry) VALUES (?, ?, TIMESTAMPADD(HOUR, 24, CURRENT_TIMESTAMP))', [email, validationQuery]);
-        return {
-            success: true
-        };
-    } catch (err) {
-        console.error(err);
-        
-        return {
-            success: false
-        };
-    }
-}
+const {createToken, mysql, sendVerificationEmail} = require('./util');
 
 exports.addUser = async (req, res) => {
     let valid = true;
@@ -64,7 +35,7 @@ exports.addUser = async (req, res) => {
             try {
                 await mysql.query('INSERT INTO users(first_name, last_name, email, password, valid_email, permissions) VALUES (?, ?, ?, ?, 0, 5)', [fName, lName, email, hash]);
             
-                res.send(await sendEmail(fName, email, validationQuery));
+                res.send(await sendVerificationEmail(fName, email, validationQuery));
             } catch (err) {
                 switch (err.errno) {
                     case 1062:
@@ -177,7 +148,7 @@ exports.resendEmail = async (req, res) => {
         const validEmail = (await mysql.query('SELECT email FROM email_verification WHERE email=?', [req.body.email])).length === 1;
 
         if (validEmail) {
-            res.send(await sendEmail(req.body.firstName, req.body.email, generate()));
+            res.send(await sendVerificationEmail(req.body.firstName, req.body.email, generate()));
         } else {
             res.json({
                 success: false,

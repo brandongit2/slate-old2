@@ -2,9 +2,14 @@ const crypto = require('crypto');
 const katex = require('katex');
 const sql = require('promise-mysql');
 const sanitizeHtml = require('sanitize-html');
+const sgMail = require('@sendgrid/mail');
 const showdown = require('showdown');
 
-const {mysql: mysqlCreds} = require('./config.json');
+const {emails, getEmail} = require('./emails');
+
+const {email: {apiKey}, mysql: mysqlCreds, rootUrl} = require('./config.json');
+
+sgMail.setApiKey(apiKey);
 
 const converter = new showdown.Converter();
 
@@ -87,4 +92,26 @@ exports.randomBytes = bytes => {
             resolve(buffer);
         });
     }));
+};
+
+exports.sendVerificationEmail = async (fName, email, validationQuery) => {
+    sgMail.send({
+        to:      email,
+        from:    'Slate <no-reply@brandontsang.net>',
+        subject: 'Slate: Validate your e-mail',
+        ...getEmail(emails.verification, {name: fName, query: validationQuery, rootUrl})
+    });
+    
+    try {
+        await exports.mysql.query('DELETE FROM email_verification WHERE email=?', [email]);
+        await exports.mysql.query('INSERT INTO email_verification(email, query, expiry) VALUES (?, ?, TIMESTAMPADD(HOUR, 24, CURRENT_TIMESTAMP))', [email, validationQuery]);
+        return {
+            success: true
+        };
+    } catch (err) {
+        console.error(err);
+        return {
+            success: false
+        };
+    }
 };
