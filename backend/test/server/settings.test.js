@@ -1,10 +1,10 @@
-const request = require('supertest');
 const assert = require('chai').assert;
+const request = require('supertest');
 
 const app = require('../../src/server');
 
 describe('settings functions', () => {
-    describe('/settings/toggle-theme', () => {
+    describe('/api/settings/toggle-theme', () => {
         it('should return 200 and toggle theme', done => {
             request(app.app).post('/api/authenticate').set('Cookie', ['authToken=Ayudf3AojGxYr121']).expect(200).end(async (err, res) => {
                 if (err) throw err;
