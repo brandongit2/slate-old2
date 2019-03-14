@@ -33,7 +33,7 @@ exports.addUser = async (req, res) => {
             }
 
             try {
-                await mysql.query('INSERT INTO users(first_name, last_name, email, password, valid_email, permissions) VALUES (?, ?, ?, ?, 0, 5)', [fName, lName, email, hash]);
+                await mysql.query('INSERT INTO users(first_name, last_name, email, password, valid_email, permissions) VALUES (?, ?, ?, ?, 0, 1)', [fName, lName, email, hash]);
             
                 res.send(await sendVerificationEmail(fName, email, validationQuery));
             } catch (err) {

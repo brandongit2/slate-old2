@@ -25,20 +25,6 @@ function Button(props) {
     );
 }
 
-function UserPanel(props) {
-    return (
-        <div className={[css['user-panel'], 'user-panel'].join(' ')}>
-            <a onClick={() => Router.push('/settings')}>Settings</a>
-            {props.user.permissions > 1 ? <a onClick={() => Router.push('/admin')}>Admin panel</a> : null}
-            <a onClick={async () => {
-                   await axios.post('/api/log-out');
-                   Router.push('/');
-                   setTimeout(() => window.location.reload(), 500);
-               }}>Log out</a>
-        </div>
-    );
-}
-
 function Header(props) {
     const [userPanelIsOpen, setUserPanelIsOpen] = React.useState(false);
     const toggleUserPanel = () => setUserPanelIsOpen(!userPanelIsOpen);
@@ -78,11 +64,9 @@ function Header(props) {
                     </li>
                 </ul>
                 <div id={css['right-buttons']}>
-                    <p onClick={props.toggleTheme} style={{fontSize: '10pt', cursor: 'pointer', textDecoration: 'underline'}}>
-                        Switch to {props.user.theme === 'light' ? 'dark mode' : 'light mode'}
-                    </p>
                     {props.user.isLoggedIn ? (
                         <div id={css.user}
+                             className={css[props.user.theme]}
                              onBlur={() => setUserPanelIsOpen(false)}
                              tabIndex="0">
                             <div onClick={toggleUserPanel}>
@@ -90,7 +74,36 @@ function Header(props) {
                                 <i className="material-icons">arrow_drop_down</i>
                             </div>
                             <div id={css['user-panel-container']} className={userPanelIsOpen ? css.open : ''}>
-                                <UserPanel user={props.user} />
+                                <div className={css['user-panel']}>
+                                    <table><tbody>
+                                        <tr onClick={props.toggleTheme}>
+                                            <td><p>Dark mode</p></td>
+                                            <td>
+                                                <i className={['material-icons', css.check].join(' ')}>
+                                                    check
+                                                </i>
+                                            </td>
+                                        </tr>
+                                        <tr onClick={() => Router.push('/settings')}>
+                                            <td><p>Settings</p></td>
+                                            <td></td>
+                                        </tr>
+                                        {props.user.permissions >= 2 ? (
+                                            <tr>
+                                                <td onClick={() => Router.push('/admin')}><p>Admin panel</p></td>
+                                                <td></td>
+                                            </tr>
+                                        ) : null}
+                                        <tr onClick={async () => {
+                                                await axios.post('/api/log-out');
+                                                Router.push('/');
+                                                setTimeout(() => window.location.reload(), 500);
+                                            }}>
+                                            <td><a>Log out</a></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody></table>
+                                </div>
                             </div>
                         </div>
                     ) : (

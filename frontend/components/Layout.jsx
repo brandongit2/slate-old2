@@ -81,7 +81,10 @@ class Layout extends React.Component {
                 <Snackbar />
                 <div id={css.container}>
                     {(() => {
-                        const err = props.private && !props.user.isLoggedIn ? 404 : props.err;
+                        const err = (
+                            (props.private && !props.user.isLoggedIn) ||
+                            (props.minPerms > props.user.permissions)
+                        ) ? 404 : props.err;
                         switch (err) {
                             case 200:
                                 return props.children;
@@ -107,6 +110,7 @@ Layout.defaultProps = {
     currentPage: '',
     err:         200,
     headerFloat: false,
+    minPerms:    0,
     noShadow:    false,
     style:       {},
     title:       'Slate'

@@ -72,7 +72,7 @@ function Course(props) {
                 --tertiary-subject-text-color: ${
                     lightTheme
                         ? (subjectColor.isLight() ? '#00000088' : '#ffffff88')
-                        : 'ffffff77'
+                        : '#ffffff55'
                 };
             `}</style>
             

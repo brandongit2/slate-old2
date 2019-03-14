@@ -6,7 +6,7 @@
     p, a, span, b {
         &::selection {
             background: var(--subject-color);
-            color: var(--text-color);
+            color: var(--subject-text-color);
         }
     }
 
@@ -79,6 +79,7 @@
 
         #courses-title {
             font-size: 32pt;
+            color: var(--subject-color);
             margin-bottom: 0.5rem;
         }
 

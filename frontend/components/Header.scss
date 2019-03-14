@@ -78,8 +78,28 @@
                     padding: 10px;
                 }
                 
-                &:hover, &:focus {
-                    background: rgba(0, 0, 0, 0.05);
+                .check {
+                    transition: opacity 0.5s;
+                }
+                
+                &.light {
+                    &:hover, &:focus {
+                        background: rgba(0, 0, 0, 0.05);
+                    }
+                    
+                    .check {
+                        opacity: 0;
+                    }
+                }
+                
+                &.dark {
+                    &:hover, &:focus {
+                        background: rgba(255, 255, 255, 0.05);
+                    }
+                    
+                    .check {
+                        opacity: 1;
+                    }
                 }
                 
                 #user-panel-container {
@@ -101,10 +121,37 @@
                         position: absolute;
                         top: -1px;
                         right: 0px;
+                        background: white;
+                        border: 1px solid var(--secondary-border-color);
+                        white-space: nowrap;
+                        
+                        table {
+                            border: none;
+                            border-collapse: collapse;
+                            
+                            tr {
+                                transition: background 0.2s;
+                                
+                                &:hover {
+                                    background: rgba(0, 0, 0, 0.05);
+                                }
+                                
+                                td {
+                                    padding: 0.8rem 1rem;
+                                    border: none;
+                                    
+                                    a, p, i {
+                                        text-decoration: none;
+                                        font-size: 11pt;
+                                        color: black;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 
-                i {
+                & > div > i {
                     margin-left: 5px;
                     color: var(--text-color);
                     transition: color 0.5s;
@@ -186,26 +233,6 @@
                         }
                     }
                 }
-            }
-        }
-    }
-    
-    .user-panel {
-        background: white;
-        border: 1px solid var(--secondary-border-color);
-        width: min-content;
-        white-space: nowrap;
-        
-        a, p {
-            display: block;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            font-size: 11pt;
-            color: black;
-            transition: background 0.2s;
-            
-            &:hover {
-                background: rgba(0, 0, 0, 0.05);
             }
         }
     }

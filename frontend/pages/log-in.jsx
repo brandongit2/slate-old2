@@ -23,7 +23,7 @@ function LogIn(props) {
         const res = await axios.post('/api/log-in', {email, password, stayLoggedIn});
         
         if (res.data.success) {
-            Router.push('/subjects');
+            setTimeout(() => Router.push('/subjects'), 500);
         } else if (res.data.error === errors.INVALID_LOGIN) {
             setError('Invalid login.');
         } else {
