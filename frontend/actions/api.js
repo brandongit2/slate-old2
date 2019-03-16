@@ -2,12 +2,12 @@ import axios from 'axios';
 
 import {actionTypes} from '../constants';
 
-export function getChildren(parentType, parentId) {
+export function getChildren(parentType, parentId, want) {
     return async dispatch => {
         dispatch({
             type:     actionTypes.GET_CHILDREN,
-            children: await axios.get(`/api/children?${parentType}=${parentId}`),
-            parentType
+            children: await axios.get(`/api/children?${want ? `want=${want}&` : ''}${parentType}=${parentId}`),
+            parentType, want
         });
     };
 }

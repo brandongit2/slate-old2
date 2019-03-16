@@ -7,7 +7,7 @@ export default function unitsReducers(state = initialState, action) {
         case actionTypes.GET_UNITS:
             return action.units.data;
         case actionTypes.GET_CHILDREN:
-            if (action.parentType === 'course') {
+            if ((action.want == null && action.parentType === 'course') || action.want === 'units') {
                 return action.children.data;
             } else {
                 return state;

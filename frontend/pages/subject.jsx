@@ -1,6 +1,6 @@
 import Color from 'color';
 import Link from 'next/link';
-import Router, {withRouter} from 'next/router';
+import {withRouter} from 'next/router';
 import React from 'react';
 import {connect} from 'react-redux';
 
@@ -20,7 +20,7 @@ function Subject(props) {
             ? Color('#' + props.subject.color)
             : Color('#000000'));
     return (
-        <Layout title={props.subject?.display_name + ' - Slate'} {...props}>
+        <Layout title={props.subject ? props.subject.display_name + ' - Slate' : 'Slate'} {...props}>
             <style jsx>{`
                 --subject-color: ${rgb(subjectColor.rgb().array())};
                 --subject-background-color: ${lightTheme ? rgb(subjectColor.rgb().array()) : '#000'};
@@ -46,7 +46,7 @@ function Subject(props) {
                     <Breadcrumbs>
                         <Crumb><Link href="/subjects"><a>Subjects</a></Link></Crumb>
                         <Crumb>
-                            <Dropdown mini label={props.subject?.display_name}>
+                            <Dropdown mini label={props.subject ? props.subject.display_name : ''}>
                                 {props ? props.subjects.map(subject => (
                                     <Item key={subject.id}
                                           onClick={() => {
@@ -60,17 +60,19 @@ function Subject(props) {
                     </Breadcrumbs>
                     <div>
                         <p id={css['label-subject']}>SUBJECT</p>
-                        <p id={css.title}>{props.subject?.display_name}</p>
-                        <p id={css.description}>{props.subject?.description}</p>
+                        <p id={css.title}>{props.subject ? props.subject.display_name : ''}</p>
+                        <p id={css.description}>{props.subject ? props.subject.description : ''}</p>
                     </div>
                 </div>
                 <div id={css['course-list']}>
-                    <div>
+                    <main>
                         <p id={css['courses-title']}>Courses</p>
                         {props.courses ? props.courses.map(course => (
                             <Link key={course.id}
-                                  href={'/course?subject=' + props.subject?.id + '&course=' + course.id}
-                                  as={'/subject/' + props.subject?.name + '/' + course.name}>
+                                  href={props.subject ? (
+                                      '/course?subject=' + props.subject.id + '&course=' + course.id
+                                  ) : ''}
+                                  as={props.subject ? ('/subject/' + props.subject.name + '/' + course.name) : ''}>
                                 <a>
                                     <div className={css['course-info']}>
                                         <p id={css.name}>{course.display_name}</p>
@@ -79,7 +81,7 @@ function Subject(props) {
                                 </a>
                             </Link>
                         )) : null}
-                    </div>
+                    </main>
                 </div>
             </div>
         </Layout>

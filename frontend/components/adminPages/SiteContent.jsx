@@ -1,7 +1,10 @@
 export function SiteContent() {
     return (
         <div>
-            <h1>Site content manager</h1>
+            <header>
+                <h1>Site content manager</h1>
+                
+            </header>
         </div>
     );
 }

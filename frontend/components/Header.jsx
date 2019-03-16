@@ -30,7 +30,7 @@ function Header(props) {
     const toggleUserPanel = () => setUserPanelIsOpen(!userPanelIsOpen);
     
     return (
-        <div className={[css.header, props.float ? css.float : ''].join(' ')}
+        <header className={[css.header, props.float ? css.float : ''].join(' ')}
              style={{
                  boxShadow:    props.noShadow ? 'none' : '0px 0px 30px var(--shadow-color)',
                  borderBottom: props.noShadow ? '1px solid var(--secondary-border-color)' : 'none'
@@ -122,7 +122,7 @@ function Header(props) {
                     )}
                 </div>
             </nav>
-        </div>
+        </header>
     );
 }
 

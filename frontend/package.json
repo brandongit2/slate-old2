@@ -41,7 +41,6 @@
         "zxcvbn": "^4.4.2"
     },
     "devDependencies": {
-        "@babel/plugin-proposal-optional-chaining": "^7.2.0",
         "chromedriver": "^2.46.0",
         "next-progressbar": "^1.0.0",
         "redux-devtools-extension": "^2.13.8",

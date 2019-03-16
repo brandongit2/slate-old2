@@ -11,7 +11,7 @@ import css from './subjects.scss';
 function Subjects(props) {
     return (
         <Layout currentPage="subjects" title="Subjects - Slate" noShadow {...props}>
-            <div className={css.subjects}>
+            <main className={css.subjects}>
                 <span id={css.prompt}>What would you like to learn today?</span>
                 <div id={css.courses}>
                     {props.subjects.map(subject => (
@@ -37,7 +37,7 @@ function Subjects(props) {
                         </div>
                     ))}
                 </div>
-            </div>
+            </main>
             <div id={css.footer}>
                 <span>{props.info.version && props.info.publishDate
                     ? `Slate version ${props.info.version} published on ${moment.unix(props.info.publishDate).format('MMMM Do, YYYY')}.`

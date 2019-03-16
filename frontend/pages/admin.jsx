@@ -63,6 +63,7 @@ Admin.defaultProps = {
 };
 
 Admin.getInitialProps = async ({req}) => {
+    if (typeof req === 'undefined') return {};
     switch (req.params.page) {
         case 'overview':
             return {initialPage: 'Overview'};

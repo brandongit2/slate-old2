@@ -7,7 +7,7 @@ export default function coursesReducers(state = initialState, action) {
         case actionTypes.GET_COURSES:
             return action.courses.data;
         case actionTypes.GET_CHILDREN:
-            if (action.parentType === 'subject') {
+            if ((action.want == null && action.parentType === 'subject') || action.want === 'courses') {
                 return action.children.data;
             } else {
                 return state;

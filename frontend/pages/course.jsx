@@ -1,4 +1,3 @@
-import axios from 'axios';
 import Color from 'color';
 import Link from 'next/link';
 import {withRouter} from 'next/router';
@@ -11,40 +10,6 @@ import {rgb} from '../util';
 
 import css from './course.scss';
 
-class ArticleList extends React.Component {
-    state = {
-        articles: []
-    };
-    
-    constructor(props) {
-        super(props);
-        
-        /* eslint-disable-next-line no-unused-expressions */
-        props.articles?.then(articles => this.setState({articles: articles.data}));
-    }
-    
-    render() {
-        const {props} = this;
-        return (
-            <div className={css['article-list']}>
-                <div id={css['unit-header']}>
-                    <span className={css['unit-number']}>Unit {props.unit?.order}</span>
-                    <span>{props.unit?.display_name}</span>
-                </div>
-                <div id={css.list}>
-                    {this.state.articles.map(article => (
-                        <Link key={article.id}
-                              href={'/article?subject=' + props.subject?.id + '&course=' + props.course?.id + '&unit=' + props.unit?.id + '&article=' + article.id}
-                              as={'/subject/' + props.subject?.name + '/' + props.course?.name + '/' + article.title}>
-                            <a>{article.display_title}</a>
-                        </Link>
-                    ))}
-                </div>
-            </div>
-        );
-    }
-}
-
 function Course(props) {
     const lightTheme = props.user.theme === 'light';
     const subjectColor = lightTheme
@@ -55,7 +20,7 @@ function Course(props) {
             ? Color('#' + props.subject.color)
             : Color('#000000'));
     return (
-        <Layout title={props.course?.display_name + ' - Slate'} {...props}>
+        <Layout title={props.course ? `${props.course.display_name} - Slate` : 'Slate'} {...props}>
             <style jsx>{`
                 --subject-color: ${rgb(subjectColor.rgb().array())};
                 --subject-background-color: ${lightTheme ? rgb(subjectColor.rgb().array()) : '#000'};
@@ -80,17 +45,20 @@ function Course(props) {
                 <div id={css.info}>
                     <Breadcrumbs>
                         <Crumb><Link href="/subjects"><a>Subjects</a></Link></Crumb>
-                        <Crumb><Link href={'/subject/' + props.subject?.name}><a>{props.subject?.display_name}</a></Link></Crumb>
                         <Crumb>
-                            <Dropdown mini label={props.course?.display_name}>
+                            <Link href={props.subject ? `/subject/${props.subject.name}` : ''}>
+                                <a>{props.subject ? props.subject.display_name : ''}</a>
+                            </Link>
+                        </Crumb>
+                        <Crumb>
+                            <Dropdown mini label={props.course ? props.course.display_name : ''}>
                                 {props.courses.map(course => (
                                     <Item key={course.id}
                                           onClick={() => {
                                               props.dispatch(changeCourse(course.id));
                                               props.dispatch(getChildren('course', course.id));
                                               window.history.pushState(
-                                                  {}, '',
-                                                  `/subject/${props.subject.name}/${course.name}`
+                                                  {}, '', `/subject/${props.subject.name}/${course.name}`
                                               );
                                           }}>
                                         {course.display_name}
@@ -101,20 +69,42 @@ function Course(props) {
                     </Breadcrumbs>
                     <div>
                         <p id={css['label-course']}>COURSE</p>
-                        <p id={css.title}>{props.course?.display_name}</p>
-                        <p id={css.description}>{props.course?.description}</p>
+                        <p id={css.title}>{props.course ? props.course.display_name : ''}</p>
+                        <p id={css.description}>{props.course ? props.course.description : ''}</p>
                     </div>
                 </div>
-                <div id={css['unit-list']}>
+                <main id={css['unit-list']}>
                     <p id={css['units-title']}>Units</p>
                     {props.units.map(unit => (
-                        <ArticleList key={unit.id}
-                                     subject={props.subject}
-                                     course={props.course}
-                                     unit={unit}
-                                     articles={axios.get('/api/children?unit=' + unit.id)} />
+                        <div key={unit.id} className={css['article-list']}>
+                            <div id={css['unit-header']}>
+                                <span className={css['unit-number']}>Unit {unit.order}</span>
+                                <span>{unit.display_name}</span>
+                            </div>
+                            <div id={css.list}>
+                                {props.articles.map(article => {
+                                    if (article.unit_id === unit.id) {
+                                        return (
+                                            <Link key={article.id}
+                                                  href={
+                                                      (props.subject && props.course) ? (
+                                                          '/article?subject=' + props.subject.id + '&course=' + props.course.id + '&unit=' + unit.id + '&article=' + article.id
+                                                      ) : ''
+                                                  }
+                                                  as={
+                                                      (props.subject && props.course) ? (
+                                                          '/subject/' + props.subject.name + '/' + props.course.name + '/' + article.title
+                                                      ) : ''
+                                                  }>
+                                                <a>{article.display_title}</a>
+                                            </Link>
+                                        );
+                                    }
+                                })}
+                            </div>
+                        </div>
                     ))}
-                </div>
+                </main>
             </div>
         </Layout>
     );
@@ -127,8 +117,9 @@ Course.getInitialProps = async ({store, query}) => {
     await store.dispatch(changeArticle(null));
     await store.dispatch(getSubject(query.subject));
     await store.dispatch(getCourse(query.course));
-    await store.dispatch(getChildren('course', query.course));
     await store.dispatch(getChildren('subject', query.subject));
+    await store.dispatch(getChildren('course', query.course));
+    await store.dispatch(getChildren('course', query.course, 'articles'));
 };
 
 function mapStateToProps(state) {

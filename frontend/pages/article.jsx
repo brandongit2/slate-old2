@@ -10,24 +10,29 @@ import css from './article.scss';
 
 function Article(props) {
     return (
-        <Layout title={props.article?.display_title + ' - Slate'} {...props}>
+        <Layout title={props.article ? `${props.article.display_title} - Slate` : 'Slate'} {...props}>
             <div className={css.article}>
                 <Breadcrumbs>
-                    <Crumb><Link href="/subjects">
-                        <a>Subjects</a>
-                    </Link></Crumb>
-                    <Crumb><Link href={'/subject/' + props.subject?.name}>
-                        <a>{props.subject?.display_name}</a>
-                    </Link></Crumb>
-                    <Crumb><Link href={'/subject/' + props.subject?.name + '/' + props.course?.name}>
-                        <a>{props.course?.display_name}</a>
+                    <Crumb><Link href="/subjects"><a>Subjects</a></Link></Crumb>
+                    <Crumb><Link href={props.subject ? `/subject/${props.subject.name}` : ''}>
+                        <a>{props.subject ? props.subject.display_name : ''}</a>
                     </Link></Crumb>
                     <Crumb>
-                        <Dropdown label={props.article?.display_title} mini>{
+                        <Link href={
+                                  (props.subject && props.course)
+                                      ? `/subject/${props.subject.name}/${props.course.name}`
+                                      : ''
+                              }>
+                            <a>{props.course ? props.course.display_name : ''}</a>
+                        </Link>
+                    </Crumb>
+                    <Crumb>
+                        <Dropdown label={props.article ? props.article.display_title : ''} mini>{
                             props.articles ? props.articles.map(article => (
                                 <Item key={article.id}
                                       onClick={() => {
                                           props.dispatch(changeArticle(article.id));
+                                          props.dispatch(getArticleContent(article.id));
                                           window.history.pushState(
                                               {}, '',
                                               `/subject/${props.subject.name}/${props.course.name}/${article.title}`
@@ -39,22 +44,30 @@ function Article(props) {
                         }</Dropdown>
                     </Crumb>
                 </Breadcrumbs>
-                <div id={css.article}>
+                <main>
                     <div id={css.head}>
-                        <p id={css.title}>{props.article?.display_title}</p>
-                        <div id={css.date}>
-                            <p>Published {
-                                moment(props.article?.publish_date).calendar(null, {sameElse: '[on] MMMM Do, YYYY'})
-                            }</p>
-                            <p>Last updated {
-                                moment(props.article?.update_date).calendar(null, {sameElse: '[on] MMMM Do, YYYY'})
-                            }</p>
-                        </div>
+                        <h1>{props.article ? props.article.display_title : ''}</h1>
+                        {props.article ? (
+                            <div id={css.date}>
+                                <p>
+                                    Published&nbsp;
+                                    <time dateTime={props.article.publish_date}>
+                                        {moment(props.article.publish_date).calendar(null, {sameElse: '[on] MMMM Do, YYYY'})}
+                                    </time>
+                                </p>
+                                <p>
+                                    Last updated&nbsp;
+                                    <time dateTime={props.article.update_date}>
+                                        {moment(props.article.update_date).calendar(null, {sameElse: '[on] MMMM Do, YYYY'})}
+                                    </time>
+                                </p>
+                            </div>
+                        ) : null}
                     </div>
                     {/* eslint-disable-next-line react/no-danger */}
-                    <div id={css.body} dangerouslySetInnerHTML={{__html: props.article?.content}}>
-                    </div>
-                </div>
+                    <article dangerouslySetInnerHTML={{__html: props.article ? props.article.content : ''}}>
+                    </article>
+                </main>
             </div>
         </Layout>
     );

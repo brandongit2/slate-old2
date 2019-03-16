@@ -16,7 +16,7 @@ export default function articlesReducers(state = initialState, action) {
             return newState;
         }
         case actionTypes.GET_CHILDREN:
-            if (action.parentType === 'unit') {
+            if ((action.want == null && action.parentType === 'unit') || action.want === 'articles') {
                 return action.children.data;
             } else {
                 return state;

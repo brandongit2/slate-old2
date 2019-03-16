@@ -20,7 +20,7 @@
         }
     }
     
-    #article {
+    main {
         width: 60vw;
         height: 100%;
         margin: 1rem auto;
@@ -32,8 +32,9 @@
             align-items: center;
             margin-bottom: 1rem;
             
-            #title {
+            h1 {
                 font-size: 32pt;
+                font-weight: 400;
             }
             
             #date {
@@ -43,7 +44,7 @@
             }
         }
         
-        #body p {
+        article p {
             text-indent: 4rem;
         }
     }
