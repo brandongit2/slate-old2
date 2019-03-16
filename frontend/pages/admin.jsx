@@ -18,9 +18,8 @@ function Admin(props) {
     const getTrianglePos = () => {
         const iconPos = icons[currentPage].current ? icons[currentPage].current.getBoundingClientRect().top : 0;
         const iconHeight = icons[currentPage].current ? icons[currentPage].current.getBoundingClientRect().height : 0;
-        const sidebarPos = typeof document != 'undefined'
-            ? document.querySelector(`.${css.sidebar}`).getBoundingClientRect().top
-            : 0;
+        const sidebarPos = typeof document != 'undefined' && document.querySelector(`.${css.sidebar}`)
+            ? document.querySelector(`.${css.sidebar}`).getBoundingClientRect().top : 0;
         return iconPos - sidebarPos + iconHeight / 2;
     };
     
