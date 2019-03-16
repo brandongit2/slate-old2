@@ -9,14 +9,24 @@
         height: 100%;
         background: var(--accent-color);
         transition: background 0.2s;
+        position: relative;
+        
+        #triangle {
+            width: 8px;
+            height: 8px;
+            background: var(--background-color);
+            position: absolute;
+            right: 0px;
+            transform: translate(50%, -50%) rotate(45deg);
+            transition: top 0.2s;
+        }
         
         img {
             filter: invert(0.7);
             transition: filter 0.2s;
-            margin: 1.4rem;
-            margin-bottom: 0;
+            margin: 1.5rem 1.2rem;
             
-            &:hover {
+            &:hover, &.active {
                 filter: invert(1);
             }
         }

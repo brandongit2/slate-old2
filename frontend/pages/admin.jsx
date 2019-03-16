@@ -10,6 +10,20 @@ function Admin(props) {
     const [currentPage, changePage] = React.useState('Overview');
     const Page = pages[currentPage];
     
+    const icons = {};
+    for (let page of Object.keys(pages)) {
+        icons[page] = React.useRef(null);
+    }
+    
+    const getTrianglePos = () => {
+        const iconPos = icons[currentPage].current ? icons[currentPage].current.getBoundingClientRect().top : 0;
+        const iconHeight = icons[currentPage].current ? icons[currentPage].current.getBoundingClientRect().height : 0;
+        const sidebarPos = typeof document != 'undefined'
+            ? document.querySelector(`.${css.sidebar}`).getBoundingClientRect().top
+            : 0;
+        return iconPos - sidebarPos + iconHeight / 2;
+    };
+    
     return (
         <Layout title="Admin panel - Slate" private minPerms={2} {...props}>
             <style jsx>{`${props.user.theme === 'light' ? `
@@ -19,8 +33,16 @@ function Admin(props) {
             `}`}</style>
             <div className={css.admin}>
                 <div className={css.sidebar}>
-                    <img src="/static/pie-chart.svg" onClick={() => changePage('Overview')} />
-                    <img src="/static/article.svg" onClick={() => changePage('SiteContent')} />
+                    <div id={css.triangle}
+                         style={{top: `${getTrianglePos()}px`}} />
+                    <img src="/static/pie-chart.svg"
+                         ref={icons.Overview}
+                         className={currentPage === 'Overview' ? css.active : null}
+                         onClick={() => changePage('Overview')} />
+                    <img src="/static/article.svg"
+                         ref={icons.SiteContent}
+                         className={currentPage === 'SiteContent' ? css.active : null}
+                         onClick={() => changePage('SiteContent')} />
                 </div>
                 <div className={css.main}>
                     <Page />

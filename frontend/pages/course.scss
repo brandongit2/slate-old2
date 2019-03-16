@@ -102,19 +102,21 @@
             }
 
             #list {
-                display: block;
                 margin-left: 1rem;
                 padding-left: 1rem;
                 font-size: 12pt;
                 transition: color 0.2s, border-left 0.2s;
                 border-left: 2px solid var(--border-color);
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
                 
                 &:hover {
                     border-left: 2px solid var(--subject-color);
                 }
 
                 & > a {
-                    display: block;
+                    display: inline-block;
                     margin-bottom: 5px;
                     color: var(--secondary-text-color);
                     transition: color 0.3s;
