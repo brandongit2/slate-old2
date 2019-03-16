@@ -17,7 +17,7 @@ nextApp.prepare()
         const app = express();
         
         app.use(cookieParser());
-
+        
         app.get('/subject/:subject', async (req, res) => {
             const actualPage = '/subject';
             try {
@@ -110,6 +110,10 @@ nextApp.prepare()
                 res.set('location', rootUrl);
                 res.status(301).send();
             }
+        });
+        
+        app.get('/admin/:page', (req, res) => {
+            nextApp.render(req, res, '/admin', {page: req.params.page});
         });
         
         app.get('*', (req, res) => {

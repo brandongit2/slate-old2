@@ -1,3 +1,7 @@
 export function SiteContent() {
-    return <div>Site content</div>;
+    return (
+        <div>
+            <h1>Site content manager</h1>
+        </div>
+    );
 }

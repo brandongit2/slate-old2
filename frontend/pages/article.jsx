@@ -1,6 +1,5 @@
 import moment from 'moment';
 import Link from 'next/link';
-import Router from 'next/router';
 import React from 'react';
 import {connect} from 'react-redux';
 
@@ -29,7 +28,10 @@ function Article(props) {
                                 <Item key={article.id}
                                       onClick={() => {
                                           props.dispatch(changeArticle(article.id));
-                                          Router.push('/article?article=' + article.id, `/subject/${props.subject.name}/${props.course.name}/${article.title}`, {shallow: true});
+                                          window.history.pushState(
+                                              {}, '',
+                                              `/subject/${props.subject.name}/${props.course.name}/${article.title}`
+                                          );
                                       }}>
                                     {article.display_title}
                                 </Item>

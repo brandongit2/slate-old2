@@ -100,8 +100,7 @@ export default function Register(props) {
                 });
                 
                 if (res.data.success) {
-                    const href = `/check-email?email=${email}&fname=${fName}`;
-                    Router.replace(href, href, {shallow: true});
+                    Router.push(`/check-email?email=${email}&fname=${fName}`, '/check-email');
                 } else {
                     switch (res.data.error) {
                         case errors.ACCOUNT_EXISTS:

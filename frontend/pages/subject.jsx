@@ -52,7 +52,7 @@ function Subject(props) {
                                           onClick={() => {
                                               props.dispatch(changeSubject(subject.id));
                                               props.dispatch(getChildren('subject', subject.id));
-                                              Router.push('/subject?subject=' + subject.id, '/subject/' + subject.name, {shallow: true});
+                                              window.history.pushState({}, '', '/subject/' + subject.name);
                                           }}>{subject.display_name}</Item>
                                   )) : null}
                             </Dropdown>

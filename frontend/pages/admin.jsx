@@ -7,7 +7,7 @@ import * as pages from '../components/adminPages';
 import css from './admin.scss';
 
 function Admin(props) {
-    const [currentPage, changePage] = React.useState('Overview');
+    const [currentPage, changePage] = React.useState(props.initialPage);
     const Page = pages[currentPage];
     
     const icons = {};
@@ -38,11 +38,17 @@ function Admin(props) {
                     <img src="/static/pie-chart.svg"
                          ref={icons.Overview}
                          className={currentPage === 'Overview' ? css.active : null}
-                         onClick={() => changePage('Overview')} />
+                         onClick={() => {
+                             changePage('Overview');
+                             window.history.pushState({}, '', '/admin/overview');
+                         }} />
                     <img src="/static/article.svg"
                          ref={icons.SiteContent}
                          className={currentPage === 'SiteContent' ? css.active : null}
-                         onClick={() => changePage('SiteContent')} />
+                         onClick={() => {
+                             changePage('SiteContent');
+                             window.history.pushState({}, '', '/admin/site-content');
+                         }} />
                 </div>
                 <div className={css.main}>
                     <Page />
@@ -51,6 +57,21 @@ function Admin(props) {
         </Layout>
     );
 }
+
+Admin.defaultProps = {
+    initialPage: 'Overview'
+};
+
+Admin.getInitialProps = async ({req}) => {
+    switch (req.params.page) {
+        case 'overview':
+            return {initialPage: 'Overview'};
+        case 'site-content':
+            return {initialPage: 'SiteContent'};
+        default:
+            return {};
+    }
+};
 
 function mapStateToProps(state) {
     return {

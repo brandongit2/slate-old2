@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Color from 'color';
 import Link from 'next/link';
-import Router, {withRouter} from 'next/router';
+import {withRouter} from 'next/router';
 import React from 'react';
 import {connect} from 'react-redux';
 
@@ -88,7 +88,10 @@ function Course(props) {
                                           onClick={() => {
                                               props.dispatch(changeCourse(course.id));
                                               props.dispatch(getChildren('course', course.id));
-                                              Router.push('/course?course=' + course.id, `/subject/${props.subject.name}/${course.name}`, {shallow: true});
+                                              window.history.pushState(
+                                                  {}, '',
+                                                  `/subject/${props.subject.name}/${course.name}`
+                                              );
                                           }}>
                                         {course.display_name}
                                     </Item>
