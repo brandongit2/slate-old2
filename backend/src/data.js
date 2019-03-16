@@ -174,7 +174,7 @@ exports.getParent = async (req, res) => {
             if (nameOrId === 'name') nameOrId = 'title';
             parent = await mysql.query(`SELECT DISTINCT units.id, units.name, units.display_name, units.description, units.course_id FROM units JOIN articles ON units.id=articles.unit_id WHERE articles.${nameOrId}=?`, [req.query.article]);
         } else {
-            res.status(404).end();
+            res.status(400).end();
         }
     } catch (err) {
         console.error(err);
@@ -191,27 +191,83 @@ exports.getChildren = async (req, res) => {
     let children;
 
     try {
-        if (req.query.subject) {
+        if (req.query.want) {
+            switch (req.query.want) {
+                case 'articles': {
+                    if (req.query.subject) {
+                        // Whether query refers to a name or id
+                        const nameOrId = isNaN(req.query.subject) ? 'name' : 'id';
+                        
+                        children = await mysql.query(`SELECT articles.id, articles.\`order\`, articles.title, articles.display_title, articles.publish_date, articles.update_date, articles.content FROM articles JOIN units ON units.id=articles.unit_id JOIN courses ON courses.id=units.course_id JOIN subjects ON subjects.id=courses.subject_id WHERE subjects.${nameOrId}=?`, [req.query.subject]);
+                    } else if (req.query.course) {
+                        // Whether query refers to a name or id
+                        const nameOrId = isNaN(req.query.course) ? 'name' : 'id';
+                        
+                        children = await mysql.query(`SELECT articles.id, articles.\`order\`, articles.title, articles.display_title, articles.publish_date, articles.update_date, articles.content FROM articles JOIN units ON units.id=articles.unit_id JOIN courses ON courses.id=units.course_id WHERE courses.${nameOrId}=?`, [req.query.course]);
+                    } else if (req.query.unit) {
+                        // Whether query refers to a name or id
+                        const nameOrId = isNaN(req.query.unit) ? 'name' : 'id';
+                        
+                        children = await mysql.query(`SELECT articles.id, articles.\`order\`, articles.title, articles.display_title, articles.publish_date, articles.update_date, articles.content FROM articles JOIN units ON units.id=articles.unit_id WHERE units.${nameOrId}=?`, [req.query.unit]);
+                    } else {
+                        res.status(400).end();
+                    }
+                    
+                    break;
+                }
+                case 'units': {
+                    if (req.query.subject) {
+                        // Whether query refers to a name or id
+                        const nameOrId = isNaN(req.query.subject) ? 'name' : 'id';
+                        
+                        children = await mysql.query(`SELECT units.id, units.\`order\`, units.name, units.display_name, units.description FROM units JOIN courses ON courses.id=units.course_id JOIN subjects ON subjects.id=courses.subject_id WHERE subjects.${nameOrId}=?`, [req.query.subject]);
+                    } else if (req.query.course) {
+                        // Whether query refers to a name or id
+                        const nameOrId = isNaN(req.query.course) ? 'name' : 'id';
+                        
+                        children = await mysql.query(`SELECT units.id, units.\`order\`, units.name, units.display_name, units.description FROM units JOIN courses ON courses.id=units.course_id WHERE courses.${nameOrId}=?`, [req.query.course]);
+                    } else {
+                        res.status(400).end();
+                    }
+                    
+                    break;
+                }
+                case 'courses': {
+                    if (req.query.subject) {
+                        // Whether query refers to a name or id
+                        const nameOrId = isNaN(req.query.subject) ? 'name' : 'id';
+                        
+                        children = await mysql.query(`SELECT courses.id, courses.\`order\`, courses.name, courses.display_name, courses.description FROM courses JOIN subjects ON subjects.id=courses.subject_id WHERE subjects.${nameOrId}=?`, [req.query.subject]);
+                    } else {
+                        res.status(400).end();
+                    }
+                    
+                    break;
+                }
+                default:
+                    res.status(400).end();
+            }
+        } else if (req.query.subject) {
             // Whether query refers to a name or id
             const nameOrId = isNaN(req.query.subject) ? 'name' : 'id';
 
-            children = await mysql.query(`SELECT courses.id, courses.order, courses.name, courses.display_name, courses.description FROM courses JOIN subjects ON subjects.id=courses.subject_id where subjects.${nameOrId}=?`, [req.query.subject]);
+            children = await mysql.query(`SELECT courses.id, courses.order, courses.name, courses.display_name, courses.description FROM courses JOIN subjects ON subjects.id=courses.subject_id WHERE subjects.${nameOrId}=?`, [req.query.subject]);
         } else if (req.query.course) {
             // Whether query refers to a name or id
             const nameOrId = isNaN(req.query.course) ? 'name' : 'id';
 
-            children = await mysql.query(`SELECT units.id, units.order, units.name, units.display_name, units.description FROM units JOIN courses ON courses.id=units.course_id where courses.${nameOrId}=?`, [req.query.course]);
+            children = await mysql.query(`SELECT units.id, units.order, units.name, units.display_name, units.description FROM units JOIN courses ON courses.id=units.course_id WHERE courses.${nameOrId}=?`, [req.query.course]);
         } else if (req.query.unit) {
             // Whether query refers to a name or id
             const nameOrId = isNaN(req.query.unit) ? 'name' : 'id';
 
-            children = await mysql.query(`SELECT articles.id, articles.order, articles.title, articles.display_title, articles.publish_date, articles.update_date FROM articles JOIN units ON units.id=articles.unit_id where units.${nameOrId}=?`, [req.query.unit]);
+            children = await mysql.query(`SELECT articles.id, articles.order, articles.title, articles.display_title, articles.publish_date, articles.update_date FROM articles JOIN units ON units.id=articles.unit_id WHERE units.${nameOrId}=?`, [req.query.unit]);
 
             children = children.map(data => {
                 return data;
             });
         } else {
-            res.status(404).end();
+            res.status(400).end();
         }
     } catch (err) {
         console.error(err);
