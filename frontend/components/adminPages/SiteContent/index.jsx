@@ -40,7 +40,6 @@ class UnwrappedSiteContent extends React.Component {
     };
     
     render() {
-        const {props} = this;
         return (
             <div className={css['site-content']}>
                 <header>
