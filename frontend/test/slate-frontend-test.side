@@ -163,9 +163,9 @@
       "id": "77d4d65f-6f8f-4f77-96d2-cd9a681e5554",
       "comment": "",
       "command": "click",
-      "target": "css=ul:nth-child(2) > li:nth-child(1) .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067",
+      "target": "css=#right-buttons___2mGHM li:nth-child(1) .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067",
       "targets": [
-        ["css=ul:nth-child(2) > li:nth-child(1) .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067", "css:finder"],
+        ["css=#right-buttons___2mGHM li:nth-child(1) .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067 > .jsx-3994285067", "css:finder"],
         ["xpath=//div[@id='right-buttons___2mGHM']/ul/li/a/div/span/span/span/span", "xpath:idRelative"],
         ["xpath=//div/ul/li/a/div/span/span/span/span", "xpath:position"]
       ],
@@ -275,11 +275,12 @@
       "id": "34d191ad-ed5c-4e63-985f-1932df129a2d",
       "comment": "",
       "command": "click",
-      "target": "css=#user___3uTZc > div:nth-child(1)",
+      "target": "css=.material-icons:nth-child(2)",
       "targets": [
-        ["css=#user___3uTZc > div:nth-child(1)", "css:finder"],
-        ["xpath=//div[@id='user___3uTZc']/div", "xpath:idRelative"],
-        ["xpath=//nav/div/div/div", "xpath:position"]
+        ["css=.material-icons:nth-child(2)", "css:finder"],
+        ["xpath=//div[@id='user___3uTZc']/div/i", "xpath:idRelative"],
+        ["xpath=//nav/div/div/div/i", "xpath:position"],
+        ["xpath=//i[contains(.,'arrow_drop_down')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
@@ -326,7 +327,7 @@
     "persistSession": false,
     "parallel": false,
     "timeout": 300,
-    "tests": ["a1953e15-a98b-488d-9b27-087a3980adff", "e5530e71-f31e-4cfa-8e84-19c2dde6d0d9", "e1ddc875-dc0e-4f92-ac4f-4f29c11c48e8"]
+    "tests": ["a1953e15-a98b-488d-9b27-087a3980adff", "e1ddc875-dc0e-4f92-ac4f-4f29c11c48e8"]
   }],
   "urls": ["https://www.google.com/", "localhost:8080", "http://localhost:8080/"],
   "plugins": []
