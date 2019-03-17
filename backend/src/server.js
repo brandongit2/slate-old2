@@ -38,8 +38,8 @@ app.get(apiUrl + '/article-content/:id', asyncHandler(data.getArticleContent));
 // example: <apiUrl>/parent?want=subject&article=2 gets the subject containing article #2
 app.get(apiUrl + '/parent', asyncHandler(data.getParent));
 
-// <apiUrl>/children?[want=<subject|course|unit>&]<subject|course|unit>=<name|id>
-// example: <apiUrl>/children?want=article&course=1 gets all articles belonging to course #1
+// <apiUrl>/children?[want=<courses|units|articles>&]<subject|course|unit>=<name|id>
+// example: <apiUrl>/children?want=articles&course=1 gets all articles belonging to course #1
 app.get(apiUrl + '/children', asyncHandler(data.getChildren));
 
 ////////////////////////////////////////////////// USER FUNCTIONS //////////////////////////////////////////////////////
