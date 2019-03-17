@@ -107,31 +107,26 @@ class Subjects_Unwrapped extends React.Component {
                     <tbody>
                         {props.subjects.map((subject, i) => (
                             <React.Fragment key={subject.id}>
-                                {this.state.originalRowPos === i ? (
-                                    <tr><td colSpan="3" style={{opacity: '0'}}>
-                                        This text is used for vertical spacing.
-                                    </td></tr>
-                                ) : (
-                                    <tr ref={ref => {
-                                            if (ref) {
-                                                if (Object.keys(this.tableRows).length !== props.subjects.length) {
-                                                    this.tableRows[subject.id] = ref.getBoundingClientRect().top;
-                                                }
-                                                if (this.rowHeight === 0) {
-                                                    this.rowHeight = ref.offsetHeight;
-                                                }
+                                <tr ref={ref => {
+                                        if (ref) {
+                                            if (Object.keys(this.tableRows).length !== props.subjects.length) {
+                                                this.tableRows[subject.id] = ref.getBoundingClientRect().top;
                                             }
-                                        }}>
-                                        <td>
-                                            <i className="material-icons"
-                                               onMouseDown={e => this.beginMoveRow(subject.id, e, i)}>
-                                                reorder
-                                            </i>
-                                        </td>
-                                        <td>{subject.display_name}</td>
-                                        <td>{subject.description}</td>
-                                    </tr>
-                                )}
+                                            if (this.rowHeight === 0) {
+                                                this.rowHeight = ref.offsetHeight;
+                                            }
+                                        }
+                                    }}
+                                    style={{opacity: this.state.originalRowPos === i ? '0' : '1'}}>
+                                    <td>
+                                        <i className="material-icons"
+                                           onMouseDown={e => this.beginMoveRow(subject.id, e, i)}>
+                                            reorder
+                                        </i>
+                                    </td>
+                                    <td>{subject.display_name}</td>
+                                    <td>{subject.description}</td>
+                                </tr>
                             </React.Fragment>
                         ))}
                     </tbody>
