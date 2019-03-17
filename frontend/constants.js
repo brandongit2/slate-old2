@@ -20,8 +20,9 @@ export const actionTypes = {
     AUTHENTICATE:  'authenticate',
     SET_USER_INFO: 'set user info',
 
-    SET_INFO:     'set info',
-    TOGGLE_THEME: 'toggle theme'
+    SET_INFO:           'set info',
+    TOGGLE_THEME:       'toggle theme',
+    UPDATE_ADMIN_STATE: 'update admin state'
 };
 
 // These constants must be added to the backend `constants.js` as well.

@@ -21,7 +21,7 @@ export default combineReducers({
     notifications:        snackbar.notificationsReducers,
     visibleNotifications: snackbar.visibleNotificationsReducers,
     user,
-
+    
     currentSubject: (state = null, action) => {
         if (action.type === actionTypes.CHANGE_SUBJECT) {
             return action.newSubject;

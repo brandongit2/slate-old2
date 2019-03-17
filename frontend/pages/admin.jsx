@@ -8,7 +8,6 @@ import css from './admin.scss';
 
 function Admin(props) {
     const [currentPage, changePage] = React.useState(props.initialPage);
-    const Page = pages[currentPage];
     
     const icons = {};
     for (let page of Object.keys(pages)) {
@@ -50,7 +49,17 @@ function Admin(props) {
                          }} />
                 </div>
                 <div className={css.main}>
-                    <Page />
+                    {Object.entries(pages).map(([pageId, Page]) => (
+                        <div key={pageId}
+                             style={{
+                                 position:  'absolute',
+                                 width:     '100%',
+                                 height:    '100%',
+                                 transform: currentPage === pageId ? 'translateX(0px)' : 'translateX(100vw)'
+                             }}>
+                            <Page />
+                        </div>
+                    ))}
                 </div>
             </div>
         </Layout>
