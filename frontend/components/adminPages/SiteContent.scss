@@ -45,12 +45,13 @@
             display: flex;
             background: var(--text-color);
             color: var(--background-color);
-            transition: clip-path 0.4s cubic-bezier(0.86, 0, 0.07, 1);
+            transition: clip-path 0.4s cubic-bezier(0.86, 0, 0.07, 1), background 0.5s;
             
             li {
                 padding: 5px 1rem;
                 cursor: pointer;
                 background: transparent;
+                transition: color 0.5s;
             }
         }
     }

@@ -12,12 +12,16 @@
         position: relative;
         
         #triangle {
-            width: 8px;
-            height: 8px;
-            background: var(--background-color);
+            // CSS triangle hack
+            border-top: 4px solid white;
+            border-left: 4px solid white;
+            border-right: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+            width: 0px;
+            height: 0px;
             position: absolute;
             right: 0px;
-            transform: translate(50%, -50%) rotate(45deg);
+            transform: translate(50%, -50%) rotate(-45deg);
             transition: top 0.5s cubic-bezier(0.86, 0, 0.07, 1), background 0.5s;
         }
         
