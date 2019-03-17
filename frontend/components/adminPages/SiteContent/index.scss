@@ -55,4 +55,57 @@
             }
         }
     }
+    
+    main.subjects {
+        margin: 0px 1rem;
+        
+        table {
+            table-layout: fixed;
+            border-collapse: collapse;
+            width: 100%;
+            
+            i:global(.material-icons) {
+                font-size: 90%;
+                color: var(--secondary-text-color);
+                transition: color 0.5s;
+            }
+            
+            td, th {
+                padding: 0.5rem;
+                vertical-align: middle;
+                transition: color 0.5s;
+                
+                &:nth-child(1) {
+                    width: 1em;
+                    
+                    i {
+                        cursor: move;
+                    }
+                }
+                
+                &:nth-child(3) {
+                    width: 80%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+            }
+            
+            thead {
+                border-bottom: 1px solid var(--border-color);
+                transition: border 0.5s;
+            }
+            
+            tbody {
+                tr {
+                    cursor: pointer;
+                    transition: background 0.2s;
+                    
+                    &:hover {
+                        background: var(--background-hover-color);
+                    }
+                }
+            }
+        }
+    }
 }
