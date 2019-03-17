@@ -468,7 +468,7 @@ describe('data functions', () => {
 
     describe('/api/children', () => {
         describe('query by subject', () => {
-            it('subject 1, by id - should return 200 with query result', done => {
+            it('subject 1, by id, no want specified - should return 200 with query result', done => {
                 request(app.app).get('/api/children?subject=1').expect(200).end((err, res) => {
                     if (err) throw err;
                     assert.deepEqual(res.body, [
@@ -479,7 +479,7 @@ describe('data functions', () => {
                 });
             });
 
-            it('subject 1, by name - should return 200 with query result', done => {
+            it('subject 1, by name, no want specified - should return 200 with query result', done => {
                 request(app.app).get('/api/children?subject=mathematics').expect(200).end((err, res) => {
                     if (err) throw err;
                     assert.deepEqual(res.body, [
@@ -490,7 +490,69 @@ describe('data functions', () => {
                 });
             });
 
-            it('subject 2, by id - should return 200 with query result', done => {
+            it('subject 1, by id, want courses - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=courses&subject=1').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, [
+                        {id: 1, order: 1, name: 'differential-calculus', display_name: 'Differential calculus', subject_id: 1, description: 'haha calculus'},
+                        {id: 2, order: 2, name: 'integral-calculus', display_name: 'Integral calculus', subject_id: 1, description: 'finding area under curves, antiderivatives, etc.'}
+                    ]);
+                    done();
+                });
+            });
+
+            it('subject 1, by name, want courses - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=courses&subject=mathematics').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, [
+                        {id: 1, order: 1, name: 'differential-calculus', display_name: 'Differential calculus', subject_id: 1, description: 'haha calculus'},
+                        {id: 2, order: 2, name: 'integral-calculus', display_name: 'Integral calculus', subject_id: 1, description: 'finding area under curves, antiderivatives, etc.'}
+                    ]);
+                    done();
+                });
+            });
+
+            it('subject 1, by id, want units - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=units&subject=1').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, [{id: 1, order: 1, name: '01-slopes-of-secant-and-tangent-lines', display_name: 'Slopes of secant and tangent lines', description: 'Find the slopes of lines intersecting functions.', course_id: 1}, {id: 2, order: 2, name: '01-limits', display_name: 'Limits', description: 'One of the most important aspects of calculus.', course_id: 1}, {id: 3, order: 1, name: '02-the-fundamental-theorem-of-calculus', display_name: 'The fundamental theorem of calculus', description: 'yeah', course_id: 2}]);
+                    done();
+                });
+            });
+
+            it('subject 1, by name, want units - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=units&subject=mathematics').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, [{id: 1, order: 1, name: '01-slopes-of-secant-and-tangent-lines', display_name: 'Slopes of secant and tangent lines', description: 'Find the slopes of lines intersecting functions.', course_id: 1}, {id: 2, order: 2, name: '01-limits', display_name: 'Limits', description: 'One of the most important aspects of calculus.', course_id: 1}, {id: 3, order: 1, name: '02-the-fundamental-theorem-of-calculus', display_name: 'The fundamental theorem of calculus', description: 'yeah', course_id: 2}]);
+                    done();
+                });
+            });
+
+            it('subject 1, by id, want articles - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=articles&subject=1').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, [{id: 1, order: 1, title: '01-slope-review', display_title: 'Slope Review', publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z', unit_id: 1}, {id: 2, order: 2, title: '01-secant-lines', display_title: 'Secant Lines', publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z', unit_id: 1}, {id: 3, order: 1, title: '02-intro-to-limits', display_title: 'Intro to Limits', publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z', unit_id: 2}, {id: 4, order: 1, title: '03-the-fundamental-theorem-of-calculus-part-1', display_title: 'The Fundamental Theorem of Calculus, part 1', publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z', unit_id: 3}]);
+                    done();
+                });
+            });
+
+            it('subject 1, by name, want articles - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=articles&subject=mathematics').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, [{id: 1, order: 1, title: '01-slope-review', display_title: 'Slope Review', publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z', unit_id: 1}, {id: 2, order: 2, title: '01-secant-lines', display_title: 'Secant Lines', publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z', unit_id: 1}, {id: 3, order: 1, title: '02-intro-to-limits', display_title: 'Intro to Limits', publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z', unit_id: 2}, {id: 4, order: 1, title: '03-the-fundamental-theorem-of-calculus-part-1', display_title: 'The Fundamental Theorem of Calculus, part 1', publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z', unit_id: 3}]);
+                    done();
+                });
+            });
+
+            it('subject 1, by id, bad want query - should return 400', done => {
+                request(app.app).get('/api/children?want=subject&subject=1').expect(400, done);
+            });
+
+            it('subject 1, by name, bad want query - should return 400', done => {
+                request(app.app).get('/api/children?want=subject&subject=mathematics').expect(400, done);
+            });
+
+            it('subject 2, by id, no want specified - should return 200 with query result', done => {
                 request(app.app).get('/api/children?subject=2').expect(200).end((err, res) => {
                     if (err) throw err;
                     assert.deepEqual(res.body, [{id: 3, order: 1, name: 'cells', display_name: 'Cells', subject_id: 2, description: 'cells are pretty cool!'}]);
@@ -498,7 +560,7 @@ describe('data functions', () => {
                 });
             });
 
-            it('subject 2, by name - should return 200 with query result', done => {
+            it('subject 2, by name, no want specified - should return 200 with query result', done => {
                 request(app.app).get('/api/children?subject=biology').expect(200).end((err, res) => {
                     if (err) throw err;
                     assert.deepEqual(res.body, [{id: 3, order: 1, name: 'cells', display_name: 'Cells', subject_id: 2, description: 'cells are pretty cool!'}]);
@@ -506,7 +568,63 @@ describe('data functions', () => {
                 });
             });
 
-            it('subject 3, by id - should return 200 with query result', done => {
+            it('subject 2, by id, want courses - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=courses&subject=2').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, [{id: 3, order: 1, name: 'cells', display_name: 'Cells', subject_id: 2, description: 'cells are pretty cool!'}]);
+                    done();
+                });
+            });
+
+            it('subject 2, by name, want courses - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=courses&subject=biology').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, [{id: 3, order: 1, name: 'cells', display_name: 'Cells', subject_id: 2, description: 'cells are pretty cool!'}]);
+                    done();
+                });
+            });
+
+            it('subject 2, by id, want units - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=units&subject=2').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, [{id: 4, order: 1, name: '03-intro-to-cells', display_name: 'Intro to cells', description: 'introduction to cells', course_id: 3}]);
+                    done();
+                });
+            });
+
+            it('subject 2, by name, want units - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=units&subject=biology').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, [{id: 4, order: 1, name: '03-intro-to-cells', display_name: 'Intro to cells', description: 'introduction to cells', course_id: 3}]);
+                    done();
+                });
+            });
+
+            it('subject 2, by id, want articles - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=articles&subject=2').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, []);
+                    done();
+                });
+            });
+
+            it('subject 2, by name, want articles - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=articles&subject=biology').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, []);
+                    done();
+                });
+            });
+
+            it('subject 2, by id, bad want query - should return 400', done => {
+                request(app.app).get('/api/children?want=subject&subject=2').expect(400, done);
+            });
+
+            it('subject 2, by name, bad want query - should return 400', done => {
+                request(app.app).get('/api/children?want=subject&subject=biology').expect(400, done);
+            });
+
+            it('subject 3, by id, no want query - should return 200 with query result', done => {
                 request(app.app).get('/api/children?subject=3').expect(200).end((err, res) => {
                     if (err) throw err;
                     assert.deepEqual(res.body, []);
@@ -514,12 +632,68 @@ describe('data functions', () => {
                 });
             });
 
-            it('subject 3, by name - should return 200 with query result', done => {
+            it('subject 3, by name, no want query - should return 200 with query result', done => {
                 request(app.app).get('/api/children?subject=chemistry').expect(200).end((err, res) => {
                     if (err) throw err;
                     assert.deepEqual(res.body, []);
                     done();
                 });
+            });
+
+            it('subject 3, by id, want courses - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=courses&subject=3').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, []);
+                    done();
+                });
+            });
+
+            it('subject 3, by name, want courses - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=courses&subject=chemistry').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, []);
+                    done();
+                });
+            });
+
+            it('subject 3, by id, want units - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=units&subject=3').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, []);
+                    done();
+                });
+            });
+
+            it('subject 3, by name, want articles - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=articles&subject=chemistry').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, []);
+                    done();
+                });
+            });
+
+            it('subject 3, by id, want articles - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=articles&subject=3').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, []);
+                    done();
+                });
+            });
+
+            it('subject 3, by name, want units - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=units&subject=chemistry').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, []);
+                    done();
+                });
+            });
+
+            it('subject 3, by id, bad want query - should return 400', done => {
+                request(app.app).get('/api/children?want=subject&subject=3').expect(400, done);
+            });
+
+            it('subject 3, by name, bad want query - should return 400', done => {
+                request(app.app).get('/api/children?want=subject&subject=chemistry').expect(400, done);
             });
 
             it('subject 4 (nonexistent), by id - should return 200 with empty array', done => {
@@ -530,7 +704,7 @@ describe('data functions', () => {
                 });
             });
 
-            it('subject 4(nonexistent), by name - should return 200 with empty array', done => {
+            it('subject 4 (nonexistent), by name - should return 200 with empty array', done => {
                 request(app.app).get('/api/children?subject=nonexistantsubject').expect(200).end((err, res) => {
                     if (err) throw err;
                     assert.deepEqual(res.body, []);
@@ -540,7 +714,7 @@ describe('data functions', () => {
         });
 
         describe('query by course', () => {
-            it('course 1, by id - should return 200 with query result', done => {
+            it('course 1, by id, no want specified - should return 200 with query result', done => {
                 request(app.app).get('/api/children?course=1').expect(200).end((err, res) => {
                     if (err) throw err;
                     assert.deepEqual(res.body, [{id: 1, order: 1, name: '01-slopes-of-secant-and-tangent-lines', display_name: 'Slopes of secant and tangent lines', course_id: 1, description: 'Find the slopes of lines intersecting functions.'}, {id: 2, order: 2, name: '01-limits', display_name: 'Limits', course_id: 1, description: 'One of the most important aspects of calculus.'}]);
@@ -548,7 +722,7 @@ describe('data functions', () => {
                 });
             });
 
-            it('course 1, by name - should return 200 with query result', done => {
+            it('course 1, by name, no want specified - should return 200 with query result', done => {
                 request(app.app).get('/api/children?course=differential-calculus').expect(200).end((err, res) => {
                     if (err) throw err;
                     assert.deepEqual(res.body, [{id: 1, order: 1, name: '01-slopes-of-secant-and-tangent-lines', display_name: 'Slopes of secant and tangent lines', course_id: 1, description: 'Find the slopes of lines intersecting functions.'}, {id: 2, order: 2, name: '01-limits', display_name: 'Limits', course_id: 1, description: 'One of the most important aspects of calculus.'}]);
@@ -556,23 +730,47 @@ describe('data functions', () => {
                 });
             });
 
-            it('course 2, by id - should return 200 with query result', done => {
-                request(app.app).get('/api/children?course=2').expect(200).end((err, res) => {
+            it('course 1, by id, want units - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=units&course=1').expect(200).end((err, res) => {
                     if (err) throw err;
-                    assert.deepEqual(res.body, [{id: 3, order: 1, name: '02-the-fundamental-theorem-of-calculus', course_id: 2, display_name: 'The fundamental theorem of calculus', description: 'yeah'}]);
+                    assert.deepEqual(res.body, [{id: 1, order: 1, name: '01-slopes-of-secant-and-tangent-lines', display_name: 'Slopes of secant and tangent lines', course_id: 1, description: 'Find the slopes of lines intersecting functions.'}, {id: 2, order: 2, name: '01-limits', display_name: 'Limits', course_id: 1, description: 'One of the most important aspects of calculus.'}]);
                     done();
                 });
             });
 
-            it('course 2, by name - should return 200 with query result', done => {
-                request(app.app).get('/api/children?course=integral-calculus').expect(200).end((err, res) => {
+            it('course 1, by name, want units - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=units&course=differential-calculus').expect(200).end((err, res) => {
                     if (err) throw err;
-                    assert.deepEqual(res.body, [{id: 3, order: 1, name: '02-the-fundamental-theorem-of-calculus', course_id: 2, display_name: 'The fundamental theorem of calculus', description: 'yeah'}]);
+                    assert.deepEqual(res.body, [{id: 1, order: 1, name: '01-slopes-of-secant-and-tangent-lines', display_name: 'Slopes of secant and tangent lines', course_id: 1, description: 'Find the slopes of lines intersecting functions.'}, {id: 2, order: 2, name: '01-limits', display_name: 'Limits', course_id: 1, description: 'One of the most important aspects of calculus.'}]);
                     done();
                 });
             });
 
-            it('course 3, by id - should return 200 with query result', done => {
+            it('course 1, by id, want articles - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=articles&course=1').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, [{id: 1, order: 1, title: '01-slope-review', display_title: 'Slope Review', publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z', unit_id: 1}, {id: 2, order: 2, title: '01-secant-lines', display_title: 'Secant Lines', publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z', unit_id: 1}, {id: 3, order: 1, title: '02-intro-to-limits', display_title: 'Intro to Limits', publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z', unit_id: 2}]);
+                    done();
+                });
+            });
+
+            it('course 1, by name, want articles - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=articles&course=differential-calculus').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, [{id: 1, order: 1, title: '01-slope-review', display_title: 'Slope Review', publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z', unit_id: 1}, {id: 2, order: 2, title: '01-secant-lines', display_title: 'Secant Lines', publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z', unit_id: 1}, {id: 3, order: 1, title: '02-intro-to-limits', display_title: 'Intro to Limits', publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z', unit_id: 2}]);
+                    done();
+                });
+            });
+
+            it('course 1, by id, bad want query - should return 400', done => {
+                request(app.app).get('/api/children?want=subjects&course=1').expect(400, done);
+            });
+
+            it('course 1, by name, bad want query - should return 400', done => {
+                request(app.app).get('/api/children?want=subjects&course=differential-calculus').expect(400, done);
+            });
+
+            it('course 3, by id, no want specified - should return 200 with query result', done => {
                 request(app.app).get('/api/children?course=3').expect(200).end((err, res) => {
                     if (err) throw err;
                     assert.deepEqual(res.body, [{id: 4, order: 1, name: '03-intro-to-cells', display_name: 'Intro to cells', course_id: 3, description: 'introduction to cells'}]);
@@ -580,12 +778,52 @@ describe('data functions', () => {
                 });
             });
 
-            it('course 3, by name - should return 200 with query result', done => {
+            it('course 3, by name, no want specified - should return 200 with query result', done => {
                 request(app.app).get('/api/children?course=cells').expect(200).end((err, res) => {
                     if (err) throw err;
                     assert.deepEqual(res.body, [{id: 4, order: 1, name: '03-intro-to-cells', display_name: 'Intro to cells', course_id: 3, description: 'introduction to cells'}]);
                     done();
                 });
+            });
+
+            it('course 3, by id, want units - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=units&course=3').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, [{id: 4, order: 1, name: '03-intro-to-cells', display_name: 'Intro to cells', course_id: 3, description: 'introduction to cells'}]);
+                    done();
+                });
+            });
+
+            it('course 3, by name, want units - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=units&course=cells').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, [{id: 4, order: 1, name: '03-intro-to-cells', display_name: 'Intro to cells', course_id: 3, description: 'introduction to cells'}]);
+                    done();
+                });
+            });
+
+            it('course 3, by id, want articles - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=articles&course=3').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, []);
+                    done();
+                });
+            });
+
+            it('course 3, by name, want articles - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=articles&course=cells').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, []);
+                    done();
+                });
+            });
+
+            it('course 3, by id, bad want query - should return 400', done => {
+                request(app.app).get('/api/children?want=subjects&course=3').expect(400, done);
+            });
+
+            it('course 3, by name, bad want query - should return 400', done => {
+                request(app.app).get('/api/children?want=subjects&course=cells').expect(400, done);
             });
 
             it('course 4 (nonexistent), by id - should return 200 with empty array', done => {
@@ -606,7 +844,7 @@ describe('data functions', () => {
         });
 
         describe('query by unit', () => {
-            it('unit 1, by id - should return 200 with query result', done => {
+            it('unit 1, by id, no want specified - should return 200 with query result', done => {
                 request(app.app).get('/api/children?unit=1').expect(200).end((err, res) => {
                     if (err) throw err;
                     assert.deepEqual(res.body, [{id: 1, order: 1, title: '01-slope-review', display_title: 'Slope Review', unit_id: 1, publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z'}, {id: 2, order: 2, title: '01-secant-lines', display_title: 'Secant Lines', unit_id: 1, publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z'}]);
@@ -614,7 +852,7 @@ describe('data functions', () => {
                 });
             });
 
-            it('unit 1, by name - should return 200 with query result', done => {
+            it('unit 1, by name, no want specified - should return 200 with query result', done => {
                 request(app.app).get('/api/children?unit=01-slopes-of-secant-and-tangent-lines').expect(200).end((err, res) => {
                     if (err) throw err;
                     assert.deepEqual(res.body, [{id: 1, order: 1, title: '01-slope-review', display_title: 'Slope Review', unit_id: 1, publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z'}, {id: 2, order: 2, title: '01-secant-lines', display_title: 'Secant Lines', unit_id: 1, publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z'}]);
@@ -622,7 +860,31 @@ describe('data functions', () => {
                 });
             });
 
-            it('unit 4, by id - should return 200 with query result', done => {
+            it('unit 1, by id, want want articles - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=articles&unit=1').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, [{id: 1, order: 1, title: '01-slope-review', display_title: 'Slope Review', unit_id: 1, publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z'}, {id: 2, order: 2, title: '01-secant-lines', display_title: 'Secant Lines', unit_id: 1, publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z'}]);
+                    done();
+                });
+            });
+
+            it('unit 1, by name, want articles - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=articles&unit=01-slopes-of-secant-and-tangent-lines').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, [{id: 1, order: 1, title: '01-slope-review', display_title: 'Slope Review', unit_id: 1, publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z'}, {id: 2, order: 2, title: '01-secant-lines', display_title: 'Secant Lines', unit_id: 1, publish_date: '2019-03-11T02:54:13.000Z', update_date: '2019-03-11T02:54:26.000Z'}]);
+                    done();
+                });
+            });
+
+            it('unit 1, by id, bad want query - should return 400', done => {
+                request(app.app).get('/api/children?want=subjects&unit=1').expect(400, done);
+            });
+
+            it('unit 1, by name, bad want query - should return 400', done => {
+                request(app.app).get('/api/children?want=subjects&unit=01-slopes-of-secant-and-tangent-lines').expect(400, done);
+            });
+
+            it('unit 4, by id, no want specified - should return 200 with query result', done => {
                 request(app.app).get('/api/children?unit=4').expect(200).end((err, res) => {
                     if (err) throw err;
                     assert.deepEqual(res.body, []);
@@ -630,12 +892,36 @@ describe('data functions', () => {
                 });
             });
 
-            it('unit 4, by name - should return 200 with query result', done => {
+            it('unit 4, by name, no want specified - should return 200 with query result', done => {
                 request(app.app).get('/api/children?unit=03-intro-to-cells').expect(200).end((err, res) => {
                     if (err) throw err;
                     assert.deepEqual(res.body, []);
                     done();
                 });
+            });
+
+            it('unit 4, by id, want articles - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=articles&unit=4').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, []);
+                    done();
+                });
+            });
+
+            it('unit 4, by name, want articles - should return 200 with query result', done => {
+                request(app.app).get('/api/children?want=articles&unit=03-intro-to-cells').expect(200).end((err, res) => {
+                    if (err) throw err;
+                    assert.deepEqual(res.body, []);
+                    done();
+                });
+            });
+
+            it('unit 4, by id, bad want query - should return 400', done => {
+                request(app.app).get('/api/children?want=subjects&unit=4').expect(400, done);
+            });
+
+            it('unit 4, by name, bad want query - should return 400', done => {
+                request(app.app).get('/api/children?want=subjects&unit=03-intro-to-cells').expect(400, done);
             });
 
             it('unit 5 (nonexistent), by id - should return 200 with empty array', done => {
