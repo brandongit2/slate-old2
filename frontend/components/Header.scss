@@ -72,6 +72,10 @@
                 transition: background 0.2s;
                 cursor: pointer;
                 
+                &:hover, &:focus {
+                    background: var(--background-hover-color);
+                }
+                
                 & > div:first-child {
                     display: flex;
                     align-items: center;
@@ -80,24 +84,9 @@
                 
                 .check {
                     transition: opacity 0.5s;
-                }
-                
-                &.light {
-                    &:hover, &:focus {
-                        background: rgba(0, 0, 0, 0.05);
-                    }
+                    opacity: 0;
                     
-                    .check {
-                        opacity: 0;
-                    }
-                }
-                
-                &.dark {
-                    &:hover, &:focus {
-                        background: rgba(255, 255, 255, 0.05);
-                    }
-                    
-                    .check {
+                    &.active {
                         opacity: 1;
                     }
                 }

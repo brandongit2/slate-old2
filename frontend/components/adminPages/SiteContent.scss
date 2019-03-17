@@ -1,0 +1,55 @@
+.site-content {
+    h1 {
+        margin: 1rem;
+    }
+    
+    nav {
+        position: relative;
+        border-bottom: 1px solid var(--text-color);
+        transition: border 0.5s;
+        
+        ul {
+            margin: 0px 1rem;
+            padding: 0px;
+            list-style-type: none;
+            display: flex;
+            
+            li {
+                padding: 5px 1rem;
+                cursor: pointer;
+                background: transparent;
+                transition: background 0.5s, color 0.5s, box-shadow 0.2s;
+                
+                &:hover {
+                    // Essentially sets the background color of the item. Used since background transition must be 0.5s
+                    // for theme changes, but hover transitions must be 0.2s. This way, hovering can still change the
+                    // background color in 0.2s, and theme changes can still do it in 0.5s.
+                    box-shadow: inset 0px 0px 100px 0px var(--background-hover-color);
+                }
+            }
+        }
+    }
+    
+    .highlight {
+        position: absolute;
+        top: 0px;
+        pointer-events: none;
+        border: none;
+        
+        ul {
+            margin: 0px 1rem;
+            padding: 0px;
+            list-style-type: none;
+            display: flex;
+            background: var(--text-color);
+            color: var(--background-color);
+            transition: clip-path 0.4s cubic-bezier(0.86, 0, 0.07, 1);
+            
+            li {
+                padding: 5px 1rem;
+                cursor: pointer;
+                background: transparent;
+            }
+        }
+    }
+}

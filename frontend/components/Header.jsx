@@ -31,10 +31,10 @@ function Header(props) {
     
     return (
         <header className={[css.header, props.float ? css.float : ''].join(' ')}
-             style={{
-                 boxShadow:    props.noShadow ? 'none' : '0px 0px 30px var(--shadow-color)',
-                 borderBottom: props.noShadow ? '1px solid var(--secondary-border-color)' : 'none'
-             }}>
+                style={{
+                    boxShadow:    props.noShadow ? 'none' : '0px 0px 30px var(--shadow-color)',
+                    borderBottom: props.noShadow ? '1px solid var(--secondary-border-color)' : 'none'
+                }}>
             <Link href="/subjects">
                 <a id={css.logo}>
                     <img src="/static/slate-logo.svg" alt="Slate logo" className="bw-icon" style={{height: '100%'}} />
@@ -79,7 +79,11 @@ function Header(props) {
                                         <tr onClick={props.toggleTheme}>
                                             <td><p>Dark mode</p></td>
                                             <td>
-                                                <i className={['material-icons', css.check].join(' ')}>
+                                                <i className={[
+                                                        'material-icons',
+                                                        css.check,
+                                                        props.user.theme === 'dark' ? css.active : ''
+                                                    ].join(' ')}>
                                                     check
                                                 </i>
                                             </td>
