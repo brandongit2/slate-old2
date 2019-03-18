@@ -75,7 +75,6 @@ class Subjects_Unwrapped extends React.Component {
                     swaps.push([i, i - 1]);
                 }
             }
-            console.log(...swaps);
             
             for (const swap of swaps) {
                 // Swap the two rows
@@ -87,8 +86,6 @@ class Subjects_Unwrapped extends React.Component {
                 temp = this.tableRows[swap[1]];
                 this.tableRows[swap[1]] = this.tableRows[swap[0]];
                 this.tableRows[swap[0]] = temp;
-                
-                console.log(this.subjectList.map(subject => subject.id));
             }
             
             if (this.state.currentField < currentField) { // Mouse moved down
