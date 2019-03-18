@@ -19,7 +19,7 @@ describe('Util.js', () => {
             assert.equal(token.length, 16);
         });
     });
-    describe('#parseContent', () => {
+    describe('#parseContent()', () => {
         it('should surround with <p> tags', () => {
             const parsed = util.parseContent('Test');
             assert.equal(parsed, '<p>Test</p>');
