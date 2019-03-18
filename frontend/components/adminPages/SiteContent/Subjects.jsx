@@ -18,7 +18,8 @@ class Subjects_Unwrapped extends React.Component {
         isRowBeingMoved: false,
         rowBeingMoved:   {},
         mouseOffset:     [0, 0],
-        originalRowPos:  -1
+        originalRowPos:  -1,
+        currentField:    -1
     };
     
     constructor(props) {
@@ -27,8 +28,9 @@ class Subjects_Unwrapped extends React.Component {
         props.dispatch(getAllSubjects());
         
         this.tableWidth = 0;
-        this.rowHeight = 0;
-        this.tableRows = {};
+        this.tableRows = [];
+        this.fieldBounds = [];
+        this.subjectList = [];
     }
     
     beginMoveRow = (subjectId, e, i) => {
@@ -51,12 +53,44 @@ class Subjects_Unwrapped extends React.Component {
     };
     
     moveRow = e => {
+        let currentField = -1;
+        let originalRowPos = this.state.originalRowPos;
+        for (const [i, fieldBound] of this.fieldBounds.entries()) {
+            if (e.clientY <= fieldBound) {
+                currentField = i;
+                break;
+            }
+        }
+        if (currentField === -1) currentField = this.fieldBounds.length;
+        
+        // If mouse moved across a field boundary
+        if (this.state.currentField !== currentField && this.state.currentField !== -1) {
+            const swap = [this.state.currentField, currentField];
+            
+            // Swap the two rows
+            let temp = this.subjectList[swap[1]];
+            this.subjectList[swap[1]] = this.subjectList[swap[0]];
+            this.subjectList[swap[0]] = temp;
+            originalRowPos = currentField;
+            
+            temp = this.tableRows[swap[1]];
+            this.tableRows[swap[1]] = this.tableRows[swap[0]];
+            this.tableRows[swap[0]] = temp;
+            
+            if (this.state.currentField < currentField) { // Mouse moved down
+                this.tableRows[this.state.currentField].style.animation = `${css['move-up']} 0.3s forwards`;
+            } else if (this.state.currentField > currentField) { // Mouse moved up
+                this.tableRows[this.state.currentField].style.animation = `${css['move-down']} 0.3s forwards`;
+            }
+        }
+        
         this.setState({
             rowBeingMoved: {
                 ...this.state.rowBeingMoved,
                 x: e.clientX - this.state.mouseOffset[0],
                 y: e.clientY - this.state.mouseOffset[1]
-            }
+            },
+            currentField, originalRowPos
         });
     };
     
@@ -64,7 +98,8 @@ class Subjects_Unwrapped extends React.Component {
         this.setState({
             isRowBeingMoved: false,
             rowBeingMoved:   {},
-            originalRowPos:  -1
+            originalRowPos:  -1,
+            currentField:    -1
         });
         window.removeEventListener('mouseup', this.endMoveRow);
         window.removeEventListener('mousemove', this.moveRow);
@@ -72,6 +107,17 @@ class Subjects_Unwrapped extends React.Component {
     
     render() {
         const {props} = this;
+        
+        if (this.fieldBounds.length === 0) {
+            for (const row of this.tableRows.slice(1)) {
+                this.fieldBounds.push(row.getBoundingClientRect().top);
+            }
+        }
+        
+        if (this.subjectList.length === 0) {
+            this.subjectList = [...props.subjects];
+        }
+        
         return (
             <div>
                 {this.state.isRowBeingMoved ? (
@@ -79,13 +125,13 @@ class Subjects_Unwrapped extends React.Component {
                         <table className={[css.table, css.floating].join(' ')}
                                style={{
                                    width:     `${this.tableWidth}px`,
-                                   transform: `translate(${this.state.rowBeingMoved.x}px, ${this.state.rowBeingMoved.y}px)`
+                                   transform: `translate(${this.state.rowBeingMoved.x}px, ${this.state.rowBeingMoved.y}px)`,
+                                   animation: `${css['fade-hover-in']} 0.2s forwards`
                                }}>
                             <tbody>
                                 <tr>
                                     <td>
-                                        <i className="material-icons"
-                                           onMouseDown={() => this.beginMoveRow(this.state.rowBeingMoved.id)}>
+                                        <i className="material-icons">
                                             reorder
                                         </i>
                                     </td>
@@ -105,16 +151,11 @@ class Subjects_Unwrapped extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {props.subjects.map((subject, i) => (
+                        {this.subjectList.map((subject, i) => (
                             <React.Fragment key={subject.id}>
                                 <tr ref={ref => {
-                                        if (ref) {
-                                            if (Object.keys(this.tableRows).length !== props.subjects.length) {
-                                                this.tableRows[subject.id] = ref.getBoundingClientRect().top;
-                                            }
-                                            if (this.rowHeight === 0) {
-                                                this.rowHeight = ref.offsetHeight;
-                                            }
+                                        if (ref && this.tableRows.length !== props.subjects.length) {
+                                            this.tableRows[i] = ref;
                                         }
                                     }}
                                     style={{opacity: this.state.originalRowPos === i ? '0' : '1'}}>

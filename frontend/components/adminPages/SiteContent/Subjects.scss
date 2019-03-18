@@ -8,14 +8,9 @@
         z-index: 30;
         top: 0px;
         left: 0px;
-        box-shadow: 0px 0px 20px 0px var(--border-color);
         
-        tr {
-            background: var(--background-color);
-            
-            &:hover {
-                background: var(--background-color);
-            }
+        tr:hover {
+            background: transparent;
         }
     }
     
@@ -60,5 +55,37 @@
                 background: var(--background-hover-color);
             }
         }
+    }
+}
+
+@keyframes fade-hover-in {
+    from {
+        background: transparent;
+        box-shadow: none;
+    }
+    
+    to {
+        background: var(--background-color);
+        box-shadow: 0px 0px 20px 0px var(--border-color);
+    }
+}
+
+@keyframes move-up {
+    from {
+        transform: translateY(100%);
+    }
+    
+    to {
+        transform: translateY(0%);
+    }
+}
+
+@keyframes move-down {
+    from {
+        transform: translateY(-100%);
+    }
+    
+    to {
+        transform: translateY(0%);
     }
 }
