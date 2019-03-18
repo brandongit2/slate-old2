@@ -65,22 +65,40 @@ class Subjects_Unwrapped extends React.Component {
         
         // If mouse moved across a field boundary
         if (this.state.currentField !== currentField && this.state.currentField !== -1) {
-            const swap = [this.state.currentField, currentField];
+            let swaps = [];
+            if (this.state.currentField < currentField) {
+                for (let i = this.state.currentField; i < currentField; i++) {
+                    swaps.push([i, i + 1]);
+                }
+            } else {
+                for (let i = this.state.currentField; i > currentField; i--) {
+                    swaps.push([i, i - 1]);
+                }
+            }
+            console.log(...swaps);
             
-            // Swap the two rows
-            let temp = this.subjectList[swap[1]];
-            this.subjectList[swap[1]] = this.subjectList[swap[0]];
-            this.subjectList[swap[0]] = temp;
-            originalRowPos = currentField;
-            
-            temp = this.tableRows[swap[1]];
-            this.tableRows[swap[1]] = this.tableRows[swap[0]];
-            this.tableRows[swap[0]] = temp;
+            for (const swap of swaps) {
+                // Swap the two rows
+                let temp = this.subjectList[swap[1]];
+                this.subjectList[swap[1]] = this.subjectList[swap[0]];
+                this.subjectList[swap[0]] = temp;
+                originalRowPos = currentField;
+                
+                temp = this.tableRows[swap[1]];
+                this.tableRows[swap[1]] = this.tableRows[swap[0]];
+                this.tableRows[swap[0]] = temp;
+                
+                console.log(this.subjectList.map(subject => subject.id));
+            }
             
             if (this.state.currentField < currentField) { // Mouse moved down
-                this.tableRows[this.state.currentField].style.animation = `${css['move-up']} 0.3s forwards`;
+                for (let i = this.state.currentField; i < currentField; i++) {
+                    this.tableRows[i].style.animation = `${css['move-up']} 0.3s`;
+                }
             } else if (this.state.currentField > currentField) { // Mouse moved up
-                this.tableRows[this.state.currentField].style.animation = `${css['move-down']} 0.3s forwards`;
+                for (let i = this.state.currentField; i > currentField; i--) {
+                    this.tableRows[i].style.animation = `${css['move-down']} 0.3s`;
+                }
             }
         }
         
