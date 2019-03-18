@@ -10,34 +10,39 @@ import css from './subjects.scss';
 
 function Subjects(props) {
     return (
-        <Layout currentPage="subjects" title="Subjects - Slate" noShadow {...props}>
-            <main className={css.subjects}>
-                <span id={css.prompt}>What would you like to learn today?</span>
-                <div id={css.courses}>
-                    {props.subjects.map(subject => (
-                        <div className={css.subject} key={subject.id}>
-                            <style jsx>{`
-                                --color: #${subject.color}
-                            `}</style>
-                            <Link href={`/subject?subject=${subject.id}`}
-                                  as={`/subject/${subject.name}`}>
-                                <a className={css.title}>
-                                    {subject.display_name}
-                                </a>
-                            </Link>
-                            {props.courses.filter(course => course.subject_id === subject.id).map(course => (
-                                <Link key={course.name}
-                                      href={`/course?subject=${subject.id}&course=${course.id}`}
-                                      as={`/subject/${subject.name}/${course.name}`}>
-                                    <a className={css.course}>
-                                        {course.display_name}
+        <Layout currentPage="subjects" title="Subjects - Slate" headerFloat noShadow {...props}>
+            <div className={css.subjects}>
+                <main>
+                    <div className={css.info}>
+                        <img src="/static/slate-logo.svg" className={css.logo} />
+                        <p>
+                            Slate is an online source of free, intuitive, and interactive articles on subjects ranging from mathematics to computer science.
+                        </p>
+                    </div>
+                    <div className={css.courses}>
+                        {props.subjects.map(subject => (
+                            <div className={css.subject} key={subject.id}>
+                                <style jsx>{`--color: #${subject.color}`}</style>
+                                <Link href={`/subject?subject=${subject.id}`}
+                                      as={`/subject/${subject.name}`}>
+                                    <a className={css.title} style={{color: `#${subject.color}`}}>
+                                        {subject.display_name}
                                     </a>
                                 </Link>
-                            ))}
-                        </div>
-                    ))}
-                </div>
-            </main>
+                                {props.courses.filter(course => course.subject_id === subject.id).map(course => (
+                                    <Link key={course.name}
+                                          href={`/course?subject=${subject.id}&course=${course.id}`}
+                                          as={`/subject/${subject.name}/${course.name}`}>
+                                        <a className={css.course}>
+                                            {course.display_name}
+                                        </a>
+                                    </Link>
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+                </main>
+            </div>
             <div id={css.footer}>
                 <span>{props.info.version && props.info.publishDate
                     ? `Slate version ${props.info.version} published on ${moment.unix(props.info.publishDate).format('MMMM Do, YYYY')}.`

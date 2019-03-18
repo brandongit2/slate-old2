@@ -1,61 +1,76 @@
 .subjects {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    background: white;
+    height: 100%;
     
-    #prompt {
-        margin-bottom: 1rem;
-        font-size: 24pt;
-        text-align: center;
-    }
-    
-    #courses {
+    main {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 70vw;
         display: flex;
-        flex-flow: column wrap;
+        align-items: center;
         
-        & > * {
-            margin-bottom: 1rem;
-        }
-        
-        .subject {
-            border-left: 2px solid var(--color);
-            padding-left: 10px;
+        .info {
+            flex-basis: 0px;
+            flex-grow: 1;
             
-            .title {
-                font-size: 18pt;
-                color: var(--color);
-                display: inline-block;
-                text-decoration: none;
-                
-                &::after {
-                    content: '';
-                    display: block;
-                    background: var(--color);
-                    width: 0px;
-                    height: 2px;
-                    margin: 0px auto;
-                    transition: width 0.2s;
-                }
-                
-                &:hover::after {
-                    width: 100%;
-                }
+            .logo {
+                height: 3rem;
+                margin-bottom: 1rem;
             }
             
-            .course {
-                font-size: 12pt;
-                margin: 5px 0px;
-                color: var(--secondary-text-color);
-                text-decoration: none;
-                display: block;
-                transition: color 0.3s;
+            p {
+                font-size: 14pt;
+            }
+        }
+        
+        .courses {
+            flex-basis: 0px;
+            flex-grow: 1;
+            display: flex;
+            flex-flow: column wrap;
+            align-items: flex-end;
+            
+            & > * {
+                margin-bottom: 1rem;
+            }
+            
+            .subject {
+                text-align: right;
                 
-                &:hover {
+                .title {
+                    font-size: 18pt;
                     color: var(--color);
+                    display: inline-block;
+                    text-decoration: none;
+                    
+                    &::after {
+                        content: '';
+                        display: block;
+                        background: var(--color);
+                        width: 0px;
+                        height: 2px;
+                        margin: 0px auto;
+                        transition: width 0.2s;
+                    }
+                    
+                    &:hover::after {
+                        width: 100%;
+                    }
+                }
+                
+                .course {
+                    font-size: 12pt;
+                    margin: 5px 0px;
+                    color: var(--secondary-text-color);
+                    text-decoration: none;
+                    display: block;
+                    transition: color 0.3s;
+                    
+                    &:hover {
+                        color: var(--color);
+                    }
                 }
             }
         }
