@@ -27,6 +27,9 @@ class Subjects_Unwrapped extends React.Component {
         
         props.dispatch(getAllSubjects());
         
+        this.floatingTable = React.createRef();
+        
+        this.tableLeft = 0;
         this.tableWidth = 0;
         this.tableRows = [];
         this.fieldBounds = [];
@@ -36,6 +39,7 @@ class Subjects_Unwrapped extends React.Component {
     beginMoveRow = (subjectId, e, i) => {
         const subject = this.props.subjects.find(subject => subject.id === subjectId);
         const tr = e.target.parentNode.parentNode.getBoundingClientRect();
+        this.tableLeft = tr.left;
         this.setState({
             isRowBeingMoved: true,
             rowBeingMoved:   {
@@ -110,12 +114,18 @@ class Subjects_Unwrapped extends React.Component {
     };
     
     endMoveRow = () => {
-        this.setState({
-            isRowBeingMoved: false,
-            rowBeingMoved:   {},
-            originalRowPos:  -1,
-            currentField:    -1
-        });
+        this.floatingTable.current.style.transition = '0.3s transform cubic-bezier(0.77, 0, 0.175, 1), 0.3s box-shadow cubic-bezier(0.77, 0, 0.175, 1)';
+        this.floatingTable.current.style.transform = `translate(${this.tableLeft}px, ${this.tableRows[this.state.currentField].getBoundingClientRect().top}px)`;
+        this.floatingTable.current.style.animation = `${css['fade-out-shadow']} 0.3s`;
+        
+        setTimeout(() => {
+            this.setState({
+                isRowBeingMoved: false,
+                rowBeingMoved:   {},
+                originalRowPos:  -1,
+                currentField:    -1
+            });
+        }, 300);
         window.removeEventListener('mouseup', this.endMoveRow);
         window.removeEventListener('mousemove', this.moveRow);
     };
@@ -142,7 +152,8 @@ class Subjects_Unwrapped extends React.Component {
                                    width:     `${this.tableWidth}px`,
                                    transform: `translate(${this.state.rowBeingMoved.x}px, ${this.state.rowBeingMoved.y}px)`,
                                    animation: `${css['fade-hover-in']} 0.2s forwards`
-                               }}>
+                               }}
+                               ref={this.floatingTable}>
                             <tbody>
                                 <tr>
                                     <td>
@@ -152,6 +163,7 @@ class Subjects_Unwrapped extends React.Component {
                                     </td>
                                     <td>{this.state.rowBeingMoved.display_name}</td>
                                     <td>{this.state.rowBeingMoved.description}</td>
+                                    <td>{this.state.rowBeingMoved.color}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -163,6 +175,7 @@ class Subjects_Unwrapped extends React.Component {
                             <th></th>
                             <th>Subject</th>
                             <th>Description</th>
+                            <th>Color</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -174,14 +187,14 @@ class Subjects_Unwrapped extends React.Component {
                                         }
                                     }}
                                     style={{opacity: this.state.originalRowPos === i ? '0' : '1'}}>
-                                    <td>
-                                        <i className="material-icons"
-                                           onMouseDown={e => this.beginMoveRow(subject.id, e, i)}>
+                                    <td onMouseDown={e => this.beginMoveRow(subject.id, e, i)}>
+                                        <i className="material-icons">
                                             reorder
                                         </i>
                                     </td>
                                     <td>{subject.display_name}</td>
                                     <td>{subject.description}</td>
+                                    <td>{subject.color}</td>
                                 </tr>
                             </React.Fragment>
                         ))}

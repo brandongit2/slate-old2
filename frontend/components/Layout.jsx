@@ -20,6 +20,7 @@ class Layout extends React.Component {
     
     render() {
         const {props} = this;
+        console.log(props.landingPage);
         return (
             <div className={[css.layout, props.className].join(' ')} style={props.style}>
                 <Head>
@@ -33,7 +34,7 @@ class Layout extends React.Component {
                 </Head>
                 <style jsx global>{`
                     :root {
-                        ${props.user.theme === 'light' ? `
+                        ${props.user.theme === 'light' && props.landingPage ? `
                             --text-color: rgba(0, 0, 0, 1);
                             --secondary-text-color: rgba(0, 0, 0, 0.7);
                             --tertiary-text-color: rgba(0, 0, 0, 0.5);
@@ -59,7 +60,7 @@ class Layout extends React.Component {
                     }
                     
                     img.bw-icon {
-                        ${props.user.theme === 'light'
+                        ${props.user.theme === 'light' && !props.landingPage
                             ? ''
                             : 'filter: invert(1);'
                         }
@@ -67,21 +68,22 @@ class Layout extends React.Component {
                     }
                 `}</style>
                 <Modal />
-                {props.noHeader
-                    ? null
-                    : (
-                        <Header currentPage={props.currentPage}
-                                float={props.headerFloat}
-                                noShadow={props.noShadow}
-                                user={props.user} />
-                    )
-                }
                 {props.secondaryLogo
                     ? <img src="/static/slate-logo.svg" id={css['secondary-logo']} className="bw-icon" />
                     : null
                 }
                 <Snackbar />
                 <div id={css.container}>
+                    {props.noHeader
+                        ? null
+                        : (
+                            <Header currentPage={props.currentPage}
+                                    float={props.headerFloat}
+                                    landingPage={props.landingPage}
+                                    noShadow={props.noShadow}
+                                    user={props.user} />
+                        )
+                    }
                     {(() => {
                         const err = (
                             (props.private && !props.user.isLoggedIn) ||
@@ -112,6 +114,7 @@ Layout.defaultProps = {
     currentPage: '',
     err:         200,
     headerFloat: false,
+    landingPage: false,
     minPerms:    0,
     noShadow:    false,
     style:       {},

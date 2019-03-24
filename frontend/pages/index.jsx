@@ -6,9 +6,9 @@ export default function Index() {
 
 Index.getInitialProps = async ({req, res}) => {
     if (req) { // If being run on server
-        res.writeHead(302, {Location: '/subjects'});
+        res.writeHead(302, {Location: '/landing'});
         res.end();
     } else { // If being run on client
-        Router.push('/subjects');
+        Router.push('/landing');
     }
 };

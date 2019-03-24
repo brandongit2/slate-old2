@@ -8,7 +8,7 @@ import {toggleTheme} from '../actions';
 
 import css from './Header.scss';
 
-function Button(props) {
+export function Button(props) {
     return (
         <div className={css.button}>
             <span>
@@ -30,14 +30,14 @@ function Header(props) {
     const toggleUserPanel = () => setUserPanelIsOpen(!userPanelIsOpen);
     
     return (
-        <header className={[css.header, props.float ? css.float : ''].join(' ')}
+        <header className={[css.header, props.float ? css.float : '', props.landingPage ? css.alt : ''].join(' ')}
                 style={{
                     boxShadow:    props.noShadow ? 'none' : '0px 0px 30px var(--shadow-color)',
                     borderBottom: props.noShadow ? '1px solid var(--secondary-border-color)' : 'none'
                 }}>
-            <Link href="/subjects">
+            <Link href="/">
                 <a id={css.logo}>
-                    <img src="/static/slate-logo.svg" alt="Slate logo" className="bw-icon" style={{height: '100%'}} />
+                    <img src="/static/slate-logo_white.svg" alt="Slate logo" className="bw-icon" style={{height: '100%'}} />
                 </a>
             </Link>
             <nav>

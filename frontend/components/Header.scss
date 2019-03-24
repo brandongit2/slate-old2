@@ -24,8 +24,6 @@
         margin-left: 2rem;
         margin-right: 1rem;
         height: calc(100% - 3rem);
-        position: relative;
-        top: -0.2rem;
     }
     
     nav {
@@ -141,36 +139,68 @@
                     }
                 }
                 
-                & > div > i {
+                i {
                     margin-left: 5px;
-                    color: var(--text-color);
                     transition: color 0.5s;
                 }
             }
         }
     }
+}
+
+.header.alt {
+    background: black;
+    padding: 0px 10vw;
+    box-sizing: border-box;
     
-    .button {
-        position: relative;
-        padding: 5px;
-        display: inline-block;
-        cursor: pointer;
+    span, i {
+        color: #bbb;
         
-        span {
-            &::before {
-                content: '';
-                display: block;
-                position: absolute;
-                transition: all 0.2s;
-                background: var(--text-color);
-            }
+        &::before {
+            background: #bbb;
+        }
+    }
+    
+    #logo {
+        filter: invert(0.2);
+        margin-left: 0px;
+        margin-right: 2rem;
+    }
+    
+    #right-buttons {
+        margin-right: 0px;
+    }
+}
+
+.button {
+    position: relative;
+    padding: 5px;
+    display: inline-block;
+    cursor: pointer;
+    
+    span {
+        &::before {
+            content: '';
+            display: block;
+            position: absolute;
+            transition: all 0.2s;
+            background: var(--text-color);
+        }
+    }
+    
+    & > span {
+        &::before {
+            width: 0%;
+            height: var(--width);
+            top: 0px;
+            left: 0px;
         }
         
         & > span {
             &::before {
-                width: 0%;
-                height: var(--width);
-                top: 0px;
+                width: var(--width);
+                height: 0%;
+                bottom: 0px;
                 left: 0px;
             }
             
@@ -178,33 +208,30 @@
                 &::before {
                     width: var(--width);
                     height: 0%;
-                    bottom: 0px;
-                    left: 0px;
+                    top: 0px;
+                    right: 0px;
                 }
                 
                 & > span {
                     &::before {
-                        width: var(--width);
-                        height: 0%;
-                        top: 0px;
+                        width: 0%;
+                        height: var(--width);
+                        bottom: 0px;
                         right: 0px;
-                    }
-                    
-                    & > span {
-                        &::before {
-                            width: 0%;
-                            height: var(--width);
-                            bottom: 0px;
-                            right: 0px;
-                        }
                     }
                 }
             }
         }
+    }
+    
+    &:hover > span {
+        &::before {
+            width: 100%;
+        }
         
-        &:hover > span {
+        & > span {
             &::before {
-                width: 100%;
+                height: 100%;
             }
             
             & > span {
@@ -214,13 +241,7 @@
                 
                 & > span {
                     &::before {
-                        height: 100%;
-                    }
-                    
-                    & > span {
-                        &::before {
-                            width: 100%;
-                        }
+                        width: 100%;
                     }
                 }
             }

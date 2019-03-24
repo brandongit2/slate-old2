@@ -27,14 +27,11 @@
         
         &:nth-child(1) {
             width: 1em;
-            
-            i {
-                cursor: move;
-            }
+            cursor: move;
         }
         
         &:nth-child(3) {
-            width: 80%;
+            width: 70%;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -67,6 +64,16 @@
     to {
         background: var(--background-color);
         box-shadow: 0px 0px 20px 0px var(--border-color);
+    }
+}
+
+@keyframes fade-out-shadow {
+    from {
+        box-shadow: 0px 0px 20px 0px var(--border-color);
+    }
+    
+    to {
+        box-shadow: 0px 0px 0px 0px transparent;
     }
 }
 
