@@ -17,7 +17,7 @@
   "homepage": "https://github.com/brandongit2/slate#readme",
   "dependencies": {
     "babel-eslint": "^10.0.1",
-    "eslint": "^5.15.1",
+    "eslint": "^5.15.3",
     "eslint-plugin-react": "^7.12.4",
     "stylelint": "^9.10.1"
   }
