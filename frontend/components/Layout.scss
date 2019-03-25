@@ -4,6 +4,7 @@
     height: 100vh;
     background: var(--background-color);
     transition: background 0.5s;
+    position: relative;
     
     #secondary-logo {
         position: absolute;

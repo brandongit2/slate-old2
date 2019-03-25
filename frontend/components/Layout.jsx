@@ -34,18 +34,7 @@ class Layout extends React.Component {
                 </Head>
                 <style jsx global>{`
                     :root {
-                        ${props.user.theme === 'light' && props.landingPage ? `
-                            --text-color: rgba(0, 0, 0, 1);
-                            --secondary-text-color: rgba(0, 0, 0, 0.7);
-                            --tertiary-text-color: rgba(0, 0, 0, 0.5);
-                            --border-color: rgba(0, 0, 0, 0.3);
-                            --border-hover-color: rgba(0, 0, 0, 0.6);
-                            --secondary-border-color: rgba(0, 0, 0, 0.1);
-                            --background-color: #fff;
-                            --background-hover-color: rgba(0, 0, 0, 0.05);
-                            --secondary-background-color: #fff;
-                            --shadow-color: rgba(0, 0, 0, 0.1);
-                        ` : `
+                        ${props.landingPage || props.user.theme === 'dark' ? `
                             --text-color: rgba(255, 255, 255, 0.8);
                             --secondary-text-color: rgba(255, 255, 255, 0.5);
                             --tertiary-text-color: rgba(255, 255, 255, 0.3);
@@ -56,6 +45,17 @@ class Layout extends React.Component {
                             --background-hover-color: rgba(255, 255, 255, 0.05);
                             --secondary-background-color: #222;
                             --shadow-color: rgba(255, 255, 255, 0);
+                        ` : `
+                            --text-color: rgba(0, 0, 0, 1);
+                            --secondary-text-color: rgba(0, 0, 0, 0.7);
+                            --tertiary-text-color: rgba(0, 0, 0, 0.5);
+                            --border-color: rgba(0, 0, 0, 0.3);
+                            --border-hover-color: rgba(0, 0, 0, 0.6);
+                            --secondary-border-color: rgba(0, 0, 0, 0.1);
+                            --background-color: #fff;
+                            --background-hover-color: rgba(0, 0, 0, 0.05);
+                            --secondary-background-color: #fff;
+                            --shadow-color: rgba(0, 0, 0, 0.1);
                         `}
                     }
                     
