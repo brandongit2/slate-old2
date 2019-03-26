@@ -62,18 +62,18 @@ class Layout extends React.Component {
                     img.bw-icon {
                         ${props.user.theme === 'light' && !props.landingPage
                             ? ''
-                            : 'filter: invert(1);'
+                            : 'filter: invert(0.8);'
                         }
                         transition: filter 0.5s;
                     }
                 `}</style>
                 <Modal />
                 {props.secondaryLogo
-                    ? <img src="/static/slate-logo.svg" id={css['secondary-logo']} className="bw-icon" />
+                    ? <img src="/static/slate-logo_white.svg" id={css['secondary-logo']} className="bw-icon" />
                     : null
                 }
                 <Snackbar />
-                <div id={css.container}>
+                <div className={css.container}>
                     {props.noHeader
                         ? null
                         : (

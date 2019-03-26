@@ -2,11 +2,11 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {generate} from 'shortid';
 
-import {addNotification, showModal, toggleTheme} from '../actions';
-import {Dropdown, Item, Layout} from '../components';
-import {severities} from '../constants';
+import {addNotification, showModal, toggleTheme} from '../../actions';
+import {Dropdown, Item, Layout} from '../../components';
+import {severities} from '../../constants';
 
-import css from './testing.scss';
+import css from './components.scss';
 
 function Testing(props) {
     const [modalTitle, setModalTitle] = React.useState('');
@@ -39,7 +39,7 @@ function Testing(props) {
     };
     
     return (
-        <Layout title="Testing - Slate" {...props}>
+        <Layout title="Components - Slate Testing" {...props}>
             <div className={css.testing}>
                 <div>
                     <h1>Notifications</h1>

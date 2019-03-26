@@ -1,0 +1,44 @@
+.content-container {
+    flex-grow: 1;
+    display: flex;
+    
+    .info-section {
+        flex-basis: 25rem;
+        background: var(--subject-background-color);
+        transition: background 0.5s;
+        padding: 2rem;
+        box-sizing: border-box;
+        position: relative;
+        
+        p {
+            color: var(--subject-text-color);
+        }
+        
+        .info {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            
+            .type {
+                text-transform: uppercase;
+                font-size: 14pt;
+                font-weight: 900;
+                opacity: 0.6;
+            }
+            
+            .title {
+                font-size: 30pt;
+                margin-bottom: 0.3em;
+            }
+            
+            .description {
+                font-size: 12pt;
+            }
+        }
+    }
+    
+    .content-section {
+        flex-basis: 0px;
+        flex-grow: 1;
+    }
+}
