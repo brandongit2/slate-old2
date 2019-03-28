@@ -1,130 +1,82 @@
-.course {
-    height: 100%;
-    display: flex;
-    align-items: stretch;
-
-    p, a, span, b {
-        &::selection {
-            background: var(--subject-color);
-            color: var(--subject-text-color);
+.breadcrumbs :global(.breadcrumbs) {
+    font-size: 10pt;
+    color: var(--subject-text-color);
+    
+    a, span, i {
+        &:not(:global(.dropdown-item)) {
+            opacity: 0.7;
+            transition: opacity 0.2s;
         }
     }
-
-    #info {
-        position: relative;
-        flex-basis: 0px;
-        flex-grow: 1;
-        max-width: 25rem;
-        padding: 2rem;
-        box-sizing: border-box;
-        background: var(--subject-background-color);
-        display: flex;
-        align-items: center;
-        box-shadow: inset 0px 0px 30px 0px rgba(0, 0, 0, 0.2);
-        transition: background 0.5s;
-
-        p, a, span, b {
-            &::selection {
-                background: var(--subject-text-color);
-                color: var(--subject-background-color);
+    
+    :global(.crumb:hover) {
+        a, span, i {
+            &:not(:global(.dropdown-item)) {
+                opacity: 0.9;
             }
-        }
-
-        :global(.breadcrumbs) {
-            position: absolute;
-            top: 2rem;
-            left: 2rem;
-            font-size: 10pt;
-            color: var(--secondary-subject-text-color);
-            
-            :global(.crumb:hover) {
-                a, span {
-                    &:not(:global(.dropdown-item)) {
-                        color: var(--subject-text-color);
-                    }
-                }
-            }
-            
-            :global(.dropdown-items) {
-                color: var(--text-color);
-            }
-        }
-
-        #label-course {
-            color: var(--tertiary-subject-text-color);
-            font-weight: 900;
-            font-size: 14pt;
-        }
-
-        #title {
-            font-size: 32pt;
-            color: var(--subject-text-color);
-            margin: 0.2rem 0;
-        }
-
-        #description {
-            color: var(--secondary-subject-text-color);
         }
     }
+    
+    :global(.dropdown-items) {
+        color: var(--text-color);
+    }
+}
 
-    #unit-list {
-        flex-basis: 0px;
-        flex-grow: 2;
-        padding: 2rem;
-        box-sizing: border-box;
+.content-section {
+    padding: 2rem;
+    box-sizing: border-box;
 
-        #units-title {
-            font-size: 32pt;
-            color: var(--subject-color);
-            margin-bottom: 0.5rem;
-        }
+    #units-title {
+        font-size: 32pt;
+        color: var(--subject-color);
+        margin-bottom: 0.5rem;
+    }
 
-        a {
-            text-decoration: none;
-        }
+    a {
+        text-decoration: none;
+    }
+    
+    .article-list {
+        margin-bottom: 1rem;
         
-        .article-list {
-            margin-bottom: 1rem;
+        &:hover {
+            --tertiary-text-color: var(--subject-color);
+        }
+
+        #unit-header {
+            font-size: 14pt;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+
+            .unit-number {
+                color: var(--tertiary-text-color);
+                margin-right: 1rem;
+            }
+        }
+
+        #list {
+            margin-left: 1rem;
+            padding-left: 1rem;
+            font-size: 12pt;
+            transition: color 0.2s, border-left 0.2s;
+            border-left: 2px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
             
             &:hover {
-                --tertiary-text-color: var(--subject-color);
+                border-left: 2px solid var(--subject-color);
             }
 
-            #unit-header {
-                font-size: 14pt;
-                font-weight: 400;
-                margin-bottom: 0.5rem;
+            & > a {
+                display: inline-block;
+                margin-bottom: 5px;
+                color: var(--secondary-text-color);
+                transition: color 0.3s;
+                cursor: pointer;
 
-                .unit-number {
-                    color: var(--tertiary-text-color);
-                    margin-right: 1rem;
-                }
-            }
-
-            #list {
-                margin-left: 1rem;
-                padding-left: 1rem;
-                font-size: 12pt;
-                transition: color 0.2s, border-left 0.2s;
-                border-left: 2px solid var(--border-color);
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                
                 &:hover {
-                    border-left: 2px solid var(--subject-color);
-                }
-
-                & > a {
-                    display: inline-block;
-                    margin-bottom: 5px;
-                    color: var(--secondary-text-color);
-                    transition: color 0.3s;
-                    cursor: pointer;
-
-                    &:hover {
-                        color: var(--subject-color);
-                    }
+                    color: var(--subject-color);
                 }
             }
         }

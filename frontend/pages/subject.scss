@@ -1,113 +1,66 @@
-.subject {
-    height: 100%;
-    display: flex;
-    align-items: stretch;
+.breadcrumbs :global(.breadcrumbs) {
+    font-size: 10pt;
+    color: var(--subject-text-color);
     
-    p, a, span, b {
-        &::selection {
-            background: var(--subject-color);
-            color: var(--subject-text-color);
+    a, span, i {
+        &:not(:global(.dropdown-item)) {
+            opacity: 0.7;
+            transition: opacity 0.2s;
         }
     }
+    
+    :global(.crumb:hover) {
+        a, span, i {
+            &:not(:global(.dropdown-item)) {
+                opacity: 0.9;
+            }
+        }
+    }
+    
+    :global(.dropdown-items) {
+        color: var(--text-color);
+    }
+}
 
-    #info {
-        position: relative;
-        flex-basis: 0px;
-        flex-grow: 1;
-        max-width: 25rem;
+.course-list {
+    padding: 2rem;
+
+    & > main {
+        max-width: 40rem;
         padding: 2rem;
         box-sizing: border-box;
-        background: var(--subject-background-color);
-        display: flex;
-        align-items: center;
-        box-shadow: inset 0px 0px 30px 0px rgba(0, 0, 0, 0.2);
-        transition: background 0.5s;
-        
-        p, a, span, b {
-            &::selection {
-                background: var(--subject-text-color);
-                color: var(--subject-background-color);
-            }
+    }
+
+    #courses-title {
+        font-size: 32pt;
+        color: var(--content-title-color);
+        margin-bottom: 0.5rem;
+    }
+
+    a {
+        text-decoration: none;
+    }
+    
+    .course-info {
+        border: 1.5px solid var(--border-color);
+        border-radius: 5px;
+        margin-top: 1rem;
+        padding: 1rem;
+        transition: border 0.3s;
+        cursor: pointer;
+
+        &:hover {
+            border: 1.5px solid var(--subject-color);
         }
 
-        :global(.breadcrumbs) {
-            position: absolute;
-            top: 2rem;
-            left: 2rem;
-            font-size: 10pt;
-            color: var(--secondary-subject-text-color);
-            
-            :global(.crumb:hover) {
-                a, span, i {
-                    &:not(:global(.dropdown-item)) {
-                        color: var(--subject-text-color);
-                    }
-                }
-            }
-            
-            :global(.dropdown-items) {
-                color: var(--text-color);
-            }
-        }
-
-        #label-subject {
-            color: var(--tertiary-subject-text-color);
-            font-weight: 900;
-            font-size: 14pt;
-        }
-
-        #title {
-            font-size: 32pt;
-            color: var(--subject-text-color);
-            margin: 0.2rem 0;
+        #name {
+            font-size: 16pt;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
         }
 
         #description {
-            color: var(--secondary-subject-text-color);
-        }
-    }
-
-    #course-list {
-        flex-basis: 0px;
-        flex-grow: 2;
-
-        & > main {
-            max-width: 40rem;
-            padding: 2rem;
-            box-sizing: border-box;
-        }
-
-        #courses-title {
-            font-size: 32pt;
-            color: var(--subject-color);
-            margin-bottom: 0.5rem;
-        }
-
-        a {
-            text-decoration: none;
-        }
-        
-        .course-info {
-            border: 1.5px solid var(--border-color);
-            border-radius: 5px;
-            margin-top: 1rem;
-            padding: 1rem;
-            transition: border 0.3s;
-            cursor: pointer;
-
-            &:hover {
-                border: 1.5px solid var(--subject-color);
-            }
-
-            #name {
-                font-size: 16pt;
-                font-weight: 700;
-                margin-bottom: 0.3rem;
-            }
-
-            #description {
-                color: var(--secondary-text-color);
-            }
+            color: var(--secondary-text-color);
         }
     }
 }

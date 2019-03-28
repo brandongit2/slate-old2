@@ -9,16 +9,21 @@
         padding: 2rem;
         box-sizing: border-box;
         position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         
         p {
             color: var(--subject-text-color);
         }
         
-        .info {
+        .breadcrumbs {
             position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            
+            top: 2rem;
+            left: 2rem;
+        }
+        
+        .info {
             .type {
                 text-transform: uppercase;
                 font-size: 14pt;

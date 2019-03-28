@@ -1,71 +1,41 @@
-import Color from 'color';
 import Link from 'next/link';
 import {withRouter} from 'next/router';
 import React from 'react';
 import {connect} from 'react-redux';
 
 import {changeSubject, changeCourse, changeUnit, changeArticle, getAllSubjects, getChildren} from '../actions';
-import {Layout, Breadcrumbs, Crumb, Dropdown, Item} from '../components';
-import {rgb} from '../util';
+import {Layout, Breadcrumbs, Crumb, Dropdown, Item, ContentContainer, InfoSection, ContentSection} from '../components';
 
 import css from './subject.scss';
 
 function Subject(props) {
-    const lightTheme = props.user.theme === 'light';
-    const subjectColor = lightTheme
-        ? (props.subject
-            ? Color('#' + props.subject.color)
-            : Color('#ffffff'))
-        : (props.subject
-            ? Color('#' + props.subject.color)
-            : Color('#000000'));
     return (
         <Layout title={props.subject ? props.subject.display_name + ' - Slate' : 'Slate'} {...props}>
-            <style jsx>{`
-                --subject-color: ${rgb(subjectColor.rgb().array())};
-                --subject-background-color: ${lightTheme ? rgb(subjectColor.rgb().array()) : '#000'};
-                --subject-text-color: ${
-                    lightTheme
-                        ? (subjectColor.isLight() ? '#000' : '#fff')
-                        : rgb(subjectColor.rgb().array())
-                };
-                --secondary-subject-text-color: ${
-                    lightTheme
-                        ? (subjectColor.isLight() ? '#00000bb' : '#ffffffbb')
-                        : '#ffffffaa'
-                };
-                --tertiary-subject-text-color: ${
-                    lightTheme
-                        ? (subjectColor.isLight() ? '#00000088' : '#ffffff88')
-                        : '#ffffff55'
-                };
-            `}</style>
-
-            <div className={css.subject}>
-                <div id={css.info}>
-                    <Breadcrumbs>
-                        <Crumb><Link href="/subjects"><a>Subjects</a></Link></Crumb>
-                        <Crumb>
-                            <Dropdown mini label={props.subject ? props.subject.display_name : ''}>
-                                {props ? props.subjects.map(subject => (
-                                    <Item key={subject.id}
-                                          onClick={() => {
-                                              props.dispatch(changeSubject(subject.id));
-                                              props.dispatch(getChildren('subject', subject.id));
-                                              window.history.pushState({}, '', '/subject/' + subject.name);
-                                          }}>{subject.display_name}</Item>
-                                  )) : null}
-                            </Dropdown>
-                        </Crumb>
-                    </Breadcrumbs>
-                    <div>
-                        <p id={css['label-subject']}>SUBJECT</p>
-                        <p id={css.title}>{props.subject ? props.subject.display_name : ''}</p>
-                        <p id={css.description}>{props.subject ? props.subject.description : ''}</p>
-                    </div>
-                </div>
-                <div id={css['course-list']}>
-                    <main>
+            <ContentContainer color={props.subject ? `#${props.subject.color}` : '#ffffff'}>
+                <InfoSection breadcrumbs={(
+                                 <div className={css.breadcrumbs}> {/* eslint-disable-line react/jsx-indent */}
+                                     <Breadcrumbs>
+                                         <Crumb><Link href="/subjects"><a>Subjects</a></Link></Crumb>
+                                         <Crumb>
+                                             <Dropdown mini label={props.subject ? props.subject.display_name : ''}>
+                                                 {props ? props.subjects.map(subject => (
+                                                     <Item key={subject.id}
+                                                           onClick={() => {
+                                                               props.dispatch(changeSubject(subject.id));
+                                                               props.dispatch(getChildren('subject', subject.id));
+                                                               window.history.pushState({}, '', '/subject/' + subject.name);
+                                                           }}>{subject.display_name}</Item>
+                                                   )) : null}
+                                             </Dropdown>
+                                         </Crumb>
+                                     </Breadcrumbs>
+                                 </div>
+                             )}
+                             type="Subject"
+                             title={props.subject ? props.subject.display_name : ''}
+                             description={props.subject ? props.subject.description : ''} />
+                <ContentSection>
+                    <main className={css['course-list']}>
                         <p id={css['courses-title']}>Courses</p>
                         {props.courses ? props.courses.map(course => (
                             <Link key={course.id}
@@ -82,8 +52,8 @@ function Subject(props) {
                             </Link>
                         )) : null}
                     </main>
-                </div>
-            </div>
+                </ContentSection>
+            </ContentContainer>
         </Layout>
     );
 }
