@@ -1,7 +1,7 @@
 import Color from 'color';
 import {connect} from 'react-redux';
 
-import {rgb} from '../util';
+import {rgb, isTitleDark, isTitleLight} from '../util';
 
 import css from './ContentContainer.scss';
 
@@ -13,12 +13,30 @@ function ContentContainer(props) {
         <div className={css['content-container']}>
             <style jsx>{`
                 --subject-color: ${rgb(subjectColor.rgb().array())};
+                --subject-title-color: ${
+                    lightTheme
+                        ? 'var(--subject-text-color)'
+                        : (
+                            isTitleDark(subjectColor)
+                                ? 'var(--subject-text-color)'
+                                : rgb(subjectColor.rgb().array())
+                        )
+                };
                 --subject-text-color: ${
                     lightTheme
                         ? (subjectColor.isLight() ? '#000' : '#fff')
-                        : rgb(subjectColor.rgb().array())
+                        : (
+                            subjectColor.isDark()
+                                ? 'var(--text-color)'
+                                : rgb(subjectColor.rgb().array())
+                        )
                 };
                 --subject-background-color: ${lightTheme ? rgb(subjectColor.rgb().array()) : '#000'};
+                --content-title-color: ${
+                    (lightTheme ? isTitleLight(subjectColor) : isTitleDark(subjectColor))
+                        ? 'var(--text-color)'
+                        : rgb(subjectColor.rgb().array())
+                };
             `}</style>
             {props.children}
         </div>

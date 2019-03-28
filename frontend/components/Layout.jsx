@@ -20,7 +20,6 @@ class Layout extends React.Component {
     
     render() {
         const {props} = this;
-        console.log(props.landingPage);
         return (
             <div className={[css.layout, props.className].join(' ')} style={props.style}>
                 <Head>

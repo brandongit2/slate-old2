@@ -11,6 +11,7 @@ export default function ContentContainerTest(props) {
                              description="This is a description haha" />
                 <ContentSection>
                     <div className={css['content-section']}>
+                        <h1>Title</h1>
                         <p>
                             content section
                         </p>

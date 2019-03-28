@@ -40,20 +40,9 @@ function Landing(props) {
     );
 }
 
-Landing.getInitialProps = async ({store}) => {
-    await store.dispatch(changeSubject(null));
-    await store.dispatch(changeCourse(null));
-    await store.dispatch(changeUnit(null));
-    await store.dispatch(changeArticle(null));
-    await store.dispatch(getAllSubjects());
-    await store.dispatch(getAllCourses());
-};
-
 function mapStateToProps(state) {
     return {
-        subjects: state.subjects,
-        courses:  state.courses,
-        info:     state.info
+        info: state.info
     };
 }
 
