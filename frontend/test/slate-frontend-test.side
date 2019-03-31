@@ -17,7 +17,7 @@
       "id": "8aeaf04a-ad8b-463a-907c-286861f86460",
       "comment": "",
       "command": "assertTitle",
-      "target": "Subjects - Slate",
+      "target": "Slate",
       "targets": [],
       "value": ""
     }, {
@@ -327,7 +327,7 @@
     "persistSession": false,
     "parallel": false,
     "timeout": 300,
-    "tests": ["a1953e15-a98b-488d-9b27-087a3980adff", "e1ddc875-dc0e-4f92-ac4f-4f29c11c48e8"]
+    "tests": ["a1953e15-a98b-488d-9b27-087a3980adff"]
   }],
   "urls": ["https://www.google.com/", "localhost:8080", "http://localhost:8080/"],
   "plugins": []
