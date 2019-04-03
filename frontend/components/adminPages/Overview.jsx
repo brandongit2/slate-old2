@@ -1,3 +1,3 @@
-export function Overview() {
+export default function Overview() {
     return <div>Overview</div>;
 }

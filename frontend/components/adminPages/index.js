@@ -1,2 +1,2 @@
-export * from './Overview';
-export * from './SiteContent';
+export {default as Overview} from './Overview';
+export {default as SiteContent} from './SiteContent';

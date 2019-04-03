@@ -1,4 +1,3 @@
-import Color from 'color';
 import Link from 'next/link';
 import {withRouter} from 'next/router';
 import React from 'react';
@@ -6,7 +5,6 @@ import {connect} from 'react-redux';
 
 import {changeSubject, changeCourse, changeUnit, changeArticle, getSubject, getCourse, getChildren} from '../actions';
 import {Layout, Breadcrumbs, Crumb, Dropdown, Item, ContentContainer, InfoSection, ContentSection} from '../components';
-import {rgb} from '../util';
 
 import css from './course.scss';
 

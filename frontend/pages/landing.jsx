@@ -2,14 +2,13 @@ import moment from 'moment';
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {changeSubject, changeCourse, changeUnit, changeArticle, getAllSubjects, getAllCourses} from '../actions';
 import {Layout} from '../components';
 
 import css from './landing.scss';
 
 function Landing(props) {
     return (
-        <Layout title="Slate" landingPage {...props}>
+        <Layout title="Slate: Free, interactive articles on STEM subjects." landingPage {...props}>
             <div className={css.subjects}>
                 <main>
                     <div className={css.hero}>

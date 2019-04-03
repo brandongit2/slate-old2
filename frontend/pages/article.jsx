@@ -52,21 +52,22 @@ function Article(props) {
                                 <p>
                                     Published&nbsp;
                                     <time dateTime={props.article.publish_date}>
-                                        {moment(props.article.publish_date).calendar(null, {sameElse: '[on] MMMM Do, YYYY'})}
+                                        {moment(props.article.publish_date)
+                                            .calendar(null, {sameElse: '[on] MMMM Do, YYYY'})}
                                     </time>
                                 </p>
                                 <p>
                                     Last updated&nbsp;
                                     <time dateTime={props.article.update_date}>
-                                        {moment(props.article.update_date).calendar(null, {sameElse: '[on] MMMM Do, YYYY'})}
+                                        {moment(props.article.update_date)
+                                            .calendar(null, {sameElse: '[on] MMMM Do, YYYY'})}
                                     </time>
                                 </p>
                             </div>
                         ) : null}
                     </div>
                     {/* eslint-disable-next-line react/no-danger */}
-                    <article dangerouslySetInnerHTML={{__html: props.article ? props.article.content : ''}}>
-                    </article>
+                    <article dangerouslySetInnerHTML={{__html: props.article ? props.article.content : ''}} />
                 </main>
             </div>
         </Layout>

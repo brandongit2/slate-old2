@@ -1,14 +1,15 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {Subjects} from './Subjects';
+import Subjects from './Subjects';
 import {getAllSubjects} from '../../../actions';
 
 import css from './index.scss';
 
-class UnwrappedSiteContent extends React.Component {
+class SiteContent extends React.Component {
     state = {
-        currentTab: 'subjects'
+        currentTab: 'subjects',
+        queryQueue: []
     };
     
     constructor(props) {
@@ -25,6 +26,7 @@ class UnwrappedSiteContent extends React.Component {
         props.dispatch(getAllSubjects());
     }
     
+    // Get the left position of the button for the current tab.
     getButtonLeft = () => {
         return this.buttons[this.state.currentTab].current
             ? this.buttons[this.state.currentTab].current.offsetLeft - parseInt(
@@ -33,10 +35,17 @@ class UnwrappedSiteContent extends React.Component {
             ) : 0;
     };
     
+    // Get the right position of the button for the current tab.
     getButtonRight = () => {
         return this.buttons[this.state.currentTab].current
             ? this.getButtonLeft() + this.buttons[this.state.currentTab].current.offsetWidth
             : 0;
+    };
+    
+    addToQueue = query => {
+        this.setState({
+            queryQueue: [...this.state.queryQueue, query]
+        });
     };
     
     render() {
@@ -89,7 +98,7 @@ class UnwrappedSiteContent extends React.Component {
                     {(() => {
                         switch (this.state.currentTab) {
                             case 'subjects':
-                                return <Subjects />;
+                                return <Subjects addToQueue={this.addToQueue} />;
                             default:
                                 return <div />;
                         }
@@ -106,4 +115,4 @@ function mapStateToProps(state) {
     };
 }
 
-export const SiteContent = connect(mapStateToProps)(UnwrappedSiteContent);
+export default connect(mapStateToProps)(SiteContent);
