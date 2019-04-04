@@ -15,11 +15,11 @@ import css from './EditableTable.scss';
  * table. If the user releases the mouse in a field, the row snaps into that row.
  *
  * +---+---------------+
- * | = | Table row 1   | Field 1 (includes top of screen)     In this example, if the mouse were
+ * | = | Table row 0   | Field 0 (includes top of screen)     In this example, if the mouse were
  * +---+---------------+ ------------------------------------ released in field 1, the floating table
- * | = | Table row 2   | Field 2                              row would snap to table row 1's position.
+ * | = | Table row 1   | Field 1                              row would snap to table row 1's position.
  * +---+---------------+ ------------------------------------ If it were released in field 2, it would
- * | = | Table row 3   | Field 3 (includes bottom of screen)  snap to table row 2's position, and so on.
+ * | = | Table row 2   | Field 2 (includes bottom of screen)  snap to table row 2's position, and so on.
  * +---+---------------+
  */
 
@@ -51,14 +51,14 @@ export default class EditableTable extends React.Component {
         }
     }
     
-    beginMoveRow = (e, i) => {
-        const rowPos = this.tableRows[i].getBoundingClientRect();
+    beginMoveRow = (e, id, pos) => {
+        const rowPos = this.tableRows[id].getBoundingClientRect();
         
         this.setState({
             isRowMoving:    true,
-            floatingRow:    i,
+            floatingRow:    id,
             floatingRowPos: [rowPos.left, rowPos.top],
-            currentField:   i
+            currentField:   pos
         });
         
         this.mouseOffset = [e.clientX - rowPos.left, e.clientY - rowPos.top];
@@ -104,12 +104,12 @@ export default class EditableTable extends React.Component {
             console.log(this.state.currentField, currentField);
             if (this.state.currentField < currentField) { // Mouse moved down
                 for (let i = this.state.currentField; i < currentField; i++) {
-                    console.log('moving up ' + i);
+                    console.log('moving up ' + this.state.rowOrder[i]);
                     this.tableRows[this.state.rowOrder[i]].style.animation = `${css['move-up']} 0.3s`;
                 }
             } else { // Mouse moved up
                 for (let i = this.state.currentField; i > currentField; i--) {
-                    console.log('moving down ' + i);
+                    console.log('moving down ' + this.state.rowOrder[i]);
                     this.tableRows[this.state.rowOrder[i]].style.animation = `${css['move-down']} 0.3s`;
                 }
             }
@@ -156,9 +156,15 @@ export default class EditableTable extends React.Component {
                                    }}>
                                 <tbody>
                                     <tr>
-                                        <td><i className="material-icons">reorder</i></td>
+                                        <td>
+                                            <i className="material-icons" style={{margin: '0.5rem'}}>
+                                                reorder
+                                            </i>
+                                        </td>
                                         {this.state.rows[this.state.floatingRow].map((datum, i) => (
-                                            <td key={i}>{datum}</td>
+                                            <td key={i}>
+                                                <input type="text" value={datum} />
+                                            </td>
                                         ))}
                                     </tr>
                                 </tbody>
@@ -177,18 +183,21 @@ export default class EditableTable extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.rowOrder.map((i, pos) => {
-                            const row = this.state.rows[i];
+                        {this.state.rowOrder.map((id, pos) => {
+                            // `id` is the row ID according to this.tableRows.
+                            // `pos` is the place in the order, e.g. pos === 3 means this is the 3rd row from
+                            // the top.
+                            const row = this.state.rows[id];
                             return (
-                                <tr key={i}
+                                <tr key={id}
                                     ref={el => { if (el) this.tableRows.push(el); }}
-                                    style={{opacity: i === this.state.floatingRow ? '0' : '1'}}>
-                                    <td onMouseDown={e => this.beginMoveRow(e, pos)}>
-                                        <i className="material-icons">reorder</i>
+                                    style={{opacity: id === this.state.floatingRow ? '0' : '1'}}>
+                                    <td onMouseDown={e => this.beginMoveRow(e, id, pos)}>
+                                        <i className="material-icons" style={{margin: '0.5rem'}}>reorder</i>
                                     </td>
                                     {row.map((datum, i) => (
                                         <td key={i}>
-                                            {datum}
+                                            <input type="text" value={datum} />
                                         </td>
                                     ))}
                                 </tr>

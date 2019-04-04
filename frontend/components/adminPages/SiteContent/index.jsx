@@ -2,7 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import Subjects from './Subjects';
-import {getAllSubjects} from '../../../actions';
+import Courses from './Courses';
+import {getAllSubjects, getAllCourses} from '../../../actions';
 
 import css from './index.scss';
 
@@ -24,6 +25,7 @@ class SiteContent extends React.Component {
         };
         
         props.dispatch(getAllSubjects());
+        props.dispatch(getAllCourses());
     }
     
     // Get the left position of the button for the current tab.
@@ -99,6 +101,8 @@ class SiteContent extends React.Component {
                         switch (this.state.currentTab) {
                             case 'subjects':
                                 return <Subjects addToQueue={this.addToQueue} />;
+                            case 'courses':
+                                return <Courses addToQueue={this.addToQueue} />;
                             default:
                                 return <div />;
                         }

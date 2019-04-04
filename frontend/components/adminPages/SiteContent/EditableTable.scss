@@ -20,8 +20,11 @@
         transition: color 0.5s;
     }
     
-    td, th {
+    th {
         padding: 0.5rem;
+    }
+    
+    td, th {
         vertical-align: middle;
         transition: color 0.5s;
         
@@ -52,6 +55,15 @@
                 background: var(--background-hover-color);
             }
         }
+    }
+    
+    input {
+        box-sizing: border-box;
+        padding: 0.5rem;
+        border: none;
+        border-radius: 0px;
+        width: 100%;
+        background: transparent;
     }
 }
 
