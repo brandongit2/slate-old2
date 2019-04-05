@@ -20,7 +20,7 @@ function Subjects(props) {
                                     <a>
                                         <ContentBox title={subject.display_name}
                                                     description={subject.description}
-                                                    color="#222222" />
+                                                    color={props.theme === 'light' ? '#222222' : '#888888'} />
                                     </a>
                                 </Link>
                             </div>
@@ -42,7 +42,8 @@ Subjects.getInitialProps = async ({store}) => {
 
 function mapStateToProps(state) {
     return {
-        subjects: state.subjects
+        subjects: state.subjects,
+        theme:    state.user.theme
     };
 }
 

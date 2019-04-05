@@ -1,6 +1,6 @@
 .content-box {
     border: 1.5px solid var(--border-color);
-    transition: border 0.2s;
+    transition: border 0.3s;
     border-radius: 8px;
     padding: 1rem;
     max-width: 45em;
@@ -11,9 +11,10 @@
     
     h1 {
         font-size: 16pt;
+        margin-bottom: 0.25em;
     }
     
     p {
-        color: var(--tertiary-text-color);
+        color: var(--secondary-text-color);
     }
 }

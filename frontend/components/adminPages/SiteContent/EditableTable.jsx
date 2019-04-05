@@ -37,6 +37,7 @@ export default class EditableTable extends React.Component {
             currentField:   -1
         };
         
+        this.floatingTableRef = React.createRef();
         this.fieldBounds = [];
         this.tableRows = [];
         this.mouseOffset = [0, 0]; // How far the cursor was from the top left corner of the row on mouse down.
@@ -100,7 +101,7 @@ export default class EditableTable extends React.Component {
                 rowOrder[swap[1]] = rowOrder[swap[0]];
                 rowOrder[swap[0]] = temp;
             }
-            
+            console.log(this.state.rowOrder);
             console.log(this.state.currentField, currentField);
             if (this.state.currentField < currentField) { // Mouse moved down
                 for (let i = this.state.currentField; i < currentField; i++) {
@@ -125,13 +126,19 @@ export default class EditableTable extends React.Component {
     };
     
     endMoveRow = () => {
-        this.setState({
-            isRowMoving: false,
-            floatingRow: -1
-        });
-        
+        this.floatingTableRef.current.style.transition = '0.3s transform cubic-bezier(0.77, 0, 0.175, 1), 0.3s box-shadow cubic-bezier(0.77, 0, 0.175, 1)';
+        this.floatingTableRef.current.style.transform = `translate(${this.tableRows[0].getBoundingClientRect().left}px, ${this.tableRows[this.state.rowOrder[this.state.currentField]].getBoundingClientRect().top}px)`;
+        this.floatingTableRef.current.style.animation = `${css['fade-out-shadow']} 0.3s`;
+
         window.removeEventListener('mousemove', this.moveRow);
         window.removeEventListener('mouseup', this.endMoveRow);
+        
+        setTimeout(() => {
+            this.setState({
+                isRowMoving: false,
+                floatingRow: -1
+            });
+        }, 300);
     };
     
     render() {
@@ -153,7 +160,8 @@ export default class EditableTable extends React.Component {
                                        width:     `${this.tableWidth}px`,
                                        transform: `translate(${this.state.floatingRowPos[0]}px, ${this.state.floatingRowPos[1]}px)`,
                                        animation: `${css['fade-hover-in']} 0.2s forwards`
-                                   }}>
+                                   }}
+                                   ref={this.floatingTableRef}>
                                 <tbody>
                                     <tr>
                                         <td>
