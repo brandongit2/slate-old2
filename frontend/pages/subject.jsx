@@ -4,7 +4,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {changeSubject, changeCourse, changeUnit, changeArticle, getAllSubjects, getChildren} from '../actions';
-import {Layout, Breadcrumbs, Crumb, Dropdown, Item, ContentContainer, InfoSection, ContentSection} from '../components';
+import {Layout, Breadcrumbs, Crumb, Dropdown, Item, ContentContainer, InfoSection, ContentSection, ContentBox} from '../components';
 
 import css from './subject.scss';
 
@@ -39,15 +39,15 @@ function Subject(props) {
                         <p id={css['courses-title']}>Courses</p>
                         {props.courses ? props.courses.map(course => (
                             <Link key={course.id}
-                                  href={props.subject ? (
-                                      '/course?subject=' + props.subject.id + '&course=' + course.id
-                                  ) : ''}
+                                  href={props.subject
+                                      ? (
+                                          '/course?subject=' + props.subject.id + '&course=' + course.id
+                                      ) : ''}
                                   as={props.subject ? ('/subject/' + props.subject.name + '/' + course.name) : ''}>
                                 <a>
-                                    <div className={css['course-info']}>
-                                        <p id={css.name}>{course.display_name}</p>
-                                        <p id={css.description}>{course.description}</p>
-                                    </div>
+                                    <ContentBox title={course.display_name}
+                                                description={course.description}
+                                                color={`#${props.subject.color}`} />
                                 </a>
                             </Link>
                         )) : null}

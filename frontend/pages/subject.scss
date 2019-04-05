@@ -36,31 +36,12 @@
         color: var(--content-title-color);
         margin-bottom: 0.5rem;
     }
-
+    
     a {
         text-decoration: none;
     }
     
-    .course-info {
-        border: 1.5px solid var(--border-color);
-        border-radius: 5px;
+    a > div {
         margin-top: 1rem;
-        padding: 1rem;
-        transition: border 0.3s;
-        cursor: pointer;
-
-        &:hover {
-            border: 1.5px solid var(--subject-color);
-        }
-
-        #name {
-            font-size: 16pt;
-            font-weight: 700;
-            margin-bottom: 0.3rem;
-        }
-
-        #description {
-            color: var(--secondary-text-color);
-        }
     }
 }

@@ -3,6 +3,7 @@
     transition: border 0.2s;
     border-radius: 8px;
     padding: 1rem;
+    max-width: 45em;
     
     &:hover {
         border: 1.5px solid var(--color);
