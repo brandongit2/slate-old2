@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import {connect} from 'react-redux';
 
 import {getAllSubjects, changeSubject, changeCourse, changeUnit, changeArticle} from '../actions';
@@ -15,8 +16,13 @@ function Subjects(props) {
                     <div className={css['content-section']}>
                         {props.subjects.map(subject => (
                             <div className={css.subject} key={subject.id}>
-                                <ContentBox title={subject.display_name}
-                                            description={subject.description} />
+                                <Link href={`/subject/${subject.name}`}>
+                                    <a>
+                                        <ContentBox title={subject.display_name}
+                                                    description={subject.description}
+                                                    color="#222222" />
+                                    </a>
+                                </Link>
                             </div>
                         ))}
                     </div>
