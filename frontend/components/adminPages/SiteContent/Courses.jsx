@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import EditableTable from './EditableTable';
 
 function Courses(props) {
+    console.log(props.courses);
     return (
         <div>
             <EditableTable headers={['Name', 'Description', 'Color']}

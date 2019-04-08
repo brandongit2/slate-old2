@@ -7,7 +7,18 @@ import * as pages from '../components/adminPages';
 import css from './admin.scss';
 
 function Admin(props) {
-    const [currentPage, changePage] = React.useState(props.initialPage);
+    const [currentPage, setPage] = React.useState(props.initialPage);
+    const [pagesLoaded, loadPage] = React.useReducer(
+        (pagesLoaded, page) => (
+            pagesLoaded.includes(page) ? pagesLoaded : [...pagesLoaded, page]
+        ),
+        [props.initialPage]
+    );
+    
+    const changePage = newPage => {
+        setPage(newPage);
+        loadPage(newPage);
+    };
     
     const icons = {};
     for (let page of Object.keys(pages)) {
@@ -15,10 +26,13 @@ function Admin(props) {
     }
     
     const getTrianglePos = () => {
-        const iconPos = icons[currentPage].current ? icons[currentPage].current.getBoundingClientRect().top : 0;
-        const iconHeight = icons[currentPage].current ? icons[currentPage].current.getBoundingClientRect().height : 0;
-        const sidebarPos = typeof document != 'undefined' && document.querySelector(`.${css.sidebar}`)
-            ? document.querySelector(`.${css.sidebar}`).getBoundingClientRect().top : 0;
+        const iconPos = icons[currentPage].current
+            ? icons[currentPage].current.getBoundingClientRect().top : 0;
+        const iconHeight = icons[currentPage].current
+            ? icons[currentPage].current.getBoundingClientRect().height : 0;
+        const sidebarPos =
+            typeof document != 'undefined' && document.querySelector(`.${css.sidebar}`)
+                ? document.querySelector(`.${css.sidebar}`).getBoundingClientRect().top : 0;
         return iconPos - sidebarPos + iconHeight / 2;
     };
     
@@ -49,17 +63,20 @@ function Admin(props) {
                          }} />
                 </div>
                 <div className={css.main}>
-                    {Object.entries(pages).map(([pageId, Page]) => (
-                        <div key={pageId}
-                             style={{
-                                 position:  'absolute',
-                                 width:     '100%',
-                                 height:    '100%',
-                                 transform: currentPage === pageId ? 'translateX(0px)' : 'translateX(100vw)'
-                             }}>
-                            <Page />
-                        </div>
-                    ))}
+                    {pagesLoaded.map(pageName => {
+                        const Page = pages[pageName];
+                        return (
+                            <div key={pageName}
+                                 style={{
+                                     position:  'absolute',
+                                     width:     '100%',
+                                     height:    '100%',
+                                     transform: currentPage === pageName ? 'translateX(0px)' : 'translateX(100vw)'
+                                 }}>
+                                <Page />
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </Layout>

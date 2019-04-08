@@ -3,25 +3,35 @@ import {connect} from 'react-redux';
 
 import Subjects from './Subjects';
 import Courses from './Courses';
+import Units from './Units';
+import Articles from './Articles';
+import Comments from './Comments';
 import {getAllSubjects, getAllCourses} from '../../../actions';
 
 import css from './index.scss';
 
+const tabs = {Subjects, Courses, Units, Articles, Comments};
+
 class SiteContent extends React.Component {
-    state = {
-        currentTab: 'subjects',
-        queryQueue: []
+    static defaultProps = {
+        initialTab: 'Subjects'
     };
     
     constructor(props) {
         super(props);
         
+        this.state = {
+            currentTab: props.initialTab,
+            tabsLoaded: [props.initialTab],
+            queryQueue: []
+        };
+        
         this.buttons = {
-            subjects: React.createRef(),
-            courses:  React.createRef(),
-            units:    React.createRef(),
-            articles: React.createRef(),
-            comments: React.createRef()
+            Subjects: React.createRef(),
+            Courses:  React.createRef(),
+            Units:    React.createRef(),
+            Articles: React.createRef(),
+            Comments: React.createRef()
         };
         
         props.dispatch(getAllSubjects());
@@ -32,7 +42,8 @@ class SiteContent extends React.Component {
     getButtonLeft = () => {
         return this.buttons[this.state.currentTab].current
             ? this.buttons[this.state.currentTab].current.offsetLeft - parseInt(
-                window.getComputedStyle(this.buttons[this.state.currentTab].current).getPropertyValue('padding-left'),
+                window.getComputedStyle(this.buttons[this.state.currentTab].current)
+                    .getPropertyValue('padding-left'),
                 10
             ) : 0;
     };
@@ -50,6 +61,15 @@ class SiteContent extends React.Component {
         });
     };
     
+    changeTab = newTab => {
+        this.setState({
+            currentTab: newTab,
+            tabsLoaded: this.state.tabsLoaded.includes(newTab)
+                ? this.state.tabsLoaded
+                : [...this.state.tabsLoaded, newTab]
+        });
+    };
+    
     render() {
         return (
             <div className={css['site-content']}>
@@ -57,56 +77,67 @@ class SiteContent extends React.Component {
                     <h1>Site content manager</h1>
                     <nav>
                         <ul>
-                            <li onClick={() => this.setState({currentTab: 'subjects'})}>
+                            <li onClick={() => this.changeTab('Subjects')}>
                                 Subjects
                             </li>
-                            <li onClick={() => this.setState({currentTab: 'courses'})}>
+                            <li onClick={() => this.changeTab('Courses')}>
                                 Courses
                             </li>
-                            <li onClick={() => this.setState({currentTab: 'units'})}>
+                            <li onClick={() => this.changeTab('Units')}>
                                 Units
                             </li>
-                            <li onClick={() => this.setState({currentTab: 'articles'})}>
+                            <li onClick={() => this.changeTab('Articles')}>
                                 Articles
                             </li>
-                            <li onClick={() => this.setState({currentTab: 'comments'})}>
+                            <li onClick={() => this.changeTab('Comments')}>
                                 Comments
                             </li>
                         </ul>
                         
                         <div className={css.highlight}>
-                            {/* The clip-path is applied to this element in order to highlight current page. */}
-                            <ul style={{clipPath: `polygon(${this.getButtonLeft()}px 0%, ${this.getButtonRight()}px 0%, ${this.getButtonRight()}px 101%, ${this.getButtonLeft()}px 101%)`}}>
-                                <li ref={this.buttons.subjects}>
+                            {/* The clip-path is applied to this element in
+                              * order to highlight current page. */}
+                            <ul style={{clipPath: `
+                                    polygon(
+                                        ${this.getButtonLeft()}px 0%,
+                                        ${this.getButtonRight()}px 0%,
+                                        ${this.getButtonRight()}px 101%,
+                                        ${this.getButtonLeft()}px 101%
+                                    )
+                                `}}>
+                                <li ref={this.buttons.Subjects}>
                                     Subjects
                                 </li>
-                                <li ref={this.buttons.courses}>
+                                <li ref={this.buttons.Courses}>
                                     Courses
                                 </li>
-                                <li ref={this.buttons.units}>
+                                <li ref={this.buttons.Units}>
                                     Units
                                 </li>
-                                <li ref={this.buttons.articles}>
+                                <li ref={this.buttons.Articles}>
                                     Articles
                                 </li>
-                                <li ref={this.buttons.comments}>
+                                <li ref={this.buttons.Comments}>
                                     Comments
                                 </li>
                             </ul>
                         </div>
                     </nav>
                 </header>
-                <main className={css[this.state.currentTab]}>
-                    {(() => {
-                        switch (this.state.currentTab) {
-                            case 'subjects':
-                                return <Subjects addToQueue={this.addToQueue} />;
-                            case 'courses':
-                                return <Courses addToQueue={this.addToQueue} />;
-                            default:
-                                return <div />;
-                        }
-                    })()}
+                <main>
+                    {this.state.tabsLoaded.map(tabName => {
+                        const Tab = tabs[tabName];
+                        return (
+                            <div key={tabName}
+                                 style={{
+                                     position:  'absolute',
+                                     width:     '100%',
+                                     transform: `translateY(${this.state.currentTab === tabName ? '0px' : '100vh'})`
+                                 }}>
+                                <Tab addToQueue={this.addToQueue} />
+                            </div>
+                        );
+                    })}
                 </main>
             </div>
         );
