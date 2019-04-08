@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {isHexColour} from '../../../util';
 
 import css from './EditableTable.scss';
 
@@ -230,11 +231,22 @@ export default class EditableTable extends React.Component {
                                             reorder
                                         </i>
                                     </td>
-                                    {row.map((datum, i) => (
-                                        <td key={i}>
-                                            <input type="text" value={datum} />
-                                        </td>
-                                    ))}
+                                    {row.map((datum, i) => {
+                                        if (isHexColour(datum)) {
+                                            return (
+                                                <td key={i}>
+                                                    <input className={css.inputColour} type="color" name="test" value={'#' + datum} />
+                                                </td>
+                                            );
+                                        } else {
+                                            return (
+                                                <td key={i}>
+                                                    <input className={css.inputText} type="text" value={datum} />
+                                                </td>
+                                            );
+                                        }
+                                    })
+                                }
                                 </tr>
                             );
                         })}
