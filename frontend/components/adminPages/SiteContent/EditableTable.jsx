@@ -166,43 +166,53 @@ export default class EditableTable extends React.Component {
             }
         }
         
-        console.log(this.state.rowOrder);
-        
         return (
             <React.Fragment>
                 {this.state.isRowMoving
-                    ? (
-                        ReactDOM.createPortal(
-                            <table className={[css.table, css.floating].join(' ')}
-                                   style={{
-                                       width:     `${this.tableWidth}px`,
-                                       transform: `
-                                           translate(${this.state.floatingRowPos[0]}px,
-                                           ${this.state.floatingRowPos[1]}px)
-                                       `,
-                                       animation: `${css['fade-hover-in']} 0.2s forwards`
-                                   }}
-                                   ref={this.floatingTableRef}>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <i className="material-icons"
-                                               style={{margin: '0.5rem'}}>
-                                                reorder
-                                            </i>
-                                        </td>
-                                        {this.state.rows[this.state.floatingRow]
-                                            .map((datum, i) => (
-                                                <td key={i}>
-                                                    <input type="text" value={datum} />
-                                                </td>
-                                            ))
+                    ? ReactDOM.createPortal(
+                        <table className={[css.table, css.floating].join(' ')}
+                               style={{
+                                   width:     `${this.tableWidth}px`,
+                                   transform: `
+                                       translate(${this.state.floatingRowPos[0]}px,
+                                       ${this.state.floatingRowPos[1]}px)
+                                   `,
+                                   animation: `${css['fade-hover-in']} 0.2s forwards`
+                               }}
+                               ref={this.floatingTableRef}>
+                            <tbody>
+                                <tr>
+                                    <td className="rowHandle">
+                                        <i className="material-icons"
+                                           style={{margin: '0.5rem'}}>
+                                            reorder
+                                        </i>
+                                    </td>
+                                    {Object.entries(this.state.rows[this.state.floatingRow]).map(([datumType, datum], i) => {
+                                        switch (datumType) {
+                                            case 'color':
+                                                return (
+                                                    <td key={i} className={datumType}>
+                                                        <input className={css.inputColour}
+                                                               type="color"
+                                                               name="test"
+                                                               value={'#' + datum} />
+                                                    </td>
+                                                );
+                                            default:
+                                                return (
+                                                    <td key={i} className={datumType}>
+                                                        <input className={css.inputText}
+                                                               type="text"
+                                                               value={datum} />
+                                                    </td>
+                                                );
                                         }
-                                    </tr>
-                                </tbody>
-                            </table>,
-                            document.body
-                        )
+                                    })}
+                                </tr>
+                            </tbody>
+                        </table>,
+                        document.body
                     ) : null
                 }
                 <table className={css.table}
@@ -225,28 +235,33 @@ export default class EditableTable extends React.Component {
                                 <tr key={id}
                                     ref={el => { if (el) this.tableRows.push(el); }}
                                     style={{opacity: id === this.state.floatingRow ? '0' : '1'}}>
-                                    <td onMouseDown={e => this.beginMoveRow(e, id, pos)}>
+                                    <td className="rowHandle" onMouseDown={e => this.beginMoveRow(e, id, pos)}>
                                         <i className="material-icons"
                                            style={{margin: '0.5rem'}}>
                                             reorder
                                         </i>
                                     </td>
-                                    {row.map((datum, i) => {
-                                        if (isHexColour(datum)) {
-                                            return (
-                                                <td key={i}>
-                                                    <input className={css.inputColour} type="color" name="test" value={'#' + datum} />
-                                                </td>
-                                            );
-                                        } else {
-                                            return (
-                                                <td key={i}>
-                                                    <input className={css.inputText} type="text" value={datum} />
-                                                </td>
-                                            );
+                                    {Object.entries(row).map(([datumType, datum], i) => {
+                                        switch (datumType) {
+                                            case 'color':
+                                                return (
+                                                    <td key={i} className={datumType}>
+                                                        <input className={css.inputColour}
+                                                               type="color"
+                                                               name="test"
+                                                               value={'#' + datum} />
+                                                    </td>
+                                                );
+                                            default:
+                                                return (
+                                                    <td key={i} className={datumType}>
+                                                        <input className={css.inputText}
+                                                               type="text"
+                                                               value={datum} />
+                                                    </td>
+                                                );
                                         }
-                                    })
-                                }
+                                    })}
                                 </tr>
                             );
                         })}

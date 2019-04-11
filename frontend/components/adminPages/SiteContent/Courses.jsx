@@ -4,12 +4,15 @@ import {connect} from 'react-redux';
 import EditableTable from './EditableTable';
 
 function Courses(props) {
-    console.log(props.courses);
     return (
         <div>
-            <EditableTable headers={['Name', 'Description', 'Color']}
+            <EditableTable headers={['Subject', 'Name', 'Description']}
                            data={props.courses.map(course => (
-                               [course.display_name, course.description, course.color]
+                               {
+                                   subjectId:   course.subject_id,
+                                   name:        course.display_name,
+                                   description: course.description
+                               }
                            ))} />
         </div>
     );
@@ -17,7 +20,8 @@ function Courses(props) {
 
 function mapStateToProps(state) {
     return {
-        courses: state.courses
+        subjects: state.subjects,
+        courses:  state.courses
     };
 }
 

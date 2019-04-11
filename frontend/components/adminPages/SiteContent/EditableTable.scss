@@ -27,16 +27,31 @@
         vertical-align: middle;
         transition: color 0.5s;
         
-        &:nth-child(1) {
+        &:global(.rowHandle) {
             width: 1em;
             cursor: move;
         }
         
-        &:nth-child(3) {
-            width: 70%;
+        &:global(.subjectId) {
+            width: 1em;
+            
+            input {
+                text-align: center;
+            }
+        }
+        
+        &:global(.name) {
+            width: 10em;
+        }
+        
+        &:global(.description) {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+        }
+        
+        &:global(.color) {
+            width: 6em;
         }
     }
     

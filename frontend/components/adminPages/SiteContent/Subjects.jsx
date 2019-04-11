@@ -8,7 +8,11 @@ function Subjects(props) {
         <div>
             <EditableTable headers={['Name', 'Description', 'Color']}
                            data={props.subjects.map(subject => (
-                               [subject.display_name, subject.description, subject.color]
+                               {
+                                   name:        subject.display_name,
+                                   description: subject.description,
+                                   color:       subject.color
+                               }
                            ))} />
         </div>
     );

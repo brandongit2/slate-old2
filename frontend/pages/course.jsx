@@ -15,7 +15,9 @@ function Course(props) {
                 <InfoSection breadcrumbs={(
                                  <div className={css.breadcrumbs}> {/* eslint-disable-line react/jsx-indent */}
                                      <Breadcrumbs>
-                                         <Crumb><Link href="/subjects"><a>Subjects</a></Link></Crumb>
+                                         <Crumb>
+                                             <Link href="/subjects"><a>Subjects</a></Link>
+                                         </Crumb>
                                          <Crumb>
                                              <Link href={props.subject ? `/subject/${props.subject.name}` : ''}>
                                                  <a>{props.subject ? props.subject.display_name : ''}</a>
