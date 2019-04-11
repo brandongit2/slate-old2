@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {generate} from 'shortid';
 
 import {addNotification, showModal, toggleTheme} from '../../actions';
-import {Dropdown, Item, Layout} from '../../components';
+import {Dropdown, Item, Layout, ColorPicker, Panel, Visible, Hidden} from '../../components';
 import {severities} from '../../constants';
 
 import css from './components.scss';
@@ -37,6 +37,8 @@ function Testing(props) {
         e.preventDefault();
         props.showModal(modalTitle, modalContent, modalButtons, modalHasX);
     };
+    
+    const [panelIsOpen, togglePanel] = React.useReducer(isOpen => !isOpen, false);
     
     return (
         <Layout title="Components - Slate Testing" {...props}>
@@ -177,6 +179,25 @@ function Testing(props) {
                 <div>
                     <h1>Theme</h1>
                     <button onClick={props.toggleTheme}>Toggle theme</button>
+                </div>
+                <div>
+                    <h1>Panels</h1>
+                    <Panel isOpen={panelIsOpen}>
+                        <Visible>
+                            <button onClick={togglePanel}>
+                                Click to {panelIsOpen ? 'close' : 'open'}
+                            </button>
+                        </Visible>
+                        <Hidden>
+                            <div className={css['panel-hidden']}>
+                                <p>hello</p>
+                            </div>
+                        </Hidden>
+                    </Panel>
+                </div>
+                <div>
+                    <h1>Color picker</h1>
+                    <ColorPicker />
                 </div>
             </div>
         </Layout>

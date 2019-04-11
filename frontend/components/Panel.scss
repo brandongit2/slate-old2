@@ -1,0 +1,16 @@
+.panel-container {
+    position: relative;
+    
+    .panel {
+        position: absolute;
+        overflow: hidden;
+    }
+    
+    &.closed .panel {
+        height: 0px;
+    }
+    
+    &.open .panel {
+        height: auto;
+    }
+}

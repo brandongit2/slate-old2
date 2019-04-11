@@ -6,10 +6,10 @@ import EditableTable from './EditableTable';
 function Courses(props) {
     return (
         <div>
-            <EditableTable headers={['Subject', 'Name', 'Description']}
+            <EditableTable headers={['Parent subject', 'Name', 'Description']}
                            data={props.courses.map(course => (
                                {
-                                   subjectId:   course.subject_id,
+                                   subjectId:   Object.values(props.subjects).find(subject => subject.id === course.subject_id).display_name,
                                    name:        course.display_name,
                                    description: course.description
                                }

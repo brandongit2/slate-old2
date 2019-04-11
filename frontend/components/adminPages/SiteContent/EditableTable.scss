@@ -33,11 +33,7 @@
         }
         
         &:global(.subjectId) {
-            width: 1em;
-            
-            input {
-                text-align: center;
-            }
+            width: 10em;
         }
         
         &:global(.name) {
@@ -71,7 +67,7 @@
         }
     }
     
-    .inputText {
+    .input-text {
         box-sizing: border-box;
         padding: 0.5rem;
         border: none;
@@ -80,7 +76,7 @@
         background: transparent;
     }
 
-    .inputColour {
+    .input-color {
         box-sizing: border-box;
         padding: 0.05rem;
         border: none;
