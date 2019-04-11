@@ -1,3 +1,4 @@
+import Router from 'next/router';
 import React from 'react';
 import {connect} from 'react-redux';
 
@@ -62,6 +63,11 @@ class SiteContent extends React.Component {
     };
     
     changeTab = newTab => {
+        const url = `/admin/site-content?tab=${newTab}`;
+        const as = url;
+        const options = {shallow: true};
+        window.history.pushState({url, as, options}, null, url);
+        
         this.setState({
             currentTab: newTab,
             tabsLoaded: this.state.tabsLoaded.includes(newTab)

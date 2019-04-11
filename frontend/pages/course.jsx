@@ -30,9 +30,11 @@ function Course(props) {
                                                            onClick={() => {
                                                                props.dispatch(changeCourse(course.id));
                                                                props.dispatch(getChildren('course', course.id));
-                                                               window.history.pushState(
-                                                                   {}, '', `/subject/${props.subject.name}/${course.name}`
-                                                               );
+                                                               
+                                                               const url = `/subject/${props.subject.name}/${course.name}`;
+                                                               const as = url;
+                                                               const options = {shallow: true};
+                                                               window.history.pushState({url, as, options}, null, url);
                                                            }}>
                                                          {course.display_name}
                                                      </Item>

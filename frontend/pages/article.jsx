@@ -33,10 +33,11 @@ function Article(props) {
                                       onClick={() => {
                                           props.dispatch(changeArticle(article.id));
                                           props.dispatch(getArticleContent(article.id));
-                                          window.history.pushState(
-                                              {}, '',
-                                              `/subject/${props.subject.name}/${props.course.name}/${article.title}`
-                                          );
+                                          
+                                          const url = `/subject/${props.subject.name}/${props.course.name}/${article.title}`;
+                                          const as = url;
+                                          const options = {shallow: true};
+                                          window.history.pushState({url, as, options}, null, url);
                                       }}>
                                     {article.display_title}
                                 </Item>

@@ -23,7 +23,11 @@ function Subject(props) {
                                                            onClick={() => {
                                                                props.dispatch(changeSubject(subject.id));
                                                                props.dispatch(getChildren('subject', subject.id));
-                                                               window.history.pushState({}, '', '/subject/' + subject.name);
+                                                               
+                                                               const url = `/subject/${subject.name}`;
+                                                               const as = url;
+                                                               const options = {shallow: true};
+                                                               window.history.pushState({url, as, options}, null, url);
                                                            }}>{subject.display_name}</Item>
                                                    )) : null}
                                              </Dropdown>

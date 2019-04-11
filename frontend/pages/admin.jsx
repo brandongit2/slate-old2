@@ -73,7 +73,7 @@ function Admin(props) {
                                      height:    '100%',
                                      transform: currentPage === pageName ? 'translateX(0px)' : 'translateX(100vw)'
                                  }}>
-                                <Page />
+                                <Page initialTab={props.initialTab} />
                             </div>
                         );
                     })}
@@ -93,7 +93,10 @@ Admin.getInitialProps = async ({req}) => {
         case 'overview':
             return {initialPage: 'Overview'};
         case 'site-content':
-            return {initialPage: 'SiteContent'};
+            return {
+                initialPage: 'SiteContent',
+                initialTab:  req.query.tab ? req.query.tab : 'Subjects'
+            };
         default:
             return {};
     }
