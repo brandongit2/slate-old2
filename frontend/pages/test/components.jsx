@@ -3,8 +3,10 @@ import {connect} from 'react-redux';
 import {generate} from 'shortid';
 
 import {addNotification, showModal, toggleTheme} from '../../actions';
-import {Dropdown, Item, Layout, ColorPicker, Panel, Visible, Hidden} from '../../components';
+import {Dropdown, Layout, ColorPicker, Panel} from '../../components';
 import {severities} from '../../constants';
+import {Item} from '../../components/Dropdown';
+import {Visible, Hidden} from '../../components/Panel';
 
 import css from './components.scss';
 

@@ -2,7 +2,8 @@ import Link from 'next/link';
 import {connect} from 'react-redux';
 
 import {getAllSubjects, changeSubject, changeCourse, changeUnit, changeArticle} from '../actions';
-import {Layout, ContentContainer, InfoSection, ContentSection, ContentBox} from '../components';
+import {Layout, ContentContainer, ContentBox} from '../components';
+import {InfoSection, ContentSection} from '../components/ContentContainer';
 
 import css from './subjects.scss';
 

@@ -1,4 +1,5 @@
-import {ContentContainer, ContentSection, InfoSection, Layout} from '../../components';
+import {ContentContainer, Layout} from '../../components';
+import {ContentSection, InfoSection} from '../../components/ContentContainer';
 
 import css from './content-container.scss';
 
@@ -8,7 +9,7 @@ export default function ContentContainerTest(props) {
             <ContentContainer color={props.color}>
                 <InfoSection type="Test"
                              title="Content Container Test"
-                             description="This is a description haha" />
+                             description="This is a description" />
                 <ContentSection>
                     <div className={css['content-section']}>
                         <h1>Title</h1>

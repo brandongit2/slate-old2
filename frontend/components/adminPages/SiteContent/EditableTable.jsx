@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {isHexColour} from '../../../util';
 
 import css from './EditableTable.scss';
 

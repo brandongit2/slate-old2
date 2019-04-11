@@ -4,7 +4,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {changeSubject, changeCourse, changeUnit, changeArticle, getSubject, getCourse, getChildren} from '../actions';
-import {Layout, Breadcrumbs, Crumb, Dropdown, Item, ContentContainer, InfoSection, ContentSection} from '../components';
+import {Layout, Breadcrumbs, Dropdown, ContentContainer} from '../components';
+import {Crumb} from '../components/Breadcrumbs';
+import {Item} from '../components/Dropdown';
+import {InfoSection, ContentSection} from '../components/ContentContainer';
 
 import css from './course.scss';
 
