@@ -13,7 +13,10 @@ const Snackbar = props => (
                 css[notification.level]
             ].join(' ')}>
                 <span>{notification.text}</span>
-                <i className="material-icons" onClick={() => props.removeNotification(id)}>close</i>
+                <i className="material-icons"
+                   onClick={() => props.removeNotification(id)}>
+                    close
+                </i>
             </div>
         ))
     }</div>

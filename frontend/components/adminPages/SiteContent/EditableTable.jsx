@@ -192,7 +192,7 @@ export default class EditableTable extends React.Component {
                                             case 'color':
                                                 return (
                                                     <td key={i} className={datumType}>
-                                                        <input className={css.inputColour}
+                                                        <input className={css['input-color']}
                                                                type="color"
                                                                name="test"
                                                                value={'#' + datum} />
@@ -201,7 +201,7 @@ export default class EditableTable extends React.Component {
                                             default:
                                                 return (
                                                     <td key={i} className={datumType}>
-                                                        <input className={css.inputText}
+                                                        <input className={css['input-text']}
                                                                type="text"
                                                                value={datum} />
                                                     </td>

@@ -1,6 +1,8 @@
 import React from 'react';
 import {generate} from 'shortid';
 
+import {Panel} from './Panel';
+
 import css from './Dropdown.scss';
 
 export default function Dropdown(props) {
