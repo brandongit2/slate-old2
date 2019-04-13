@@ -1,11 +1,11 @@
-import {ContentContainer, Layout} from '../../components';
+import {ContentContainer} from '../../components';
 import {ContentSection, InfoSection} from '../../components/ContentContainer';
 
 import css from './content-container.scss';
 
 export default function ContentContainerTest(props) {
     return (
-        <Layout title="Content Container - Slate Testing">
+        <div className={css['content-container']}>
             <ContentContainer color={props.color}>
                 <InfoSection type="Test"
                              title="Content Container Test"
@@ -19,7 +19,7 @@ export default function ContentContainerTest(props) {
                     </div>
                 </ContentSection>
             </ContentContainer>
-        </Layout>
+        </div>
     );
 }
 

@@ -41,6 +41,7 @@ class Layout extends React.Component {
                             --border-hover-color: rgba(255, 255, 255, 0.6);
                             --secondary-border-color: rgba(255, 255, 255, 0.0);
                             --background-color: #111;
+                            --background-active-color: rgba(255, 255, 255, 0.1);
                             --background-hover-color: rgba(255, 255, 255, 0.05);
                             --secondary-background-color: #222;
                             --shadow-color: rgba(255, 255, 255, 0);
@@ -52,6 +53,7 @@ class Layout extends React.Component {
                             --border-hover-color: rgba(0, 0, 0, 0.6);
                             --secondary-border-color: rgba(0, 0, 0, 0.1);
                             --background-color: #fff;
+                            --background-active-color: rgba(0, 0, 0, 0.1);
                             --background-hover-color: rgba(0, 0, 0, 0.05);
                             --secondary-background-color: #fff;
                             --shadow-color: rgba(0, 0, 0, 0.1);
