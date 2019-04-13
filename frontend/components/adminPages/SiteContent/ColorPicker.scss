@@ -1,0 +1,17 @@
+.color-picker {
+    .visible {
+        display: flex;
+        align-items: center;
+        
+        .preview {
+            width: 1em;
+            height: 1em;
+            border: 1px solid var(--border-color);
+            margin-right: 8px;
+        }
+        
+        .picker {
+            
+        }
+    }
+}

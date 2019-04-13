@@ -197,10 +197,6 @@ function Testing(props) {
                         </Hidden>
                     </Panel>
                 </div>
-                <div>
-                    <h1>Color picker</h1>
-                    <ColorPicker />
-                </div>
             </div>
         </Layout>
     );

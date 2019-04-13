@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import ColorPicker from './ColorPicker';
+
 import css from './EditableTable.scss';
 
 /*
@@ -192,10 +194,7 @@ export default class EditableTable extends React.Component {
                                             case 'color':
                                                 return (
                                                     <td key={i} className={datumType}>
-                                                        <input className={css['input-color']}
-                                                               type="color"
-                                                               name="test"
-                                                               value={'#' + datum} />
+                                                        <ColorPicker initialColor={datum} />
                                                     </td>
                                                 );
                                             default:
@@ -245,10 +244,7 @@ export default class EditableTable extends React.Component {
                                             case 'color':
                                                 return (
                                                     <td key={i} className={datumType}>
-                                                        <input className={css['input-color']}
-                                                               type="color"
-                                                               name="test"
-                                                               value={'#' + datum} />
+                                                        <ColorPicker initialColor={datum} />
                                                     </td>
                                                 );
                                             default:

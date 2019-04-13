@@ -1,5 +1,4 @@
 export {default as Breadcrumbs} from './Breadcrumbs';
-export {default as ColorPicker} from './ColorPicker';
 export {default as ContentBox} from './ContentBox';
 export {default as ContentContainer} from './ContentContainer';
 export {default as Dropdown} from './Dropdown';
