@@ -47,11 +47,6 @@ function Header(props) {
                             <Button>SUBJECTS</Button>
                         </a></Link>
                     </li>
-                    <li className={props.currentPage === 'about' ? css.bold : ''}>
-                        <Link href="/about"><a>
-                            <Button>ABOUT</Button>
-                        </a></Link>
-                    </li>
                     <li className={props.currentPage === 'blog' ? css.bold : ''}>
                         <Link href="/blog"><a>
                             <Button>BLOG</Button>
