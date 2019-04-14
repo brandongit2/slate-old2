@@ -6,9 +6,19 @@ import {Item} from '../../../components/Dropdown';
 
 import css from './split-pane.scss';
 
+const lorem = new LoremIpsum({});
+const firstColText = [
+    lorem.generateParagraphs(1),
+    lorem.generateParagraphs(1),
+    lorem.generateParagraphs(1)
+];
+const secondColText = [
+    lorem.generateParagraphs(1),
+    lorem.generateParagraphs(1),
+    lorem.generateParagraphs(1)
+];
+
 export default function SplitPaneTest() {
-    const lorem = new LoremIpsum({});
-    
     const [direction, setDirection] = React.useState('horizontal');
     
     return (
@@ -22,14 +32,10 @@ export default function SplitPaneTest() {
             <div className={css['split-pane']}>
                 <SplitPane direction={direction}>
                     <div className={css.column}>
-                        <p>{lorem.generateParagraphs(1)}</p>
-                        <p>{lorem.generateParagraphs(1)}</p>
-                        <p>{lorem.generateParagraphs(1)}</p>
+                        {firstColText.map((text, i) => <p key={i}>{text}</p>)}
                     </div>
                     <div className={css.column}>
-                        <p>{lorem.generateParagraphs(1)}</p>
-                        <p>{lorem.generateParagraphs(1)}</p>
-                        <p>{lorem.generateParagraphs(1)}</p>
+                        {secondColText.map((text, i) => <p key={i}>{text}</p>)}
                     </div>
                 </SplitPane>
             </div>
