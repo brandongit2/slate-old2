@@ -8,6 +8,7 @@ import DropdownTest from './tests/dropdowns';
 import ModalTest from './tests/modals';
 import NotificationTest from './tests/notifications';
 import PanelTest from './tests/panels';
+import SplitContainerTest from './tests/split-container';
 import {Layout} from '../../components';
 
 import css from './index.scss';
@@ -20,7 +21,8 @@ const tests = {
     dropdowns:           DropdownTest,
     modals:              ModalTest,
     notifications:       NotificationTest,
-    panels:              PanelTest
+    panels:              PanelTest,
+    'split-container':   SplitContainerTest
 };
 
 function Testing(props) {

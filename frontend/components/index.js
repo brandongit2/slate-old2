@@ -8,3 +8,4 @@ export {default as Header} from './Header';
 export {default as Layout} from './Layout';
 export {default as Panel} from './Panel';
 export {default as Snackbar} from './Snackbar';
+export {default as SplitContainer} from './SplitContainer';

@@ -1,0 +1,16 @@
+.split-container {
+    display: flex;
+    
+    &.horizontal {
+        flex-direction: row;
+    }
+    
+    &.vertical {
+        flex-direction: column;
+    }
+    
+    & > * {
+        flex-basis: 0px;
+        flex-grow: 1;
+    }
+}
