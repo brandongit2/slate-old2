@@ -36,7 +36,7 @@ function Testing(props) {
     return (
         <Layout title="Test page - Slate" {...props}>
             <div className={css.testing}>
-                <SplitPane initialFirstPaneSize={256}>
+                <SplitPane initialFirstPaneSize={256} minPaneSize={170}>
                     <div className={css['test-list']}>
                         {Object.keys(tests).map(testName => (
                             <a key={testName}

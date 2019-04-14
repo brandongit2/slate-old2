@@ -88,10 +88,20 @@ function Header(props) {
                                             <td></td>
                                         </tr>
                                         {props.user.permissions >= 2 ? (
-                                            <tr>
-                                                <td onClick={() => Router.push('/admin')}><p>Admin panel</p></td>
-                                                <td></td>
-                                            </tr>
+                                            <React.Fragment>  
+                                                <tr>
+                                                    <td onClick={() => Router.push('/admin')}>
+                                                        <p>Admin panel</p>
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td onClick={() => Router.push('/component-tests')}>
+                                                        <p>Component tests</p>
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                            </React.Fragment>
                                         ) : null}
                                         <tr onClick={async () => {
                                                 await axios.post('/api/log-out');

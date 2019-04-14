@@ -69,12 +69,13 @@ button, input[type='submit'] {
     border: 1px solid var(--border-color);
     background: transparent;
     border-radius: 5px;
+    transform: perspective(500px) translateZ(0px);
     transition: transform 0.2s, border 0.5s, color 0.5s;
     user-select: none;
     cursor: pointer;
     
     &:hover {
-        transform: scale(1.03);
+        transform: perspective(500px) translateZ(5px);
     }
     
     &:active {
