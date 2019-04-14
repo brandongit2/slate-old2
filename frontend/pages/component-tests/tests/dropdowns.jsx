@@ -1,5 +1,5 @@
-import {Dropdown} from '../../components';
-import {Item} from '../../components/Dropdown';
+import {Dropdown} from '../../../components';
+import {Item} from '../../../components/Dropdown';
 
 export default function DropdownTest() {
     return (

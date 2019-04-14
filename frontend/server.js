@@ -82,6 +82,10 @@ nextApp.prepare()
         
         //////////////////////////// MISCELLANEOUS /////////////////////////////
         
+        app.get('/component-tests/:test', (req, res) => {
+            nextApp.render(req, res, '/component-tests', {test: req.params.test});
+        });
+        
         app.get('/verify', async (req, res) => {
             if (req.query.success === 'true') {
                 nextApp.render(req, res, '/verify', {success: 'true'});

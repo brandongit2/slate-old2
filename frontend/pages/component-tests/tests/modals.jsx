@@ -2,10 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {generate} from 'shortid';
 
-import {showModal} from '../../actions';
-import {Dropdown} from '../../components';
-import {severities} from '../../constants';
-import {Item} from '../../components/Dropdown';
+import {showModal} from '../../../actions';
+import {Dropdown} from '../../../components';
+import {severities} from '../../../constants';
+import {Item} from '../../../components/Dropdown';
 
 function ModalTest(props) {
     const [modalTitle, setModalTitle] = React.useState('');

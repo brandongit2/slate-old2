@@ -1,5 +1,5 @@
-import {ContentContainer} from '../../components';
-import {ContentSection, InfoSection} from '../../components/ContentContainer';
+import {ContentContainer} from '../../../components';
+import {ContentSection, InfoSection} from '../../../components/ContentContainer';
 
 import css from './content-container.scss';
 

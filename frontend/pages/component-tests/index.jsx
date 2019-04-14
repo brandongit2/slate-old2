@@ -1,11 +1,13 @@
 import React from 'react';
+import {withRouter} from 'next/router';
 
-import ButtonTest from './buttons';
-import ContentContainerTest from './content-container';
-import DropdownTest from './dropdowns';
-import ModalTest from './modals';
-import NotificationTest from './notifications';
-import PanelTest from './panels';
+import ButtonTest from './tests/buttons';
+import ColorPickerTest from './tests/color-picker';
+import ContentContainerTest from './tests/content-container';
+import DropdownTest from './tests/dropdowns';
+import ModalTest from './tests/modals';
+import NotificationTest from './tests/notifications';
+import PanelTest from './tests/panels';
 import {Layout} from '../../components';
 
 import css from './index.scss';
@@ -13,6 +15,7 @@ import css from './index.scss';
 // The keys in this object are in this style for use as URLs.
 const tests = {
     buttons:             ButtonTest,
+    'color-picker':      ColorPickerTest,
     'content-container': ContentContainerTest,
     dropdowns:           DropdownTest,
     modals:              ModalTest,
@@ -20,14 +23,12 @@ const tests = {
     panels:              PanelTest
 };
 
-export default function Testing(props) {
-    const [currentPage, changePage] = React.useState(Object.keys(tests)[0]);
+function Testing(props) {
+    const [currentTest, changeTest] = React.useState(props.router.query.test ? props.router.query.test : Object.keys(tests)[0]);
     
     React.useEffect(() => {
-        const url = `/testing/${currentPage}`;
-        const as = url;
-        const options = {shallow: true};
-        window.history.pushState({url, as, options}, null, url);
+        const url = `/component-tests/${currentTest}`;
+        window.history.replaceState(window.history.state, null, url);
     });
     
     return (
@@ -36,15 +37,15 @@ export default function Testing(props) {
                 <div className={css['test-list']}>
                     {Object.keys(tests).map(testName => (
                         <a key={testName}
-                           onClick={() => changePage(testName)}
-                           className={currentPage === testName ? css.current : ''}>
+                           onClick={() => changeTest(testName)}
+                           className={currentTest === testName ? css.current : ''}>
                             {testName.charAt(0).toUpperCase() + testName.replace('-', ' ').slice(1)}
                         </a>
                     ))}
                 </div>
                 <div className={css.test}>
                     {(() => {
-                        const Test = tests[currentPage];
+                        const Test = tests[currentTest];
                         return <Test />;
                     })()}
                 </div>
@@ -52,3 +53,5 @@ export default function Testing(props) {
         </Layout>
     );
 }
+
+export default withRouter(Testing);

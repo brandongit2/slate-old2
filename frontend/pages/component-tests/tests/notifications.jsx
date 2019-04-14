@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 
-import {addNotification} from '../../actions';
-import {severities} from '../../constants';
+import {addNotification} from '../../../actions';
+import {severities} from '../../../constants';
 
 function NotificationTest(props) {
     return (

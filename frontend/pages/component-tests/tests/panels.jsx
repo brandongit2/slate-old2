@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {Panel} from '../../components';
-import {Visible, Hidden} from '../../components/Panel';
+import {Panel} from '../../../components';
+import {Visible, Hidden} from '../../../components/Panel';
 
 import css from './panels.scss';
 
