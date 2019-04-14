@@ -38,7 +38,7 @@ function Article(props) {
                                           
                                           const url = `/subject/${props.subject.name}/${props.course.name}/${article.title}`;
                                           const as = url;
-                                          const options = {shallow: true};
+                                          const options = {};
                                           window.history.pushState({url, as, options}, null, url);
                                       }}>
                                     {article.display_title}

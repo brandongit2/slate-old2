@@ -32,6 +32,22 @@ export default class SplitPane extends React.Component {
         });
     }
     
+    // If the direction changes, reset the pane widths. Example issue:
+    // Say the original direction was horizontal, and firstPaneSize was 1000.
+    // Now, the direction changes to vertical, but the screen size is only
+    // 900px. The user will not be able to move the handle back until reload.
+    shouldComponentUpdate(nextProps) {
+        if (this.props.direction !== nextProps.direction) {
+            this.setState({
+                firstPaneSize: nextProps.direction === 'horizontal'
+                    ? this.container.current.offsetWidth / 2
+                    : this.container.current.offsetHeight / 2
+            });
+        }
+        
+        return true;
+    }
+    
     resize = e => {
         const {props} = this;
         
@@ -41,8 +57,16 @@ export default class SplitPane extends React.Component {
         
         if (firstPaneSize < props.minPaneSize) {
             firstPaneSize = props.minPaneSize;
-        } else if (firstPaneSize > this.container.current.offsetWidth - props.minPaneSize) {
+        } else if (
+            props.direction === 'horizontal'
+            && firstPaneSize > this.container.current.offsetWidth - props.minPaneSize
+        ) {
             firstPaneSize = this.container.current.offsetWidth - props.minPaneSize;
+        } else if (
+            props.direction === 'vertical'
+            && firstPaneSize > this.container.current.offsetHeight - props.minPaneSize
+        ) {
+            firstPaneSize = this.container.current.offsetHeight - props.minPaneSize;
         }
         
         this.setState({firstPaneSize});
@@ -73,11 +97,12 @@ export default class SplitPane extends React.Component {
                 <div style={{flexBasis: `${this.state.firstPaneSize}px`}}>
                     {props.children[0]}
                 </div>
+                <div className={css.spacer} />
                 <div className={css.handle}
                      onMouseDown={this.beginResize}
                      style={props.direction === 'horizontal'
-                        ? {left: `${this.state.firstPaneSize - 8}px`}
-                        : {top: `${this.state.firstPaneSize - 8}px`}}
+                        ? {left: `${this.state.firstPaneSize - 3}px`}
+                        : {top: `${this.state.firstPaneSize - 3}px`}}
                      ref={this.handle}>
                     <div className={css['handle-visible']} />
                 </div>
