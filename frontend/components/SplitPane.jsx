@@ -107,8 +107,8 @@ export default class SplitPane extends React.Component {
                 <div className={css.handle}
                      onMouseDown={this.beginResize}
                      style={props.direction === 'horizontal'
-                        ? {left: `${this.state.firstPaneSize - 3}px`}
-                        : {top: `${this.state.firstPaneSize - 3}px`}}
+                        ? {left: `${this.state.firstPaneSize - 6}px`}
+                        : {top: `${this.state.firstPaneSize - 6}px`}}
                      ref={this.handle}>
                     <div className={css['handle-visible']} />
                 </div>
