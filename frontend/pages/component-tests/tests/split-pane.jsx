@@ -1,26 +1,26 @@
 import {LoremIpsum} from 'lorem-ipsum';
 
-import {SplitContainer} from '../../../components';
+import {SplitPane} from '../../../components';
 
-import css from './split-container.scss';
+import css from './split-pane.scss';
 
-export default function SplitContainerTest() {
+export default function SplitPaneTest() {
     const lorem = new LoremIpsum({});
     
     return (
-        <div className={css['split-container-test']}>
-            <SplitContainer>
-                <div>
+        <div className={css['split-pane-test']}>
+            <SplitPane>
+                <div className={css.column}>
                     <p>{lorem.generateParagraphs(1)}</p>
                     <p>{lorem.generateParagraphs(1)}</p>
                     <p>{lorem.generateParagraphs(1)}</p>
                 </div>
-                <div>
+                <div className={css.column}>
                     <p>{lorem.generateParagraphs(1)}</p>
                     <p>{lorem.generateParagraphs(1)}</p>
                     <p>{lorem.generateParagraphs(1)}</p>
                 </div>
-            </SplitContainer>
+            </SplitPane>
         </div>
     );
 }

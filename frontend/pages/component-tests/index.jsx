@@ -8,7 +8,7 @@ import DropdownTest from './tests/dropdowns';
 import ModalTest from './tests/modals';
 import NotificationTest from './tests/notifications';
 import PanelTest from './tests/panels';
-import SplitContainerTest from './tests/split-container';
+import SplitPaneTest from './tests/split-pane';
 import {Layout} from '../../components';
 
 import css from './index.scss';
@@ -22,14 +22,14 @@ const tests = {
     modals:              ModalTest,
     notifications:       NotificationTest,
     panels:              PanelTest,
-    'split-container':   SplitContainerTest
+    'split-pane':        SplitPaneTest
 };
 
 function Testing(props) {
     const [currentTest, changeTest] = React.useState(props.router.query.test ? props.router.query.test : Object.keys(tests)[0]);
     
     React.useEffect(() => {
-        const url = `/component-tests/${currentTest}`;
+        const url = `/component-tests?test=${currentTest}`;
         window.history.replaceState(window.history.state, null, url);
     });
     

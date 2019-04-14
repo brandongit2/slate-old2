@@ -1,0 +1,14 @@
+.split-pane-test {
+    height: 100%;
+    
+    .column {
+        padding: 1rem;
+        overflow: hidden;
+    }
+    
+    p {
+        text-indent: 2em;
+        line-height: 1.5;
+        margin-bottom: 1em;
+    }
+}
