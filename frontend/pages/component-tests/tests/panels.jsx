@@ -9,7 +9,7 @@ export default function PanelTest() {
     const [panelIsOpen, togglePanel] = React.useReducer(isOpen => !isOpen, false);
     
     return (
-        <div>
+        <div className={css['panel-test']}>
             <Panel isOpen={panelIsOpen}>
                 <Visible>
                     <button onClick={togglePanel}>

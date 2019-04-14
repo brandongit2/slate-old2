@@ -1,6 +1,10 @@
-.panel-hidden {
-    padding: 1rem;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    background: white;
+.panel-test {
+    margin: 1rem;
+    
+    .panel-hidden {
+        padding: 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 5px;
+        background: white;
+    }
 }

@@ -1,9 +1,11 @@
 import {Dropdown} from '../../../components';
 import {Item} from '../../../components/Dropdown';
 
+import css from './dropdowns.scss';
+
 export default function DropdownTest() {
     return (
-        <div>
+        <div className={css['dropdown-test']}>
             <Dropdown label="Select an item...">
                 <Item>Item #1</Item>
                 <Item>Item #2</Item>
