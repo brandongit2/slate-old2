@@ -25,11 +25,17 @@ export default class SplitPane extends React.Component {
     }
     
     componentDidMount() {
-        this.setState({
-            firstPaneSize: this.props.direction === 'horizontal'
-                ? this.container.current.offsetWidth / 2
-                : this.container.current.offsetHeight / 2
-        });
+        if (this.props.initialFirstPaneSize) {
+            this.setState({
+                firstPaneSize: this.props.initialFirstPaneSize
+            });
+        } else {
+            this.setState({
+                firstPaneSize: this.props.direction === 'horizontal'
+                    ? this.container.current.offsetWidth / 2
+                    : this.container.current.offsetHeight / 2
+            });
+        }
     }
     
     // If the direction changes, reset the pane widths. Example issue:

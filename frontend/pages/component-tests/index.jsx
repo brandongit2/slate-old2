@@ -9,7 +9,7 @@ import ModalTest from './tests/modals';
 import NotificationTest from './tests/notifications';
 import PanelTest from './tests/panels';
 import SplitPaneTest from './tests/split-pane';
-import {Layout} from '../../components';
+import {Layout, SplitPane} from '../../components';
 
 import css from './index.scss';
 
@@ -36,21 +36,23 @@ function Testing(props) {
     return (
         <Layout title="Test page - Slate" {...props}>
             <div className={css.testing}>
-                <div className={css['test-list']}>
-                    {Object.keys(tests).map(testName => (
-                        <a key={testName}
-                           onClick={() => changeTest(testName)}
-                           className={currentTest === testName ? css.current : ''}>
-                            {testName.charAt(0).toUpperCase() + testName.replace('-', ' ').slice(1)}
-                        </a>
-                    ))}
-                </div>
-                <div className={css.test}>
-                    {(() => {
-                        const Test = tests[currentTest];
-                        return <Test />;
-                    })()}
-                </div>
+                <SplitPane initialFirstPaneSize={256}>
+                    <div className={css['test-list']}>
+                        {Object.keys(tests).map(testName => (
+                            <a key={testName}
+                               onClick={() => changeTest(testName)}
+                               className={currentTest === testName ? css.current : ''}>
+                                {testName.charAt(0).toUpperCase() + testName.replace('-', ' ').slice(1)}
+                            </a>
+                        ))}
+                    </div>
+                    <div className={css.test}>
+                        {(() => {
+                            const Test = tests[currentTest];
+                            return <Test />;
+                        })()}
+                    </div>
+                </SplitPane>
             </div>
         </Layout>
     );
