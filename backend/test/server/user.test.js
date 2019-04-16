@@ -210,7 +210,7 @@ describe('auth functions', () => {
         });
         
         it('expired query - should return 200 and not succeed', done => {
-            request(app.app).post('/api/verify').send({query: 'Xn58MHrhf'}).expect(200).end((err, res) => {
+            request(app.app).post('/api/verify').send({query: 'VD8d21rhf'}).expect(200).end((err, res) => {
                 if (err) throw err;
                 assert.deepEqual(res.body, {success: false, error: 'query not in database'});
                 done();
