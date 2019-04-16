@@ -77,13 +77,14 @@ exports.authenticate = (req, res) => {
 };
 
 exports.deactivate = async (req, res) => {
+    let queryRes;
     try {
-        mysql.query('DELETE users FROM users LEFT JOIN email_verification ON users.email=email_verification.email WHERE email_verification.query=? AND CURRENT_TIMESTAMP < expiry', [req.body.query]);
+        queryRes = await mysql.query('DELETE users FROM users LEFT JOIN email_verification ON users.email=email_verification.email WHERE email_verification.query=? AND CURRENT_TIMESTAMP < expiry', [req.body.query]);
+        res.json({success: !!queryRes.affectedRows});
     } catch (err) {
         console.error(err);
+        res.end(500);
     }
-    
-    res.end();
 };
 
 exports.logIn = async (req, res) => {

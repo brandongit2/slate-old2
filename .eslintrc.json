@@ -125,7 +125,7 @@
         "no-extra-label": "warn",
         "no-extra-parens": "off",
         "no-floating-decimal": "error",
-        "no-implicit-coercion": "error",
+        "no-implicit-coercion": "off",
         "no-implied-eval": "warn",
         "no-inner-declarations": [
             "error",
