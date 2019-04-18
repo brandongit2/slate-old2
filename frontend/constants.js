@@ -2,7 +2,7 @@ export const actionTypes = {
     ADD_NOTIFICATION:    'add notification',
     HIDE_NOTIFICATION:   'hide notification',
     REMOVE_NOTIFICATION: 'remove notification',
-    
+
     SHOW_MODAL: 'show modal',
     HIDE_MODAL: 'hide modal',
 
@@ -32,14 +32,15 @@ export const errors = {
     QUERY_EXPECTED:         'query expected',
     QUERY_NOT_IN_DATABASE:  'query not in database',
     RESEND_EMAIL_NOT_FOUND: 'resend email not found',
-    UNKNOWN:                'unknown'
+    UNKNOWN:                'unknown',
+    USER_NOT_FOUND:         'user not found'
 };
 
 export const severities = {
     INFO:  'info',
     WARN:  'warn',
     ERROR: 'error',
-    
+
     LOW:  'low',
     MED:  'med',
     HIGH: 'high'

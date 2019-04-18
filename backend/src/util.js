@@ -115,3 +115,25 @@ exports.sendVerificationEmail = async (fName, email, validationQuery) => {
         };
     }
 };
+
+exports.sendPasswordResetEmail = async (fName, email, validationQuery) => {
+    sgMail.send({
+        to:      email,
+        from:    'Slate <no-reply@brandontsang.net>',
+        subject: 'Slate: Reset Password',
+        ...getEmail(emails.passwordReset, {name: fName, query: validationQuery, rootUrl})
+    });
+    
+    try {
+        await exports.mysql.query('DELETE FROM email_codes WHERE email=? AND type="password-reset"', [email]);
+        await exports.mysql.query('INSERT INTO email_codes(email, query, expiry, type) VALUES (?, ?, TIMESTAMPADD(HOUR, 24, CURRENT_TIMESTAMP), "password-reset")', [email, validationQuery]);
+        return {
+            success: true
+        };
+    } catch (err) {
+        console.error(err);
+        return {
+            success: false
+        };
+    }
+};

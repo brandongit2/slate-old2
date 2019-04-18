@@ -6,7 +6,7 @@ const {generate} = require('shortid');
 const zxcvbn = require('zxcvbn');
 
 const {errors} = require('./constants');
-const {createToken, mysql, sendVerificationEmail} = require('./util');
+const {createToken, mysql, sendVerificationEmail, sendPasswordResetEmail} = require('./util');
 
 exports.addUser = async (req, res) => {
     let valid = true;
@@ -34,7 +34,7 @@ exports.addUser = async (req, res) => {
 
             try {
                 await mysql.query('INSERT INTO users(first_name, last_name, email, password, valid_email, permissions) VALUES (?, ?, ?, ?, 0, 1)', [fName, lName, email, hash]);
-            
+
                 res.send(await sendVerificationEmail(fName, email, validationQuery));
             } catch (err) {
                 switch (err.errno) {
@@ -97,12 +97,12 @@ exports.logIn = async (req, res) => {
             }
             const hash = user[0].password.toString();
             const userId = user[0].id;
-            
+
             const success = await bcryptCompare(req.body.password, hash);
             if (success) {
                 res.cookie('authToken', await createToken(userId, req.body.stayLoggedIn), {maxAge: 1000000000000});
             }
-            
+
             res.send({
                 success
             });
@@ -128,21 +128,24 @@ exports.logOut = async (req, res) => {
 };
 
 exports.resetPassword = async (req, res) => {
-    if (req.cookies.authToken) {
-        try {
-            if (req.user) {
-                await mysql.query('UPDATE login_tokens JOIN users ON login_tokens.user_id=users.id SET login_tokens.valid=0 WHERE users.email=?', [req.body.email]);
-                await mysql.query('UPDATE users SET password_reset=1 WHERE email=?', [req.body.email]);
-                res.send({success: true});
-            } else {
-                res.status(401).send('Invalid token.');
-            }
-        } catch (err) {
-            console.error(err);
-            res.end(500);
+    try {
+        await mysql.query('UPDATE login_tokens JOIN users ON login_tokens.user_id=users.id SET login_tokens.valid=0 WHERE users.email=?', [req.body.email]);
+        await mysql.query('UPDATE users SET password_reset=1 WHERE email=?', [req.body.email]);
+
+        const validationQuery = generate();
+        const foundUser = (await mysql.query('SELECT first_name FROM users WHERE email=?', [req.body.email]))[0];
+        if (foundUser) {
+            const fName = foundUser['first_name'];
+            res.send(await sendPasswordResetEmail(fName, req.body.email, validationQuery));
+        } else {
+            // for security
+            res.send({
+                success: true,
+            });
         }
-    } else {
-        res.status(401).send('No token.');
+    } catch (err) {
+        console.error(err);
+        res.end(500);
     }
 };
 
@@ -168,11 +171,11 @@ exports.verifyEmail = async (req, res) => {
     if (req.body.query) {
         try {
             const emails = await mysql.query('SELECT email FROM email_codes WHERE query=? AND type="new-account" AND CURRENT_TIMESTAMP < expiry', [req.body.query]);
-            
+
             if (emails.length === 1) {
                 mysql.query('UPDATE users SET valid_email=1 WHERE email=?', [emails[0].email]);
                 mysql.query('DELETE FROM email_codes WHERE query=?', [req.body.query]);
-                    
+
                 res.cookie('authToken', createToken(), {secure: true});
                 res.send({
                     success: true

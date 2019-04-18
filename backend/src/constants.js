@@ -6,5 +6,6 @@ exports.errors = {
     QUERY_EXPECTED:         'query expected',
     QUERY_NOT_IN_DATABASE:  'query not in database',
     RESEND_EMAIL_NOT_FOUND: 'resend email not found',
-    UNKNOWN:                'unknown'
+    UNKNOWN:                'unknown',
+    USER_NOT_FOUND:         'user not found'
 };

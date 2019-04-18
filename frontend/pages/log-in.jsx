@@ -11,7 +11,7 @@ import css from './log-in.scss';
 
 function LogIn(props) {
     if (props.user.isLoggedIn) Router.replace('/');
-    
+
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [error, setError] = React.useState('');
@@ -21,7 +21,7 @@ function LogIn(props) {
         e.preventDefault();
 
         const res = await axios.post('/api/log-in', {email, password, stayLoggedIn});
-        
+
         if (res.data.success) {
             setTimeout(() => Router.push('/'), 500);
         } else if (res.data.error === errors.INVALID_LOGIN) {
@@ -30,9 +30,10 @@ function LogIn(props) {
             setError('Unknown error occured.');
         }
     };
-    
+
     const resetPassword = async () => {
-        // await axios.post('/api/reset-password', {email});
+        const res = (await axios.post('/api/reset-password', {email})).data;
+        console.log(res);
         props.addNotification('E-mail sent! Check your inbox for the password reset link.');
     };
 
@@ -47,7 +48,7 @@ function LogIn(props) {
                             <i className="material-icons" onClick={() => { setError(''); }}>close</i>
                         </div>
                     </div>
-                    
+
                     <div className="form-field">
                         <div className="form-label">
                             <label htmlFor="email">E-MAIL</label>
@@ -58,7 +59,7 @@ function LogIn(props) {
                                value={email}
                                onChange={e => setEmail(e.target.value)} />
                     </div>
-                    
+
                     <div className="form-field" style={{marginBottom: '0.5rem'}}>
                         <div className="form-label">
                             <label htmlFor="password">PASSWORD</label>
@@ -69,7 +70,7 @@ function LogIn(props) {
                                value={password}
                                onChange={e => setPassword(e.target.value)} />
                     </div>
-                    
+
                     <div style={{display: 'grid', gridTemplateColumns: 'auto auto', gridColumnGap: '0.5rem'}}>
                         <div style={{display: 'flex', alignItems: 'center', flexGrow: 1}}>
                             <input type="checkbox"
