@@ -50,6 +50,7 @@ app.post(apiUrl + '/deactivate', asyncHandler(user.deactivate));
 app.post(apiUrl + '/log-in', asyncHandler(user.logIn));
 app.post(apiUrl + '/log-out', user.logOut);
 app.post(apiUrl + '/reset-password', user.resetPassword);
+app.post(apiUrl + '/change-password', user.changePassword);
 app.post(apiUrl + '/resend-verification-email', asyncHandler(user.resendEmail));
 
 // <URL>/api/verify?e=<unique query string>

@@ -149,6 +149,27 @@ exports.resetPassword = async (req, res) => {
     }
 };
 
+exports.changePassword = async (req, res) => {
+    try {
+        if (req.body.type === 'query') {
+            const foundQuery = await mysql.query('SELECT email FROM email_codes WHERE query=? AND type="password-reset"', [req.body.query]);
+            if (foundQuery) {
+                // process changing password
+            } else {
+                res.json({
+                    success: false,
+                    error:   errors.QUERY_NOT_IN_DATABASE
+                });
+            }
+        } else if (req.body.type === 'token') {
+            // change password when logged in and has valid token
+        }
+    } catch (err) {
+        console.error(err);
+        res.send(500);
+    }
+};
+
 exports.resendEmail = async (req, res) => {
     try {
         const validEmail = (await mysql.query('SELECT email FROM email_codes WHERE email=? AND type="new-account"', [req.body.email])).length === 1;
