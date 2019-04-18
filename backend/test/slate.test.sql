@@ -13,7 +13,7 @@ INSERT INTO `articles` VALUES (1,1,'01-slope-review','Slope Review','2019-03-11 
 
 INSERT INTO `courses` VALUES (1,1,'differential-calculus','Differential calculus','haha calculus',1),(2,2,'integral-calculus','Integral calculus','finding area under curves, antiderivatives, etc.',1),(3,1,'cells','Cells','cells are pretty cool!',2);
 
-INSERT INTO `email_verification` VALUES ('test@example.com','Xn58MHrhf','2030-03-05 01:16:07'),('test2@example.com','VD8d21rhf','2019-03-05 01:16:07');
+INSERT INTO `email_codes` VALUES ('test@example.com','Xn58MHrhf','2030-03-05 01:16:07', 'new-account'),('test2@example.com','VD8d21rhf','2019-03-05 01:16:07', 'new-account');
 
 INSERT INTO `login_tokens` VALUES ('u6P3AojGYYrywrRQ',19,'2019-03-11 02:49:55','2030-04-10 02:50:03',720,1),('Ayudf3AojGxYr121/dTA5',20,'2019-03-11 02:50:46','2030-04-10 02:50:46',720,1),('VtQSzjbwB6iOYZ2g',19,'2019-03-11 02:47:21','2019-04-10 02:47:37',720,0);
 

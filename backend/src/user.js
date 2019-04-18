@@ -79,7 +79,7 @@ exports.authenticate = (req, res) => {
 exports.deactivate = async (req, res) => {
     let queryRes;
     try {
-        queryRes = await mysql.query('DELETE users FROM users LEFT JOIN email_verification ON users.email=email_verification.email WHERE email_verification.query=? AND CURRENT_TIMESTAMP < expiry', [req.body.query]);
+        queryRes = await mysql.query('DELETE users FROM users LEFT JOIN email_codes ON users.email=email_codes.email WHERE email_codes.query=? AND type="new-account" AND CURRENT_TIMESTAMP < expiry', [req.body.query]);
         res.json({success: !!queryRes.affectedRows});
     } catch (err) {
         console.error(err);
@@ -148,7 +148,7 @@ exports.resetPassword = async (req, res) => {
 
 exports.resendEmail = async (req, res) => {
     try {
-        const validEmail = (await mysql.query('SELECT email FROM email_verification WHERE email=?', [req.body.email])).length === 1;
+        const validEmail = (await mysql.query('SELECT email FROM email_codes WHERE email=? AND type="new-account"', [req.body.email])).length === 1;
 
         if (validEmail) {
             res.send(await sendVerificationEmail(req.body.firstName, req.body.email, generate()));
@@ -167,11 +167,11 @@ exports.resendEmail = async (req, res) => {
 exports.verifyEmail = async (req, res) => {
     if (req.body.query) {
         try {
-            const emails = await mysql.query('SELECT email FROM email_verification WHERE query=? AND CURRENT_TIMESTAMP < expiry', [req.body.query]);
+            const emails = await mysql.query('SELECT email FROM email_codes WHERE query=? AND type="new-account" AND CURRENT_TIMESTAMP < expiry', [req.body.query]);
             
             if (emails.length === 1) {
                 mysql.query('UPDATE users SET valid_email=1 WHERE email=?', [emails[0].email]);
-                mysql.query('DELETE FROM email_verification WHERE query=?', [req.body.query]);
+                mysql.query('DELETE FROM email_codes WHERE query=?', [req.body.query]);
                     
                 res.cookie('authToken', createToken(), {secure: true});
                 res.send({

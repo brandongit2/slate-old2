@@ -103,8 +103,8 @@ exports.sendVerificationEmail = async (fName, email, validationQuery) => {
     });
     
     try {
-        await exports.mysql.query('DELETE FROM email_verification WHERE email=?', [email]);
-        await exports.mysql.query('INSERT INTO email_verification(email, query, expiry) VALUES (?, ?, TIMESTAMPADD(HOUR, 24, CURRENT_TIMESTAMP))', [email, validationQuery]);
+        await exports.mysql.query('DELETE FROM email_codes WHERE email=? AND type="new-account"', [email]);
+        await exports.mysql.query('INSERT INTO email_codes(email, query, expiry, type) VALUES (?, ?, TIMESTAMPADD(HOUR, 24, CURRENT_TIMESTAMP), "new-account")', [email, validationQuery]);
         return {
             success: true
         };
