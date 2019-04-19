@@ -92,7 +92,7 @@ exports.logIn = async (req, res) => {
         if (req.body.email && req.body.password && req.body.stayLoggedIn != null) {
             const user = await mysql.query('SELECT id,password FROM users WHERE email=?', [req.body.email]);
             if (user.length < 1) {
-                res.send({success: false});
+                res.send({success: false, error: errors.INVALID_LOGIN});
                 return;
             }
             const hash = user[0].password.toString();
@@ -101,11 +101,15 @@ exports.logIn = async (req, res) => {
             const success = await bcryptCompare(req.body.password, hash);
             if (success) {
                 res.cookie('authToken', await createToken(userId, req.body.stayLoggedIn), {maxAge: 1000000000000});
+                res.send({
+                    success: true
+                });
+            } else {
+                res.send({
+                    success: false,
+                    error:   'invalid login'
+                });
             }
-
-            res.send({
-                success
-            });
         } else {
             res.send({
                 success: false

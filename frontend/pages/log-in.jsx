@@ -51,7 +51,7 @@ function LogIn(props) {
                 <form className={props.user.theme}>
                     <div>
                         <h1>Log in to Slate</h1>
-                        <div className={['error', error === '' ? '' : css.shown].join(' ')}>
+                        <div className={['error', error === '' ? '' : 'shown'].join(' ')}>
                             <span>{error}</span>
                             <i className="material-icons" onClick={() => { setError(''); }}>close</i>
                         </div>
