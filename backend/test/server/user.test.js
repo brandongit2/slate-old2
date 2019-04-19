@@ -171,7 +171,7 @@ describe('auth functions', () => {
         it('invalid email - should return 200 and succeed', done => {
             request(app.app).post('/api/reset-password').send({email: 'doesnotexist@example.com'}).expect(200).end((err, res) => {
                 if (err) throw err;
-                assert.deepEqual(res.body, {success: true});
+                assert.deepEqual(res.body, {success: false, error: 'user not found'});
                 done();
             });
         });
@@ -182,7 +182,7 @@ describe('auth functions', () => {
             request(app.app).post('/api/change-password').send({type: 'query', query: 'VD8d21rhf', password: '1f2vV4sf1s'}).expect(200).end((err, res) => {
                 if (err) throw err;
                 assert.deepEqual(res.body, {success: true});
-                request(app.app).post('/api/log-in').send({email: 'test@example.com', password: '1f2vV4sf1s', stayLoggedIn: true}).expect(200).end((err, res) => {
+                request(app.app).post('/api/log-in').send({email: 'forgetful@example.com', password: '1f2vV4sf1s', stayLoggedIn: true}).expect(200).end((err, res) => {
                     if (err) throw err;
                     assert.deepEqual(res.body, {success: true});
                     done();

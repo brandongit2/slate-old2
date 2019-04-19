@@ -17,7 +17,7 @@ exports.auth = async (req, res, next) => {
     if (req.cookies.authToken) {
         try {
             const user = await exports.mysql.query('SELECT users.id, users.first_name, users.last_name, users.email, users.valid_email, users.permissions, users.password_reset, users.theme FROM users JOIN login_tokens ON users.id=login_tokens.user_id WHERE login_tokens.token=? AND login_tokens.valid AND CURRENT_TIMESTAMP < login_tokens.expiry', [req.cookies.authToken]);
-            
+
             if (user.length === 1) {
                 req.user = user[0];
                 await exports.mysql.query('UPDATE login_tokens SET expiry=TIMESTAMPADD(HOUR, extend, CURRENT_TIMESTAMP) WHERE token=?', [req.cookies.authToken]);
@@ -27,7 +27,7 @@ exports.auth = async (req, res, next) => {
             res.end();
         }
     }
-    
+
     next();
 };
 
@@ -39,7 +39,7 @@ exports.createToken = async (user, extended) => {
     } catch (err) {
         console.error(err);
     }
-    
+
     return token;
 };
 
@@ -59,14 +59,14 @@ exports.parseContent = content => {
         throwOnError: false,
         displayMode:  true
     }));
-    
+
     content = content.replace(/\$([\w\W]+?)\$/gm, (match, tex) => katex.renderToString(tex, {
         throwOnError: false,
         displayMode:  false
     }));
-    
+
     content = converter.makeHtml(content);
-    
+
     content = sanitizeHtml(content, {
         allowedTags: [
             'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol',
@@ -81,7 +81,7 @@ exports.parseContent = content => {
             span: ['style', 'class']
         }
     });
-    
+
     return content;
 };
 
@@ -95,13 +95,13 @@ exports.randomBytes = bytes => {
 };
 
 exports.sendVerificationEmail = async (fName, email, validationQuery) => {
-    sgMail.send({
+    /*sgMail.send({
         to:      email,
         from:    'Slate <no-reply@brandontsang.net>',
         subject: 'Slate: Validate your e-mail',
         ...getEmail(emails.verification, {name: fName, query: validationQuery, rootUrl})
-    });
-    
+    });*/
+
     try {
         await exports.mysql.query('DELETE FROM email_codes WHERE email=? AND type="new-account"', [email]);
         await exports.mysql.query('INSERT INTO email_codes(email, query, expiry, type) VALUES (?, ?, TIMESTAMPADD(HOUR, 24, CURRENT_TIMESTAMP), "new-account")', [email, validationQuery]);
@@ -117,13 +117,13 @@ exports.sendVerificationEmail = async (fName, email, validationQuery) => {
 };
 
 exports.sendPasswordResetEmail = async (fName, email, validationQuery) => {
-    sgMail.send({
+    /*sgMail.send({
         to:      email,
         from:    'Slate <no-reply@brandontsang.net>',
         subject: 'Slate: Reset Password',
         ...getEmail(emails.passwordReset, {name: fName, query: validationQuery, rootUrl})
-    });
-    
+    });*/
+
     try {
         await exports.mysql.query('DELETE FROM email_codes WHERE email=? AND type="password-reset"', [email]);
         await exports.mysql.query('INSERT INTO email_codes(email, query, expiry, type) VALUES (?, ?, TIMESTAMPADD(HOUR, 24, CURRENT_TIMESTAMP), "password-reset")', [email, validationQuery]);

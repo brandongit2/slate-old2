@@ -3,9 +3,7 @@
     "verboseErrors": false,
     "rootUrl": "http://localhost",
     "email": {
-        "provider": "sendgrid",
-        "apiKey": "TEST",
-        "from": "Slate <no-reply@brandontsang.net>"
+        "provider": "null"
     },
     "mysql": {
         "user": "travis",

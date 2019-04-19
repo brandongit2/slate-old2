@@ -34,8 +34,14 @@ function LogIn(props) {
     const resetPassword = async () => {
         if (email) {
             const res = (await axios.post('/api/reset-password', {email})).data;
+            if (res.success) {
+                props.addNotification('E-mail sent! Check your inbox for the password reset link.');
+            } else if (res.error === errors.USER_NOT_FOUND) {
+                props.addNotification('There is not account associated with that email!');
+            } else {
+                props.addNotification('An unknown error has occured. Please try again later.');
+            }
             console.log(res);
-            props.addNotification('E-mail sent! Check your inbox for the password reset link.');
         }
     };
 

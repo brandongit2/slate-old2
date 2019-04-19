@@ -138,9 +138,9 @@ exports.resetPassword = async (req, res) => {
             const fName = foundUser['first_name'];
             res.send(await sendPasswordResetEmail(fName, req.body.email, validationQuery));
         } else {
-            // for security, don't indiciate if email does not exist
             res.send({
-                success: true,
+                success: false,
+                error:   errors.USER_NOT_FOUND
             });
         }
     } catch (err) {
@@ -155,8 +155,6 @@ exports.changePassword = async (req, res) => {
         let userid;
         if (req.body.type === 'query') {
             const foundQuery = await mysql.query('SELECT users.id FROM email_codes JOIN users on email_codes.email = users.email WHERE query=? AND type="password-reset"', [req.body.query]);
-            console.log('FOUND!');
-            console.log(foundQuery);
             if (foundQuery.length > 0) {
                 valid = true;
                 userid = foundQuery[0].id;
