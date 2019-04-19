@@ -14,10 +14,10 @@ import css from './register.scss';
 function PasswordStrength(props) {
     return (
         <div className={[
-                 'password-strength',
-                 `strength-${props.strength}`,
-                 props.length === 0 ? 'password-strength-empty' : ''
-             ].join(' ')}>
+            'password-strength',
+            `strength-${props.strength}`,
+            props.length === 0 ? 'password-strength-empty' : ''
+        ].join(' ')}>
             <div />
             <div />
             <div />
@@ -29,7 +29,7 @@ function PasswordStrength(props) {
 
 export default function Register(props) {
     if (props.user.isLoggedIn) Router.replace('/');
-    
+
     // For the form fields.
     const [email, setEmail] = React.useState('');
     const [fName, setFName] = React.useState('');
@@ -41,13 +41,13 @@ export default function Register(props) {
     const [lNameErr, setLNameErr] = React.useState('');
     const [passwordErr, setPasswordErr] = React.useState('');
     const [error, setError] = React.useState(''); // General form errors (e.g. account with e-mail already exists)
-    
+
     const submitForm = async e => {
         e.preventDefault();
         setError('');
-        
+
         let valid = true;
-        
+
         if (email.length === 0) {
             valid = false;
             setEmailErr('Required field.');
@@ -60,7 +60,7 @@ export default function Register(props) {
         } else {
             setEmailErr('');
         }
-        
+
         if (fName.length === 0) {
             valid = false;
             setFNameErr('Required field.');
@@ -70,14 +70,14 @@ export default function Register(props) {
         } else {
             setFNameErr('');
         }
-        
+
         if (lName.length > 50) {
             valid = false;
             setLNameErr('Max 50 chars.');
         } else {
             setLNameErr('');
         }
-        
+
         if (password.length === 0) {
             valid = false;
             setPasswordErr('Required field.');
@@ -90,7 +90,7 @@ export default function Register(props) {
         } else {
             setPasswordErr('');
         }
-        
+
         if (valid) {
             try {
                 const res = await axios.post('/api/add-user', {
@@ -98,7 +98,7 @@ export default function Register(props) {
                     lastName:  lName,
                     email, password
                 });
-                
+
                 if (res.data.success) {
                     Router.push(`/check-email?email=${email}&fname=${fName}`, '/check-email');
                 } else {
@@ -152,7 +152,7 @@ export default function Register(props) {
                                 <i className="material-icons" onClick={() => setError('')}>close</i>
                             </div>
                         </div>
-                        
+
                         <div className="form-field">
                             <div className="form-label">
                                 <label htmlFor="email" className="form-required">E-MAIL</label>
@@ -166,7 +166,7 @@ export default function Register(props) {
                                    onFocus={() => setEmailErr('')}
                                    onChange={e => setEmail(e.target.value)} />
                         </div>
-                        
+
                         <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gridColumnGap: '1rem'}}>
                             <div className="form-field">
                                 <div className="form-label">
@@ -196,7 +196,7 @@ export default function Register(props) {
                                        onChange={e => setLName(e.target.value)} />
                             </div>
                         </div>
-                        
+
                         <div className="form-field">
                             <div className="form-label">
                                 <label htmlFor="password" className="form-required">PASSWORD</label>
@@ -210,7 +210,7 @@ export default function Register(props) {
                                    onChange={e => setPassword(e.target.value)} />
                             <PasswordStrength strength={zxcvbn(password).score} length={password.length} />
                         </div>
-                        
+
                         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                             <span><span style={{color: 'red'}}>*</span> required</span>
                             <button onClick={submitForm} className="low">Submit</button>

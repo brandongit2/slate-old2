@@ -86,6 +86,10 @@ nextApp.prepare()
             nextApp.render(req, res, '/component-tests', {test: req.params.test});
         });
 
+        app.get('/change-password', async (req, res) => {
+            nextApp.render(req, res, '/change-password', {query: req.query.q});
+        });
+
         app.get('/verify', async (req, res) => {
             if (req.query.success === 'true') {
                 nextApp.render(req, res, '/verify', {success: 'true'});
