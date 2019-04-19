@@ -37,7 +37,7 @@
         "react-transition-group": "^2.9.0",
         "redux": "^4.0.1",
         "redux-thunk": "^2.3.0",
-        "selenium-side-runner": "^3.5.12",
+        "selenium-side-runner": "^3.6.0",
         "shortid": "^2.2.14",
         "zxcvbn": "^4.4.2"
     },

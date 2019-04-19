@@ -32,9 +32,11 @@ function LogIn(props) {
     };
 
     const resetPassword = async () => {
-        const res = (await axios.post('/api/reset-password', {email})).data;
-        console.log(res);
-        props.addNotification('E-mail sent! Check your inbox for the password reset link.');
+        if (email) {
+            const res = (await axios.post('/api/reset-password', {email})).data;
+            console.log(res);
+            props.addNotification('E-mail sent! Check your inbox for the password reset link.');
+        }
     };
 
     return (

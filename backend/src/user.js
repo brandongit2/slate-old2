@@ -138,7 +138,7 @@ exports.resetPassword = async (req, res) => {
             const fName = foundUser['first_name'];
             res.send(await sendPasswordResetEmail(fName, req.body.email, validationQuery));
         } else {
-            // for security
+            // for security, don't indiciate if email does not exist
             res.send({
                 success: true,
             });
@@ -151,10 +151,15 @@ exports.resetPassword = async (req, res) => {
 
 exports.changePassword = async (req, res) => {
     try {
+        let valid = false;
+        let userid;
         if (req.body.type === 'query') {
-            const foundQuery = await mysql.query('SELECT email FROM email_codes WHERE query=? AND type="password-reset"', [req.body.query]);
-            if (foundQuery) {
-                // process changing password
+            const foundQuery = await mysql.query('SELECT users.id FROM email_codes JOIN users on email_codes.email = users.email WHERE query=? AND type="password-reset"', [req.body.query]);
+            console.log('FOUND!');
+            console.log(foundQuery);
+            if (foundQuery.length > 0) {
+                valid = true;
+                userid = foundQuery[0].id;
             } else {
                 res.json({
                     success: false,
@@ -163,6 +168,32 @@ exports.changePassword = async (req, res) => {
             }
         } else if (req.body.type === 'token') {
             // change password when logged in and has valid token
+        } else {
+            res.json({
+                success: false,
+                error:   errors.QUERY_EXPECTED
+            });
+        }
+
+        if (valid) {
+            const password = req.body.password;
+            if (password.length > 72 || zxcvbn(password).score < 2) {
+                res.json({
+                    success: false,
+                    error:   errors.INVALID_FORM
+                });
+            } else {
+                let hash;
+                try {
+                    hash = await bcryptHash(password, 10);
+                } catch (err) {
+                    console.error(err);
+                }
+                await mysql.query('UPDATE users SET password=? WHERE id=?', [hash, userid]);
+                res.json({
+                    success: true
+                });
+            }
         }
     } catch (err) {
         console.error(err);

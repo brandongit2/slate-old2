@@ -13,7 +13,7 @@ INSERT INTO `articles` VALUES (1,1,'01-slope-review','Slope Review','2019-03-11 
 
 INSERT INTO `courses` VALUES (1,1,'differential-calculus','Differential calculus','haha calculus',1),(2,2,'integral-calculus','Integral calculus','finding area under curves, antiderivatives, etc.',1),(3,1,'cells','Cells','cells are pretty cool!',2);
 
-INSERT INTO `email_codes` VALUES ('test@example.com','Xn58MHrhf','2030-03-05 01:16:07', 'new-account'),('test2@example.com','VD8d21rhf','2019-03-05 01:16:07', 'new-account');
+INSERT INTO `email_codes` VALUES ('test@example.com','Xn58MHrhf','2030-03-05 01:16:07', 'new-account'),('forgetful@example.com','VD8d21rhf','2030-03-05 01:16:07', 'password-reset');
 
 INSERT INTO `login_tokens` VALUES ('u6P3AojGYYrywrRQ',19,'2019-03-11 02:49:55','2030-04-10 02:50:03',720,1),('Ayudf3AojGxYr121/dTA5',20,'2019-03-11 02:50:46','2030-04-10 02:50:46',720,1),('VtQSzjbwB6iOYZ2g',19,'2019-03-11 02:47:21','2019-04-10 02:47:37',720,0);
 
@@ -21,7 +21,7 @@ INSERT INTO `subjects` VALUES (1,1,'mathematics','Mathematics','Mathematics (fro
 
 INSERT INTO `units` VALUES (1,1,'01-slopes-of-secant-and-tangent-lines','Slopes of secant and tangent lines','Find the slopes of lines intersecting functions.',1),(2,2,'01-limits','Limits','One of the most important aspects of calculus.',1),(3,1,'02-the-fundamental-theorem-of-calculus','The fundamental theorem of calculus','yeah',2),(4,1,'03-intro-to-cells','Intro to cells','introduction to cells',3);
 
-INSERT INTO `users` VALUES (19,'Brandon','Tsang','brandononline2@gmail.com',_binary '$2b$10$HVQAFl/KaIoDNTyZXkeNFuWuCv2gDfddSNA3sv3Ur.yMem5HFkFfu',1,5,0,'light'),(20,'Test','Account','test@example.com',_binary '$2b$10$U484tur55WgtDpSZUc.EpuYSszhUnnq0t.SfMQxivCbOuKSMMzNbq',1,5,0,'light');
+INSERT INTO `users` VALUES (19,'Brandon','Tsang','brandononline2@gmail.com',_binary '$2b$10$HVQAFl/KaIoDNTyZXkeNFuWuCv2gDfddSNA3sv3Ur.yMem5HFkFfu',1,5,0,'light'),(20,'Forgetful','Peron','forgetful@example.com',_binary '$2b$10$U484tur55WgtDpSZUc.EpuYSszhUnnq0t.SfMQxivCbOuKSMMzNbq',1,5,1,'light'), (21,'Test','Account','test@example.com',_binary '$2b$10$U484tur55WgtDpSZUc.EpuYSszhUnnq0t.SfMQxivCbOuKSMMzNbq',1,5,0,'light'), (22,'ForgetfulTwo','Peron','forgetful2@example.com',_binary '$2b$10$U484tur55WgtDpSZUc.EpuYSszhUnnq0t.SfMQxivCbOuKSMMzNbq',1,5,1,'light');
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
