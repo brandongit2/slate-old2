@@ -1,0 +1,11 @@
+{
+    "editor.trimAutoWhitespace": false,
+    "editor.renderWhitespace": "boundary",
+    "editor.rulers": [
+        80
+    ],
+    "editor.wordWrap": "on",
+    "editor.useTabStops": false,
+    "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?_",
+    "diffEditor.ignoreTrimWhitespace": false
+}

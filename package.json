@@ -1,25 +1,25 @@
 {
-  "name": "slate",
-  "version": "0.0.1-SNAPSHOT",
-  "description": "Free online tutorials on STEM topics.",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/brandongit2/slate.git"
-  },
-  "author": "Brandon Tsang",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/brandongit2/slate/issues"
-  },
-  "homepage": "https://github.com/brandongit2/slate#readme",
-  "dependencies": {
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.16.0",
-    "eslint-plugin-react": "^7.12.4",
-    "lorem-ipsum": "^2.0.1",
-    "stylelint": "^10.0.1"
-  }
+    "name": "slate",
+    "version": "0.0.1-SNAPSHOT",
+    "description": "Free online tutorials on STEM topics.",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/brandongit2/slate.git"
+    },
+    "author": "Brandon Tsang",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/brandongit2/slate/issues"
+    },
+    "homepage": "https://github.com/brandongit2/slate#readme",
+    "dependencies": {
+        "babel-eslint": "^10.0.1",
+        "eslint": "^5.16.0",
+        "eslint-plugin-react": "^7.12.4",
+        "lorem-ipsum": "^2.0.1",
+        "stylelint": "^10.0.1"
+    }
 }
