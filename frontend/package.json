@@ -3,7 +3,7 @@
     "version": "0.0.1-SNAPSHOT",
     "description": "The frontend for Slate.",
     "scripts": {
-        "dev": "version=$(git describe --tags --exact-match HEAD 2>/dev/null || git rev-parse --verify HEAD --short=7 2>/dev/null) pubdate=$(git show -s --format=%ct HEAD) && echo \"{\\\"version\\\":\\\"$version\\\",\\\"publishDate\\\":\\\"$pubdate\\\"}\" > version.json && node server.js",
+        "dev": "version=$(git describe --tags --exact-match HEAD 2>/dev/null || git rev-parse --verify HEAD --short=7 2>/dev/null) pubdate=$(git show -s --format=%ct HEAD) && echo \"{\\\"version\\\":\\\"$version\\\",\\\"publishDate\\\":\\\"$pubdate\\\"}\" > version.json; node server.js",
         "prod": "NODE_ENV=production node server.js",
         "build": "next build",
         "start": "npm run dev",
@@ -27,24 +27,19 @@
         "email-validator": "^2.0.4",
         "express": "^4.16.4",
         "moment": "^2.24.0",
-        "next": "^8.0.4",
-        "next-redux-wrapper": "^3.0.0-alpha.2",
+        "next": "^8.1.0",
         "node-sass": "^4.11.0",
         "promise-mysql": "^3.3.1",
         "react": "^16.8.6",
         "react-dom": "^16.8.6",
-        "react-redux": "^7.0.1",
-        "react-transition-group": "^2.9.0",
-        "redux": "^4.0.1",
-        "redux-thunk": "^2.3.0",
+        "react-transition-group": "^4.0.0",
         "selenium-side-runner": "^3.6.0",
         "shortid": "^2.2.14",
         "zxcvbn": "^4.4.2"
     },
     "devDependencies": {
-        "chromedriver": "^2.46.0",
+        "chromedriver": "^73.0.0",
         "next-progressbar": "^1.0.0",
-        "redux-devtools-extension": "^2.13.8",
         "selenium-webdriver": "^4.0.0-alpha.1"
     }
 }
