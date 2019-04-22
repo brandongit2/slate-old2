@@ -1,9 +1,9 @@
+import axios from 'axios';
 import moment from 'moment';
 import Link from 'next/link';
+import {withRouter} from 'next/router';
 import React from 'react';
-import {connect} from 'react-redux';
 
-import {changeSubject, changeCourse, changeUnit, changeArticle, getSubject, getCourse, getUnit, getArticleContent, getChildren} from '../actions';
 import {Layout, Breadcrumbs, Dropdown} from '../components';
 import {Crumb} from '../components/Breadcrumbs';
 import {Item} from '../components/Dropdown';
@@ -11,11 +11,20 @@ import {Item} from '../components/Dropdown';
 import css from './article.scss';
 
 function Article(props) {
+    const [articleContent, setArticleContent] = React.useState(props.articleContent);
+    const [currentArticle, changeArticle] = React.useReducer((oldArticle, newArticleId) => {
+        axios.get(`/api/article-content/${newArticleId}`)
+            .then(articleContent => setArticleContent(articleContent.data));
+        return props.articles.find(article => article.id === newArticleId);
+    }, props.articles.find(article => article.id === props.router.query.article));
+    
     return (
-        <Layout title={`${props.article.display_title} - Slate`} {...props}>
+        <Layout title={`${currentArticle.display_title} - Slate`}>
             <div className={css.article}>
                 <Breadcrumbs>
-                    <Crumb><Link href="/subjects"><a>Subjects</a></Link></Crumb>
+                    <Crumb>
+                        <Link href="/subjects"><a>Subjects</a></Link>
+                    </Crumb>
                     <Crumb><Link href={`/subject/${props.subject.name}`}>
                         <a>{props.subject.display_name}</a>
                     </Link></Crumb>
@@ -25,12 +34,11 @@ function Article(props) {
                         </Link>
                     </Crumb>
                     <Crumb>
-                        <Dropdown label={props.article.display_title} mini>
+                        <Dropdown label={currentArticle.display_title} mini>
                             {props.articles.map(article => (
                                 <Item key={article.id}
                                       onClick={() => {
-                                          props.dispatch(changeArticle(article.id));
-                                          props.dispatch(getArticleContent(article.id));
+                                          changeArticle(article.id);
                                           
                                           const url = `/subject/${props.subject.name}/${props.course.name}/${article.title}`;
                                           const as = url;
@@ -45,53 +53,38 @@ function Article(props) {
                 </Breadcrumbs>
                 <main>
                     <div id={css.head}>
-                        <h1>{props.article.display_title}</h1>
+                        <h1>{currentArticle.display_title}</h1>
                         <div id={css.date}>
                             <p>
                                 Published&nbsp;
-                                <time dateTime={props.article.publish_date}>
-                                    {moment(props.article.publish_date)
+                                <time dateTime={currentArticle.publish_date}>
+                                    {moment(currentArticle.publish_date)
                                         .calendar(null, {sameElse: '[on] MMMM Do, YYYY'})}
                                 </time>
                             </p>
                             <p>
                                 Last updated&nbsp;
-                                <time dateTime={props.article.update_date}>
-                                    {moment(props.article.update_date)
+                                <time dateTime={currentArticle.update_date}>
+                                    {moment(currentArticle.update_date)
                                         .calendar(null, {sameElse: '[on] MMMM Do, YYYY'})}
                                 </time>
                             </p>
                         </div>
                     </div>
                     {/* eslint-disable-next-line react/no-danger */}
-                    <article dangerouslySetInnerHTML={{__html: props.article.content}} />
+                    <article dangerouslySetInnerHTML={{__html: articleContent}} />
                 </main>
             </div>
         </Layout>
     );
 }
 
-Article.getInitialProps = ({store, query}) => {
-    store.dispatch(changeSubject(query.subject));
-    store.dispatch(changeCourse(query.course));
-    store.dispatch(changeUnit(query.unit));
-    store.dispatch(changeArticle(query.article));
-    
-    store.dispatch(getSubject(query.subject));
-    store.dispatch(getCourse(query.course));
-    store.dispatch(getUnit(query.unit));
-    store.dispatch(getChildren('unit', query.unit));
-    store.dispatch(getArticleContent(query.article));
-};
+Article.getInitialProps = async ctx => ({
+    subject:        (await axios.get(`/api/subject/${ctx.query.subject}`)).data[0],
+    course:         (await axios.get(`/api/course/${ctx.query.course}`)).data[0],
+    unit:           (await axios.get(`/api/unit/${ctx.query.unit}`)).data[0],
+    articles:       (await axios.get(`/api/children?unit=${ctx.query.unit}`)).data,
+    articleContent: (await axios.get(`/api/article-content/${ctx.query.article}`)).data
+});
 
-function mapStateToProps(state) {
-    return {
-        subject:  state.subjects.find(subject => subject.id === parseInt(state.currentSubject)),
-        course:   state.courses.find(course => course.id === parseInt(state.currentCourse)),
-        unit:     state.units.find(unit => unit.id === parseInt(state.currentUnit)),
-        article:  state.articles.find(article => article.id === parseInt(state.currentArticle)),
-        articles: state.articles
-    };
-}
-
-export default connect(mapStateToProps)(Article);
+export default withRouter(Article);

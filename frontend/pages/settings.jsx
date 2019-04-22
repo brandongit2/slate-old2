@@ -14,7 +14,7 @@ function Settings(props) {
     const [password, setPassword] = React.useState('');
     
     return (
-        <Layout title="Settings - Slate" noShadow private {...props}>
+        <Layout title="Settings - Slate" noShadow private>
             <div className={css.settings}>
                 <h1>Settings</h1>
                 <div className={css.box}>

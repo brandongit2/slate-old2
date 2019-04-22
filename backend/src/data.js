@@ -116,11 +116,11 @@ exports.getArticleContent = async (req, res) => {
     const nameOrId = isNaN(req.params.id) ? 'title' : 'id';
     
     try {
-        const content = await mysql.query(`SELECT id, content FROM articles WHERE ${nameOrId}=?`, [req.params.id]);
+        let content = await mysql.query(`SELECT id, content FROM articles WHERE ${nameOrId}=?`, [req.params.id]);
         
         if (content.length === 1) {
             content[0].content = parseContent(content[0].content);
-            res.send(content);
+            res.send(content[0].content);
         } else {
             res.status(404).end();
         }

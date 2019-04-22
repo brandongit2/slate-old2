@@ -70,7 +70,7 @@ export default withRouter(props => {
     };
 
     return (
-        <Layout title="Change Password - Slate" noHeader secondaryLogo {...props}>
+        <Layout title="Change Password - Slate" noHeader secondaryLogo>
             <div className={css.changePassword}>
                 <form>
                     <div className="form-field">

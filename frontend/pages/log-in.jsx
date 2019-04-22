@@ -46,7 +46,7 @@ function LogIn(props) {
     };
 
     return (
-        <Layout currentPage="log in" title="Log in - Slate" noShadow {...props}>
+        <Layout currentPage="log in" title="Log in - Slate" noShadow>
             <div className={css['log-in']}>
                 <form className={props.user.theme}>
                     <div>

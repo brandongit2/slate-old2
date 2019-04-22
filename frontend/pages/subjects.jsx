@@ -1,13 +1,13 @@
+import axios from 'axios';
+import React from 'react';
 import Link from 'next/link';
-import {connect} from 'react-redux';
 
-import {getAllSubjects, changeSubject, changeCourse, changeUnit, changeArticle} from '../actions';
 import {Layout, ContentContainer, ContentBox} from '../components';
 import {InfoSection, ContentSection} from '../components/ContentContainer';
 
 import css from './subjects.scss';
 
-function Subjects(props) {
+export default function Subjects(props) {
     return (
         <Layout title="Subjects - Slate">
             <ContentContainer color="#222222">
@@ -33,19 +33,8 @@ function Subjects(props) {
     );
 }
 
-Subjects.getInitialProps = async ({store}) => {
-    await store.dispatch(changeSubject(null));
-    await store.dispatch(changeCourse(null));
-    await store.dispatch(changeUnit(null));
-    await store.dispatch(changeArticle(null));
-    await store.dispatch(getAllSubjects());
-};
-
-function mapStateToProps(state) {
+Subjects.getInitialProps = async () => {
     return {
-        subjects: state.subjects,
-        theme:    state.user.theme
+        subjects: (await axios.get('/api/all-subjects')).data
     };
-}
-
-export default connect(mapStateToProps)(Subjects);
+};

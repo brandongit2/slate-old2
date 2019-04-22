@@ -19,9 +19,8 @@ export default withRouter(class Verify extends React.Component {
     }
 
     render() {
-        const {props} = this;
         return (
-            <Layout title="Verification success! - Slate" noHeader secondaryLogo {...props}>
+            <Layout title="Verification success! - Slate" noHeader secondaryLogo>
                 <div className={css.verify}>
                     {this.props.router.query.success === 'true'
                         ? <p><b>Verification success!</b> You will be redirected to the main page in {this.state.counter} second{this.state.counter === 1 ? '' : 's'}.</p>

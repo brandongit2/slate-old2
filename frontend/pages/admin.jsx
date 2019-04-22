@@ -50,7 +50,7 @@ function Admin(props) {
     };
     
     return (
-        <Layout title="Admin panel - Slate" private minPerms={2} {...props}>
+        <Layout title="Admin panel - Slate" private minPerms={2}>
             <style jsx>{`${props.user.theme === 'light' ? `
                 --accent-color: #111;
             ` : `

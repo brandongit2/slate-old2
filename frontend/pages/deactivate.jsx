@@ -6,7 +6,7 @@ import {withRouter} from 'next/router';
 class Deactivate extends React.Component {
     constructor(props) {
         super(props);
-        this.props = props;
+        
         this.state = {
             text: 'Attempting to deactivate your account...'
         };
@@ -33,7 +33,7 @@ class Deactivate extends React.Component {
 
     render() {
         return (
-            <Layout title="Account deactivated - Slate" noHeader secondaryLogo {...this.props}>
+            <Layout title="Account deactivated - Slate" noHeader secondaryLogo>
                 <div style={{flexGrow: '1', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                     <b style={{fontSize: '16pt'}}>{this.state.text}</b>
                 </div>

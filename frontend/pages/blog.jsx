@@ -1,8 +1,8 @@
 import {Layout} from '../components';
 
-export default function Blog(props) {
+export default function Blog() {
     return (
-        <Layout currentPage="blog" title="Blog - Slate" {...props}>
+        <Layout currentPage="blog" title="Blog - Slate">
             blog
         </Layout>
     );

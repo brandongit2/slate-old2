@@ -4,7 +4,7 @@ import React from 'react';
 import {Layout} from '../components';
 import {SlateInfoContext} from '../contexts';
 
-import css from './landing.scss';
+import css from './index.scss';
 
 export default function Landing(props) {
     return (

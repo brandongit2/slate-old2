@@ -64,7 +64,6 @@ exports.addUser = async (req, res) => {
 };
 
 exports.authenticate = (req, res) => {
-    console.log(req.user);
     if (req.user) {
         res.send({
             success: true,

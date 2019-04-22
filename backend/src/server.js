@@ -19,18 +19,18 @@ app.enable('trust proxy');
 
 app.use(util.auth);
 
-////////////////////////////////////////////////// DATA FUNCTIONS //////////////////////////////////////////////////////
+//////////////////////////////// DATA FUNCTIONS ////////////////////////////////
 
-app.get(apiUrl + '/allSubjects', asyncHandler(data.getAllSubjects));
+app.get(apiUrl + '/all-subjects', asyncHandler(data.getAllSubjects));
 app.get(apiUrl + '/subject/:id', asyncHandler(data.getSubject));
 
-app.get(apiUrl + '/allCourses', asyncHandler(data.getAllCourses));
+app.get(apiUrl + '/all-courses', asyncHandler(data.getAllCourses));
 app.get(apiUrl + '/course/:id', asyncHandler(data.getCourse));
 
-app.get(apiUrl + '/allUnits', asyncHandler(data.getAllUnits));
+app.get(apiUrl + '/all-units', asyncHandler(data.getAllUnits));
 app.get(apiUrl + '/unit/:id', asyncHandler(data.getUnit));
 
-app.get(apiUrl + '/allArticles', asyncHandler(data.getAllArticles));
+app.get(apiUrl + '/all-articles', asyncHandler(data.getAllArticles));
 app.get(apiUrl + '/article/:id', asyncHandler(data.getArticle));
 app.get(apiUrl + '/article-content/:id', asyncHandler(data.getArticleContent));
 
@@ -42,7 +42,7 @@ app.get(apiUrl + '/parent', asyncHandler(data.getParent));
 // example: <apiUrl>/children?want=articles&course=1 gets all articles belonging to course #1
 app.get(apiUrl + '/children', asyncHandler(data.getChildren));
 
-////////////////////////////////////////////////// USER FUNCTIONS //////////////////////////////////////////////////////
+//////////////////////////////// USER FUNCTIONS ////////////////////////////////
 
 app.post(apiUrl + '/add-user', asyncHandler(user.addUser));
 app.post(apiUrl + '/authenticate', user.authenticate);
@@ -56,11 +56,11 @@ app.post(apiUrl + '/resend-verification-email', asyncHandler(user.resendEmail));
 // <URL>/api/verify?e=<unique query string>
 app.post(apiUrl + '/verify', asyncHandler(user.verifyEmail));
 
-/////////////////////////////////////////////////// USER SETTINGS //////////////////////////////////////////////////////
+//////////////////////////////// USER SETTINGS /////////////////////////////////
 
 app.post(apiUrl + '/settings/toggle-theme', settings.toggleTheme);
 
-/////////////////////////////////////////////////// MISCELLANEOUS //////////////////////////////////////////////////////
+//////////////////////////////// MISCELLANEOUS /////////////////////////////////
 
 app.get('/', (req, res) => {
     res.send('Slate API root');
@@ -75,12 +75,12 @@ app.use((req, res) => {
 });
 
 app.use((err, req, res) => {
-    if (!res.headersSent) {
-        res.status(500).end('500 Internal server error');
-    }
+    if (!res.headersSent) res.status(500).end('500 Internal server error');
     console.trace();
 });
 
-const server = app.listen(port, () => console.info(`Slate backend running on port ${port}.`));
+const server = app.listen(port, () => {
+    console.info(`Slate backend running on port ${port}.`);
+});
 
 module.exports = {app, server};
