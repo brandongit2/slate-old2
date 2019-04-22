@@ -21,8 +21,8 @@ class SiteContent extends React.Component {
         super(props);
         
         this.state = {
-            currentTab: props.initialTab,
-            tabsLoaded: [props.initialTab],
+            currentTab: this.props.initialTab,
+            tabsLoaded: [this.props.initialTab],
             queryQueue: []
         };
         
@@ -34,8 +34,15 @@ class SiteContent extends React.Component {
             Comments: React.createRef()
         };
         
-        props.dispatch(getAllSubjects());
-        props.dispatch(getAllCourses());
+        this.props.dispatch(getAllSubjects());
+        this.props.dispatch(getAllCourses());
+    }
+    
+    componentDidMount() {
+        const url = `/admin/site-content?tab=${this.props.initialTab}`;
+        const as = url;
+        const options = {};
+        window.history.replaceState({url, as, options}, null, url);
     }
     
     // Get the left position of the button for the current tab.
@@ -64,8 +71,8 @@ class SiteContent extends React.Component {
     changeTab = newTab => {
         const url = `/admin/site-content?tab=${newTab}`;
         const as = url;
-        const options = {shallow: true};
-        window.history.pushState({url, as, options}, null, url);
+        const options = {};
+        window.history.replaceState({url, as, options}, null, url);
         
         this.setState({
             currentTab: newTab,

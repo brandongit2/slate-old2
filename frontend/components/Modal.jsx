@@ -1,20 +1,22 @@
-import {connect} from 'react-redux';
+import React from 'react';
 
-import {hideModal} from '../actions';
+import {ModalContext} from '../contexts';
 
 import css from './Modal.scss';
 
-function Modal(props) {
+export default function Modal() {
+    const {modal, hideModal} = React.useContext(ModalContext);
+    
     return (
-        <div className={[css['modal-background'], props.isVisible ? css.visible : ''].join(' ')}
-             onClick={props.hideModal}>
+        <div className={[css['modal-background'], modal.isVisible ? css.visible : ''].join(' ')}
+             onClick={hideModal}>
             <div className={css.modal}>
-                {props.hasX ? <i className="material-icons" onClick={props.hideModal}>close</i> : null}
-                <p id={css.title}>{props.title}</p>
-                <p id={css.content}>{props.content}</p>
+                {modal.hasX ? <i className="material-icons" onClick={hideModal}>close</i> : null}
+                <p id={css.title}>{modal.title}</p>
+                <p id={css.content}>{modal.content}</p>
                 <div id={css.buttons}>
                     <div style={{width: '2rem'}} />
-                    {props.buttons.map(button => (
+                    {modal.buttons.map(button => (
                         <button key={button[0]}
                                 className={[button[2], css.button].join(' ')}
                                 onClick={button[3]}>
@@ -27,19 +29,3 @@ function Modal(props) {
         </div>
     );
 }
-
-function mapStateToProps(state) {
-    return {
-        isVisible: state.modal.isVisible,
-        title:     state.modal.title,
-        content:   state.modal.content,
-        buttons:   state.modal.buttons,
-        hasX:      state.modal.hasX
-    };
-}
-
-const actionCreators = {
-    hideModal
-};
-
-export default connect(mapStateToProps, actionCreators)(Modal);

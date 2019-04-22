@@ -77,7 +77,7 @@ nextApp.prepare()
         ////////////////////////////// ADMIN PAGE //////////////////////////////
 
         app.get('/admin/:page', (req, res) => {
-            nextApp.render(req, res, '/admin', {page: req.params.page});
+            nextApp.render(req, res, '/admin', {...req.query, page: req.params.page});
         });
 
         //////////////////////////// MISCELLANEOUS /////////////////////////////

@@ -64,6 +64,7 @@ exports.addUser = async (req, res) => {
 };
 
 exports.authenticate = (req, res) => {
+    console.log(req.user);
     if (req.user) {
         res.send({
             success: true,
@@ -206,7 +207,6 @@ exports.changePassword = async (req, res) => {
 exports.resendEmail = async (req, res) => {
     try {
         const validEmail = (await mysql.query('SELECT email FROM email_codes WHERE email=? AND type="new-account"', [req.body.email])).length === 1;
-
         if (validEmail) {
             res.send(await sendVerificationEmail(req.body.firstName, req.body.email, generate()));
         } else {

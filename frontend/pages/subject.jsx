@@ -29,7 +29,7 @@ function Subject(props) {
                                                                
                                                                const url = `/subject/${subject.name}`;
                                                                const as = url;
-                                                               const options = {shallow: true};
+                                                               const options = {};
                                                                window.history.pushState({url, as, options}, null, url);
                                                            }}>{subject.display_name}</Item>
                                                    )) : null}

@@ -1,48 +1,99 @@
 import axios from 'axios';
 import NextApp, {Container} from 'next/app';
 import Router from 'next/router';
-import withRedux from 'next-redux-wrapper';
-import {Provider} from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
-import {composeWithDevTools} from 'redux-devtools-extension';
-import thunk from 'redux-thunk';
+import React from 'react';
+import {generate} from 'shortid';
 
-import {setInfo, setUserInfo} from '../actions';
-import rootReducer from '../reducers';
+import {severities} from '../constants';
+import {ModalContext, NotificationsContext, SlateInfoContext, UserContext} from '../contexts';
 
 import {rootUrl} from '../config.json';
-
 import './_app.scss';
-
-function makeStore(initialState) {
-    return createStore(
-        rootReducer,
-        initialState,
-        composeWithDevTools(applyMiddleware(thunk))
-    );
-}
 
 // https://github.com/zeit/next-plugins/issues/282#issuecomment-432127816
 Router.events.on('routeChangeComplete', () => {
     if (process.env.NODE_ENV !== 'production') {
         const els = document.querySelectorAll('link[href*="/_next/static/css/styles.chunk.css"]');
         const timestamp = new Date().valueOf();
-        els[0].href = '/_next/static/css/styles.chunk.css?v=' + timestamp;
+        els[0].href = `/_next/static/css/styles.chunk.css?v=${timestamp}`;
     }
 });
 
-export default withRedux(makeStore)(class Slate extends NextApp {
+export default class Slate extends NextApp {
+    constructor(props) {
+        super(props);
+        
+        this.state = {
+            modal: {
+                isVisible: false,
+                title:     '',
+                content:   '',
+                buttons:   [],
+                hasX:      true
+            },
+            showModal: (title, content, buttons, hasX = true) => {
+                this.setState({
+                    modal: {
+                        isVisible: true,
+                        title, content, buttons, hasX
+                    }
+                });
+            },
+            hideModal: () => {
+                this.setState({
+                    modal: {
+                        ...this.state.modal,
+                        isVisible: false
+                    }
+                });
+            },
+            
+            notifications:   {},
+            addNotification: (text, level = severities.INFO, timeout = 5000) => {
+                const id = generate();
+                
+                setTimeout(() => {
+                    this.state.removeNotification(id);
+                }, timeout);
+                
+                this.setState({
+                    notifications: {
+                        ...this.state.notifications,
+                        [id]: {text, level, timeout}
+                    }
+                });
+            },
+            removeNotification: id => {
+                // Take out the notification with key `id` from this.state.notifications
+                const filteredNotificationIds = Object.keys(this.state.notifications).filter(i => i !== id);
+                let newNotificationList = {};
+                filteredNotificationIds.map(id => {
+                    newNotificationList[id] = this.state.notifications[id];
+                });
+                this.setState({
+                    notifications: newNotificationList
+                });
+            },
+            
+            slateInfo: {
+                version:     process.env.version,
+                publishDate: process.env.publishDate
+            },
+            
+            userInfo:    this.props.userInfo,
+            setUserInfo: newInfo => {
+                this.setState({userInfo: newInfo});
+            }
+        };
+    }
+    
     static async getInitialProps({Component, ctx}) {
         axios.defaults.baseUrl = rootUrl;
-        
-        await ctx.store.dispatch(setInfo({
-            version:     process.env.version,
-            publishDate: process.env.publishDate
-        }));
         
         let pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
         if (pageProps == null) pageProps = {};
         
+        let userInfo;
         if (ctx.req) {
             let user = (await axios.request({
                 url:     '/api/authenticate',
@@ -52,26 +103,45 @@ export default withRedux(makeStore)(class Slate extends NextApp {
                 }
             })).data;
             if (user.success) {
-                ctx.store.dispatch(setUserInfo({
-                    isLoggedIn: true,
-                    ...user.user
-                }));
+                userInfo = {
+                    ...user.user,
+                    isLoggedIn: true
+                };
             } else {
-                ctx.store.dispatch(setUserInfo({isLoggedIn: false}));
+                userInfo = {
+                    isLoggedIn: false
+                };
             }
         }
         
-        return {pageProps};
+        return {pageProps, userInfo};
     }
-
+    
     render() {
-        const {Component, pageProps, store} = this.props;
+        const {Component, pageProps} = this.props;
         return (
             <Container>
-                <Provider store={store}>
-                    <Component {...pageProps} />
-                </Provider>
+                <UserContext.Provider value={{
+                    userInfo:    this.state.userInfo,
+                    setUserInfo: this.state.setUserInfo
+                }}>
+                    <ModalContext.Provider value={{
+                        modal:     this.state.modal,
+                        showModal: this.state.showModal,
+                        hideModal: this.state.hideModal
+                    }}>
+                        <NotificationsContext.Provider value={{
+                            notifications:      this.state.notifications,
+                            addNotification:    this.state.addNotification,
+                            removeNotification: this.state.removeNotification
+                        }}>
+                            <SlateInfoContext.Provider value={this.state.slateInfo}>
+                                <Component {...pageProps} />
+                            </SlateInfoContext.Provider>
+                        </NotificationsContext.Provider>
+                    </ModalContext.Provider>
+                </UserContext.Provider>
             </Container>
         );
     }
-});
+}

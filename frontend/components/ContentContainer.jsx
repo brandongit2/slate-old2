@@ -1,12 +1,19 @@
-import Color from 'color';
-import {connect} from 'react-redux';
+/*
+    Displays context on the right, with information like a title and description
+    on the left. Used on subject and course pages.
+*/
 
+import Color from 'color';
+import React from 'react';
+
+import {UserContext} from '../contexts';
 import {rgb, isTitleDark, isTitleLight} from '../util';
 
 import css from './ContentContainer.scss';
 
-function ContentContainer(props) {
-    const lightTheme = props.user.theme === 'light';
+export default function ContentContainer(props) {
+    const {userInfo} = React.useContext(UserContext);
+    const lightTheme = userInfo.theme === 'light';
     const subjectColor = Color(props.color);
     
     return (
@@ -42,14 +49,6 @@ function ContentContainer(props) {
         </div>
     );
 }
-
-function mapStateToProps(state) {
-    return {
-        user: state.user
-    };
-}
-
-export default connect(mapStateToProps)(ContentContainer);
 
 export function InfoSection(props) {
     return (

@@ -1,34 +1,26 @@
-import {connect} from 'react-redux';
+import React from 'react';
 
-import {removeNotification} from '../actions';
+import {NotificationsContext} from '../contexts';
 
 import css from './Snackbar.scss';
 
-const Snackbar = props => (
-    <div className={css.snackbar}>{
-        Object.entries(props.notifications).map(([id, notification]) => (
-            <div key={id} className={[
-                css.notification,
-                (props.visibleNotifications.indexOf(id) === -1 ? css.fade : ''),
-                css[notification.level]
-            ].join(' ')}>
-                <span>{notification.text}</span>
-                <i className="material-icons"
-                   onClick={() => props.removeNotification(id)}>
-                    close
-                </i>
-            </div>
-        ))
-    }</div>
-);
-
-const mapStateToProps = state => ({
-    notifications:        state.notifications,
-    visibleNotifications: state.visibleNotifications
-});
-
-const mapDispatchToProps = dispatch => ({
-    removeNotification: id => dispatch(removeNotification(id))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Snackbar);
+export default function Snackbar() {
+    const {notifications, removeNotification} = React.useContext(NotificationsContext);
+    
+    return (
+        <div className={css.snackbar}>
+            {Object.entries(notifications).map(([id, notification]) => (
+                <div key={id} className={[
+                    css.notification,
+                    css[notification.level]
+                ].join(' ')}>
+                    <span>{notification.text}</span>
+                    <i className="material-icons"
+                       onClick={() => removeNotification(id)}>
+                        close
+                    </i>
+                </div>
+            ))}
+        </div>
+    );
+}

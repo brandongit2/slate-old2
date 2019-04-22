@@ -1,3 +1,4 @@
+import {withRouter} from 'next/router';
 import React from 'react';
 import {connect} from 'react-redux';
 
@@ -7,12 +8,24 @@ import * as pages from '../components/adminPages';
 import css from './admin.scss';
 
 function Admin(props) {
-    const [currentPage, setPage] = React.useState(props.initialPage);
+    let initialPage;
+    switch (props.router.query.page) {
+        case 'overview':
+            initialPage = 'Overview';
+            break;
+        case 'site-content':
+            initialPage = 'SiteContent';
+            break;
+        default:
+            initialPage = 'Overview';
+    }
+    
+    const [currentPage, setPage] = React.useState(initialPage);
     const [pagesLoaded, loadPage] = React.useReducer(
         (pagesLoaded, page) => (
             pagesLoaded.includes(page) ? pagesLoaded : [...pagesLoaded, page]
         ),
-        [props.initialPage]
+        [initialPage]
     );
     
     const changePage = newPage => {
@@ -73,7 +86,7 @@ function Admin(props) {
                                      height:    '100%',
                                      transform: currentPage === pageName ? 'translateX(0px)' : 'translateX(100vw)'
                                  }}>
-                                <Page initialTab={props.initialTab} />
+                                <Page initialTab={props.router.query.tab ? props.router.query.tab : 'Subjects'} />
                             </div>
                         );
                     })}
@@ -87,25 +100,10 @@ Admin.defaultProps = {
     initialPage: 'Overview'
 };
 
-Admin.getInitialProps = async ({req}) => {
-    if (typeof req === 'undefined') return {};
-    switch (req.params.page) {
-        case 'overview':
-            return {initialPage: 'Overview'};
-        case 'site-content':
-            return {
-                initialPage: 'SiteContent',
-                initialTab:  req.query.tab ? req.query.tab : 'Subjects'
-            };
-        default:
-            return {};
-    }
-};
-
 function mapStateToProps(state) {
     return {
         user: state.user
     };
 }
 
-export default connect(mapStateToProps)(Admin);
+export default connect(mapStateToProps)(withRouter(Admin));

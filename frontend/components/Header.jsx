@@ -2,9 +2,8 @@ import axios from 'axios';
 import Link from 'next/link';
 import Router from 'next/router';
 import React from 'react';
-import {connect} from 'react-redux';
 
-import {toggleTheme} from '../actions';
+import {UserContext} from '../contexts';
 
 import css from './Header.scss';
 
@@ -25,7 +24,9 @@ export function Button(props) {
     );
 }
 
-function Header(props) {
+export default function Header(props) {
+    const {userInfo} = React.useContext(UserContext);
+    
     const [userPanelIsOpen, setUserPanelIsOpen] = React.useState(false);
     const toggleUserPanel = () => setUserPanelIsOpen(!userPanelIsOpen);
     
@@ -59,13 +60,13 @@ function Header(props) {
                     </li>
                 </ul>
                 <div id={css['right-buttons']}>
-                    {props.user.isLoggedIn ? (
+                    {userInfo.isLoggedIn ? (
                         <div id={css.user}
-                             className={css[props.user.theme]}
+                             className={css[userInfo.theme]}
                              onBlur={() => setUserPanelIsOpen(false)}
                              tabIndex="0">
                             <div onClick={toggleUserPanel}>
-                                <span>{props.user.first_name} {props.user.last_name}</span>
+                                <span>{userInfo.first_name} {userInfo.last_name}</span>
                                 <i className="material-icons">arrow_drop_down</i>
                             </div>
                             <div id={css['user-panel-container']} className={userPanelIsOpen ? css.open : ''}>
@@ -77,7 +78,7 @@ function Header(props) {
                                                 <i className={[
                                                         'material-icons',
                                                         css.check,
-                                                        props.user.theme === 'dark' ? css.active : ''
+                                                        userInfo.theme === 'dark' ? css.active : ''
                                                     ].join(' ')}>
                                                     check
                                                 </i>
@@ -87,8 +88,8 @@ function Header(props) {
                                             <td><p>Settings</p></td>
                                             <td></td>
                                         </tr>
-                                        {props.user.permissions >= 2 ? (
-                                            <React.Fragment>  
+                                        {userInfo.permissions >= 2 ? (
+                                            <React.Fragment>
                                                 <tr>
                                                     <td onClick={() => Router.push('/admin')}>
                                                         <p>Admin panel</p>
@@ -134,9 +135,3 @@ function Header(props) {
         </header>
     );
 }
-
-const actionCreators = {
-    toggleTheme
-};
-
-export default connect(null, actionCreators)(Header);

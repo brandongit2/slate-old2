@@ -1,15 +1,17 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import {generate} from 'shortid';
 
-import {showModal} from '../../../actions';
 import {Dropdown} from '../../../components';
 import {severities} from '../../../constants';
+import {ModalContext} from '../../../contexts';
 import {Item} from '../../../components/Dropdown';
 
 import css from './modals.scss';
 
-function ModalTest(props) {
+export default function ModalTest(props) {
+    const {showModal} = React.useContext(ModalContext);
+    
+    // This state is for form inputs.
     const [modalTitle, setModalTitle] = React.useState('');
     const [modalContent, setModalContent] = React.useState('');
     const [modalButtons, changeModalButtons] = React.useReducer((state = [], action) => {
@@ -36,7 +38,7 @@ function ModalTest(props) {
     
     const submitModalForm = e => {
         e.preventDefault();
-        props.showModal(modalTitle, modalContent, modalButtons, modalHasX);
+        showModal(modalTitle, modalContent, modalButtons, modalHasX);
     };
     
     return (
@@ -122,9 +124,3 @@ function ModalTest(props) {
         </div>
     );
 }
-
-const actionCreators = {
-    showModal
-};
-
-export default connect(null, actionCreators)(ModalTest);

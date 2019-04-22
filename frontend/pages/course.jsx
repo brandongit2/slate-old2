@@ -13,21 +13,23 @@ import css from './course.scss';
 
 function Course(props) {
     return (
-        <Layout title={props.course ? `${props.course.display_name} - Slate` : 'Slate'} {...props}>
-            <ContentContainer color={props.subject ? `#${props.subject.color}` : '#ffffff'}>
+        <Layout title={`${props.course.display_name} - Slate`} {...props}>
+            <ContentContainer color={`#${props.subject.color}`}>
                 <InfoSection breadcrumbs={(
                                  <div className={css.breadcrumbs}> {/* eslint-disable-line react/jsx-indent */}
                                      <Breadcrumbs>
                                          <Crumb>
-                                             <Link href="/subjects"><a>Subjects</a></Link>
-                                         </Crumb>
-                                         <Crumb>
-                                             <Link href={props.subject ? `/subject/${props.subject.name}` : ''}>
-                                                 <a>{props.subject ? props.subject.display_name : ''}</a>
+                                             <Link href="/subjects">
+                                                 <a>Subjects</a>
                                              </Link>
                                          </Crumb>
                                          <Crumb>
-                                             <Dropdown mini label={props.course ? props.course.display_name : ''}>
+                                             <Link href={`/subject/${props.subject.name}`}>
+                                                 <a>{props.subject.display_name}</a>
+                                             </Link>
+                                         </Crumb>
+                                         <Crumb>
+                                             <Dropdown mini label={props.course.display_name}>
                                                  {props.courses.map(course => (
                                                      <Item key={course.id}
                                                            onClick={() => {
@@ -36,7 +38,7 @@ function Course(props) {
                                                                
                                                                const url = `/subject/${props.subject.name}/${course.name}`;
                                                                const as = url;
-                                                               const options = {shallow: true};
+                                                               const options = {};
                                                                window.history.pushState({url, as, options}, null, url);
                                                            }}>
                                                          {course.display_name}
@@ -48,8 +50,8 @@ function Course(props) {
                                  </div>
                              )}
                              type="Course"
-                             title={props.course ? props.course.display_name : ''}
-                             description={props.course ? props.course.description : ''} />
+                             title={props.course.display_name}
+                             description={props.course.description} />
                 <ContentSection>
                     <main className={css['content-section']}>
                         <p id={css['units-title']}>Units</p>
@@ -65,14 +67,10 @@ function Course(props) {
                                             return (
                                                 <Link key={article.id}
                                                       href={
-                                                          (props.subject && props.course) ? (
-                                                              '/article?subject=' + props.subject.id + '&course=' + props.course.id + '&unit=' + unit.id + '&article=' + article.id
-                                                          ) : ''
+                                                          `/article?subject=${props.subject.id}&course=${props.course.id}&unit=${unit.id}&article=${article.id}`
                                                       }
                                                       as={
-                                                          (props.subject && props.course) ? (
-                                                              '/subject/' + props.subject.name + '/' + props.course.name + '/' + article.title
-                                                          ) : ''
+                                                          `/subject/${props.subject.name}/${props.course.name}/${article.title}`
                                                       }>
                                                     <a>{article.display_title}</a>
                                                 </Link>
@@ -89,16 +87,16 @@ function Course(props) {
     );
 }
 
-Course.getInitialProps = async ({store, query}) => {
-    await store.dispatch(changeSubject(query.subject));
-    await store.dispatch(changeCourse(query.course));
-    await store.dispatch(changeUnit(null));
-    await store.dispatch(changeArticle(null));
-    await store.dispatch(getSubject(query.subject));
-    await store.dispatch(getCourse(query.course));
-    await store.dispatch(getChildren('subject', query.subject));
-    await store.dispatch(getChildren('course', query.course));
-    await store.dispatch(getChildren('course', query.course, 'articles'));
+Course.getInitialProps = ({store, query}) => {
+    store.dispatch(changeSubject(query.subject));
+    store.dispatch(changeCourse(query.course));
+    store.dispatch(changeUnit(null));
+    store.dispatch(changeArticle(null));
+    store.dispatch(getSubject(query.subject));
+    store.dispatch(getCourse(query.course));
+    store.dispatch(getChildren('subject', query.subject));
+    store.dispatch(getChildren('course', query.course));
+    store.dispatch(getChildren('course', query.course, 'articles'));
 };
 
 function mapStateToProps(state) {
