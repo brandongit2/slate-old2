@@ -5,6 +5,7 @@ import ButtonTest from './tests/buttons';
 import ColorPickerTest from './tests/color-picker';
 import ContentContainerTest from './tests/content-container';
 import DropdownTest from './tests/dropdowns';
+import LoadingSpinnerTest from './tests/loading-spinner';
 import ModalTest from './tests/modals';
 import NotificationTest from './tests/notifications';
 import PanelTest from './tests/panels';
@@ -19,6 +20,7 @@ const tests = {
     'color-picker':      ColorPickerTest,
     'content-container': ContentContainerTest,
     dropdowns:           DropdownTest,
+    'loading-spinner':   LoadingSpinnerTest,
     modals:              ModalTest,
     notifications:       NotificationTest,
     panels:              PanelTest,

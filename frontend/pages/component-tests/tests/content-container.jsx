@@ -5,7 +5,7 @@ import css from './content-container.scss';
 
 export default function ContentContainerTest(props) {
     return (
-        <div className={css['content-container']}>
+        <div className={css['content-container-test']}>
             <ContentContainer color={props.color}>
                 <InfoSection type="Test"
                              title="Content Container Test"
