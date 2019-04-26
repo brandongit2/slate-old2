@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Link from 'next/link';
-import Router, {withRouter} from 'next/router';
+import {withRouter} from 'next/router';
 import React from 'react';
 
 import {Layout, Breadcrumbs, Dropdown, ContentContainer, ContentBox} from '../components';
@@ -16,7 +16,7 @@ function Subject(props) {
         axios.get(`/api/children?subject=${newSubjectId}`)
             .then(courses => setCurrentCourses(courses.data));
         return props.subjects.find(subject => subject.id === newSubjectId);
-    }, props.subjects.find(subject => subject.id === props.router.query.subject));
+    }, props.subjects.find(subject => subject.id === parseInt(props.router.query.subject)));
     
     return (
         <Layout title={currentSubject.display_name + ' - Slate'}>
@@ -53,8 +53,8 @@ function Subject(props) {
                         <p id={css['courses-title']}>Courses</p>
                         {currentCourses.map(course => (
                             <Link key={course.id}
-                                  href={'/course?subject=' + currentSubject.id + '&course=' + course.id}
-                                  as={'/subject/' + currentSubject.name + '/' + course.name}>
+                                  href={`/course?subject=${currentSubject.id}&course=${course.id}`}
+                                  as={`/subject/${currentSubject.name}/${course.name}`}>
                                 <a>
                                     <ContentBox title={course.display_name}
                                                 description={course.description}

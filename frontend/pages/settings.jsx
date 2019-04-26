@@ -1,16 +1,18 @@
 import React from 'react';
-import {connect} from 'react-redux';
 
 import {Layout} from '../components';
+import {UserContext} from '../contexts';
 
 import css from './settings.scss';
 
-function Settings(props) {
+export default function Settings(props) {
+    const {userInfo} = React.useContext(UserContext);
+    
     const [currentOpenPanel, setCurrentOpenPanel] = React.useState('none');
     
-    const [email, setEmail] = React.useState(props.user.email);
-    const [fName, setFName] = React.useState(props.user.first_name);
-    const [lName, setLName] = React.useState(props.user.last_name);
+    const [email, setEmail] = React.useState(userInfo.email);
+    const [fName, setFName] = React.useState(userInfo.first_name);
+    const [lName, setLName] = React.useState(userInfo.last_name);
     const [password, setPassword] = React.useState('');
     
     return (
@@ -76,11 +78,3 @@ function Settings(props) {
         </Layout>
     );
 }
-
-function mapStateToProps(state) {
-    return {
-        user: state.user
-    };
-}
-
-export default connect(mapStateToProps)(Settings);

@@ -16,7 +16,7 @@ function Article(props) {
         axios.get(`/api/article-content/${newArticleId}`)
             .then(articleContent => setArticleContent(articleContent.data));
         return props.articles.find(article => article.id === newArticleId);
-    }, props.articles.find(article => article.id === props.router.query.article));
+    }, props.articles.find(article => article.id === parseInt(props.router.query.article)));
     
     return (
         <Layout title={`${currentArticle.display_title} - Slate`}>

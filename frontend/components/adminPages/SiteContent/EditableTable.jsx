@@ -38,10 +38,10 @@ export default class EditableTable extends React.Component {
         this.state = {
             sections:    true, // Whether or not the table is split into sections.
             rows:        this.props.data,
-            rowOrder:    {},
+            rowOrder:    this.props.data.map((row, i) => i),
             isRowMoving: false,
             
-            floatingRow:    -1,
+            floatingRow:    -1, // In terms of state.rows
             floatingRowPos: [0, 0],
             currentField:   -1
         };
@@ -50,21 +50,6 @@ export default class EditableTable extends React.Component {
         this.fieldBounds = [];
         this.tableRows = [];
         this.mouseOffset = [0, 0]; // How far the cursor was from the top left corner of the row on mouse down.
-    }
-    
-    componentDidMount() {
-        let rowOrder;
-        if (Array.isArray(this.props.data)) {
-            rowOrder = this.props.data.map((row, i) => i);
-        } else {
-            rowOrder = {};
-            Object.values(this.props.data).map(([subjectName, courses]) => {
-                rowOrder[subjectName] = courses.map((course, i) => i);
-                console.log(subjectName);
-            });
-        }
-        console.log(rowOrder);
-        this.setState({rowOrder});
     }
     
     beginMoveRow = (e, id, pos) => {
@@ -119,15 +104,13 @@ export default class EditableTable extends React.Component {
                 rowOrder[swap[1]] = rowOrder[swap[0]];
                 rowOrder[swap[0]] = temp;
             }
-            console.log(this.state.rowOrder);
-            console.log(this.state.currentField, currentField);
+            
             if (this.state.currentField < currentField) { // Mouse moved down
                 for (let i = this.state.currentField; i < currentField; i++) {
                     this.tableRows[this.state.rowOrder[i]].style.animation = `${css['move-up']} 0.3s`;
                 }
             } else { // Mouse moved up
                 for (let i = this.state.currentField; i > currentField; i--) {
-                    console.log('moving down ' + this.state.rowOrder[i]);
                     this.tableRows[this.state.rowOrder[i]].style.animation = `${css['move-down']} 0.3s`;
                 }
             }
@@ -166,7 +149,7 @@ export default class EditableTable extends React.Component {
     };
     
     render() {
-        const {props} = this;
+        const {props, state} = this;
         
         if (this.fieldBounds.length === 0) {
             for (const row of this.tableRows.slice(1)) {
@@ -234,47 +217,55 @@ export default class EditableTable extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.sections
-                            ? <p>yea</p>
-                            : (
-                                this.state.rowOrder.map((id, pos) => {
-                                    // `id`  the row ID according to this.tableRows.
-                                    // `pos` the place in the order. (e.g. pos === 3
-                                    //       means this is the 3rd row from the top.
-                                    const row = this.state.rows[id];
-                                    return (
-                                        <tr key={id}
-                                            ref={el => { if (el) this.tableRows.push(el); }}
-                                            style={{opacity: id === this.state.floatingRow ? '0' : '1'}}>
-                                            <td className="rowHandle" onMouseDown={e => this.beginMoveRow(e, id, pos)}>
-                                                <i className="material-icons"
-                                                   style={{margin: '0.5rem'}}>
-                                                    reorder
-                                                </i>
-                                            </td>
-                                            {Object.entries(row).map(([datumType, datum], i) => {
-                                                switch (datumType) {
-                                                    case 'color':
-                                                        return (
-                                                            <td key={i} className={datumType}>
-                                                                <ColorPicker initialColor={datum} />
-                                                            </td>
-                                                        );
-                                                    default:
-                                                        return (
-                                                            <td key={i} className={datumType}>
-                                                                <input className={css['input-text']}
-                                                                       type="text"
-                                                                       value={datum} />
-                                                            </td>
-                                                        );
-                                                }
-                                            })}
-                                        </tr>
-                                    );
-                                })
-                            )
-                        }
+                        {this.state.rowOrder.map((id, pos) => {
+                            // `id`  the row ID according to this.tableRows.
+                            // `pos` the place in the order. (e.g. pos === 3
+                            //       means this is the 3rd row from the top.
+                            const row = this.state.rows[id];
+                            
+                            if (typeof row === 'object') {
+                                return (
+                                    <tr key={id}
+                                        ref={el => { if (el) this.tableRows.push(el); }}
+                                        style={{opacity: id === this.state.floatingRow ? '0' : '1'}}>
+                                        <td className="rowHandle" onMouseDown={e => this.beginMoveRow(e, id, pos)}>
+                                            <i className="material-icons"
+                                               style={{margin: '0.5rem'}}>
+                                                reorder
+                                            </i>
+                                        </td>
+                                        {Object.entries(row).map(([datumType, datum], i) => {
+                                            switch (datumType) {
+                                                case 'color':
+                                                    return (
+                                                        <td key={i} className={datumType}>
+                                                            <ColorPicker initialColor={datum} />
+                                                        </td>
+                                                    );
+                                                default:
+                                                    return (
+                                                        <td key={i} className={datumType}>
+                                                            <input className={css['input-text']}
+                                                                   type="text"
+                                                                   value={datum} />
+                                                        </td>
+                                                    );
+                                            }
+                                        })}
+                                    </tr>
+                                );
+                            } else if (typeof row === 'string') {
+                                return (
+                                    <tr key={id}
+                                        ref={el => { if (el) this.tableRows.push(el); }}
+                                        className={css['table-section']}>
+                                        <td colSpan={props.headers.length + 1}>
+                                            {row}
+                                        </td>
+                                    </tr>
+                                );
+                            }
+                        })}
                     </tbody>
                 </table>
             </React.Fragment>

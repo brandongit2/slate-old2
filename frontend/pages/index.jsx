@@ -6,11 +6,11 @@ import {SlateInfoContext} from '../contexts';
 
 import css from './index.scss';
 
-export default function Landing(props) {
+export default function Landing() {
     return (
         <SlateInfoContext.Consumer>
             {slateInfo => (
-                <Layout title="Slate: Free, interactive articles on STEM subjects." landingPage {...props}>
+                <Layout title="Slate: Free, interactive articles on STEM subjects." landingPage>
                     <div className={css.subjects}>
                         <main>
                             <div className={css.hero}>

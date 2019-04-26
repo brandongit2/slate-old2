@@ -1,27 +1,40 @@
+import axios from 'axios';
 import React from 'react';
-import {connect} from 'react-redux';
 
 import EditableTable from './EditableTable';
+import {Loading} from '../../';
 
-function Subjects(props) {
-    return (
-        <div>
-            <EditableTable headers={['Name', 'Description', 'Color']}
-                           data={props.subjects.map(subject => (
-                               {
-                                   name:        subject.display_name,
-                                   description: subject.description,
-                                   color:       subject.color
-                               }
-                           ))} />
-        </div>
-    );
+export default class Subjects extends React.Component {
+    constructor(props) {
+        super(props);
+        
+        this.state = {
+            subjects: null
+        };
+        
+        axios.get('/api/all-subjects').then(subjects => {
+            this.setState({subjects: subjects.data});
+        });
+    }
+    
+    render() {
+        const {state} = this;
+        return (
+            <div>
+                {state.subjects === null
+                    ? <Loading />
+                    : (
+                        <EditableTable headers={['Name', 'Description', 'Color']}
+                                       data={state.subjects.map(subject => (
+                                           {
+                                               name:        subject.display_name,
+                                               description: subject.description,
+                                               color:       subject.color
+                                           }
+                                       ))} />
+                    )
+                }
+            </div>
+        );
+    }
 }
-
-function mapStateToProps(state) {
-    return {
-        subjects: state.subjects
-    };
-}
-
-export default connect(mapStateToProps)(Subjects);

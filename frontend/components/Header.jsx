@@ -25,10 +25,17 @@ export function Button(props) {
 }
 
 export default function Header(props) {
-    const {userInfo} = React.useContext(UserContext);
+    const {userInfo, setUserInfo} = React.useContext(UserContext);
     
     const [userPanelIsOpen, setUserPanelIsOpen] = React.useState(false);
     const toggleUserPanel = () => setUserPanelIsOpen(!userPanelIsOpen);
+    
+    const toggleTheme = () => {
+        setUserInfo({
+            ...userInfo,
+            theme: userInfo.theme === 'dark' ? 'light' : 'dark'
+        });
+    };
     
     return (
         <header className={[css.header, props.float ? css.float : '', props.landingPage ? css.alt : ''].join(' ')}
@@ -72,7 +79,7 @@ export default function Header(props) {
                             <div id={css['user-panel-container']} className={userPanelIsOpen ? css.open : ''}>
                                 <div className={css['user-panel']}>
                                     <table><tbody>
-                                        <tr onClick={props.toggleTheme}>
+                                        <tr onClick={toggleTheme}>
                                             <td><p>Dark mode</p></td>
                                             <td>
                                                 <i className={[

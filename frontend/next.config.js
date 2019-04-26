@@ -1,6 +1,7 @@
 const withProgressBar = require('next-progressbar');
 const withSass = require('@zeit/next-sass');
 
+const config = require('./config.json');
 const versionInfo = require('./version.json');
 
 module.exports = withProgressBar(withSass({
@@ -14,6 +15,7 @@ module.exports = withProgressBar(withSass({
     },
     
     env: {
+        ...config,
         ...versionInfo
     }
 }));

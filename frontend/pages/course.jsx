@@ -19,7 +19,7 @@ function Course(props) {
         axios.get(`/api/children?want=articles&course=${newCourseId}`)
             .then(articles => setCurrentArticles(articles.data));
         return props.courses.find(course => course.id === newCourseId);
-    }, props.courses.find(course => course.id === props.router.query.course));
+    }, props.courses.find(course => course.id === parseInt(props.router.query.course)));
     
     return (
         <Layout title={`${currentCourse.display_name} - Slate`}>
@@ -99,7 +99,7 @@ Course.getInitialProps = async ctx => ({
     subject:  (await axios.get(`/api/subject/${ctx.query.subject}`)).data[0],
     courses:  (await axios.get(`/api/children?subject=${ctx.query.subject}`)).data,
     units:    (await axios.get(`/api/children?course=${ctx.query.course}`)).data,
-    articles: (await axios.get(`api/children?want=articles&course=${ctx.query.course}`)).data
+    articles: (await axios.get(`/api/children?want=articles&course=${ctx.query.course}`)).data
 });
 
 export default withRouter(Course);

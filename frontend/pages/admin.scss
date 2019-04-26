@@ -5,30 +5,30 @@
     color: var(--text-color);
     
     .sidebar {
-        width: 5rem;
         height: 100%;
         background: var(--accent-color);
         transition: background 0.2s;
         position: relative;
         
-        #triangle {
+        .triangle {
             // CSS triangle hack
             border-top: 4px solid white;
             border-left: 4px solid white;
             border-right: 4px solid transparent;
             border-bottom: 4px solid transparent;
-            width: 0px;
-            height: 0px;
+            transform: translate(50%, -50%) rotate(-45deg);
+            
             position: absolute;
             right: 0px;
-            transform: translate(50%, -50%) rotate(-45deg);
             transition: top 0.5s cubic-bezier(0.86, 0, 0.07, 1), background 0.5s;
         }
         
         img {
+            display: block;
             filter: invert(0.7);
             transition: filter 0.2s;
-            margin: 1.5rem 1.2rem;
+            height: var(--icon-height);
+            margin: var(--icon-gap) 1.2rem;
             cursor: pointer;
             
             &:hover, &.active {

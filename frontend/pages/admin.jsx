@@ -1,13 +1,16 @@
 import {withRouter} from 'next/router';
 import React from 'react';
-import {connect} from 'react-redux';
 
 import {Layout} from '../components';
+import {UserContext} from '../contexts';
 import * as pages from '../components/adminPages';
 
 import css from './admin.scss';
 
 function Admin(props) {
+    const {userInfo} = React.useContext(UserContext);
+    const triangle = React.useRef();
+    
     let initialPage;
     switch (props.router.query.page) {
         case 'overview':
@@ -28,38 +31,40 @@ function Admin(props) {
         [initialPage]
     );
     
-    const changePage = newPage => {
-        setPage(newPage);
-        loadPage(newPage);
-    };
-    
     const icons = {};
     for (let page of Object.keys(pages)) {
         icons[page] = React.useRef(null);
     }
     
     const getTrianglePos = () => {
-        const iconPos = icons[currentPage].current
-            ? icons[currentPage].current.getBoundingClientRect().top : 0;
-        const iconHeight = icons[currentPage].current
-            ? icons[currentPage].current.getBoundingClientRect().height : 0;
-        const sidebarPos =
-            typeof document != 'undefined' && document.querySelector(`.${css.sidebar}`)
-                ? document.querySelector(`.${css.sidebar}`).getBoundingClientRect().top : 0;
-        return iconPos - sidebarPos + iconHeight / 2;
+        if (typeof document != 'undefined' && icons[currentPage].current) {
+            const iconPos = icons[currentPage].current.getBoundingClientRect().top;
+            const iconHeight = icons[currentPage].current.getBoundingClientRect().height;
+            const sidebarPos = document.querySelector(`.${css.sidebar}`).getBoundingClientRect().top;
+            return iconPos - sidebarPos + iconHeight / 2 + 'px';
+        } else {
+            return 'calc(var(--icon-gap) + var(--icon-height) / 2 + (var(--icon-height) + var(--icon-gap)) * var(--triangle-pos))';
+        }
+    };
+    
+    const changePage = newPage => {
+        // triangle.current.style.top = getTrianglePos();
+        setPage(newPage);
+        loadPage(newPage);
     };
     
     return (
         <Layout title="Admin panel - Slate" private minPerms={2}>
-            <style jsx>{`${props.user.theme === 'light' ? `
-                --accent-color: #111;
-            ` : `
-                --accent-color: black;
-            `}`}</style>
+            <style jsx>{`
+                --accent-color: ${userInfo.theme === 'light' ? '#111' : 'black'};
+                --triangle-pos: ${Object.keys(icons).findIndex(pageName => pageName === currentPage)};
+                --icon-height: 3rem;
+                --icon-gap: 1.5rem;
+            `}</style>
             <div className={css.admin}>
                 <div className={css.sidebar}>
-                    <div id={css.triangle}
-                         style={{top: `${getTrianglePos()}px`}} />
+                    <div className={css.triangle}
+                         style={{top: getTrianglePos()}} ref={triangle} />
                     <img src="/static/pie-chart.svg"
                          ref={icons.Overview}
                          className={currentPage === 'Overview' ? css.active : null}
@@ -100,10 +105,4 @@ Admin.defaultProps = {
     initialPage: 'Overview'
 };
 
-function mapStateToProps(state) {
-    return {
-        user: state.user
-    };
-}
-
-export default connect(mapStateToProps)(withRouter(Admin));
+export default withRouter(Admin);

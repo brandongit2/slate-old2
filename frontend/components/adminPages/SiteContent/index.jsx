@@ -1,18 +1,16 @@
 import React from 'react';
-import {connect} from 'react-redux';
 
 import Subjects from './Subjects';
 import Courses from './Courses';
 import Units from './Units';
 import Articles from './Articles';
 import Comments from './Comments';
-import {getAllSubjects, getAllCourses} from '../../../actions';
 
 import css from './index.scss';
 
 const tabs = {Subjects, Courses, Units, Articles, Comments};
 
-class SiteContent extends React.Component {
+export default class SiteContent extends React.Component {
     static defaultProps = {
         initialTab: 'Subjects'
     };
@@ -33,9 +31,6 @@ class SiteContent extends React.Component {
             Articles: React.createRef(),
             Comments: React.createRef()
         };
-        
-        this.props.dispatch(getAllSubjects());
-        this.props.dispatch(getAllCourses());
     }
     
     componentDidMount() {
@@ -43,6 +38,12 @@ class SiteContent extends React.Component {
         const as = url;
         const options = {};
         window.history.replaceState({url, as, options}, null, url);
+        
+        // The clip path highlight relies on getButtonLeft() and
+        // getButtonRight(), which don't have an effect server-side (as they
+        // themselves rely on `document`). This forceUpdate() allows them to run
+        // again with `document`.
+        this.forceUpdate();
     }
     
     // Get the left position of the button for the current tab.
@@ -107,8 +108,11 @@ class SiteContent extends React.Component {
                         </ul>
                         
                         <div className={css.highlight}>
-                            {/* The clip-path is applied to this element in
-                              * order to highlight current page. */}
+                            {console.log(this.getButtonLeft(), this.getButtonRight())}
+                            {/*
+                                The clip-path is applied to this element in
+                                order to highlight current page.
+                            */}
                             <ul style={{clipPath: `
                                     polygon(
                                         ${this.getButtonLeft()}px 0%,
@@ -155,11 +159,3 @@ class SiteContent extends React.Component {
         );
     }
 }
-
-function mapStateToProps(state) {
-    return {
-        subjects: state.subjects
-    };
-}
-
-export default connect(mapStateToProps)(SiteContent);
