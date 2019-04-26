@@ -1,17 +1,18 @@
 import axios from 'axios';
 import Router from 'next/router';
 import React from 'react';
-import {connect} from 'react-redux';
 
-import {addNotification} from '../actions';
 import {Layout} from '../components';
 import {errors} from '../constants';
+import {UserContext} from '../contexts';
 
 import css from './log-in.scss';
 
-function LogIn(props) {
-    if (props.user.isLoggedIn) Router.replace('/');
-
+export default function LogIn(props) {
+    const {userInfo} = React.useContext(UserContext);
+    
+    if (userInfo.isLoggedIn) Router.replace('/');
+    
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [error, setError] = React.useState('');
@@ -41,14 +42,13 @@ function LogIn(props) {
             } else {
                 props.addNotification('An unknown error has occured. Please try again later.');
             }
-            console.log(res);
         }
     };
 
     return (
         <Layout currentPage="log in" title="Log in - Slate" noShadow>
             <div className={css['log-in']}>
-                <form className={props.user.theme}>
+                <form>
                     <div>
                         <h1>Log in to Slate</h1>
                         <div className={['error', error === '' ? '' : 'shown'].join(' ')}>
@@ -94,16 +94,3 @@ function LogIn(props) {
         </Layout>
     );
 }
-
-function mapStateToProps(state) {
-    return {
-        user:  state.user,
-        theme: state.user.theme
-    };
-}
-
-const actionCreators = {
-    addNotification
-};
-
-export default connect(mapStateToProps, actionCreators)(LogIn); /* eslint-disable-line no-func-assign */

@@ -2,11 +2,11 @@ import axios from 'axios';
 import {validate as validateEmail} from 'email-validator';
 import Router from 'next/router';
 import React from 'react';
-import {connect} from 'react-redux';
 import zxcvbn from 'zxcvbn';
 
 import {Layout} from '../components';
 import {errors} from '../constants';
+import {UserContext} from '../contexts';
 
 import {verboseErrors} from '../config.json';
 import css from './register.scss';
@@ -28,7 +28,9 @@ function PasswordStrength(props) {
 }
 
 export default function Register(props) {
-    if (props.user.isLoggedIn) Router.replace('/');
+    const {userInfo, setUserInfo} = React.useContext(UserContext);
+    
+    if (userInfo.isLoggedIn) Router.replace('/');
 
     // For the form fields.
     const [email, setEmail] = React.useState('');
@@ -144,7 +146,7 @@ export default function Register(props) {
                             </li>
                         </ul>
                     </div>
-                    <form className={props.user.theme}>
+                    <form className={userInfo.theme}>
                         <div>
                             <h1>Make an account</h1>
                             <div className={['error', error === '' ? '' : 'shown'].join(' ')}>
@@ -221,12 +223,3 @@ export default function Register(props) {
         </Layout>
     );
 }
-
-function mapStateToProps(state) {
-    return {
-        user:  state.user,
-        theme: state.user.theme
-    };
-}
-
-Register = connect(mapStateToProps)(Register); /* eslint-disable-line no-func-assign */

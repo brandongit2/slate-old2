@@ -6,11 +6,12 @@ import Head from 'next/head';
 import React from 'react';
 
 import {Header, Modal, Snackbar} from './';
-import {UserContext} from '../contexts';
+import {ThemeContext, UserContext} from '../contexts';
 
 import css from './Layout.scss';
 
 export default function Layout(props) {
+    const {theme} = React.useContext(ThemeContext);
     const {userInfo} = React.useContext(UserContext);
     
     return (
@@ -27,7 +28,7 @@ export default function Layout(props) {
             </Head>
             <style jsx global>{`
                 :root {
-                    ${props.landingPage || userInfo.theme === 'dark' ? `
+                    ${props.landingPage || theme === 'dark' ? `
                         --text-color: rgba(255, 255, 255, 0.8);
                         --secondary-text-color: rgba(255, 255, 255, 0.5);
                         --tertiary-text-color: rgba(255, 255, 255, 0.3);
@@ -55,10 +56,6 @@ export default function Layout(props) {
                 }
             `}</style>
             <Modal />
-            {props.secondaryLogo
-                ? <img src="/static/slate-logo-black.svg" id={css['secondary-logo']} className="bw-icon" />
-                : null
-            }
             <div className={css.container}>
                 {props.noHeader
                     ? null
@@ -90,6 +87,13 @@ export default function Layout(props) {
                     }
                 })()}
             </div>
+            {props.secondaryLogo
+                ? (
+                    theme === 'light'
+                        ? <img src="/static/slate-logo-dark.svg" id={css['secondary-logo']} />
+                        : <img src="/static/slate-logo-light.svg" id={css['secondary-logo']} />
+                ) : null
+            }
             <Snackbar />
         </div>
     );

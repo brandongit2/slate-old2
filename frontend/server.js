@@ -3,7 +3,7 @@ const cookieParser = require('cookie-parser');
 const express = require('express');
 const next = require('next');
 
-const {rootUrl, verboseErrors} = require('./config.json');
+const {rootUrl} = require('./config.json');
 
 const dev = process.env.NODE_ENV !== 'production';
 const nextApp = next({dev});
@@ -28,8 +28,7 @@ nextApp.prepare()
                 };
                 nextApp.render(req, res, actualPage, queryParams);
             } catch (err) {
-                if (verboseErrors) console.error(err);
-                console.trace();
+                console.error(err);
 
                 nextApp.render(req, res, '/404');
             }
@@ -44,8 +43,7 @@ nextApp.prepare()
                 const queryParams = {subject: subjectId, course: courseId};
                 nextApp.render(req, res, actualPage, queryParams);
             } catch (err) {
-                if (verboseErrors) console.error(err);
-                console.trace();
+                console.error(err);
 
                 nextApp.render(req, res, '/404');
             }
@@ -67,8 +65,7 @@ nextApp.prepare()
                 };
                 nextApp.render(req, res, actualPage, queryParams);
             } catch (err) {
-                if (verboseErrors) console.error(err);
-                console.trace();
+                console.error(err);
 
                 nextApp.render(req, res, '/404');
             }
@@ -91,25 +88,18 @@ nextApp.prepare()
         });
 
         app.get('/verify', async (req, res) => {
-            if (req.query.success === 'true') {
-                nextApp.render(req, res, '/verify', {success: 'true'});
-            } else if (req.query.success === 'false') {
-                nextApp.render(req, res, '/verify', {success: 'false'});
-            } else {
-                try {
-                    const success = (await axios.post('/api/verify', {query: req.query.q})).data.success;
-                    if (success) {
-                        nextApp.render(req, res, '/verify', {success: 'true'});
-                    } else {
-                        nextApp.render(req, res, '/verify', {success: 'false'});
-                    }
-                } catch (err) {
-                    if (verboseErrors) console.error(err);
-                    console.trace();
-
-                    res.set('location', rootUrl);
-                    res.status(301).send();
+            try {
+                const success = (await axios.post('/api/verify', {query: req.query.q})).data.success;
+                if (success) {
+                    nextApp.render(req, res, '/verify', {success: 'true'});
+                } else {
+                    nextApp.render(req, res, '/verify', {success: 'false'});
                 }
+            } catch (err) {
+                console.error(err);
+
+                res.set('location', rootUrl);
+                res.status(301).send();
             }
         });
 
@@ -121,8 +111,7 @@ nextApp.prepare()
                 }
                 nextApp.render(req, res, '/deactivate', {query: req.query.q});
             } catch (err) {
-                if (verboseErrors) console.error(err);
-                console.trace();
+                console.error(err);
 
                 res.set('location', rootUrl);
                 res.status(301).send();
@@ -135,14 +124,12 @@ nextApp.prepare()
 
         app.listen(port, err => {
             if (err) {
-                if (verboseErrors) console.error(err);
-                console.trace();
+                console.error(err);
             }
 
             console.info(`Slate frontend running on port ${port}.`);
         });
     })
     .catch(err => {
-        if (verboseErrors) console.error(err);
-        console.trace();
+        console.error(err);
     });

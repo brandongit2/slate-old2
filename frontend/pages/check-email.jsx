@@ -1,14 +1,15 @@
 import axios from 'axios';
 import React from 'react';
-import {connect} from 'react-redux';
 
-import {addNotification} from '../actions';
 import {Layout} from '../components';
 import {errors, severities} from '../constants';
+import {NotificationsContext} from '../contexts';
 
 import css from './check-email.scss';
 
-class CheckEmail extends React.Component {
+export default class CheckEmail extends React.Component {
+    static contextType = NotificationsContext;
+    
     state = {
         counter: 20
     };
@@ -41,9 +42,9 @@ class CheckEmail extends React.Component {
             });
             
             if (res.data.success) {
-                this.props.addNotification('E-mail resent.');
+                this.context.addNotification('E-mail resent.');
             } else if (res.data.error === errors.UNKNOWN) {
-                this.props.addNotification('Unknown error occured.', severities.ERROR);
+                this.context.addNotification('Unknown error occured.', severities.ERROR);
             }
         }
     };
@@ -63,11 +64,3 @@ class CheckEmail extends React.Component {
         );
     }
 }
-
-function mapDispatchToProps(dispatch) {
-    return {
-        addNotification: notification => dispatch(addNotification(notification))
-    };
-}
-
-export default connect(null, mapDispatchToProps)(CheckEmail);

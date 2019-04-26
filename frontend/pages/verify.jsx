@@ -8,7 +8,7 @@ export default withRouter(class Verify extends React.Component {
     state = {
         counter: 5
     };
-
+    
     componentDidMount() {
         if (this.props.router.query.success === 'true') {
             setTimeout(() => { Router.push('/subjects'); }, 5000);
@@ -17,7 +17,7 @@ export default withRouter(class Verify extends React.Component {
             }, 1000);
         }
     }
-
+    
     render() {
         return (
             <Layout title="Verification success! - Slate" noHeader secondaryLogo>

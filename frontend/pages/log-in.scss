@@ -7,14 +7,7 @@
     form {
         border-radius: 10px;
         padding: 2rem;
-        
-        &:global(.light) {
-            box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
-        }
-        
-        &:global(.dark) {
-            border: 1px solid var(--border-color);
-        }
+        box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
         
         input[type='email'], input[type='password'] {
             width: 20rem;
