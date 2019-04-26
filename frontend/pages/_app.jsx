@@ -5,7 +5,7 @@ import React from 'react';
 import {generate} from 'shortid';
 
 import {severities} from '../constants';
-import {ModalContext, NotificationsContext, SlateInfoContext, UserContext} from '../contexts';
+import {ModalContext, NotificationsContext, SlateInfoContext, ThemeContext, UserContext} from '../contexts';
 
 import {rootUrl} from '../config.json';
 import './_app.scss';
@@ -20,6 +20,36 @@ Router.events.on('routeChangeComplete', () => {
 });
 
 export default class Slate extends NextApp {
+    static async getInitialProps({Component, ctx}) {
+        axios.defaults.baseUrl = rootUrl;
+        
+        let pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
+        if (pageProps == null) pageProps = {};
+        
+        let userInfo;
+        if (ctx.req) {
+            let user = (await axios.request({
+                url:     '/api/authenticate',
+                method:  'post',
+                headers: {
+                    Cookie: `authToken=${ctx.req.cookies.authToken};`
+                }
+            })).data;
+            if (user.success) {
+                userInfo = {
+                    ...user.user,
+                    isLoggedIn: true
+                };
+            } else {
+                userInfo = {
+                    isLoggedIn: false
+                };
+            }
+        }
+        
+        return {pageProps, userInfo};
+    }
+    
     constructor(props) {
         super(props);
         
@@ -80,41 +110,32 @@ export default class Slate extends NextApp {
                 publishDate: process.env.publishDate
             },
             
+            theme:       this.props.userInfo.isLoggedIn ? this.props.userInfo.theme : 'light',
+            toggleTheme: () => {
+                const newTheme = this.state.theme === 'light' ? 'dark' : 'light';
+                
+                if (this.props.userInfo.isLoggedIn) {
+                    axios.post('/api/settings/toggle-theme');
+                    
+                    this.setState({
+                        userInfo: {
+                            ...this.state.userInfo,
+                            theme: newTheme
+                        },
+                        theme: newTheme
+                    });
+                } else {
+                    this.setState({
+                        theme: newTheme
+                    });
+                }
+            },
+            
             userInfo:    this.props.userInfo,
             setUserInfo: newInfo => {
                 this.setState({userInfo: newInfo});
             }
         };
-    }
-    
-    static async getInitialProps({Component, ctx}) {
-        axios.defaults.baseUrl = rootUrl;
-        
-        let pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
-        if (pageProps == null) pageProps = {};
-        
-        let userInfo;
-        if (ctx.req) {
-            let user = (await axios.request({
-                url:     '/api/authenticate',
-                method:  'post',
-                headers: {
-                    Cookie: `authToken=${ctx.req.cookies.authToken};`
-                }
-            })).data;
-            if (user.success) {
-                userInfo = {
-                    ...user.user,
-                    isLoggedIn: true
-                };
-            } else {
-                userInfo = {
-                    isLoggedIn: false
-                };
-            }
-        }
-        
-        return {pageProps, userInfo};
     }
     
     render() {
@@ -125,21 +146,26 @@ export default class Slate extends NextApp {
                     userInfo:    this.state.userInfo,
                     setUserInfo: this.state.setUserInfo
                 }}>
-                    <ModalContext.Provider value={{
-                        modal:     this.state.modal,
-                        showModal: this.state.showModal,
-                        hideModal: this.state.hideModal
+                    <ThemeContext.Provider value={{
+                        theme:       this.state.theme,
+                        toggleTheme: this.state.toggleTheme
                     }}>
-                        <NotificationsContext.Provider value={{
-                            notifications:      this.state.notifications,
-                            addNotification:    this.state.addNotification,
-                            removeNotification: this.state.removeNotification
+                        <ModalContext.Provider value={{
+                            modal:     this.state.modal,
+                            showModal: this.state.showModal,
+                            hideModal: this.state.hideModal
                         }}>
-                            <SlateInfoContext.Provider value={this.state.slateInfo}>
-                                <Component {...pageProps} />
-                            </SlateInfoContext.Provider>
-                        </NotificationsContext.Provider>
-                    </ModalContext.Provider>
+                            <NotificationsContext.Provider value={{
+                                notifications:      this.state.notifications,
+                                addNotification:    this.state.addNotification,
+                                removeNotification: this.state.removeNotification
+                            }}>
+                                <SlateInfoContext.Provider value={this.state.slateInfo}>
+                                    <Component {...pageProps} />
+                                </SlateInfoContext.Provider>
+                            </NotificationsContext.Provider>
+                        </ModalContext.Provider>
+                    </ThemeContext.Provider>
                 </UserContext.Provider>
             </Container>
         );

@@ -287,3 +287,7 @@ form {
         }
     }
 }
+
+:global(.logo) {
+    transition: opacity 0.5s;
+}

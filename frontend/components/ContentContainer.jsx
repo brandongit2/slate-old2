@@ -6,27 +6,28 @@
 import Color from 'color';
 import React from 'react';
 
-import {UserContext} from '../contexts';
+import {ThemeContext} from '../contexts';
 import {rgb, isTitleDark, isTitleLight} from '../util';
 
 import css from './ContentContainer.scss';
 
 export default function ContentContainer(props) {
-    const {userInfo} = React.useContext(UserContext);
-    const lightTheme = userInfo.theme === 'light';
+    const {theme} = React.useContext(ThemeContext);
+    
+    const lightTheme = theme === 'light';
     const subjectColor = Color(props.color);
     
     return (
         <div className={css['content-container']}>
             <style jsx>{`
-                --subject-color: ${rgb(subjectColor.rgb().array())};
+                --subject-color: ${props.color};
                 --subject-title-color: ${
                     lightTheme
                         ? 'var(--subject-text-color)'
                         : (
                             isTitleDark(subjectColor)
                                 ? 'var(--subject-text-color)'
-                                : rgb(subjectColor.rgb().array())
+                                : props.color
                         )
                 };
                 --subject-text-color: ${
@@ -35,10 +36,10 @@ export default function ContentContainer(props) {
                         : (
                             subjectColor.isDark()
                                 ? 'var(--text-color)'
-                                : rgb(subjectColor.rgb().array())
+                                : props.color
                         )
                 };
-                --subject-background-color: ${lightTheme ? rgb(subjectColor.rgb().array()) : '#000'};
+                --subject-background-color: ${lightTheme ? props.color : '#000'};
                 --content-title-color: ${
                     (lightTheme ? isTitleLight(subjectColor) : isTitleDark(subjectColor))
                         ? 'var(--text-color)'

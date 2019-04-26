@@ -53,18 +53,10 @@ export default function Layout(props) {
                         --shadow-color: rgba(0, 0, 0, 0.1);
                     `}
                 }
-
-                img.bw-icon {
-                    ${userInfo.theme === 'light' && !props.landingPage
-                        ? ''
-                        : 'filter: invert(0.8);'
-                    }
-                    transition: filter 0.5s;
-                }
             `}</style>
             <Modal />
             {props.secondaryLogo
-                ? <img src="/static/slate-logo_white.svg" id={css['secondary-logo']} className="bw-icon" />
+                ? <img src="/static/slate-logo-black.svg" id={css['secondary-logo']} className="bw-icon" />
                 : null
             }
             <div className={css.container}>

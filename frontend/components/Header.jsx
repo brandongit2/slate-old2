@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import React from 'react';
 
-import {UserContext} from '../contexts';
+import {ThemeContext, UserContext} from '../contexts';
 
 import css from './Header.scss';
 
@@ -25,17 +25,11 @@ export function Button(props) {
 }
 
 export default function Header(props) {
-    const {userInfo, setUserInfo} = React.useContext(UserContext);
+    const {userInfo} = React.useContext(UserContext);
+    const {theme, toggleTheme} = React.useContext(ThemeContext);
     
     const [userPanelIsOpen, setUserPanelIsOpen] = React.useState(false);
     const toggleUserPanel = () => setUserPanelIsOpen(!userPanelIsOpen);
-    
-    const toggleTheme = () => {
-        setUserInfo({
-            ...userInfo,
-            theme: userInfo.theme === 'dark' ? 'light' : 'dark'
-        });
-    };
     
     return (
         <header className={[css.header, props.float ? css.float : '', props.landingPage ? css.alt : ''].join(' ')}
@@ -44,8 +38,22 @@ export default function Header(props) {
                     borderBottom: props.noShadow ? '1px solid var(--secondary-border-color)' : 'none'
                 }}>
             <Link href="/">
-                <a id={css.logo}>
-                    <img src="/static/slate-logo_white.svg" alt="Slate logo" className="bw-icon" style={{height: '100%'}} />
+                <a className={css['logo-container']}>
+                    <img src="/static/slate-logo-light.svg"
+                         alt="Slate logo"
+                         className="logo"
+                         style={{
+                             height:   '100%',
+                             position: 'absolute',
+                             opacity:  props.landingPage ? '1' : (userInfo.isLoggedIn ? (theme === 'light' ? '0' : '1') : '0')
+                         }} />
+                    <img src="/static/slate-logo-dark.svg"
+                         alt="Slate logo"
+                         classNAme="logo"
+                         style={{
+                             height:  '100%',
+                             opacity: props.landingPage ? '0' : (userInfo.isLoggedIn ? (theme === 'light' ? '1' : '0') : '1')
+                         }} />
                 </a>
             </Link>
             <nav>
@@ -69,7 +77,7 @@ export default function Header(props) {
                 <div id={css['right-buttons']}>
                     {userInfo.isLoggedIn ? (
                         <div id={css.user}
-                             className={css[userInfo.theme]}
+                             className={css[theme]}
                              onBlur={() => setUserPanelIsOpen(false)}
                              tabIndex="0">
                             <div onClick={toggleUserPanel}>
@@ -85,7 +93,7 @@ export default function Header(props) {
                                                 <i className={[
                                                         'material-icons',
                                                         css.check,
-                                                        userInfo.theme === 'dark' ? css.active : ''
+                                                        theme === 'dark' ? css.active : ''
                                                     ].join(' ')}>
                                                     check
                                                 </i>

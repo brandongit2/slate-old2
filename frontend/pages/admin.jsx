@@ -65,14 +65,14 @@ function Admin(props) {
                 <div className={css.sidebar}>
                     <div className={css.triangle}
                          style={{top: getTrianglePos()}} ref={triangle} />
-                    <img src="/static/pie-chart.svg"
+                    <img src="/static/admin-page/pie-chart.svg"
                          ref={icons.Overview}
                          className={currentPage === 'Overview' ? css.active : null}
                          onClick={() => {
                              changePage('Overview');
                              window.history.pushState({}, '', '/admin/overview');
                          }} />
-                    <img src="/static/article.svg"
+                    <img src="/static/admin-page/article.svg"
                          ref={icons.SiteContent}
                          className={currentPage === 'SiteContent' ? css.active : null}
                          onClick={() => {
