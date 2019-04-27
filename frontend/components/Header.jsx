@@ -38,7 +38,7 @@ export default function Header(props) {
                     borderBottom: props.noShadow ? '1px solid var(--secondary-border-color)' : 'none'
                 }}>
             <Link href="/">
-                <a className={css['logo-container']}>
+                <a className={css['logo-container']} style={props.landingPage ? {marginLeft: '0px'} : {}}>
                     <img src="/static/slate-logo-light.svg"
                          alt="Slate logo"
                          className="logo"

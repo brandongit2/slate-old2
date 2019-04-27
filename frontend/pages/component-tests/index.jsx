@@ -2,6 +2,7 @@ import React from 'react';
 import {withRouter} from 'next/router';
 
 import ButtonTest from './tests/buttons';
+import BreadcrumbTest from './tests/breadcrumbs';
 import ColorPickerTest from './tests/color-picker';
 import ContentContainerTest from './tests/content-container';
 import DropdownTest from './tests/dropdowns';
@@ -17,6 +18,7 @@ import css from './index.scss';
 // The keys in this object are in this style for use as URLs.
 const tests = {
     buttons:             ButtonTest,
+    breadcrumbs:         BreadcrumbTest,
     'color-picker':      ColorPickerTest,
     'content-container': ContentContainerTest,
     dropdowns:           DropdownTest,

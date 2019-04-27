@@ -41,6 +41,7 @@ a {
 i:global(.material-icons) {
     font-size: 120%;
     user-select: none;
+    -moz-user-select: none;
 }
 
 input, textarea {

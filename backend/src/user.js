@@ -140,7 +140,7 @@ exports.deactivate = async (req, res) => {
 exports.logIn = async (req, res) => {
     try {
         if (req.body.email && req.body.password && req.body.stayLoggedIn != null) {
-            const user = await mysql.query('SELECT id,password FROM users WHERE email=?', [req.body.email]);
+            const user = await mysql.query('SELECT id, password FROM users WHERE email=?', [req.body.email]);
             if (user.length < 1) {
                 res.send({success: false, error: errors.INVALID_LOGIN});
                 return;
