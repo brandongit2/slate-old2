@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import ColorPicker from './ColorPicker';
+import {ColorPicker} from '../../';
 
 import css from './EditableTable.scss';
 

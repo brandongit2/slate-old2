@@ -1,4 +1,4 @@
-import ColorPicker from '../../../components/adminPages/SiteContent/ColorPicker';
+import {ColorPicker} from '../../../components';
 
 import css from './color-picker.scss';
 
