@@ -176,7 +176,7 @@ describe('data functions', () => {
         it('article-content 1 - should return 200 with content of article', done => {
             request(app.app).get('/api/article-content/1').expect(200).end((err, res) => {
                 if (err) throw err;
-                assert.deepEqual(res.text.length, 82130);
+                assert.deepEqual(res.text.length, 81408);
                 done();
             });
         });
