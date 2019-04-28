@@ -16,13 +16,14 @@ export default class Panel extends React.Component {
         this.panel = React.createRef();
         
         this.state = {
+            isOpen:        false,
             panelPosition: 0 // 0: down, 1: up
         };
     }
     
     componentDidMount() {
         document.addEventListener('wheel', () => {
-            if (this.props.isOpen && this.panel.current && this.visible.current) {
+            if (this.state.isOpen && this.panel.current && this.visible.current) {
                 const panel = this.panel.current.getBoundingClientRect();
                 const visible = this.visible.current.getBoundingClientRect();
                 if (panel.bottom > window.innerHeight && this.state.panelPosition === 0) {
@@ -34,13 +35,41 @@ export default class Panel extends React.Component {
         });
     }
     
+    toggleIsOpen = () => {
+        this.setState(state => {
+            const isOpen = !state.isOpen;
+            
+            const outerEvtListener = () => {
+                this.setState({isOpen: false});
+            };
+            const innerEvtListener = e => {
+                e.stopPropagation();
+            };
+            
+            if (isOpen) {
+                window.addEventListener('mousedown', outerEvtListener);
+                this.panel.current.addEventListener('mousedown', innerEvtListener);
+                this.panelContainer.current.addEventListener('mousedown', innerEvtListener);
+            } else {
+                window.removeEventListener('mousedown', outerEvtListener);
+                this.panel.current.removeEventListener('mousedown', innerEvtListener);
+                this.panelContainer.current.removeEventListener('mousedown', innerEvtListener);
+            }
+            
+            return {isOpen};
+        });
+    };
+    
     render() {
         const {props} = this;
         return (
-            <div className={[css['panel-container'], css[props.isOpen ? 'open' : 'closed']].join(' ')}
+            <div className={[
+                     css['panel-container'],
+                     css[this.state.isOpen ? 'open' : 'closed']
+                 ].join(' ')}
                  ref={this.panelContainer}>
                 <div className={css.visible} ref={this.visible}>
-                    {props.children[0]}
+                    {props.visible(this.toggleIsOpen, this.state.isOpen)}
                 </div>
                 <div className={css.panel}
                      ref={this.panel}
@@ -48,17 +77,9 @@ export default class Panel extends React.Component {
                          ? {bottom: '0px', transform: 'translateY(100%)'}
                          : {top: '0px', transform: 'translateY(-100%)'}
                      }>
-                    {props.children[1]}
+                    {props.hidden()}
                 </div>
             </div>
         );
     }
-}
-
-export function Visible(props) {
-    return <div>{props.children}</div>;
-}
-
-export function Hidden(props) {
-    return <div>{props.children}</div>;
 }

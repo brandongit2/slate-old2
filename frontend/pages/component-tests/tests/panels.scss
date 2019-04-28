@@ -5,6 +5,7 @@
         padding: 1rem;
         border: 1px solid var(--border-color);
         border-radius: 5px;
-        background: white;
+        background: var(--background-color);
+        transition: background 0.5s, border 0.5s;
     }
 }

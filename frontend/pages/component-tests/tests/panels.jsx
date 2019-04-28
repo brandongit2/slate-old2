@@ -1,27 +1,21 @@
 import React from 'react';
 
 import {Panel} from '../../../components';
-import {Visible, Hidden} from '../../../components/Panel';
 
 import css from './panels.scss';
 
 export default function PanelTest() {
-    const [panelIsOpen, togglePanel] = React.useReducer(isOpen => !isOpen, false);
-    
     return (
         <div className={css['panel-test']}>
-            <Panel isOpen={panelIsOpen}>
-                <Visible>
-                    <button onClick={togglePanel}>
-                        Click to {panelIsOpen ? 'close' : 'open'}
-                    </button>
-                </Visible>
-                <Hidden>
-                    <div className={css['panel-hidden']}>
-                        <p>hello</p>
-                    </div>
-                </Hidden>
-            </Panel>
+            <Panel visible={(toggleButton, isOpen) => (
+                       /* eslint-disable-next-line react/jsx-indent */
+                       <button onClick={toggleButton}>Click to {isOpen ? 'close' : 'open'}</button>
+                   )}
+                   hidden={() => (
+                       <div className={css['panel-hidden']}>
+                           <p>hello</p>
+                       </div>
+                   )} />
         </div>
     );
 }

@@ -49,7 +49,7 @@ export default function Header(props) {
                          }} />
                     <img src="/static/slate-logo-dark.svg"
                          alt="Slate logo"
-                         classNAme="logo"
+                         className="logo"
                          style={{
                              height:  '100%',
                              opacity: props.landingPage ? '0' : (userInfo.isLoggedIn ? (theme === 'light' ? '1' : '0') : '1')
