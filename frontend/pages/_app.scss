@@ -49,7 +49,7 @@ input, textarea {
     font-size: 12pt;
     border: 1px solid var(--border-color);
     background: var(--secondary-background-color);
-    transition: background 0.5s, border 0.5s;
+    transition: background 0.5s, border 0.5s, color 0.5s;
     border-radius: 5px;
     outline: none;
 }

@@ -37,8 +37,6 @@ export default class EditableTable extends React.Component {
         
         this.state = {
             sections:    true, // Whether or not the table is split into sections.
-            rows:        this.props.data,
-            rowOrder:    this.props.data.map((row, i) => i),
             isRowMoving: false,
             
             floatingRow:    -1, // In terms of state.rows
@@ -51,6 +49,11 @@ export default class EditableTable extends React.Component {
         this.tableRows = [];
         this.mouseOffset = [0, 0]; // How far the cursor was from the top left corner of the row on mouse down.
     }
+    
+    static getDerivedStateFromProps = props => ({
+        rows:     props.data,
+        rowOrder: props.data.map((row, i) => i)
+    });
     
     beginMoveRow = (e, id, pos) => {
         const rowPos = this.tableRows[id].getBoundingClientRect();
@@ -149,7 +152,7 @@ export default class EditableTable extends React.Component {
     };
     
     render() {
-        const {props, state} = this;
+        const {props} = this;
         
         if (this.fieldBounds.length === 0) {
             for (const row of this.tableRows.slice(1)) {

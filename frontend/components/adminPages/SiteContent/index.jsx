@@ -88,7 +88,7 @@ export default class SiteContent extends React.Component {
             <div className={css['site-content']}>
                 <header>
                     <h1>Site content manager</h1>
-                    <nav>
+                    <nav className={css.tabs}>
                         <ul>
                             <li onClick={() => this.changeTab('Subjects')}>
                                 Subjects
@@ -108,7 +108,6 @@ export default class SiteContent extends React.Component {
                         </ul>
                         
                         <div className={css.highlight}>
-                            {console.log(this.getButtonLeft(), this.getButtonRight())}
                             {/*
                                 The clip-path is applied to this element in
                                 order to highlight current page.

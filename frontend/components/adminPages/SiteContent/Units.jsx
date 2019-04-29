@@ -3,6 +3,10 @@ import React from 'react';
 
 import EditableTable from './EditableTable';
 import {Breadcrumbs, Dropdown, Loading} from '../../';
+import {Crumb} from '../../Breadcrumbs';
+import {Item} from '../../Dropdown';
+
+import css from './Units.scss';
 
 export default class Units extends React.Component {
     constructor(props) {
@@ -12,7 +16,9 @@ export default class Units extends React.Component {
             subjects: null,
             courses:  null,
             units:    null,
-            articles: null
+            articles: null,
+            
+            currentSubject: 1
         };
         
         const getSubjects = axios.get('/api/all-subjects');
@@ -30,35 +36,65 @@ export default class Units extends React.Component {
         }).catch(console.error);
     }
     
+    getTableData = () => {
+        let data = [];
+        if (this.state.subjects !== null && this.state.courses !== null) {
+            let courses = this.state.courses.filter(course => course.subject_id === this.state.currentSubject);
+            
+            let unitsByCourseId = {};
+            courses.forEach(course => {
+                unitsByCourseId[course.id] = [];
+            });
+            
+            this.state.units.forEach(unit => {
+                if (Object.keys(unitsByCourseId).includes(unit.course_id.toString())) {
+                    unitsByCourseId[unit.course_id].push({
+                        name:        unit.display_name,
+                        description: unit.description
+                    });
+                }
+            });
+            
+            Object.entries(unitsByCourseId).forEach(([i, units]) => {
+                data.push(courses.find(course => course.id === parseInt(i)).display_name);
+                data.push(...units);
+            });
+        }
+        return data;
+    };
+    
     render() {
         const {state} = this;
         return (
-            <div>
+            <div className={css.units}>
                 {state.subjects === null || state.courses === null
                     ? <Loading />
                     : (
-                        <EditableTable headers={['Name', 'Description']}
-                                       data={(() => {
-                                           let coursesBySubjectId = [];
-                                           for (let i = 0; i < state.subjects.length; i++) {
-                                               coursesBySubjectId.push([]);
-                                           }
-                                           
-                                           state.courses.forEach(course => {
-                                               coursesBySubjectId[course.subject_id - 1].push({
-                                                   name:        course.display_name,
-                                                   description: course.description
-                                               });
-                                           });
-                                           
-                                           let data = [];
-                                           coursesBySubjectId.forEach((courses, i) => {
-                                               data.push(state.subjects.find(subject => parseInt(subject.id) === i + 1).display_name);
-                                               data.push(...courses);
-                                           });
-                                           
-                                           return data;
-                                       })()} />
+                        <React.Fragment>
+                            <div className={css.breadcrumbs}>
+                                <Breadcrumbs>
+                                    <Crumb>Subjects</Crumb>
+                                    <Crumb>
+                                        <Dropdown mini label={state.subjects.find(subject => subject.id === state.currentSubject).display_name}>
+                                            {state.subjects.map(subject => (
+                                                <Item key={subject.id}
+                                                      onClick={() => {
+                                                          this.setState({
+                                                              currentSubject: subject.id
+                                                          });
+                                                      }}>
+                                                    {subject.display_name}
+                                                </Item>
+                                            ))}
+                                        </Dropdown>
+                                    </Crumb>
+                                </Breadcrumbs>
+                            </div>
+                            <div className={css.table}>
+                                <EditableTable headers={['Name', 'Description']}
+                                               data={this.getTableData()} />
+                            </div>
+                        </React.Fragment>
                     )
                 }
             </div>
