@@ -19,6 +19,13 @@ export default class Panel extends React.Component {
             isOpen:        false,
             panelPosition: 0 // 0: down, 1: up
         };
+        
+        this.outerEvtListener = () => {
+            this.setState({isOpen: false});
+        };
+        this.innerEvtListener = e => {
+            e.stopPropagation();
+        };
     }
     
     componentDidMount() {
@@ -35,33 +42,39 @@ export default class Panel extends React.Component {
         });
     }
     
-    toggleIsOpen = () => {
-        this.setState(state => {
-            const isOpen = !state.isOpen;
-            
-            const outerEvtListener = () => {
-                this.setState({isOpen: false});
-            };
-            const innerEvtListener = e => {
-                e.stopPropagation();
-            };
-            
-            if (isOpen) {
-                window.addEventListener('mousedown', outerEvtListener);
-                this.panel.current.addEventListener('mousedown', innerEvtListener);
-                this.panelContainer.current.addEventListener('mousedown', innerEvtListener);
-            } else {
-                window.removeEventListener('mousedown', outerEvtListener);
-                this.panel.current.removeEventListener('mousedown', innerEvtListener);
-                this.panelContainer.current.removeEventListener('mousedown', innerEvtListener);
-            }
-            
-            return {isOpen};
-        });
+    openPanel = () => {
+        this.setState({isOpen: true});
+        window.addEventListener('mousedown', this.outerEvtListener);
+        this.panel.current.addEventListener('mousedown', this.innerEvtListener);
+        this.panelContainer.current.addEventListener('mousedown', this.innerEvtListener);
+    };
+    
+    closePanel = () => {
+        this.setState({isOpen: false});
+        window.removeEventListener('mousedown', this.outerEvtListener);
+        this.panel.current.removeEventListener('mousedown', this.innerEvtListener);
+        this.panelContainer.current.removeEventListener('mousedown', this.innerEvtListener);
+    };
+    
+    togglePanel = () => {
+        const isOpen = !this.state.isOpen;
+        
+        if (isOpen) {
+            this.openPanel();
+        } else {
+            this.closePanel();
+        }
     };
     
     render() {
         const {props} = this;
+        
+        const controls = {
+            openPanel:   this.openPanel,
+            closePanel:  this.closePanel,
+            togglePanel: this.togglePanel
+        };
+        
         return (
             <div className={[
                      css['panel-container'],
@@ -69,7 +82,7 @@ export default class Panel extends React.Component {
                  ].join(' ')}
                  ref={this.panelContainer}>
                 <div className={css.visible} ref={this.visible}>
-                    {props.visible(this.toggleIsOpen, this.state.isOpen)}
+                    {props.visible(this.state.isOpen, controls)}
                 </div>
                 <div className={css.panel}
                      ref={this.panel}
@@ -77,7 +90,7 @@ export default class Panel extends React.Component {
                          ? {bottom: '0px', transform: 'translateY(100%)'}
                          : {top: '0px', transform: 'translateY(-100%)'}
                      }>
-                    {props.hidden()}
+                    {props.hidden(this.state.isOpen, controls)}
                 </div>
             </div>
         );

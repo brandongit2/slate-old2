@@ -1,0 +1,17 @@
+.simplebar-test {
+    margin: 1rem;
+    
+    .simplebar {
+        border: 1px solid var(--border-color);
+        border-radius: 5px;
+        height: 400px;
+        
+        .row {
+            padding: 1rem;
+            
+            &:nth-child(2n) {
+                background: var(--background-hover-color);
+            }
+        }
+    }
+}

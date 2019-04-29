@@ -1,17 +1,22 @@
 .dropdown {
-    border-radius: 5px;
     transition: all 0.2s;
-    box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.3);
     user-select: none;
     outline: none;
     
-    #visible {
+    .visible {
+        border-radius: 5px;
+        box-shadow: inset 0px 0px 0px 1px var(--border-color); // Border which doesn't take up space
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 10px 20px;
         font-weight: 700;
         cursor: pointer;
+        transition: border-radius 0.2s, border 0.5s;
+        
+        &:hover, &:focus {
+            box-shadow: inset 0px 0px 0px 1px var(--border-hover-color);
+        }
         
         i {
             position: relative;
@@ -21,71 +26,44 @@
         }
     }
     
-    &:hover, &:focus {
-        box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.6);
-    }
-    
-    .item {
-        font-size: 12pt;
-        font-weight: 400;
-        margin: 1px;
-        padding: 10px 20px;
-        transition: all 0.2s;
-        white-space: nowrap;
-        color: black;
-        cursor: pointer;
+    .items {
+        max-height: 200px;
+        width: 25rem;
+        overflow: auto;
+        background: white;
+        position: relative;
+        z-index: 3;
+        box-sizing: border-box;
+        border-radius: 0px 5px 5px 5px;
+        box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.3);
         
         &:hover {
-            background: rgba(0, 0, 0, 0.1);
+            box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.6);
+        }
+        
+        .bold * {
+            font-weight: 700;
         }
     }
     
-    #items {
-        height: 0px;
-        overflow: hidden;
-        
-        & > div {
-            transition: all 0.2s;
-        }
+    .items > div {
+        transition: all 0.2s;
     }
     
     &.open {
+        z-index: 3;
+    }
+    
+    &.open .visible {
         border-radius: 5px 5px 0px 0px;
-        
-        #items {
-            height: 0px;
-            overflow: visible;
-            position: relative;
-            top: -1px;
-            
-            & > div {
-                height: auto;
-                max-height: 200px;
-                overflow: auto;
-                background: white;
-                position: relative;
-                z-index: 3;
-                box-sizing: border-box;
-                border-radius: 0px 0px 5px 5px;
-                box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.3);
-                
-                &:hover {
-                    box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.6);
-                }
-                
-                .bold * {
-                    font-weight: 700;
-                }
-            }
-        }
     }
     
     &.mini {
-        box-shadow: none;
-        border-radius: 0px;
         position: relative;
         
-        #visible {
+        .visible {
+            box-shadow: none;
+            border-radius: 0px;
             font-size: 10pt;
             padding: 0px;
             font-weight: 400;
@@ -95,14 +73,14 @@
             }
         }
         
-        #items {
+        .items {
             position: absolute;
         }
         
-        &.open #items > div {
+        &.open .items {
             position: relative;
-            top: -5px;
             left: -10px;
+            top: 5px;
             max-height: 200px;
             overflow: auto;
             border-radius: 0px;
@@ -118,5 +96,20 @@
                 padding-right: 1rem;
             }
         }
+    }
+}
+
+.item {
+    font-size: 12pt;
+    font-weight: 400;
+    margin: 1px;
+    padding: 10px 20px;
+    transition: all 0.2s;
+    white-space: nowrap;
+    color: black;
+    cursor: pointer;
+    
+    &:hover {
+        background: rgba(0, 0, 0, 0.1);
     }
 }

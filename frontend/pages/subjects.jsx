@@ -9,7 +9,7 @@ import css from './subjects.scss';
 
 export default function Subjects(props) {
     return (
-        <Layout title="Subjects - Slate">
+        <Layout title="Subjects - Slate" currentPage="subjects">
             <ContentContainer color="#222222">
                 <InfoSection title="Subjects"
                              description="Pick a subject to start learning!" />

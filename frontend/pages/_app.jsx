@@ -1,5 +1,6 @@
 import axios from 'axios';
 import NextApp, {Container} from 'next/app';
+import Head from 'next/head';
 import Router from 'next/router';
 import React from 'react';
 import {generate} from 'shortid';
@@ -141,33 +142,43 @@ export default class Slate extends NextApp {
     render() {
         const {Component, pageProps} = this.props;
         return (
-            <Container>
-                <UserContext.Provider value={{
-                    userInfo:    this.state.userInfo,
-                    setUserInfo: this.state.setUserInfo
-                }}>
-                    <ThemeContext.Provider value={{
-                        theme:       this.state.theme,
-                        toggleTheme: this.state.toggleTheme
+            <React.Fragment>
+                <Head>
+                    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                    <link rel="shortcut icon" href="/static/favicon.png" />
+                    <link rel="stylesheet"
+                          href="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.css"
+                          integrity="sha384-dbVIfZGuN1Yq7/1Ocstc1lUEm+AT+/rCkibIcC/OmWo5f0EA48Vf8CytHzGrSwbQ"
+                          crossOrigin="anonymous" />
+                </Head>
+                <Container>
+                    <UserContext.Provider value={{
+                        userInfo:    this.state.userInfo,
+                        setUserInfo: this.state.setUserInfo
                     }}>
-                        <ModalContext.Provider value={{
-                            modal:     this.state.modal,
-                            showModal: this.state.showModal,
-                            hideModal: this.state.hideModal
+                        <ThemeContext.Provider value={{
+                            theme:       this.state.theme,
+                            toggleTheme: this.state.toggleTheme
                         }}>
-                            <NotificationsContext.Provider value={{
-                                notifications:      this.state.notifications,
-                                addNotification:    this.state.addNotification,
-                                removeNotification: this.state.removeNotification
+                            <ModalContext.Provider value={{
+                                modal:     this.state.modal,
+                                showModal: this.state.showModal,
+                                hideModal: this.state.hideModal
                             }}>
-                                <SlateInfoContext.Provider value={this.state.slateInfo}>
-                                    <Component {...pageProps} />
-                                </SlateInfoContext.Provider>
-                            </NotificationsContext.Provider>
-                        </ModalContext.Provider>
-                    </ThemeContext.Provider>
-                </UserContext.Provider>
-            </Container>
+                                <NotificationsContext.Provider value={{
+                                    notifications:      this.state.notifications,
+                                    addNotification:    this.state.addNotification,
+                                    removeNotification: this.state.removeNotification
+                                }}>
+                                    <SlateInfoContext.Provider value={this.state.slateInfo}>
+                                        <Component {...pageProps} />
+                                    </SlateInfoContext.Provider>
+                                </NotificationsContext.Provider>
+                            </ModalContext.Provider>
+                        </ThemeContext.Provider>
+                    </UserContext.Provider>
+                </Container>
+            </React.Fragment>
         );
     }
 }

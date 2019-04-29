@@ -7,7 +7,7 @@ import css from './panels.scss';
 export default function PanelTest() {
     return (
         <div className={css['panel-test']}>
-            <Panel visible={(togglePanel, isOpen) => (
+            <Panel visible={(isOpen, {togglePanel}) => (
                        /* eslint-disable-next-line react/jsx-indent */
                        <button onClick={togglePanel}>Click to {isOpen ? 'close' : 'open'}</button>
                    )}

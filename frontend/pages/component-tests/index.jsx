@@ -10,6 +10,7 @@ import LoadingSpinnerTest from './tests/loading-spinner';
 import ModalTest from './tests/modals';
 import NotificationTest from './tests/notifications';
 import PanelTest from './tests/panels';
+import SimpleBarTest from './tests/simplebar';
 import SplitPaneTest from './tests/split-pane';
 import {Layout, SplitPane} from '../../components';
 
@@ -26,6 +27,7 @@ const tests = {
     modals:              ModalTest,
     notifications:       NotificationTest,
     panels:              PanelTest,
+    simplebar:           SimpleBarTest,
     'split-pane':        SplitPaneTest
 };
 

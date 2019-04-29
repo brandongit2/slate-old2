@@ -20,6 +20,7 @@
     },
     "homepage": "https://github.com/brandongit2/slate#readme",
     "dependencies": {
+        "@zeit/next-css": "^1.0.1",
         "@zeit/next-sass": "^1.0.1",
         "axios": "^0.18.0",
         "color": "^3.1.1",
@@ -36,6 +37,7 @@
         "react-transition-group": "^4.0.0",
         "selenium-side-runner": "^3.6.0",
         "shortid": "^2.2.14",
+        "simplebar-react": "^1.0.0-alpha.6",
         "zxcvbn": "^4.4.2"
     },
     "devDependencies": {

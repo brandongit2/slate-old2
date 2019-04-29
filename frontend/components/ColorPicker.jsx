@@ -9,7 +9,7 @@ export default function ColorPicker(props) {
     
     return (
         <div className={css['color-picker']}>
-            <Panel visible={togglePanel => (
+            <Panel visible={(isOpen, {togglePanel}) => (
                        /* eslint-disable-next-line react/jsx-indent */
                        <div className={css.visible} onClick={togglePanel}>
                            <div className={css.preview} style={{background: `#${color}`}} />
