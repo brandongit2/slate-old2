@@ -66,7 +66,7 @@
                 margin-right: 1rem;
             }
             
-            #user {
+            .user {
                 position: relative;
                 margin-right: -10px;
                 outline: none;
@@ -77,7 +77,7 @@
                     background: var(--background-hover-color);
                 }
                 
-                & > div:first-child {
+                .user-panel-visible {
                     display: flex;
                     align-items: center;
                     padding: 10px;
@@ -92,25 +92,11 @@
                     }
                 }
                 
-                #user-panel-container {
+                .user-panel-container {
                     position: absolute;
-                    bottom: 0px;
                     right: 0px;
-                    width: 0px;
-                    height: 0px;
-                    overflow: hidden;
-                    opacity: 0;
-                    transition: opacity 0.3s;
-                    
-                    &.open {
-                        overflow: visible;
-                        opacity: 1;
-                    }
                     
                     .user-panel {
-                        position: absolute;
-                        top: -1px;
-                        right: 0px;
                         background: white;
                         border: 1px solid var(--secondary-border-color);
                         white-space: nowrap;

@@ -4,6 +4,7 @@
     .panel {
         position: absolute;
         overflow: hidden;
+        width: 100%;
     }
     
     &.closed .panel {

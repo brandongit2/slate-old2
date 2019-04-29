@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import React from 'react';
 
+import {Panel} from '../components';
 import {ThemeContext, UserContext} from '../contexts';
 
 import css from './Header.scss';
@@ -27,9 +28,6 @@ export function Button(props) {
 export default function Header(props) {
     const {userInfo} = React.useContext(UserContext);
     const {theme, toggleTheme} = React.useContext(ThemeContext);
-    
-    const [userPanelIsOpen, setUserPanelIsOpen] = React.useState(false);
-    const toggleUserPanel = () => setUserPanelIsOpen(!userPanelIsOpen);
     
     return (
         <header className={[css.header, props.float ? css.float : '', props.landingPage ? css.alt : ''].join(' ')}
@@ -76,60 +74,62 @@ export default function Header(props) {
                 </ul>
                 <div id={css['right-buttons']}>
                     {userInfo.isLoggedIn ? (
-                        <div id={css.user}
-                             className={css[theme]}
-                             onBlur={() => setUserPanelIsOpen(false)}
-                             tabIndex="0">
-                            <div onClick={toggleUserPanel}>
-                                <span>{userInfo.first_name} {userInfo.last_name}</span>
-                                <i className="material-icons">arrow_drop_down</i>
-                            </div>
-                            <div id={css['user-panel-container']} className={userPanelIsOpen ? css.open : ''}>
-                                <div className={css['user-panel']}>
-                                    <table><tbody>
-                                        <tr onClick={toggleTheme}>
-                                            <td><p>Dark mode</p></td>
-                                            <td>
-                                                <i className={[
-                                                        'material-icons',
-                                                        css.check,
-                                                        theme === 'dark' ? css.active : ''
-                                                    ].join(' ')}>
-                                                    check
-                                                </i>
-                                            </td>
-                                        </tr>
-                                        <tr onClick={() => Router.push('/settings')}>
-                                            <td><p>Settings</p></td>
-                                            <td></td>
-                                        </tr>
-                                        {userInfo.permissions >= 2 ? (
-                                            <React.Fragment>
-                                                <tr>
-                                                    <td onClick={() => Router.push('/admin')}>
-                                                        <p>Admin panel</p>
-                                                    </td>
-                                                    <td></td>
-                                                </tr>
-                                                <tr>
-                                                    <td onClick={() => Router.push('/component-tests')}>
-                                                        <p>Component tests</p>
-                                                    </td>
-                                                    <td></td>
-                                                </tr>
-                                            </React.Fragment>
-                                        ) : null}
-                                        <tr onClick={async () => {
-                                                await axios.post('/api/log-out');
-                                                Router.push('/');
-                                                setTimeout(() => window.location.reload(), 500);
-                                            }}>
-                                            <td><a>Log out</a></td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody></table>
-                                </div>
-                            </div>
+                        <div className={[css.user, css[theme]].join(' ')}>
+                            <Panel visible={(isOpen, {togglePanel}) => (
+                                       /* eslint-disable-next-line react/jsx-indent */
+                                       <div className={css['user-panel-visible']} onClick={togglePanel}>
+                                           <span>{userInfo.first_name} {userInfo.last_name}</span>
+                                           <i className="material-icons">{`arrow_drop_${isOpen ? 'up' : 'down'}`}</i>
+                                       </div>
+                                   )}
+                                   hidden={isOpen => (
+                                       <div className={[css['user-panel-container'], isOpen ? css.open : ''].join(' ')}>
+                                           <div className={css['user-panel']}>
+                                               <table><tbody>
+                                                   <tr onClick={toggleTheme}>
+                                                       <td><p>Dark mode</p></td>
+                                                       <td>
+                                                           <i className={[
+                                                                  'material-icons',
+                                                                  css.check,
+                                                                  theme === 'dark' ? css.active : ''
+                                                              ].join(' ')}>
+                                                               check
+                                                           </i>
+                                                       </td>
+                                                   </tr>
+                                                   <tr onClick={() => Router.push('/settings')}>
+                                                       <td><p>Settings</p></td>
+                                                       <td></td>
+                                                   </tr>
+                                                   {userInfo.permissions >= 2 ? (
+                                                       <React.Fragment>
+                                                           <tr>
+                                                               <td onClick={() => Router.push('/admin')}>
+                                                                   <p>Admin panel</p>
+                                                               </td>
+                                                               <td></td>
+                                                           </tr>
+                                                           <tr>
+                                                               <td onClick={() => Router.push('/component-tests')}>
+                                                                   <p>Component tests</p>
+                                                               </td>
+                                                               <td></td>
+                                                           </tr>
+                                                       </React.Fragment>
+                                                   ) : null}
+                                                   <tr onClick={async () => {
+                                                           await axios.post('/api/log-out');
+                                                           Router.push('/');
+                                                           setTimeout(() => window.location.reload(), 500);
+                                                       }}>
+                                                       <td><a>Log out</a></td>
+                                                       <td></td>
+                                                   </tr>
+                                               </tbody></table>
+                                           </div>
+                                       </div>
+                                   )} />
                         </div>
                     ) : (
                         <ul>
