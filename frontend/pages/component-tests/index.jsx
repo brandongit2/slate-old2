@@ -12,6 +12,7 @@ import NotificationTest from './tests/notifications';
 import PanelTest from './tests/panels';
 import SimpleBarTest from './tests/simplebar';
 import SplitPaneTest from './tests/split-pane';
+import TextEditorTest from './tests/text-editor';
 import {Layout, SplitPane} from '../../components';
 
 import css from './index.scss';
@@ -28,7 +29,8 @@ const tests = {
     notifications:       NotificationTest,
     panels:              PanelTest,
     simplebar:           SimpleBarTest,
-    'split-pane':        SplitPaneTest
+    'split-pane':        SplitPaneTest,
+    'text-editor':       TextEditorTest
 };
 
 function Testing(props) {

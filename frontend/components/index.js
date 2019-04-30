@@ -11,3 +11,4 @@ export {default as Layout} from './Layout';
 export {default as Panel} from './Panel';
 export {default as Snackbar} from './Snackbar';
 export {default as SplitPane} from './SplitPane';
+export {default as TextEditor} from './TextEditor';

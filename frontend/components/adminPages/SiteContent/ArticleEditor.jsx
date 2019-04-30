@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 
-import {Loading} from '../../';
+import {Loading, TextEditor} from '../../';
 
 import css from './ArticleEditor.scss';
 
@@ -51,7 +51,7 @@ export default class ArticleEditor extends React.Component {
                         <React.Fragment>
                             <p>Now editing</p>
                             <p>{this.state.article.display_title}</p>
-                            <textarea value={this.state.articleContent} />
+                            <TextEditor initialValue={this.state.articleContent} />
                         </React.Fragment>
                     )
                 }
