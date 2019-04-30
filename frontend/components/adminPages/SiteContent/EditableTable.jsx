@@ -208,7 +208,7 @@ export default class EditableTable extends React.Component {
                                             }
                                         })
                                     }
-                                    {props['edit-icon']
+                                    {props.editIcon
                                             ? (
                                                 <td style={{width: '1em'}}>
                                                     <i className="material-icons"
@@ -262,6 +262,8 @@ export default class EditableTable extends React.Component {
                                                             <ColorPicker initialColor={datum} />
                                                         </td>
                                                     );
+                                                case 'id':
+                                                    return null;
                                                 default:
                                                     return (
                                                         <td key={i} className={css[datumType]}>
@@ -272,9 +274,10 @@ export default class EditableTable extends React.Component {
                                                     );
                                             }
                                         })}
-                                        {props['edit-icon']
+                                        {props.editIcon
                                             ? (
-                                                <td className={css['edit-row']}>
+                                                <td className={css['edit-row']}
+                                                    onClick={() => props.editCallback(row.id)}>
                                                     <i className="material-icons"
                                                        style={{margin: '0.5rem'}}>
                                                         edit
@@ -289,7 +292,7 @@ export default class EditableTable extends React.Component {
                                     <tr key={id}
                                         ref={el => { if (el) this.tableRows.push(el); }}
                                         className={css['table-section']}>
-                                        <td colSpan={props.headers.length + (props['edit-icon'] ? 2 : 1)}>
+                                        <td colSpan={props.headers.length + (props.editIcon ? 2 : 1)}>
                                             {row}
                                         </td>
                                     </tr>

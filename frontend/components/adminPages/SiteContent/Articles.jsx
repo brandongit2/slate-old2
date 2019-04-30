@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 
+import ArticleEditor from './ArticleEditor';
 import EditableTable from './EditableTable';
 import {Breadcrumbs, Dropdown, Loading} from '../../';
 import {Crumb} from '../../Breadcrumbs';
@@ -19,7 +20,9 @@ export default class Articles extends React.Component {
             articles: null,
             
             currentSubject: 0,
-            currentCourse:  0
+            currentCourse:  0,
+            
+            articleBeingEdited: 1
         };
         
         const getSubjects = axios.get('/api/all-subjects');
@@ -56,6 +59,7 @@ export default class Articles extends React.Component {
             ));
             articles.forEach(article => {
                 articlesByUnitId[article.unit_id].push({
+                    id:    article.id,
                     title: article.display_title
                 });
             });
@@ -127,7 +131,10 @@ export default class Articles extends React.Component {
                                             <div className={css.table}>
                                                 <EditableTable headers={['Title']}
                                                                data={this.getTableData()}
-                                                               edit-icon />
+                                                               editIcon
+                                                               editCallback={i => {
+                                                                   this.setState({articleBeingEdited: i});
+                                                               }} />
                                             </div>
                                         )
                                     )
@@ -135,6 +142,19 @@ export default class Articles extends React.Component {
                             </React.Fragment>
                         )
                     }
+                </div>
+                <div className={[
+                         css['article-editor'],
+                         state.articleBeingEdited === 0 ? '' : css.visible
+                     ].join(' ')}>
+                    <div className={css.back}
+                         onClick={() => {
+                             this.setState({articleBeingEdited: 0});
+                         }}>
+                        <i className="material-icons">arrow_back_ios</i>
+                        <span>Back</span>
+                    </div>
+                    <ArticleEditor article={state.articleBeingEdited} />
                 </div>
             </div>
         );

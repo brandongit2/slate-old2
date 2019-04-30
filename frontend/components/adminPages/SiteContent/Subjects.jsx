@@ -4,6 +4,8 @@ import React from 'react';
 import EditableTable from './EditableTable';
 import {Loading} from '../../';
 
+import css from './Subjects.scss';
+
 export default class Subjects extends React.Component {
     constructor(props) {
         super(props);
@@ -20,7 +22,7 @@ export default class Subjects extends React.Component {
     render() {
         const {state} = this;
         return (
-            <div>
+            <div className={css.subjects}>
                 {state.subjects === null
                     ? <Loading />
                     : (

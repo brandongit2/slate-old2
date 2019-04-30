@@ -119,7 +119,7 @@ exports.getArticleContent = async (req, res) => {
         let content = await mysql.query(`SELECT id, content FROM articles WHERE ${nameOrId}=?`, [req.params.id]);
         
         if (content.length === 1) {
-            content[0].content = parseContent(content[0].content);
+            // content[0].content = parseContent(content[0].content);
             res.send(content[0].content);
         } else {
             res.status(404).end();

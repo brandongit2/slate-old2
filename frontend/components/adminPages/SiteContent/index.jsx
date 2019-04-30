@@ -144,9 +144,8 @@ export default class SiteContent extends React.Component {
                         const Tab = tabs[tabName];
                         return (
                             <div key={tabName}
+                                 className={css.wrapper}
                                  style={{
-                                     position:  'absolute',
-                                     width:     '100%',
                                      transform: `translateY(${this.state.currentTab === tabName ? '0px' : '100vh'})`
                                  }}>
                                 <Tab addToQueue={this.addToQueue} />
