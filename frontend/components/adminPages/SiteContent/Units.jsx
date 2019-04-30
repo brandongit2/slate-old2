@@ -16,29 +16,26 @@ export default class Units extends React.Component {
             subjects: null,
             courses:  null,
             units:    null,
-            articles: null,
             
-            currentSubject: 1
+            currentSubject: 0
         };
         
         const getSubjects = axios.get('/api/all-subjects');
         const getCourses = axios.get('/api/all-courses');
         const getUnits = axios.get('/api/all-units');
-        const getArticles = axios.get('/api/all-articles');
         
-        Promise.all([getSubjects, getCourses, getUnits, getArticles]).then(([subjects, courses, units, articles]) => {
+        Promise.all([getSubjects, getCourses, getUnits]).then(([subjects, courses, units]) => {
             this.setState({
                 subjects: subjects.data,
                 courses:  courses.data,
-                units:    units.data,
-                articles: articles.data
+                units:    units.data
             });
         }).catch(console.error);
     }
     
     getTableData = () => {
         let data = [];
-        if (this.state.subjects !== null && this.state.courses !== null) {
+        if (this.state.subjects !== null) {
             let courses = this.state.courses.filter(course => course.subject_id === this.state.currentSubject);
             
             let unitsByCourseId = {};
@@ -67,7 +64,7 @@ export default class Units extends React.Component {
         const {state} = this;
         return (
             <div className={css.units}>
-                {state.subjects === null || state.courses === null
+                {state.subjects === null
                     ? <Loading />
                     : (
                         <React.Fragment>
@@ -75,12 +72,17 @@ export default class Units extends React.Component {
                                 <Breadcrumbs>
                                     <Crumb>Subjects</Crumb>
                                     <Crumb>
-                                        <Dropdown mini label={state.subjects.find(subject => subject.id === state.currentSubject).display_name}>
+                                        <Dropdown mini label={state.currentSubjectName ? state.currentSubjectName : 'Select a subject...'}>
                                             {state.subjects.map(subject => (
                                                 <Item key={subject.id}
                                                       onClick={() => {
+                                                          // This call to setState rerenders the entire
+                                                          // component, resetting the Dropdown's label
+                                                          // to 'Select a subject...'. The label must be
+                                                          // set in this component for it to change.
                                                           this.setState({
-                                                              currentSubject: subject.id
+                                                              currentSubject:     subject.id,
+                                                              currentSubjectName: subject.display_name
                                                           });
                                                       }}>
                                                     {subject.display_name}
@@ -90,10 +92,15 @@ export default class Units extends React.Component {
                                     </Crumb>
                                 </Breadcrumbs>
                             </div>
-                            <div className={css.table}>
-                                <EditableTable headers={['Name', 'Description']}
-                                               data={this.getTableData()} />
-                            </div>
+                            {state.currentSubject === 0
+                                ? <p className={css.hint}>Select a subject to begin.</p>
+                                : (
+                                    <div className={css.table}>
+                                        <EditableTable headers={['Name', 'Description']}
+                                                       data={this.getTableData()} />
+                                    </div>
+                                )
+                            }
                         </React.Fragment>
                     )
                 }

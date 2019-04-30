@@ -1,0 +1,25 @@
+.articles {
+    .article-list {
+        position: relative;
+        
+        .breadcrumbs {
+            font-size: 10pt;
+            margin: 1rem 0px;
+        }
+        
+        .hint {
+            font-size: 24pt;
+            font-weight: 600;
+            opacity: 0.2;
+            position: absolute;
+            top: 5rem;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .table {
+            border: 0px solid var(--text-color);
+            border-top-width: 1px;
+        }
+    }
+}

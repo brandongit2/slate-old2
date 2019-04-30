@@ -50,10 +50,16 @@ export default class EditableTable extends React.Component {
         this.mouseOffset = [0, 0]; // How far the cursor was from the top left corner of the row on mouse down.
     }
     
-    static getDerivedStateFromProps = props => ({
-        rows:     props.data,
-        rowOrder: props.data.map((row, i) => i)
-    });
+    static getDerivedStateFromProps = (props, state) => {
+        if (state.rows !== props.data) {
+            return {
+                rows:     props.data,
+                rowOrder: props.data.map((row, i) => i)
+            };
+        } else {
+            return state;
+        }
+    };
     
     beginMoveRow = (e, id, pos) => {
         const rowPos = this.tableRows[id].getBoundingClientRect();
@@ -176,7 +182,7 @@ export default class EditableTable extends React.Component {
                                ref={this.floatingTableRef}>
                             <tbody>
                                 <tr>
-                                    <td className="rowHandle">
+                                    <td className={css['row-handle']}>
                                         <i className="material-icons"
                                            style={{margin: '0.5rem'}}>
                                             reorder
@@ -187,13 +193,13 @@ export default class EditableTable extends React.Component {
                                             switch (datumType) {
                                                 case 'color':
                                                     return (
-                                                        <td key={i} className={datumType}>
+                                                        <td key={i} className={css[datumType]}>
                                                             <ColorPicker initialColor={datum} />
                                                         </td>
                                                     );
                                                 default:
                                                     return (
-                                                        <td key={i} className={datumType}>
+                                                        <td key={i} className={css[datumType]}>
                                                             <input className={css['input-text']}
                                                                    type="text"
                                                                    value={datum} />
@@ -202,6 +208,16 @@ export default class EditableTable extends React.Component {
                                             }
                                         })
                                     }
+                                    {props['edit-icon']
+                                            ? (
+                                                <td style={{width: '1em'}}>
+                                                    <i className="material-icons"
+                                                       style={{margin: '0.5rem'}}>
+                                                        edit
+                                                    </i>
+                                                </td>
+                                            ) : null
+                                        }
                                 </tr>
                             </tbody>
                         </table>,
@@ -231,7 +247,8 @@ export default class EditableTable extends React.Component {
                                     <tr key={id}
                                         ref={el => { if (el) this.tableRows.push(el); }}
                                         style={{opacity: id === this.state.floatingRow ? '0' : '1'}}>
-                                        <td className="rowHandle" onMouseDown={e => this.beginMoveRow(e, id, pos)}>
+                                        <td className={css['row-handle']}
+                                            onMouseDown={e => this.beginMoveRow(e, id, pos)}>
                                             <i className="material-icons"
                                                style={{margin: '0.5rem'}}>
                                                 reorder
@@ -241,13 +258,13 @@ export default class EditableTable extends React.Component {
                                             switch (datumType) {
                                                 case 'color':
                                                     return (
-                                                        <td key={i} className={datumType}>
+                                                        <td key={i} className={css[datumType]}>
                                                             <ColorPicker initialColor={datum} />
                                                         </td>
                                                     );
                                                 default:
                                                     return (
-                                                        <td key={i} className={datumType}>
+                                                        <td key={i} className={css[datumType]}>
                                                             <input className={css['input-text']}
                                                                    type="text"
                                                                    value={datum} />
@@ -255,6 +272,16 @@ export default class EditableTable extends React.Component {
                                                     );
                                             }
                                         })}
+                                        {props['edit-icon']
+                                            ? (
+                                                <td className={css['edit-row']}>
+                                                    <i className="material-icons"
+                                                       style={{margin: '0.5rem'}}>
+                                                        edit
+                                                    </i>
+                                                </td>
+                                            ) : null
+                                        }
                                     </tr>
                                 );
                             } else if (typeof row === 'string') {
@@ -262,7 +289,7 @@ export default class EditableTable extends React.Component {
                                     <tr key={id}
                                         ref={el => { if (el) this.tableRows.push(el); }}
                                         className={css['table-section']}>
-                                        <td colSpan={props.headers.length + 1}>
+                                        <td colSpan={props.headers.length + (props['edit-icon'] ? 2 : 1)}>
                                             {row}
                                         </td>
                                     </tr>

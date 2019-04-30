@@ -2,14 +2,11 @@ const crypto = require('crypto');
 const katex = require('katex');
 const sql = require('promise-mysql');
 const sanitizeHtml = require('sanitize-html');
-const sgMail = require('@sendgrid/mail');
 const showdown = require('showdown');
 
 const {emails, getEmail} = require('./emails');
 
-const {email: {apiKey}, mysql: mysqlCreds, rootUrl} = require('./config.json');
-
-sgMail.setApiKey(apiKey);
+const {mysql: mysqlCreds, rootUrl} = require('./config.json');
 
 const converter = new showdown.Converter();
 

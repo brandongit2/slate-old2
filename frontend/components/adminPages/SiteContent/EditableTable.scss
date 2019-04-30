@@ -24,7 +24,7 @@
         
         th {
             padding: 0.5rem;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--text-color);
         }
     }
     
@@ -35,6 +35,10 @@
             
             &:hover {
                 background: var(--background-hover-color);
+                
+                td.edit-row {
+                    opacity: 1;
+                }
             }
         }
         
@@ -58,26 +62,32 @@
         transition: color 0.5s;
         box-sizing: border-box;
         
-        &:global(.rowHandle) {
+        &.row-handle {
             width: 1em;
             cursor: move;
         }
         
-        &:global(.subjectId) {
+        &.edit-row {
+            width: 1em;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        &.subjectId {
             width: 10em;
         }
         
-        &:global(.name) {
+        &.name {
             width: 10em;
         }
         
-        &:global(.description) {
+        &.description {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
         
-        &:global(.color) {
+        &.color {
             width: 8em;
         }
     }
