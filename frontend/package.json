@@ -7,7 +7,7 @@
         "prod": "NODE_ENV=production node server.js",
         "build": "next build",
         "start": "npm run dev",
-        "test": "cd test && selenium-side-runner -c \"browserName=chrome chromeOptions.args=[headless]\" slate-frontend-test.side"
+        "test": "FORCE_COLOR=1 cd test && selenium-side-runner -c \"browserName=chrome chromeOptions.args=[headless]\" slate-frontend-test.side"
     },
     "repository": {
         "type": "git",
