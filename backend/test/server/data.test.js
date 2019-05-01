@@ -176,7 +176,7 @@ describe('data functions', () => {
         it('article-content 1 - should return 200 with content of article', done => {
             request(app.app).get('/api/article-content/1').expect(200).end((err, res) => {
                 if (err) throw err;
-                assert.deepEqual(res.text.length, 81408);
+                assert.deepEqual(res.text.length, 1910);
                 done();
             });
         });
@@ -184,7 +184,7 @@ describe('data functions', () => {
         it('article-content 2 - should return 200 with content of article', done => {
             request(app.app).get('/api/article-content/2').expect(200).end((err, res) => {
                 if (err) throw err;
-                assert.deepEqual(res.text, '<h1>yes</h1>');
+                assert.deepEqual(res.text, '#yes');
                 done();
             });
         });
@@ -192,7 +192,7 @@ describe('data functions', () => {
         it('article-content 3 - should return 200 with content of article', done => {
             request(app.app).get('/api/article-content/3').expect(200).end((err, res) => {
                 if (err) throw err;
-                assert.deepEqual(res.text, '<h1>yes</h1>');
+                assert.deepEqual(res.text, '#yes');
                 done();
             });
         });
@@ -200,7 +200,7 @@ describe('data functions', () => {
         it('article-content 4 - should return 200 with content of article', done => {
             request(app.app).get('/api/article-content/4').expect(200).end((err, res) => {
                 if (err) throw err;
-                assert.deepEqual(res.text, '<h1>yes</h1>');
+                assert.deepEqual(res.text, '#yes');
                 done();
             });
         });
