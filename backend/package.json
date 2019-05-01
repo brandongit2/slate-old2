@@ -6,7 +6,7 @@
     "scripts": {
         "start": "node src/server.js",
         "dev": "nodemon src/server.js",
-        "test": "TRAVIS=true mocha --recursive test/**/main.test.js --exit"
+        "test": "FORCE_COLOR=1 TRAVIS=true mocha --recursive test/**/main.test.js --exit"
     },
     "repository": {
         "type": "git",
