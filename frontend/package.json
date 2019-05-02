@@ -35,7 +35,7 @@
         "react": "^16.8.6",
         "react-dom": "^16.8.6",
         "react-transition-group": "^4.0.0",
-        "selenium-side-runner": "^3.6.0",
+        "selenium-side-runner": "^3.6.1",
         "shortid": "^2.2.14",
         "simplebar-react": "^1.0.0-alpha.6",
         "zxcvbn": "^4.4.2"
