@@ -1,14 +1,16 @@
 const crypto = require('crypto');
 const katex = require('katex');
+const nodemailer = require('nodemailer');
 const sql = require('promise-mysql');
 const sanitizeHtml = require('sanitize-html');
 const showdown = require('showdown');
 
 const {emails, getEmail} = require('./emails');
 
-const {mysql: mysqlCreds, rootUrl} = require('./config.json');
+const {email: emailConfig, mysql: mysqlCreds, rootUrl} = require('./config.json');
 
 const converter = new showdown.Converter();
+const transporter = nodemailer.createTransport(emailConfig);
 
 exports.auth = async (req, res, next) => {
     if (req.cookies.authToken) {
@@ -91,13 +93,29 @@ exports.randomBytes = bytes => {
     }));
 };
 
+/*
+ * config schema:
+ * {
+ *     to: String,
+ *     from: String,
+ *     subject: String,
+ *     cc: String?,
+ *     bcc: String?,
+ *     text: String,
+ *     html: String?
+ * }
+ */
+exports.sendEmail = config => {
+    transporter.sendMail(config);
+};
+
 exports.sendVerificationEmail = async (fName, email, validationQuery) => {
-    /*sgMail.send({
+    exports.sendEmail({
         to:      email,
         from:    'Slate <no-reply@brandontsang.net>',
         subject: 'Slate: Validate your e-mail',
         ...getEmail(emails.verification, {name: fName, query: validationQuery, rootUrl})
-    });*/
+    });
 
     try {
         await exports.mysql.query('DELETE FROM email_codes WHERE email=? AND type="new-account"', [email]);
@@ -114,12 +132,12 @@ exports.sendVerificationEmail = async (fName, email, validationQuery) => {
 };
 
 exports.sendPasswordResetEmail = async (fName, email, validationQuery) => {
-    /*sgMail.send({
+    exports.sendEmail({
         to:      email,
         from:    'Slate <no-reply@brandontsang.net>',
         subject: 'Slate: Reset Password',
         ...getEmail(emails.passwordReset, {name: fName, query: validationQuery, rootUrl})
-    });*/
+    });
 
     try {
         await exports.mysql.query('DELETE FROM email_codes WHERE email=? AND type="password-reset"', [email]);

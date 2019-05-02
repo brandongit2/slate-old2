@@ -16,7 +16,7 @@ exports.addUser = async (req, res) => {
     const password = req.body.password;
 
     if (email != null && fName != null && lName != null && password != null) {
-        // Validate e-mail
+        // Validate form information
         if (email.length > 254 || !require('email-validator').validate(email)) valid = false;
         if (fName.length === 0 || fName.length > 50) valid = false;
         if (lName.length > 50) valid = false;
@@ -24,7 +24,8 @@ exports.addUser = async (req, res) => {
 
         if (valid) {
             const validationQuery = generate(); // Will be used as a query string when validating e-mails.
-
+            
+            // Generate a hash for the password.
             let hash;
             try {
                 hash = await bcryptHash(password, 10);
@@ -37,7 +38,7 @@ exports.addUser = async (req, res) => {
 
                 res.send(await sendVerificationEmail(fName, email, validationQuery));
             } catch (err) {
-                switch (err.errno) {
+                switch (err.errno) { // MySQL errors
                     case 1062:
                         res.json({
                             success: false,
