@@ -7,7 +7,7 @@ const showdown = require('showdown');
 
 const {emails, getEmail} = require('./emails');
 
-const {email: emailConfig, mysql: mysqlCreds, rootUrl} = require('./config.json');
+const {email: emailConfig, emailSender, mysql: mysqlCreds, rootUrl} = require('./config.json');
 
 const converter = new showdown.Converter();
 const transporter = nodemailer.createTransport(emailConfig);
@@ -112,7 +112,7 @@ exports.sendEmail = config => {
 exports.sendVerificationEmail = async (fName, email, validationQuery) => {
     exports.sendEmail({
         to:      email,
-        from:    'Slate <no-reply@brandontsang.net>',
+        from:    emailSender,
         subject: 'Slate: Validate your e-mail',
         ...getEmail(emails.verification, {name: fName, query: validationQuery, rootUrl})
     });

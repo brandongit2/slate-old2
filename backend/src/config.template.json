@@ -16,5 +16,6 @@
             "pass": ""
         },
         "authMethod": ""
-    }
+    },
+    "emailSender": ""
 }
