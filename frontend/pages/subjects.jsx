@@ -35,6 +35,6 @@ export default function Subjects(props) {
 
 Subjects.getInitialProps = async () => {
     return {
-        subjects: (await axios.get('/api/all-subjects')).data
+        subjects: (await axios.get('http://localhost:3001/api/all-subjects', {withCredentials: true})).data
     };
 };

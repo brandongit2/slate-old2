@@ -13,7 +13,7 @@ import css from './article.scss';
 function Article(props) {
     const [articleContent, setArticleContent] = React.useState(props.articleContent);
     const [currentArticle, changeArticle] = React.useReducer((oldArticle, newArticleId) => {
-        axios.get(`/api/article-content/${newArticleId}`)
+        axios.get(`http://localhost:3001/api/article-content/${newArticleId}`, {withCredentials: true})
             .then(articleContent => setArticleContent(articleContent.data));
         return props.articles.find(article => article.id === newArticleId);
     }, props.articles.find(article => article.id === parseInt(props.router.query.article)));
@@ -80,11 +80,11 @@ function Article(props) {
 }
 
 Article.getInitialProps = async ctx => ({
-    subject:        (await axios.get(`/api/subject/${ctx.query.subject}`)).data[0],
-    course:         (await axios.get(`/api/course/${ctx.query.course}`)).data[0],
-    unit:           (await axios.get(`/api/unit/${ctx.query.unit}`)).data[0],
-    articles:       (await axios.get(`/api/children?unit=${ctx.query.unit}`)).data,
-    articleContent: (await axios.get(`/api/article-content/${ctx.query.article}`)).data
+    subject:        (await axios.get(`http://localhost:3001/api/subject/${ctx.query.subject}`, {withCredentials: true})).data[0],
+    course:         (await axios.get(`http://localhost:3001/api/course/${ctx.query.course}`, {withCredentials: true})).data[0],
+    unit:           (await axios.get(`http://localhost:3001/api/unit/${ctx.query.unit}`, {withCredentials: true})).data[0],
+    articles:       (await axios.get(`http://localhost:3001/api/children?unit=${ctx.query.unit}`, {withCredentials: true})).data,
+    articleContent: (await axios.get(`http://localhost:3001/api/article-content/${ctx.query.article}`, {withCredentials: true})).data
 });
 
 export default withRouter(Article);

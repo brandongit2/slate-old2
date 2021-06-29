@@ -1,0 +1,14 @@
+version: "3.9"
+services: 
+  slate-old-db:
+    image: mysql:5.7.9
+    container_name: slate-old-db
+    ports:
+      - "3306:3306"
+    environment: 
+      MYSQL_DATABASE: slate-old
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - slate-old-mysql:/var/lib/mysql
+volumes:
+  slate-old-mysql:

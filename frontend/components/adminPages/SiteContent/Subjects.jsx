@@ -14,7 +14,7 @@ export default class Subjects extends React.Component {
             subjects: null
         };
         
-        axios.get('/api/all-subjects').then(subjects => {
+        axios.get('http://localhost:3001/api/all-subjects', {withCredentials: true}).then(subjects => {
             this.setState({subjects: subjects.data});
         });
     }

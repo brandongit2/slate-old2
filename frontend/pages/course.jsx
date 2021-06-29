@@ -14,9 +14,9 @@ function Course(props) {
     const [currentUnits, setCurrentUnits] = React.useState(props.units);
     const [currentArticles, setCurrentArticles] = React.useState(props.articles);
     const [currentCourse, changeCourse] = React.useReducer((oldCourse, newCourseId) => {
-        axios.get(`/api/children?course=${newCourseId}`)
+        axios.get(`http://localhost:3001/api/children?course=${newCourseId}`, {withCredentials: true})
             .then(units => setCurrentUnits(units.data));
-        axios.get(`/api/children?want=articles&course=${newCourseId}`)
+        axios.get(`http://localhost:3001/api/children?want=articles&course=${newCourseId}`, {withCredentials: true})
             .then(articles => setCurrentArticles(articles.data));
         return props.courses.find(course => course.id === newCourseId);
     }, props.courses.find(course => course.id === parseInt(props.router.query.course)));
@@ -96,10 +96,10 @@ function Course(props) {
 }
 
 Course.getInitialProps = async ctx => ({
-    subject:  (await axios.get(`/api/subject/${ctx.query.subject}`)).data[0],
-    courses:  (await axios.get(`/api/children?subject=${ctx.query.subject}`)).data,
-    units:    (await axios.get(`/api/children?course=${ctx.query.course}`)).data,
-    articles: (await axios.get(`/api/children?want=articles&course=${ctx.query.course}`)).data
+    subject:  (await axios.get(`http://localhost:3001/api/subject/${ctx.query.subject}`, {withCredentials: true})).data[0],
+    courses:  (await axios.get(`http://localhost:3001/api/children?subject=${ctx.query.subject}`, {withCredentials: true})).data,
+    units:    (await axios.get(`http://localhost:3001/api/children?course=${ctx.query.course}`, {withCredentials: true})).data,
+    articles: (await axios.get(`http://localhost:3001/api/children?want=articles&course=${ctx.query.course}`, {withCredentials: true})).data
 });
 
 export default withRouter(Course);

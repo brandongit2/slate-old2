@@ -20,9 +20,9 @@ export default class Units extends React.Component {
             currentSubject: 0
         };
         
-        const getSubjects = axios.get('/api/all-subjects');
-        const getCourses = axios.get('/api/all-courses');
-        const getUnits = axios.get('/api/all-units');
+        const getSubjects = axios.get('http://localhost:3001/api/all-subjects', {withCredentials: true});
+        const getCourses = axios.get('http://localhost:3001/api/all-courses', {withCredentials: true});
+        const getUnits = axios.get('http://localhost:3001/api/all-units', {withCredentials: true});
         
         Promise.all([getSubjects, getCourses, getUnits]).then(([subjects, courses, units]) => {
             this.setState({

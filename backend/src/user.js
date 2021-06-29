@@ -151,7 +151,7 @@ exports.logIn = async (req, res) => {
 
             const success = await bcryptCompare(req.body.password, hash);
             if (success) {
-                res.cookie('authToken', await createToken(userId, req.body.stayLoggedIn), {maxAge: 1000000000000});
+                res.cookie('authToken', await createToken(userId, req.body.stayLoggedIn), {maxAge: 1000000000000, secure: true, sameSite: 'Lax'});
                 res.send({
                     success: true
                 });
@@ -230,7 +230,7 @@ exports.verifyEmail = async (req, res) => {
                 mysql.query('UPDATE users SET valid_email=1 WHERE email=?', [emails[0].email]);
                 mysql.query('DELETE FROM email_codes WHERE query=?', [req.body.query]);
 
-                res.cookie('authToken', createToken(), {secure: true});
+                res.cookie('authToken', createToken(), {maxAge: 1000000000000, secure: true, sameSite: 'Lax'});
                 res.send({
                     success: true
                 });

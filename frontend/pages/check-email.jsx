@@ -36,10 +36,10 @@ export default class CheckEmail extends React.Component {
     
     resendEmail = async () => {
         if (this.state.counter <= 0) {
-            const res = await axios.post('/api/resend-verification-email', {
+            const res = await axios.post('http://localhost:3001/api/resend-verification-email', {
                 firstName: this.props.fName,
                 email:     this.props.email
-            });
+            }, {withCredentials: true});
             
             if (res.data.success) {
                 this.context.addNotification('E-mail resent.');

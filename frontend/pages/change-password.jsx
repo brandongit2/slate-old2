@@ -54,7 +54,7 @@ export default withRouter(props => {
 
         if (valid) {
             try {
-                const res = await axios.post('/api/change-password', {type: 'query', query, password});
+                const res = await axios.post('http://localhost:3001/api/change-password', {type: 'query', query, password}, {withCredentials: true});
 
                 if (res.data.success) {
                     setTimeout(() => { Router.push('/subjects'); }, 500);

@@ -3,7 +3,10 @@
     "version": "0.0.1-SNAPSHOT",
     "description": "Free online tutorials on STEM topics.",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "db:start": "docker compose up -d",
+        "db:clean": "{ echo 'drop database `slate-old`; create database `slate-old`; use `slate-old`;'; cat ./backend/migrations/* ./backend/test/slate.test.sql; } | docker exec -i slate-old-db mysql -u root -ppassword slate-old",
+        "db": "docker exec -it slate-old-db mysql -u root -ppassword slate-old"
     },
     "repository": {
         "type": "git",

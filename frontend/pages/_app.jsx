@@ -33,7 +33,7 @@ export default class Slate extends NextApp {
                 url:     '/api/authenticate',
                 method:  'post',
                 headers: {
-                    Cookie: `authToken=${ctx.req.cookies.authToken};`
+                    Cookie: `authToken=${ctx.req.cookies && ctx.req.cookies.authToken};`
                 }
             })).data;
             if (user.success) {
@@ -116,7 +116,7 @@ export default class Slate extends NextApp {
                 const newTheme = this.state.theme === 'light' ? 'dark' : 'light';
                 
                 if (this.props.userInfo.isLoggedIn) {
-                    axios.post('/api/settings/toggle-theme');
+                    axios.post('http://localhost:3001/api/settings/toggle-theme', {}, {withCredentials: true});
                     
                     this.setState({
                         userInfo: {

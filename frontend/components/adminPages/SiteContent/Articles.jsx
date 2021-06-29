@@ -25,10 +25,10 @@ export default class Articles extends React.Component {
             articleBeingEdited: 1
         };
         
-        const getSubjects = axios.get('/api/all-subjects');
-        const getCourses = axios.get('/api/all-courses');
-        const getUnits = axios.get('/api/all-units');
-        const getArticles = axios.get('/api/all-articles');
+        const getSubjects = axios.get('http://localhost:3001/api/all-subjects', {withCredentials: true});
+        const getCourses = axios.get('http://localhost:3001/api/all-courses', {withCredentials: true});
+        const getUnits = axios.get('http://localhost:3001/api/all-units', {withCredentials: true});
+        const getArticles = axios.get('http://localhost:3001/api/all-articles', {withCredentials: true});
         
         Promise.all([getSubjects, getCourses, getUnits, getArticles]).then(([subjects, courses, units, articles]) => {
             this.setState({

@@ -13,7 +13,7 @@ class Deactivate extends React.Component {
     }
 
     async sendAPIDeactivate(query) {
-        const apiRes = (await axios.post('/api/deactivate', {query})).data;
+        const apiRes = (await axios.post('http://localhost:3001/api/deactivate', {query}, {withCredentials: true})).data;
         return apiRes.success;
     }
 

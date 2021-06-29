@@ -17,6 +17,7 @@ exports.changePassword = async (req, res) => {
 exports.toggleTheme = async (req, res) => {
     if (req.user) {
         const newTheme = req.user.theme === 'light' ? 'dark' : 'light';
+        console.log(newTheme, req.user.id);
         mysql.query('UPDATE users SET theme=? WHERE id=?', [newTheme, req.user.id]);
     }
     

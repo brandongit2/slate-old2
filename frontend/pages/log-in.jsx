@@ -21,7 +21,7 @@ export default function LogIn(props) {
     const submit = async e => {
         e.preventDefault();
 
-        const res = await axios.post('/api/log-in', {email, password, stayLoggedIn});
+        const res = await axios.post('http://localhost:3001/api/log-in', {email, password, stayLoggedIn}, {withCredentials: true});
 
         if (res.data.success) {
             setTimeout(() => Router.push('/'), 500);
@@ -34,7 +34,7 @@ export default function LogIn(props) {
 
     const resetPassword = async () => {
         if (email) {
-            const res = (await axios.post('/api/reset-password', {email})).data;
+            const res = (await axios.post('http://localhost:3001/api/reset-password', {email}, {withCredentials: true})).data;
             if (res.success) {
                 props.addNotification('E-mail sent! Check your inbox for the password reset link.');
             } else if (res.error === errors.USER_NOT_FOUND) {

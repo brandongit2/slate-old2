@@ -95,11 +95,11 @@ export default function Register(props) {
 
         if (valid) {
             try {
-                const res = await axios.post('/api/add-user', {
+                const res = await axios.post('http://localhost:3001/api/add-user', {
                     firstName: fName,
                     lastName:  lName,
                     email, password
-                });
+                }, {withCredentials: true});
 
                 if (res.data.success) {
                     Router.push(`/check-email?email=${email}&fname=${fName}`, '/check-email');

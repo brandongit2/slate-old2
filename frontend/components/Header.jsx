@@ -119,7 +119,7 @@ export default function Header(props) {
                                                        </React.Fragment>
                                                    ) : null}
                                                    <tr onClick={async () => {
-                                                           await axios.post('/api/log-out');
+                                                           await axios.post('http://localhost:3001/api/log-out', {}, {withCredentials: true});
                                                            Router.push('/');
                                                            setTimeout(() => window.location.reload(), 500);
                                                        }}>

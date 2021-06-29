@@ -13,7 +13,7 @@ import css from './subject.scss';
 function Subject(props) {
     const [currentCourses, setCurrentCourses] = React.useState(props.courses);
     const [currentSubject, changeSubject] = React.useReducer((oldSubject, newSubjectId) => {
-        axios.get(`/api/children?subject=${newSubjectId}`)
+        axios.get(`http://localhost:3001/api/children?subject=${newSubjectId}`, {withCredentials: true})
             .then(courses => setCurrentCourses(courses.data));
         return props.subjects.find(subject => subject.id === newSubjectId);
     }, props.subjects.find(subject => subject.id === parseInt(props.router.query.subject)));
@@ -70,8 +70,8 @@ function Subject(props) {
 }
 
 Subject.getInitialProps = async ctx => ({
-    subjects: (await axios.get('/api/all-subjects')).data,
-    courses:  (await axios.get(`/api/children?subject=${ctx.query.subject}`)).data
+    subjects: (await axios.get('http://localhost:3001/api/all-subjects', {withCredentials: true})).data,
+    courses:  (await axios.get(`http://localhost:3001/api/children?subject=${ctx.query.subject}`, {withCredentials: true})).data
 });
 
 export default withRouter(Subject);

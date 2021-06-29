@@ -24,7 +24,7 @@ nextApp.prepare()
             const actualPage = '/subject';
             try {
                 const queryParams = {
-                    subject: (await axios.get('/api/subject/' + req.params.subject)).data[0].id
+                    subject: (await axios.get('http://localhost:3001/api/subject/' + req.params.subject, {withCredentials: true})).data[0].id
                 };
                 nextApp.render(req, res, actualPage, queryParams);
             } catch (err) {
@@ -37,8 +37,8 @@ nextApp.prepare()
         app.get('/subject/:subject/:course', async (req, res) => {
             const actualPage = '/course';
             try {
-                const subjectId = (await axios.get('/api/subject/' + req.params.subject)).data[0].id;
-                const courseId = (await axios.get('/api/course/' + req.params.course)).data[0].id;
+                const subjectId = (await axios.get('http://localhost:3001/api/subject/' + req.params.subject, {withCredentials: true})).data[0].id;
+                const courseId = (await axios.get('http://localhost:3001/api/course/' + req.params.course, {withCredentials: true})).data[0].id;
 
                 const queryParams = {subject: subjectId, course: courseId};
                 nextApp.render(req, res, actualPage, queryParams);
@@ -52,10 +52,10 @@ nextApp.prepare()
         app.get('/subject/:subject/:course/:article', async (req, res) => {
             const actualPage = '/article';
             try {
-                const subjectId = (await axios.get('/api/subject/' + req.params.subject)).data[0].id;
-                const courseId = (await axios.get('/api/course/' + req.params.course)).data[0].id;
-                const unitId = (await axios.get('/api/parent?article=' + req.params.article)).data[0].id;
-                const articleId = (await axios.get('/api/article/' + req.params.article)).data[0].id;
+                const subjectId = (await axios.get('http://localhost:3001/api/subject/' + req.params.subject, {withCredentials: true})).data[0].id;
+                const courseId = (await axios.get('http://localhost:3001/api/course/' + req.params.course, {withCredentials: true})).data[0].id;
+                const unitId = (await axios.get('http://localhost:3001/api/parent?article=' + req.params.article, {withCredentials: true})).data[0].id;
+                const articleId = (await axios.get('http://localhost:3001/api/article/' + req.params.article, {withCredentials: true})).data[0].id;
 
                 const queryParams = {
                     subject: subjectId,
@@ -89,7 +89,7 @@ nextApp.prepare()
 
         app.get('/verify', async (req, res) => {
             try {
-                const success = (await axios.post('/api/verify', {query: req.query.q})).data.success;
+                const success = (await axios.post('http://localhost:3001/api/verify', {query: req.query.q}), {withCredentials: true}).data.success;
                 if (success) {
                     nextApp.render(req, res, '/verify', {success: 'true'});
                 } else {

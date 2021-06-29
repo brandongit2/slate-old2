@@ -15,8 +15,8 @@ export default class Courses extends React.Component {
             courses:  null
         };
         
-        const getSubjects = axios.get('/api/all-subjects');
-        const getCourses = axios.get('/api/all-courses');
+        const getSubjects = axios.get('http://localhost:3001/api/all-subjects', {withCredentials: true});
+        const getCourses = axios.get('http://localhost:3001/api/all-courses', {withCredentials: true});
         
         Promise.all([getSubjects, getCourses]).then(([subjects, courses]) => {
             this.setState({subjects: subjects.data});

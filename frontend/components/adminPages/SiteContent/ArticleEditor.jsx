@@ -30,8 +30,8 @@ export default class ArticleEditor extends React.Component {
     
     getData = () => {
         if (this.props.article !== 0) {
-            const getArticle = axios.get(`/api/article/${this.props.article}`);
-            const getArticleContent = axios.get(`/api/article-content/${this.props.article}`);
+            const getArticle = axios.get(`http://localhost:3001/api/article/${this.props.article}`, {withCredentials: true});
+            const getArticleContent = axios.get(`http://localhost:3001/api/article-content/${this.props.article}`, {withCredentials: true});
             
             Promise.all([getArticle, getArticleContent]).then(([article, articleContent]) => {
                 this.setState({
